@@ -32,6 +32,14 @@
 							{formhelp note="Changing this setting will modify the way all action icons are displayed on your site. Icons in menus are not affected."}
 						{/forminput}
 					</div>
+
+					<div class="row">
+						{formlabel label="Disable Javascript Tabs" for="disable_jstabs"}
+						{forminput}
+							<input type="checkbox" name="disable_jstabs" value='y' id="disable_jstabs"{if $gBitSystemPrefs.disable_jstabs eq 'y'} checked="checked"{/if} />
+							{formhelp note="If you have difficulties with the javascript tabs, of you don't like them, you can disable them here."}
+						{/forminput}
+					</div>
 		{*
 					<div class="row">
 						{formlabel label="Content Theme Control" for="theme_control"}
@@ -42,7 +50,7 @@
 					</div>
 		*}
 					<div class="row submit">
-						<input type="submit" name="themeTabSubmit" value="{tr}Apply Theme Selection{/tr}" />
+						<input type="submit" name="themeTabSubmit" value="{tr}Apply Settings{/tr}" />
 					</div>
 				{/form}
 			{/jstab}
