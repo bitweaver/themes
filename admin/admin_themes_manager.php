@@ -27,13 +27,6 @@ if( $processForm ) {
 		simple_set_toggle ($toggle);
 	}
 
-	if( $_REQUEST["site_style"] ) {
-		// Set value(s) with alternate pref name
-		$gBitSystem->storePreference( 'style', $_REQUEST["site_style"] );
-		$gPreviewStyle = $_REQUEST["site_style"];
-		$gBitSystem->mStyle = $_REQUEST["site_style"];
-	}
-
 	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
 		$tcontrollib->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
 	}
@@ -44,11 +37,18 @@ if( $processForm ) {
 //	$smarty->clear_compiled_tpl();
 }
 
+// apply the site style
+if( !empty( $_REQUEST["site_style"] ) ) {
+	$gBitSystem->storePreference( 'style', $_REQUEST["site_style"] );
+	$gPreviewStyle = $_REQUEST["site_style"];
+	$gBitSystem->mStyle = $_REQUEST["site_style"];
+}
+
 // Get list of available styles
 $styles = &$tcontrollib->getStyles();
 $smarty->assign_by_ref( "styles", $styles );
-// Get list of available slideshow styles
-$smarty->assign_by_ref("slide_styles", $styles);
+$stylesList = &$tcontrollib->getStylesList();
+$smarty->assign_by_ref( "stylesList", $stylesList );
 
 // set the options biticon takes
 $biticon_display_options = array( 
