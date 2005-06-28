@@ -199,6 +199,52 @@ deprecated
 		
 		return $ret;
 	}
+
+	function getStylesList( $pDir=NULL, $pNullOption=NULL, $pSubDir = 'style_info' ) {
+		global $gBitSystem;
+
+		$ret = array();
+
+		if( empty( $pDir ) ) {
+			$pDir = THEMES_PKG_PATH.'styles/';
+		}
+
+		if( !empty( $pNullOption ) ) {
+			$ret[] = '';
+		}
+
+		if( is_dir( $pDir ) ) {
+			$h = opendir( $pDir );
+			while( $file = readdir( $h ) ) {
+				if ( is_dir( $pDir.$file ) && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank') ) {
+					$ret[$file]['style'] = $file;
+					if( is_dir( $infoDir = $pDir.$file.'/'.$pSubDir.'/' ) ) {
+						$dh = opendir( $infoDir );
+						while( $f = readdir( $dh ) ) {
+							if( preg_match( "/^preview/", $f ) ) {
+								$ret[$file]['preview'] = THEMES_PKG_URL.'styles/'.$file.'/'.$pSubDir.'/'.$f;
+							}
+
+							if( $f == 'description.htm' ) {
+								$fh = fopen( $infoDir.$f, "r" );
+								$ret[$file]['description'] = fread( $fh, filesize( $infoDir.$f ) );
+								fclose( $fh );
+							}
+						}
+						closedir( $dh );
+					}
+				}
+			}
+			closedir( $h );
+		}
+
+		if( count( $ret ) ) {
+			ksort( $ret );
+		}
+
+		return $ret;
+	}
+
 	/**
 	* delete entire folder and everything within it
 	* @param path path to folder

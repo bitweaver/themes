@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1 2005/06/19 06:10:36 bitweaver Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.2 2005/06/28 07:46:00 spiderr Exp $ */
 /* essential and basic css settings */
 body {background:#fff; margin:0; padding:0;}
 table {border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -30,13 +30,6 @@ td.actionicon {text-align:right;}
 .pagination {text-align:center;}
 .storage {float:right; clear:both;}
 .clear {clear:both;}
-			/*** definitions strictly required ***/
-#comzone {display:none;}
-#comzoneopen {display:block;}
-#attzone {display:none;}
-#forumpost {display:none;}
-#forumpostopen {display:block;}
-#edithelpzone {display:none;}
 			/*** forms ***/
 form,input,textarea,select{margin:0; padding:0;}
 form {display:inline;}

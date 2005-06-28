@@ -8,19 +8,40 @@
 	<div class="body">
 		{jstabs}
 			{jstab title="Site Theme"}
-				{form legend="Pick Site Theme"}
-					<div class="row">
-						{formlabel label="Site theme" for="site_style"}
-						{forminput}
-							{html_options name="site_style" id="site_style" output=$styles values=$styles selected=$style}
-							{formhelp note="This theme will be used as default throughout your site."}
-						{/forminput}
-					</div>
+				{legend legend="Pick Site Theme"}
+					<ul class="data">
+						{foreach from=$stylesList item=s}
+							<li class="{cycle values='odd,even"} item">
+								<h2>
+									{if $style eq $s.style}
+										{biticon ipackage=liberty iname=success iexplain="Current Theme"}&nbsp;
+									{/if}
+									<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style}</a>
+								</h2>
 
+								{if $s.preview}
+									<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">
+										<img class="thumb" src="{$s.preview}" alt="{tr}Theme Preview{/tr}" title="{$s.style}" />
+									</a>
+								{/if}
+
+								{if $s.description}
+									{$s.description}
+								{/if}
+
+								<div class="clear"></div>
+							</li>
+						{/foreach}
+					<ul>
+				{/legend}
+			{/jstab}
+
+			{jstab title="Miscellaneous"}
+				{form legend="Miscellaneous Settings"}
 					<div class="row">
 						{formlabel label="Slideshows theme" for="slide_style"}
 						{forminput}
-							{html_options name="slide_style" id="slide_style" output=$slide_styles values=$slide_styles selected=$gBitSystem->mPrefs.slide_style}
+							{html_options name="slide_style" id="slide_style" output=$styles values=$styles selected=$gBitSystem->mPrefs.slide_style}
 							{formhelp note="This theme will be used when viewing a wikipage as a slideshow."}
 						{/forminput}
 					</div>
@@ -40,15 +61,7 @@
 							{formhelp note="If you have difficulties with the javascript tabs, of you don't like them, you can disable them here."}
 						{/forminput}
 					</div>
-		{*
-					<div class="row">
-						{formlabel label="Content Theme Control" for="theme_control"}
-						{forminput}
-							{html_checkboxes name="feature_theme_control" id="theme_control" output=$slide_styles values="y" checked=`$gBitSystemPrefs.feature_theme_control`}
-							{formhelp note="Allows selecting of themes on a per-content basis."}
-						{/forminput}
-					</div>
-		*}
+
 					<div class="row submit">
 						<input type="submit" name="themeTabSubmit" value="{tr}Apply Settings{/tr}" />
 					</div>
