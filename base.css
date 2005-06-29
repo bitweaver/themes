@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.1 2005/06/26 15:12:53 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.2 2005/06/29 07:09:12 jht001 Exp $ */
 /* essential and basic css settings */
 body {background:#fff; margin:0; padding:0;}
 table {border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -117,3 +117,17 @@ a.external {background:transparent url("icons/external_link.png") no-repeat righ
 .stickies textarea,.stickies input[type='text'] {background:#ffc;}
 .stickynote .boxtitle {border-bottom: 1px solid #dda;}
 .stickynote {background-color:#ffc;  color:#000;  width: 300px;  padding: 3px;}
+
+
+/* doesn't belong here either */
+.navbarx {
+	display: inline;
+	}
+.navbarx a {
+	border: 1px solid #99bec6;
+	color: #225566;
+	margin: 0 2px;
+	padding: 0 2px;
+	background-color: #c7d0d9;
+	text-decoration: none;
+}
