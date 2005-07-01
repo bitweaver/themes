@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.3 2005/06/29 09:14:21 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.4 2005/07/01 18:34:46 spiderr Exp $ */
 /* essential and basic css settings */
 body {background:#fff; margin:0; padding:0;}
 table {border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -75,6 +75,8 @@ ul.data li.item {list-style:none; margin:0; padding:0;}
 ul.data li.item .thumb {float:right;}
 li.error,li.success,li.note,li.warning {list-style:none;}
 ul.toc li {list-style:none;}
+li.treenode {list-style:none; clear:both; border-top:1px solid #999;}
+ul.tree {margin:0;padding-left:20px;}
 
 			/* css driven dropdown menus - horizontal */
 #nav,#nav a,#nav li,#nav ul {z-index:10000000;}
