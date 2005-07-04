@@ -58,5 +58,5 @@ $biticon_display_options = array(
 );
 $smarty->assign( "biticon_display_options", $biticon_display_options );
 
-$gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl');
+$gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
 ?>
