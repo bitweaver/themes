@@ -23,19 +23,19 @@
 				{tr}name{/tr}:
 				<input type="text" maxlength="255" size="40" name="name" value="{$info.name|escape}" />
 			</div>
-			{if $gBitSystemPrefs.feature_cms_templates eq 'y'}
+			{if $gBitSystem->isFeatureActive( 'feature_cms_templates' )}
 		<div class="row">
 			{tr}use in cms{/tr}:
 			<input type="checkbox" name="section_cms" {if $info.section_cms eq 'y'}checked="checked"{/if} />
 		</div>
 	{/if}
-	{if $gBitSystemPrefs.feature_wiki_templates eq 'y'}
+	{if $gBitSystem->isFeatureActive( 'feature_wiki_templates' )}
 		<div class="row">
 			{tr}use in wiki{/tr}:
 			<input type="checkbox" name="section_wiki" {if $info.section_wiki eq 'y'}checked="checked"{/if} />
 		</div>
 	{/if}
-	{if $gBitSystemPrefs.feature_newsletters eq 'y'}
+	{if $gBitSystem->isFeatureActive( 'feature_newsletters' )}
 		<div class="row">
 			{tr}use in newsletters{/tr}:
 			<input type="checkbox" name="section_newsletters" {if $info.section_newsletters eq 'y'}checked="checked"{/if} />

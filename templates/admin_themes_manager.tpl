@@ -57,7 +57,7 @@
 					<div class="row">
 						{formlabel label="Disable Javascript Tabs" for="disable_jstabs"}
 						{forminput}
-							<input type="checkbox" name="disable_jstabs" value='y' id="disable_jstabs"{if $gBitSystemPrefs.disable_jstabs eq 'y'} checked="checked"{/if} />
+							<input type="checkbox" name="disable_jstabs" value='y' id="disable_jstabs"{if $gBitSystem->isFeatureActive( 'disable_jstabs' )} checked="checked"{/if} />
 							{formhelp note="If you have difficulties with the javascript tabs, of you don't like them, you can disable them here."}
 						{/forminput}
 					</div>
@@ -68,7 +68,7 @@
 				{/form}
 			{/jstab}
 
-			{if $gBitSystemPrefs.package_stylist eq 'y' and $gBitUser->hasPermission( 'bit_p_use_stylist' )}
+			{if $gBitSystem->isPackageActive( 'stylist' ) and $gBitUser->hasPermission( 'bit_p_use_stylist' )}
 				{jstab title="Edit Theme"}
 					{form legend="Edit Theme" ipackage="stylist" ifile="index.php"}
 						<div class="row">
