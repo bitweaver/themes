@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.2 2005/06/28 07:46:00 spiderr Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.3 2005/07/17 17:36:18 squareing Exp $ */
 /* essential and basic css settings */
 body {background:#fff; margin:0; padding:0;}
 table {border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -55,6 +55,9 @@ textarea {width:100%;}
 .prio5	{background:#fdc !important;}
 			/* annoyances and grievances */
 .module textarea {width:auto;}
+.comment .content {overflow:auto;}
+#bitleft .shoutbox,#bitright .shoutbox {width:160px; overflow:hidden;}
+html>body #bitleft .shoutbox,html>body #bitright .shoutbox {width:auto;}
 			/* tabs */
 .tabsystem .tabcontainer {margin:0; padding:0; border:0; clear:both;}
 .tabsystem .tabcontainer ul,.tabsystem .tabcontainer li {margin:0; padding:0; border:0; list-style-type:none; display:inline;}
@@ -75,6 +78,8 @@ ul.data li.item {list-style:none; margin:0; padding:0;}
 ul.data li.item .thumb {float:right;}
 li.error,li.success,li.note,li.warning {list-style:none;}
 ul.toc li {list-style:none;}
+li.treenode {list-style:none; clear:both; border-top:1px solid #999;}
+ul.tree {margin:0;padding-left:20px;}
 
 			/* css driven dropdown menus - horizontal */
 #nav,#nav a,#nav li,#nav ul {z-index:10000000;}
@@ -116,4 +121,4 @@ a.external {background:transparent url("icons/external_link.png") no-repeat righ
 /* prob. doesn't belong here...*/
 .stickies textarea,.stickies input[type='text'] {background:#ffc;}
 .stickynote .boxtitle {border-bottom: 1px solid #dda;}
-.stickynote {background-color:#ffc;  color:#000;  width: 300px;  padding: 3px;}
+.stickynote {background-color:#ffc; width:300px; padding:3px;}
