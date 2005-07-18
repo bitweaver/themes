@@ -50,8 +50,8 @@ function WebFXTabPane( el, bUseCookie ) {
 
 	// <--- quick hack to set persistence only on pages where referrer == location
 	var ref = document.referrer.split( "?" );
-
-	if( document.location != ref[0] ) {
+	var loc = document.location.href.split( "?" );
+	if( loc[0] != ref[0] ) {
 		WebFXTabPane.setCookie( "webfxtab_" + this.element.id, 0 );
 	}
 	// end quick hack - xing --->
