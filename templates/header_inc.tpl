@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.1 2005/07/10 08:06:38 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.2 2005/07/18 13:36:48 squareing Exp $ *}
 {strip}
 {if $gBitLoc.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitLoc.styleSheet}" media="all" />
@@ -21,7 +21,7 @@
 {if $gBitLoc.browser.client eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
 	<!--[if gte IE 5.5000]>
-		<script type="text/javascript" src="{$gBitLoc.THEMES_PKG_URL}js/pngfix.js"></script>
+		<script type="text/javascript" src="{$gBitLoc.THEMES_PKG_URL}js/sleight.js"></script>
 	<![endif]-->
 	<!--[if gte IE 5.0]>
 		<script type="text/javascript">
