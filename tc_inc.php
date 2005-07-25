@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.1 2005/06/19 06:10:36 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.2 2005/07/25 20:02:46 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -33,7 +33,6 @@ if ($feature_theme_control == 'y') {
 
 	if ( !empty( $tc_theme ) ) {
 		$style = $gBitSystem->getStyleCSS( $tc_theme );
-
 		$tc_parts = explode('.', $style);
 		$style_base = $tc_parts[0];
 		$smarty->assign('style', $style);

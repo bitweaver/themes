@@ -34,12 +34,14 @@ deprecated
 		$this->query($query,array($obj_id,$theme,$type,$name));
 	}
 
-	function tc_get_theme_by_categ($category_id) {
-		if ($this->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($category_id))) {
-			return $this->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($category_id));
-		} else {
-			return '';
+	function tc_get_theme_by_categ( $pCategory ) {
+		$ret = '';
+		if( !empty( $pCategory['category_id'] ) && is_numeric( $pCategory['category_id'] ) ) {
+			if ($this->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']))) {
+				return $this->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']));
+			}
 		}
+		return $ret;
 	}
 /*
 	function tc_get_theme_by_section($section) {

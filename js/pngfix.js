@@ -2,14 +2,11 @@
 // Correctly handle PNG transparency in Win IE 5.5 or higher.
 // http://homepage.ntlworld.com/bobosola. Updated 02-March-2004
 
-function correctPNG() 
-   {
-   for(var i=0; i<document.images.length; i++)
-      {
+function correctPNG() {
+   for(var i=0; i<document.images.length; i++) {
 	  var img = document.images[i]
 	  var imgName = img.src.toUpperCase()
-	  if (imgName.substring(imgName.length-3, imgName.length) == "PNG")
-	     {
+	  if (imgName.substring(imgName.length-3, imgName.length) == "PNG") {
 		 var imgID = (img.id) ? "id='" + img.id + "' " : ""
 		 var imgClass = (img.className) ? "class='" + img.className + "' " : ""
 		 var imgTitle = (img.title) ? "title='" + img.title + "' " : "title='" + img.alt + "' "
@@ -23,7 +20,7 @@ function correctPNG()
 		 + "(src=\'" + img.src + "\', sizingMethod='image');\"></span>" 
 		 img.outerHTML = strNewHTML
 		 i = i-1
-	     }
-      }
-   }
+	 }
+  }
+}
 window.attachEvent("onload", correctPNG);
