@@ -2,7 +2,7 @@
 require_once(THEMES_PKG_PATH."theme_control_lib.php");
 
 $change_theme = $gBitSystem->getPreference('feature_user_theme');
-$smarty->assign('change_theme', $change_theme);
+$gBitSmarty->assign('change_theme', $change_theme);
 $style = $gBitSystem->getStyle();
 
 if( $change_theme == 'y' ) {
@@ -18,9 +18,9 @@ if( $change_theme == 'y' ) {
 
 	$stylesList = $tcontrollib->getStyles();
 
-	$smarty->assign('styleslist',$stylesList);
+	$gBitSmarty->assign('styleslist',$stylesList);
 	if(isset($style)){
-		$smarty->assign('style', $style);
+		$gBitSmarty->assign('style', $style);
 	}
 }
 ?>

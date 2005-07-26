@@ -1,12 +1,12 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.1 2005/06/19 06:10:36 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.1.1.1.2.1 2005/07/26 15:50:29 drewslater Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
-// $Id: edit_css.php,v 1.1 2005/06/19 06:10:36 bitweaver Exp $
+// $Id: edit_css.php,v 1.1.1.1.2.1 2005/07/26 15:50:29 drewslater Exp $
 include_once( '../bit_setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
@@ -92,14 +92,14 @@ if (!isset($bit_p_create_css))
 	$bit_p_create_css = 'n';
 
 if ($feature_editcss != 'y') {
-	$smarty->assign('msg', tra("Feature disabled"));
+	$gBitSmarty->assign('msg', tra("Feature disabled"));
 
 	$gBitSystem->display( 'error.tpl' );
 	die;
 }
 
 if (!$gBitUser->hasPermission( 'bit_p_create_css' )) {
-	$smarty->assign('msg', tra("You dont have permission to use this feature"));
+	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
 
 	$gBitSystem->display( 'error.tpl' );
 	die;
@@ -108,11 +108,11 @@ if (!$gBitUser->hasPermission( 'bit_p_create_css' )) {
 $customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );	// Path to this user's storage directory
 $customCSSFile = $customCSSPath.'custom.css';	// Path to this user's custom stylesheet
 $customCSSImageURL = $gBitUser->getStorageURL( NULL,$gBitUser->mUserId ).'/images/';
-$smarty->assign_by_ref('customCSSImageURL',$customCSSImageURL);			
+$gBitSmarty->assign_by_ref('customCSSImageURL',$customCSSImageURL);			
 // Create a custom.css for this user if they do not already have one
 if (!file_exists($customCSSFile)) {
 	if (!copy(THEMES_PKG_PATH.'/styles/basic/basic.css', $customCSSFile)) {
-		$smarty->assign('msg', tra("Unable to create a custom CSS file for you!"));
+		$gBitSmarty->assign('msg', tra("Unable to create a custom CSS file for you!"));
 		$gBitSystem->display( 'error.tpl' );
 		die;
 	}
@@ -124,7 +124,7 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 	$fp = fopen($customCSSFile, "w");
 
 	if (!$fp) {
-		$smarty->assign('msg', tra("You dont have permission to write the style sheet"));
+		$gBitSmarty->assign('msg', tra("You dont have permission to write the style sheet"));
 		$gBitSystem->display( 'error.tpl' );
 		die;
 	}
@@ -149,7 +149,7 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 	$fp = fopen($customCSSFile, "w");
 
 	if (!$fp) {
-		$smarty->assign('msg', tra("You dont have permission to write the style sheet"));
+		$gBitSmarty->assign('msg', tra("You dont have permission to write the style sheet"));
 		$gBitSystem->display( 'error.tpl' );
 		die;
 	}
@@ -188,9 +188,9 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 
 // Get the list of themes the user can choose to derive from (aka Reset to)
 $styles = &$tcontrollib->getStyles( NULL, FALSE, FALSE );
-$smarty->assign_by_ref( 'styles', $styles );
+$gBitSmarty->assign_by_ref( 'styles', $styles );
 $assignStyle = 'basic';
-$smarty->assign_by_ref( 'assignStyle', $assignStyle);
+$gBitSmarty->assign_by_ref( 'assignStyle', $assignStyle);
 
 
 // Read in this user's custom.css to display in the textarea
@@ -200,11 +200,11 @@ foreach ($lines as $line) {
 	$data .= $line;
 } 
 
-$smarty->assign('data', $data);
+$gBitSmarty->assign('data', $data);
 if (isset($successMsg)) 
-	$smarty->assign('successMsg',$successMsg);
+	$gBitSmarty->assign('successMsg',$successMsg);
 if (isset($errorMsg))
-	$smarty->assign('errorMsg', $errorMsg);
+	$gBitSmarty->assign('errorMsg', $errorMsg);
 
 // Get the list of images used by this user's custom theme
 $imageList = ls_a($customCSSPath.'images/');
@@ -215,7 +215,7 @@ foreach ($imageList as $image) {
 	}
 }
 
-$smarty->assign_by_ref('themeImages',$themeImages);	
+$gBitSmarty->assign_by_ref('themeImages',$themeImages);	
 
 $gBitSystem->display( 'bitpackage:themes/edit_css.tpl');
 
