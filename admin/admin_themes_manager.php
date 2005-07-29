@@ -45,9 +45,9 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 }
 
 // Get list of available styles
-$styles = &$tcontrollib->getStyles();
+$styles = $tcontrollib->getStyles();
 $gBitSmarty->assign_by_ref( "styles", $styles );
-$stylesList = &$tcontrollib->getStylesList();
+$stylesList = $tcontrollib->getStylesList();
 $gBitSmarty->assign_by_ref( "stylesList", $stylesList );
 
 // set the options biticon takes
