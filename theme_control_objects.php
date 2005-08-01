@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.1 2005/06/19 06:10:35 bitweaver Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.2 2005/08/01 18:41:27 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -24,21 +24,21 @@ function correct_array(&$arr, $id, $name) {
 }
 
 if ($feature_theme_control != 'y') {
-	$smarty->assign('msg', tra("This feature is disabled").": feature_theme_control");
+	$gBitSmarty->assign('msg', tra("This feature is disabled").": feature_theme_control");
 
 	$gBitSystem->display( 'error.tpl' );
 	die;
 }
 
 if (!$gBitUser->isAdmin()) {
-	$smarty->assign('msg', tra("You dont have permission to use this feature"));
+	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
 
 	$gBitSystem->display( 'error.tpl' );
 	die;
 }
 
 $styles = $tcontrollib->getStyles();
-$smarty->assign_by_ref('styles', $styles);
+$gBitSmarty->assign_by_ref('styles', $styles);
 
 $find_objects = '';
 $types = array(
@@ -52,18 +52,18 @@ $types = array(
 	'article'
 );
 
-$smarty->assign('types', $types);
+$gBitSmarty->assign('types', $types);
 
 if (!isset($_REQUEST['type']))
 	$_REQUEST['type'] = 'wiki page';
 
-$smarty->assign('type', $_REQUEST['type']);
+$gBitSmarty->assign('type', $_REQUEST['type']);
 
 switch ($_REQUEST['type']) {
 case 'image gallery':
 	$objects = $gBitSystem->list_galleries(0, -1, 'name_desc', 'admin', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'gallery_id', 'name');
 	break;
@@ -71,7 +71,7 @@ case 'image gallery':
 case 'file gallery':
 	$objects = $filegallib->list_file_galleries(0, -1, 'name_desc', 'admin', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'gallery_id', 'name');
 	break;
@@ -79,7 +79,7 @@ case 'file gallery':
 case 'forum':
 	$objects = $gBitSystem->list_forums(0, -1, 'name_asc', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'forum_id', 'name');
 	break;
@@ -87,7 +87,7 @@ case 'forum':
 case 'blog':
 	$objects = $gBlog->list_blogs(0, -1, 'title_asc', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'blog_id', 'title');
 	break;
@@ -95,7 +95,7 @@ case 'blog':
 case 'wiki page':
 	$objects = $gBitSystem->list_pages(0, -1, 'page_name_asc', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'page_name', 'page_name');
 	break;
@@ -103,7 +103,7 @@ case 'wiki page':
 case 'faq':
 	$objects = $gBitSystem->list_faqs(0, -1, 'title_asc', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'faq_id', 'title');
 	break;
@@ -111,7 +111,7 @@ case 'faq':
 case 'quiz':
 	$objects = $gBitSystem->list_quizzes(0, -1, 'name_asc', $find_objects);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'quiz_id', 'name');
 	break;
@@ -119,7 +119,7 @@ case 'quiz':
 case 'article':
 	$objects = $artlib->list_articles(0, -1, 'title_asc', $find_objects, '', $user);
 
-	$smarty->assign_by_ref('objects', $objects["data"]);
+	$gBitSmarty->assign_by_ref('objects', $objects["data"]);
 	$objects = $objects['data'];
 	correct_array($objects, 'article_id', 'title');
 	break;
@@ -128,7 +128,7 @@ default:
 	break;
 }
 
-$smarty->assign_by_ref('objects', $objects);
+$gBitSmarty->assign_by_ref('objects', $objects);
 
 if (isset($_REQUEST['assign'])) {
 	
@@ -159,7 +159,7 @@ if (isset($_REQUEST['page'])) {
 	$page = &$_REQUEST['page'];
 	$offset = ($page - 1) * $maxRecords;
 }
-$smarty->assign_by_ref('offset', $offset);
+$gBitSmarty->assign_by_ref('offset', $offset);
 
 if (isset($_REQUEST["find"])) {
 	$find = $_REQUEST["find"];
@@ -167,29 +167,29 @@ if (isset($_REQUEST["find"])) {
 	$find = '';
 }
 
-$smarty->assign('find', $find);
+$gBitSmarty->assign('find', $find);
 
-$smarty->assign_by_ref('sort_mode', $sort_mode);
+$gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
 $channels = $tcontrollib->tc_list_objects($_REQUEST['type'], $offset, $maxRecords, $sort_mode, $find);
 
 $cant_pages = ceil($channels["cant"] / $maxRecords);
-$smarty->assign_by_ref('cant_pages', $cant_pages);
-$smarty->assign('actual_page', 1 + ($offset / $maxRecords));
+$gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
+$gBitSmarty->assign('actual_page', 1 + ($offset / $maxRecords));
 
 if ($channels["cant"] > ($offset + $maxRecords)) {
-	$smarty->assign('next_offset', $offset + $maxRecords);
+	$gBitSmarty->assign('next_offset', $offset + $maxRecords);
 } else {
-	$smarty->assign('next_offset', -1);
+	$gBitSmarty->assign('next_offset', -1);
 }
 
 // If offset is > 0 then prev_offset
 if ($offset > 0) {
-	$smarty->assign('prev_offset', $offset - $maxRecords);
+	$gBitSmarty->assign('prev_offset', $offset - $maxRecords);
 } else {
-	$smarty->assign('prev_offset', -1);
+	$gBitSmarty->assign('prev_offset', -1);
 }
 
-$smarty->assign_by_ref('channels', $channels["data"]);
+$gBitSmarty->assign_by_ref('channels', $channels["data"]);
 
 //$sections=Array('wiki','galleries','file_galleries','cms','blogs','forums','chat','categories','games','faqs','html_pages','quizzes','surveys','webmail','trackers','featured_links','directory','user_messages','newsreader','mybitweaver');
 

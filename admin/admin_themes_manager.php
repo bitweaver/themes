@@ -33,8 +33,8 @@ if( $processForm ) {
 
 	//Clear the template cache in case the theme has changed TODO: Do this ONLY when the theme changes.
 	//TODO: Fix module render order so that this will correctly render the modules on the 1st try too.
-//	$smarty->clear_all_cache();
-//	$smarty->clear_compiled_tpl();
+//	$gBitSmarty->clear_all_cache();
+//	$gBitSmarty->clear_compiled_tpl();
 }
 
 // apply the site style
@@ -45,10 +45,10 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 }
 
 // Get list of available styles
-$styles = &$tcontrollib->getStyles();
-$smarty->assign_by_ref( "styles", $styles );
-$stylesList = &$tcontrollib->getStylesList();
-$smarty->assign_by_ref( "stylesList", $stylesList );
+$styles = $tcontrollib->getStyles();
+$gBitSmarty->assign_by_ref( "styles", $styles );
+$stylesList = $tcontrollib->getStylesList();
+$gBitSmarty->assign_by_ref( "stylesList", $stylesList );
 
 // set the options biticon takes
 $biticon_display_options = array( 
@@ -56,7 +56,7 @@ $biticon_display_options = array(
 	'text' => tra( 'text' ), 
 	'icon_text' => tra( 'icon and text' ) 
 );
-$smarty->assign( "biticon_display_options", $biticon_display_options );
+$gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
 
 $gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
 ?>
