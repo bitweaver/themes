@@ -37,6 +37,15 @@ class TemplatesLib extends BitBase {
 		return $retval;
 	}
 
+	/*shared*/
+	function get_template($template_id) {
+		$query = "select * from `".BIT_DB_PREFIX."tiki_content_templates` where `template_id`=?";
+		$result = $this->query($query,array((int)$template_id));
+		if (!$result->numRows()) return false;
+		$res = $result->fetchRow();
+		return $res;
+	}
+
 	function replace_template($template_id, $name, $content) {
 		$now = date("U");
 		$bindvars = array($content,$name,(int)$now);
