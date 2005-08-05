@@ -14,7 +14,7 @@ return false;
 </script>
 {/literal}
 
-<a class="pagetitle" href="{$gBitLoc.THEMES_PKG_URL}edit_css.php">{tr}Edit Custom Theme{/tr}</a><br /><br />
+<a class="pagetitle" href="{$smarty.const.THEMES_PKG_URL}edit_css.php">{tr}Edit Custom Theme{/tr}</a><br /><br />
 {if $successMsg}
 <div style="color: green">{$successMsg}</div>
 {/if}
@@ -22,7 +22,7 @@ return false;
 <div style="color: red">{$errorMsg}</div>
 {/if}
 <div>
-	<form method="post" action="{$gBitLoc.THEMES_PKG_URL}edit_css.php">
+	<form method="post" action="{$smarty.const.THEMES_PKG_URL}edit_css.php">
 	<div style="padding:4px;border-bottom:1px solid #c3b3a3;">
 		<textarea name="textData" rows="42" cols="80" wrap="virtual" style="padding:7px;padding-right:0;">{$data|escape}</textarea>
 	</div>
@@ -63,9 +63,9 @@ return false;
 		<td cellpadding="3">
 		{biticon ipackage=liberty iname=view iexplain=preview onclick="javascript"}
 			{biticon ipackage=liberty iname=view iexplain=preview onclick="javascript:popup('preview_image.php?fImg=$customCSSImageURL/$themeImages[ix]')"}
-			<a href="{$gBitLoc.THEMES_PKG_URL}/edit_css.php?fDeleteImg={$themeImages[ix]}">
+			<a href="{$smarty.const.THEMES_PKG_URL}/edit_css.php?fDeleteImg={$themeImages[ix]}">
 			{biticon ipackage=liberty iname=delete iexplain=remove onclick="return confirm('Are you sure you want to delete $themeImages[ix]?');"}
-			<img class="icon" src="{$gBitLoc.LIBERTY_PKG_URL}icons/delete.gif" title="{tr}Remove{/tr}" alt="{tr}Remove{/tr}" onclick="return confirm('Are you sure you want to delete {$themeImages[ix]}?');"/>
+			<img class="icon" src="{$smarty.const.LIBERTY_PKG_URL}icons/delete.gif" title="{tr}Remove{/tr}" alt="{tr}Remove{/tr}" onclick="return confirm('Are you sure you want to delete {$themeImages[ix]}?');"/>
 			</a>
 			</input>
 		</td>
@@ -73,7 +73,7 @@ return false;
 	{/section}
 </table>
 <br />
-<form enctype="multipart/form-data" method="post" action="{$gBitLoc.THEMES_PKG_URL}edit_css.php"
+<form enctype="multipart/form-data" method="post" action="{$smarty.const.THEMES_PKG_URL}edit_css.php"
 <input type="hidden" name="MAX_FILE_SIZE" value="1024000">
 Upload Image: <input type="file" name="fImgUpload"> <br /> <br/>
 <input type="submit" value="Upload Image" name="fUpload">
