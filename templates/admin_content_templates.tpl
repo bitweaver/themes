@@ -12,11 +12,11 @@
 	{/if}
 	{if $template_id > 0}
 		<h2>{tr}Edit this template:{/tr} {$info.name}</h2>
-		<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php">{tr}Create new template{/tr}</a>
+		<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php">{tr}Create new template{/tr}</a>
 	{else}
 	<h2>{tr}Create new template{/tr}</h2>
 	{/if}
-		<form action="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php" method="post">
+		<form action="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php" method="post">
 		<input type="hidden" name="template_id" value="{$template_id|escape}" />
 		<div class="panel">
 			<div class="row">
@@ -60,7 +60,7 @@
 	<table class="find">
 	<tr><td>{tr}Find{/tr}</td>
 	   <td>
-	   <form method="get" action="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php">
+	   <form method="get" action="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php">
 		 <input type="text" name="find" value="{$find|escape}" />
 		 <input type="submit" value="{tr}find{/tr}" name="search" />
 		 <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
@@ -71,8 +71,8 @@
 	
 	<table class="data">
 	<tr>
-	<th><a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
-	<th><a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'created_desc'}created_asc{else}created_desc{/if}">{tr}last modif{/tr}</a></th>
+	<th><a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}name{/tr}</a></th>
+	<th><a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'created_desc'}created_asc{else}created_desc{/if}">{tr}last modif{/tr}</a></th>
 	<th>{tr}sections{/tr}</th>
 	<th>{tr}action{/tr}</th>
 	</tr>
@@ -83,12 +83,12 @@
 	<td>{$channels[user].created|bit_short_datetime}</td>
 	<td>
 	{section name=ix loop=$channels[user].sections}
-	{$channels[user].sections[ix]} <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
+	{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
 	{/section}
 	</td>
 	<td>
-	   <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
-	   <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}"><img class="icon" alt="{tr}Edit{/tr}" src="{$gBitLoc.LIBERTY_PKG_URL}icons/edit.gif" /></a>
+	   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
+	   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}"><img class="icon" alt="{tr}Edit{/tr}" src="{$smarty.const.LIBERTY_PKG_URL}icons/edit.gif" /></a>
 	</td>
 	</tr>
 	{else}
@@ -97,12 +97,12 @@
 	<td>{$channels[user].created|bit_short_datetime}</td>
 	<td>
 	{section name=ix loop=$channels[user].sections}
-	{$channels[user].sections[ix]} <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
+	{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
 	{/section}
 	</td>
 	<td>
-	   <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
-	   <a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}">{biticon ipackage=liberty iname="edit" iexplain="edit"}</a>
+	   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
+	   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}">{biticon ipackage=liberty iname="edit" iexplain="edit"}</a>
 	</td>
 	</tr>
 	{/if}
@@ -115,17 +115,17 @@
 	
 	<div class="pagination">
 	{if $prev_offset >= 0}
-	[<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
+	[<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
 	{/if}
 	{tr}Page{/tr}: {$actual_page}/{$cant_pages}
 	{if $next_offset >= 0}
-	&nbsp;[<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
+	&nbsp;[<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
 	{/if}
 	{if $direct_pagination eq 'y'}
 	<br />
 	{section loop=$cant_pages name=foo}
 	{assign var=selector_offset value=$smarty.section.foo.index|times:$maxRecords}
-	<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
+	<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
 	{$smarty.section.foo.index_next}</a>&nbsp;
 	{/section}
 	{/if}

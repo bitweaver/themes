@@ -10,11 +10,11 @@
 <h2>{tr}Assign themes to sections{/tr}</h2>
 
 <div class="navbar above">
-  <a href="{$gBitLoc.THEMES_PKG_URL}theme_control_objects.php">{tr}Control by Object{/tr}</a>
-  <a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php">{tr}Control by Categories{/tr}</a>
+  <a href="{$smarty.const.THEMES_PKG_URL}theme_control_objects.php">{tr}Control by Object{/tr}</a>
+  <a href="{$smarty.const.THEMES_PKG_URL}theme_control.php">{tr}Control by Categories{/tr}</a>
 </div>
 
-<form action="{$gBitLoc.THEMES_PKG_URL}theme_control_sections.php" method="post">
+<form action="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php" method="post">
 <table class="panel">
 <tr>
   <th>{tr}Section{/tr}</th>
@@ -48,12 +48,12 @@
 </form>
 
 <h2>{tr}Assigned sections{/tr}</h2>
-<form action="{$gBitLoc.THEMES_PKG_URL}theme_control_sections.php" method="post">
+<form action="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php" method="post">
 <table class="data">
 <tr>
 <th>&nbsp;</th>
-<th><a href="{$gBitLoc.THEMES_PKG_URL}theme_control_sections.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'section_desc'}section_asc{else}section_desc{/if}">{tr}section{/tr}</a></th>
-<th><a href="{$gBitLoc.THEMES_PKG_URL}theme_control_sections.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'theme_desc'}theme_asc{else}theme_desc{/if}">{tr}theme{/tr}</a></th>
+<th><a href="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'section_desc'}section_asc{else}section_desc{/if}">{tr}section{/tr}</a></th>
+<th><a href="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'theme_desc'}theme_asc{else}theme_desc{/if}">{tr}theme{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {section name=user loop=$channels}

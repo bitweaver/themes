@@ -16,11 +16,11 @@
 									{if $style eq $s.style}
 										{biticon ipackage=liberty iname=success iexplain="Current Theme"}&nbsp;
 									{/if}
-									<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style}</a>
+									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style}</a>
 								</h2>
 
 								{if $s.preview}
-									<a href="{$gBitLoc.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">
+									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">
 										<img class="thumb" src="{$s.preview}" alt="{tr}Theme Preview{/tr}" title="{$s.style}" />
 									</a>
 								{/if}

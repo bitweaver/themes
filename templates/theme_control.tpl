@@ -10,11 +10,11 @@
 <h2>{tr}Assign themes to categories{/tr}</h2>
 
 <div class="navbar above">
-  <a href="{$gBitLoc.THEMES_PKG_URL}theme_control_objects.php">{tr}Control by Object{/tr}</a>
-  <a href="{$gBitLoc.THEMES_PKG_URL}theme_control_sections.php">{tr}Control by Sections{/tr}</a>
+  <a href="{$smarty.const.THEMES_PKG_URL}theme_control_objects.php">{tr}Control by Object{/tr}</a>
+  <a href="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php">{tr}Control by Sections{/tr}</a>
 </div>
 
-<form action="{$gBitLoc.THEMES_PKG_URL}theme_control.php" method="post">
+<form action="{$smarty.const.THEMES_PKG_URL}theme_control.php" method="post">
 <table class="panel">
 <tr>
   <th>{tr}Category{/tr}</th>
@@ -48,7 +48,7 @@
 </form> 
 
 <h2>{tr}Assigned categories{/tr}</h2>
-<form method="get" action="{$gBitLoc.THEMES_PKG_URL}theme_control.php">
+<form method="get" action="{$smarty.const.THEMES_PKG_URL}theme_control.php">
 <table class="find">
 <tr><td>{tr}Find{/tr}</td>
    <td>
@@ -62,12 +62,12 @@
 </form>
 
 
-<form action="{$gBitLoc.THEMES_PKG_URL}theme_control.php" method="post">
+<form action="{$smarty.const.THEMES_PKG_URL}theme_control.php" method="post">
 <table class="data">
 <tr>
 <th>&nbsp;</th>
-<th><a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}category{/tr}</a></th>
-<th><a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'theme_desc'}theme_asc{else}theme_desc{/if}">{tr}theme{/tr}</a></th>
+<th><a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}category{/tr}</a></th>
+<th><a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'theme_desc'}theme_asc{else}theme_desc{/if}">{tr}theme{/tr}</a></th>
 </tr>
 {cycle values="even,odd" print=false}
 {section name=user loop=$channels}
@@ -87,17 +87,17 @@
 
 <div class="pagination">
 {if $prev_offset >= 0}
-[<a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php?find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
+[<a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?find={$find}&amp;offset={$prev_offset}&amp;sort_mode={$sort_mode}">{tr}prev{/tr}</a>]&nbsp;
 {/if}
 {tr}Page{/tr}: {$actual_page}/{$cant_pages}
 {if $next_offset >= 0}
-&nbsp;[<a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php?find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
+&nbsp;[<a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?find={$find}&amp;offset={$next_offset}&amp;sort_mode={$sort_mode}">{tr}next{/tr}</a>]
 {/if}
 {if $direct_pagination eq 'y'}
 <br />
 {section loop=$cant_pages name=foo}
 {assign var=selector_offset value=$smarty.section.foo.index|times:$maxRecords}
-<a href="{$gBitLoc.THEMES_PKG_URL}theme_control.php?tasks_use_dates={$tasks_use_dates}&amp;find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
+<a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?tasks_use_dates={$tasks_use_dates}&amp;find={$find}&amp;offset={$selector_offset}&amp;sort_mode={$sort_mode}">
 {$smarty.section.foo.index_next}</a>&nbsp;
 {/section}
 {/if}

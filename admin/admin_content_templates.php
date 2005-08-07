@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/Attic/admin_content_templates.php,v 1.2 2005/08/01 18:41:27 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/Attic/admin_content_templates.php,v 1.3 2005/08/07 17:45:04 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -25,7 +25,7 @@ if (!isset($_REQUEST["template_id"])) {
 $gBitSmarty->assign('template_id', $_REQUEST["template_id"]);
 
 if ($_REQUEST["template_id"]) {
-	$info = $gBitSystem->get_template($_REQUEST["template_id"]);
+	$info = $templateslib->get_template($_REQUEST["template_id"]);
 
 	if ($templateslib->template_is_in_section($_REQUEST["template_id"], 'html')) {
 		$info["section_html"] = 'y';
