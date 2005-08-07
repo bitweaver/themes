@@ -9,9 +9,9 @@ class ThemeControlLib extends BitBase {
 		$this->tc_remove_cat($category_id);
 
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?";
-		$this->getDb()->query($query,array($category_id),-1,-1);
+		$this->mDb->query($query,array($category_id),-1,-1);
 		$query = "insert into `".BIT_DB_PREFIX."tiki_theme_control_categs`(`category_id`,`theme`) values(?,?)";
-		$this->getDb()->query($query,array($category_id,$theme));
+		$this->mDb->query($query,array($category_id,$theme));
 	}
 /*
 deprecated
@@ -19,9 +19,9 @@ deprecated
 		$this->tc_remove_section($section);
 
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?";
-		$this->getDb()->query($query,array($section),-1,-1);
+		$this->mDb->query($query,array($section),-1,-1);
 		$query = "insert into `".BIT_DB_PREFIX."tiki_theme_control_sections`(`section`,`theme`) values(?,?)";
-		$this->getDb()->query($query,array($section,$theme));
+		$this->mDb->query($query,array($section,$theme));
 	}
 */
 	function tc_assign_object($obj_id, $theme, $type, $name) {
@@ -29,24 +29,24 @@ deprecated
 		$obj_id = md5($type . $obj_id);
 		$this->tc_remove_object($obj_id);
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `obj_id`=?";
-		$this->getDb()->query($query,array($obj_id),-1,-1);
+		$this->mDb->query($query,array($obj_id),-1,-1);
 		$query = "insert into `".BIT_DB_PREFIX."tiki_theme_control_objects`(`obj_id`,`theme`,`type`,`name`) values(?,?,?,?)";
-		$this->getDb()->query($query,array($obj_id,$theme,$type,$name));
+		$this->mDb->query($query,array($obj_id,$theme,$type,$name));
 	}
 
 	function tc_get_theme_by_categ( $pCategory ) {
 		$ret = '';
 		if( !empty( $pCategory['category_id'] ) && is_numeric( $pCategory['category_id'] ) ) {
-			if ($this->getDb()->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']))) {
-				return $this->getDb()->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']));
+			if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']))) {
+				return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?",array($pCategory['category_id']));
 			}
 		}
 		return $ret;
 	}
 /*
 	function tc_get_theme_by_section($section) {
-		if ($this->getDb()->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?",array($section))) {
-			return $this->getDb()->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?",array($section));
+		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?",array($section))) {
+			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?",array($section));
 		} else {
 			return '';
 		}
@@ -55,8 +55,8 @@ deprecated
 	function tc_get_theme_by_object($type, $obj_id) {
 		$obj_id = md5($type . $obj_id);
 
-		if ($this->getDb()->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id))) {
-			return $this->getDb()->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id));
+		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id))) {
+			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id));
 		} else {
 			return '';
 		}
@@ -73,10 +73,10 @@ deprecated
 			$bindvars=array();
 		}
 
-		$query = "select tc.`category_id`,tc.`name`,`theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` ttt,`".BIT_DB_PREFIX."tiki_categories` tc where ttt.`category_id`=tc.`category_id` $mid order by ".$this->getDb()->convert_sortmode($sort_mode);
+		$query = "select tc.`category_id`,tc.`name`,`theme` from `".BIT_DB_PREFIX."tiki_theme_control_categs` ttt,`".BIT_DB_PREFIX."tiki_categories` tc where ttt.`category_id`=tc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_categs` ttt,`".BIT_DB_PREFIX."tiki_categories` tc where ttt.`category_id`=tc.`category_id` $mid";
-		$result = $this->getDb()->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->getDb()->getOne($query_cant,$bindvars);
+		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -101,10 +101,10 @@ deprecated
 			$bindvars=array();
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_theme_control_sections` $mid order by ".$this->getDb()->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."tiki_theme_control_sections` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_sections` $mid";
-		$result = $this->getDb()->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->getDb()->getOne($query_cant,$bindvars);
+		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -128,10 +128,10 @@ deprecated
 			$bindvars=array($type);
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? $mid order by ".$this->getDb()->convert_sortmode($sort_mode);
+		$query = "select * from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? $mid order by ".$this->mDb->convert_sortmode($sort_mode);
 		$query_cant = "select count(*) from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `type`=? $mid";
-		$result = $this->getDb()->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->getDb()->getOne($query_cant,$bindvars);
+		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
 
 		while ($res = $result->fetchRow()) {
@@ -147,19 +147,19 @@ deprecated
 	function tc_remove_cat($cat) {
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_categs` where `category_id`=?";
 
-		$this->getDb()->query($query,array($cat));
+		$this->mDb->query($query,array($cat));
 	}
 /*
 	function tc_remove_section($section) {
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_sections` where `section`=?";
 
-		$this->getDb()->query($query,array($section));
+		$this->mDb->query($query,array($section));
 	}
 */
 	function tc_remove_object($obj_id) {
 		$query = "delete from `".BIT_DB_PREFIX."tiki_theme_control_objects` where `obj_id`=?";
 
-		$this->getDb()->query($query,array($obj_id));
+		$this->mDb->query($query,array($obj_id));
 	}
 	
 	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
