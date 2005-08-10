@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.3 2005/08/05 23:00:40 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.4 2005/08/10 18:41:49 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -18,7 +18,7 @@
 {/if}
 {/strip}
 
-{if $gSniffer->mBrowserInfo.client eq 'ie'}
+{if $browserInfo.browser eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
 	<!--[if gte IE 5.5000]>
 		<script type="text/javascript" src="{$smarty.const.THEMES_PKG_URL}js/sleight.js"></script>
