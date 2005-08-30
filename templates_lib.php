@@ -47,7 +47,8 @@ class TemplatesLib extends BitBase {
 	}
 
 	function replace_template($template_id, $name, $content) {
-		$now = date("U");
+		global $gBitSystem;
+		$now = $gBitSystem->getUTCTime();
 		$bindvars = array($content,$name,(int)$now);
 		if ($template_id) {
 			$query = "update `".BIT_DB_PREFIX."tiki_content_templates` set `content`=?, `name`=?, `created`=? where `template_id`=?";
