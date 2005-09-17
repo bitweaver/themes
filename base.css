@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.9 2005/08/31 10:20:56 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.10 2005/09/17 15:16:09 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -26,6 +26,8 @@ a.skip:active, a.skip:focus			{left:0em;}
 .floaticon			{float:right;}
 span.actionicon		{float:right;}
 td.actionicon		{text-align:right;}
+.actionicon a,
+.floaticon a		{padding:0 3px;}
 .navbar,.comment,.footer			{clear:both;}
 .date,.footer,.pagination,small		{color:#999;}
 .panelsubmitrow		{text-align:center;}
