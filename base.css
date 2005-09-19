@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.11 2005/09/17 19:59:29 jht001 Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.12 2005/09/19 07:04:07 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -84,8 +84,9 @@ li.treenode								{list-style:none; clear:both; border-top:1px solid #999;}
 ul.tree									{margin:0;padding-left:20px;}
 
 			/* css driven dropdown menus - horizontal */
-#nav,#nav a,#nav li,#nav ul	{z-index:10000000;}
-.hor,.hor a,.hor li,.hor ul	{z-index:100000;}
+#nav,#nav a,#nav li ul {z-index:10000;}
+.hor,.hor a,.hor li ul {z-index:1000;}
+.ver,.ver a,.ver li ul {z-index:1000;}
 .hor,.hor ul			{padding:0; margin:0; list-style:none;}
 .hor a					{white-space:no-wrap; display:block;}
 .hor li					{width:auto;}
@@ -97,7 +98,6 @@ ul.tree									{margin:0;padding-left:20px;}
 .hor .icon				{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
 .hor li li a			{margin:0 0 0 2em;}
 			/* css driven dropdown menus - vertical */
-.ver,.ver a,.ver li,.ver ul			{z-index:100000;}
 .ver, .ver ul			{padding:0; margin:0; list-style:none; float:left; width:13em;}
 .ver li					{position:relative;}
 .ver li li				{position:relative; float:left; width:13em;}
