@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.12 2005/09/19 07:04:07 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.13 2005/09/25 13:37:54 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -20,7 +20,9 @@ pre, code			{font-family:monospace; font-size:12px; overflow:auto; text-align:le
 .highlight			{font-weight:bolder;}
 a.create			{font-style:italic}
 a.skip				{position:absolute; top:0; left:-999em;}
-a.skip:active, a.skip:focus			{left:0em;}
+a.skip:active,
+a.skip:focus		{left:0em;}
+a img				{border:0;}
 .quicktag			{margin:1px;}
 .selected			{font-weight:bolder}
 .floaticon			{float:right;}
@@ -58,14 +60,6 @@ textarea			{width:100%;}
 			/* annoyances and grievances */
 .module textarea			{width:auto;}
 .comment .content			{overflow:auto;}
-			/* tabs */
-.tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
-.tabsystem .tabcontainer ul,
-.tabsystem .tabcontainer li	{margin:0; padding:0; border:0; list-style-type:none; display:inline;}
-.tabsystem .tabcontainer .tab,
-.tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
-.tabsystem .tabpage			{clear:both;}
-h4					{margin:0; padding:0;}
 			/* lists */
 ul,ol,dl								{margin-top:0; margin-bottom:0;}
 .module ol,.module ul,.menu ul			{margin:0; padding:0}
@@ -82,6 +76,12 @@ li.error,li.success,li.note,li.warning	{list-style:none;}
 ul.toc li								{list-style:none;}
 li.treenode								{list-style:none; clear:both; border-top:1px solid #999;}
 ul.tree									{margin:0;padding-left:20px;}
+			/* structures */
+.structurebar			{clear:both;}
+.structurebar .path		{display:block;}
+.gallerybar .path		{display:block;}
+.navigation span		{display:block; width:50%; float:left;}
+.navigation .right		{text-align:right;}
 
 			/* css driven dropdown menus - horizontal */
 #nav,#nav a,#nav li ul {z-index:10000;}
@@ -111,12 +111,14 @@ ul.tree									{margin:0;padding-left:20px;}
 .ver li:hover ul, .ver li li:hover ul, .ver li li li:hover ul, .ver li.ieHover ul, .ver li li.ieHover ul, .ver li li li.ieHover ul			{left:auto;}
 			/* Support for MSIE select box hiding part of suckerfish */
 .hor iframe,.ver iframe			{position:absolute; left:0; top:0; z-index:-1; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);}
-			/* structures */
-.structurebar			{clear:both;}
-.structurebar .path		{display:block;}
-.gallerybar .path		{display:block;}
-.navigation span		{display:block; width:50%; float:left;}
-.navigation .right		{text-align:right;}
+			/* tabs */
+.tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
+.tabsystem .tabcontainer ul,
+.tabsystem .tabcontainer li	{margin:0; padding:0; border:0; list-style-type:none; display:inline;}
+.tabsystem .tabcontainer .tab,
+.tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
+.tabsystem .tabpage			{clear:both;}
+h4					{margin:0; padding:0;}
 			/* these settings are still in motion... */
 a.external				{background:transparent url("icons/external_link.png") no-repeat right;  padding-right:1.3em;}
 
