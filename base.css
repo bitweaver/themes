@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.13 2005/09/25 13:37:54 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.14 2005/10/01 12:33:07 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -88,7 +88,7 @@ ul.tree									{margin:0;padding-left:20px;}
 .hor,.hor a,.hor li ul {z-index:1000;}
 .ver,.ver a,.ver li ul {z-index:1000;}
 .hor,.hor ul			{padding:0; margin:0; list-style:none;}
-.hor a					{white-space:no-wrap; display:block;}
+.hor a					{white-space:nowrap; display:block;}
 .hor li					{width:auto;}
 .hor li li,.hor li ul	{width:13em; display:block; text-align:left;}/*padding:0; margin:0; */
 .hor .head				{width:auto; padding:0 0.5em;}
