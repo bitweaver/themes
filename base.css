@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.14 2005/10/01 12:33:07 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.15 2005/10/02 08:33:39 spiderr Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -126,3 +126,5 @@ a.external				{background:transparent url("icons/external_link.png") no-repeat r
 .stickies textarea,.stickies input[type='text']			{background:#ffc;}
 .stickynote .boxtitle	{border-bottom: 1px solid #dda;}
 .stickynote				{background-color:#ffc; width:300px; padding:3px;}
+.phpbb a:hover img {border:none}
+.phpbb img {border:none}
