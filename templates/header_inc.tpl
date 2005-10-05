@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.4 2005/08/10 18:41:49 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.5 2005/10/05 07:38:59 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -15,6 +15,10 @@
 
 {if $gBitSystemPrefs.disable_jstabs ne 'y'}
 	<script type="text/javascript" src="{$smarty.const.THEMES_PKG_URL}js/tabs/tabpane.js"></script>
+{/if}
+
+{if $gBitSystemPrefs.disable_fat ne 'y'}
+	<script type="text/javascript" src="{$smarty.const.THEMES_PKG_URL}js/fat.js"></script>
 {/if}
 {/strip}
 

@@ -62,6 +62,14 @@
 						{/forminput}
 					</div>
 
+					<div class="row">
+						{formlabel label="Disable Fading" for="disable_fat"}
+						{forminput}
+							<input type="checkbox" name="disable_fat" value='y' id="disable_fat"{if $gBitSystem->isFeatureActive( 'disable_fat' )} checked="checked"{/if} />
+							{formhelp note="Disable the fading effect used when displaying any success, warning or error messages."}
+						{/forminput}
+					</div>
+
 					<div class="row submit">
 						<input type="submit" name="themeTabSubmit" value="{tr}Apply Settings{/tr}" />
 					</div>

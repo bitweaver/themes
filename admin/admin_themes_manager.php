@@ -21,6 +21,7 @@ if( $processForm ) {
 
 	$pref_toggles = array(
 		"disable_jstabs",
+		"disable_fat",
 	);
 
 	foreach ($pref_toggles as $toggle) {
