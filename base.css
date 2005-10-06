@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.16 2005/10/05 17:47:30 spiderr Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.17 2005/10/06 22:17:41 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -41,9 +41,8 @@ form,input,textarea,select{margin:0; padding:0;}
 form				{display:inline;}
 textarea			{width:100%;}
 .row				{clear:both;}
-.formlabel			{float:left; width:20%; text-align:right;}
-table .forminput	{margin:0;} /* IE 5.5 fix */
-.forminput			{margin-left:21%;}
+.formlabel			{float:left; width:14em; text-align:right;}
+.forminput			{margin-left:14.5em;}
 .formhelp			{cursor:help;}
 .closebutton		{position:absolute; top:1px; right:1px;}
 .submit				{text-align:center; padding-bottom:10px;}
