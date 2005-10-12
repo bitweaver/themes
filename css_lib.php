@@ -120,7 +120,7 @@ class cssLib extends BitBase {
 
 		return $back;
 	}
-	
+
 	// Load CSS2 styled file (@import aware)
 	//
 	// TODO: Will M$ windowz eat '/' as path delimiter?
@@ -135,11 +135,14 @@ class cssLib extends BitBase {
 
 		$lines = file($filename);
 		foreach ($lines as $line) {
-			if (preg_match_all("/@import.*[\'|\"](.*)[\'|\"].*;/U", $line, $importfiles, PREG_SET_ORDER)) {
+			if (preg_match_all("/@import.*\([\'|\" ]*(.*)[\'|\" ]*\).*;/U", $line, $importfiles, PREG_SET_ORDER)) {
 				foreach ($importfiles as $file) {
-					$import = $path.'/'.$file[1];
-					$data .= $this->load_css2_file($import);
-					$line = str_replace($file[0], "", $line);
+					$fileName = trim( $file[1] );
+					if( $fileName != '../../base.css' ) {
+						$import = $path.'/'.$fileName;
+						$data .= $this->load_css2_file($import);
+						$line = str_replace($file[0], "", $line);
+					}
 				}
 			}
 
