@@ -1,19 +1,21 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.6 2005/10/12 15:13:55 spiderr Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.7 2005/10/23 14:42:30 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
 pre, code			{font-family:monospace; font-size:12px; overflow:auto; text-align:left;}
 #tikilayouttable	{width:100%; padding:0; margin:0;}
-#bitleft			{vertical-align:top; width:170px; overflow:hidden;}
-#bitright			{vertical-align:top; width:170px;}
+#bitleft,
+#bitright			{vertical-align:top; width:170px; overflow:hidden;}
 #tikimain			{vertical-align:top;}
 #tikibottom			{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
-.introduction,.description	{text-align:justify;}
+.introduction,
+.description		{text-align:justify;}
 .norecords			{font-weight:bold;}
 .boxtitle			{text-align:center;}
 .boxtitle .icon		{vertical-align:middle;}
 .popup				{background:#fff; width:250px; border:1px solid #000;}
-.icon,.icon:hover,a.icon,a.icon:hover			{border:0px;}
+.icon,.icon:hover,
+a.icon,a.icon:hover	{border:0px;}
 .portrait,.avatar	{float:right; padding:0 0 5px 5px;}
 .menu .head			{display:block; white-space:nowrap;}
 .menu .item			{display:block;}
@@ -30,101 +32,128 @@ span.actionicon		{float:right;}
 td.actionicon		{text-align:right;}
 .actionicon a,
 .floaticon a		{padding:0 3px;}
-.navbar,.comment,.footer			{clear:both;}
-.date,.footer,.pagination,small		{color:#999;}
+.navbar,
+.comment,
+.footer				{clear:both;}
+.date,
+.footer,
+.pagination,
+small				{color:#999;}
 .panelsubmitrow		{text-align:center;}
 .pagination			{text-align:center;}
 .storage			{float:right; clear:both;}
 .clear				{clear:both;}
-			/*** forms ***/
-form,input,textarea,select{margin:0; padding:0;}
-form				{display:inline;}
-textarea			{width:100%;}
-.row				{clear:both;}
-.formlabel			{float:left; width:14em; text-align:right;}
-.forminput			{margin-left:14.5em;}
-.formhelp			{cursor:help;}
-.closebutton		{position:absolute; top:1px; right:1px;}
-.submit				{text-align:center; padding-bottom:10px;}
-.minifind			{width:200px;}
-.error,.errorpage .boxtitle	{color:#f00; font-weight:bold;}
-.warning			{color:#f80;}
-.success			{color:#090;}
-.fisheyeimage .boxcontent, .fisheyegallery .boxcontent,.image .boxcontent			{text-align:center;}
-			/* priorities */
+
+/*** forms ***/
+form			{margin:0; padding:0;}
+textarea		{width:100%;}
+.row			{clear:both;}
+.formlabel		{float:left; width:14em; text-align:right;}
+.forminput		{margin-left:14.5em;}
+.formhelp		{cursor:help;}
+.closebutton	{position:absolute; top:1px; right:1px;}
+.submit			{text-align:center; padding-bottom:10px;}
+.minifind		{width:200px;}
+.error,
+.errorpage .boxtitle	{color:#f00; font-weight:bold;}
+.warning		{color:#f80;}
+.success		{color:#090;}
+
+/* priorities */
 .prio1	{background:#dfc !important;}
 .prio2	{background:#efc !important;}
 .prio3	{background:#ffc !important;}
 .prio4	{background:#fec !important;}
 .prio5	{background:#fdc !important;}
-			/* annoyances and grievances */
-.module textarea			{width:auto;}
-.comment .content			{overflow:auto;}
-			/* lists */
-ul,ol,dl								{margin-top:0; margin-bottom:0;}
-.module ol,.module ul,.menu ul			{margin:0; padding:0}
-.module ol li							{margin:0 0 0 3em; padding:0;}
-.module ul li,.menu li,ul.toc li		{list-style:none;}
-ul.toc ul								{margin-left:1.5em; padding:0;}
-.navbar									{height:2em;}
-.navbar ul								{padding:0; margin:0; list-style:none;}
-.navbar ul li							{float:left;}
-ul.data									{margin:0; padding:0;}
-ul.data li.item							{list-style:none; margin:0; padding:0;}
-ul.data li.item .thumb					{float:right;}
-li.error,li.success,li.note,li.warning	{list-style:none;}
-ul.toc li								{list-style:none;}
-li.treenode								{list-style:none; clear:both; border-top:1px solid #999;}
-ul.tree									{margin:0;padding-left:20px;}
-			/* structures */
+
+/* annoyances and grievances */
+.module textarea	{width:auto;}
+.comment .content	{overflow:auto;}
+
+/* lists */
+ul,ol,dl		{margin-top:0; margin-bottom:0;}
+.module ol,
+.module ul,
+.menu ul		{margin:0; padding:0}
+.module ol li	{margin:0 0 0 3em; padding:0;}
+.module ul li,
+.menu li,
+ul.toc li		{list-style:none;}
+ul.toc ul		{margin-left:1.5em; padding:0;}
+.navbar			{height:2em;}
+.navbar ul		{padding:0; margin:0; list-style:none;}
+.navbar ul li	{float:left;}
+
+ul.data					{margin:0; padding:0;}
+ul.data li.item			{list-style:none; margin:0; padding:0;}
+ul.data li.item .thumb	{float:right;}
+li.error,li.success,
+li.note,li.warning		{list-style:none;}
+ul.toc li				{list-style:none;}
+li.treenode				{list-style:none; clear:both; border-top:1px solid #999;}
+ul.tree					{margin:0;padding-left:20px;}
+
+/* structures */
 .structurebar			{clear:both;}
 .structurebar .path		{display:block;}
 .gallerybar .path		{display:block;}
 .navigation span		{display:block; width:50%; float:left;}
 .navigation .right		{text-align:right;}
 
-			/* css driven dropdown menus - horizontal */
+/* css driven dropdown menus - horizontal */
 #nav,#nav a,#nav li ul {z-index:10000;}
 .hor,.hor a,.hor li ul {z-index:1000;}
 .ver,.ver a,.ver li ul {z-index:1000;}
-.hor,.hor ul			{padding:0; margin:0; list-style:none;}
-.hor a					{white-space:nowrap; display:block;}
-.hor li					{width:auto;}
-.hor li li,.hor li ul	{width:13em; display:block; text-align:left;}/*padding:0; margin:0; */
-.hor .head				{width:auto; padding:0 0.5em;}
-.hor li					{float:left; position:relative;}
-.hor li ul				{position:absolute; left:-999em; background:#fff; border:1px solid #999;}
-.hor li ul ul			{margin:-1.3em 0 0 13em;}
-.hor .icon				{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
-.hor li li a			{margin:0 0 0 2em;}
-			/* css driven dropdown menus - vertical */
-.ver, .ver ul			{padding:0; margin:0; list-style:none; float:left; width:13em;}
-.ver li					{position:relative;}
-.ver li li				{position:relative; float:left; width:13em;}
-.ver li ul				{position:absolute; left:-999em; margin-left:11.05em; margin-top:-1.35em; background:#fff;}
-.ver li ul ul			{left:-999em;}
-.ver li a				{width:13em; w\idth:12em; display:block;}
-			/* ieHover used as suckerfish class for MSIE hover support */
+.hor,.hor ul	{padding:0; margin:0; list-style:none;}
+.hor a			{white-space:nowrap; display:block;}
+.hor li			{width:auto;}
+.hor li li,
+.hor li ul		{width:13em; display:block; text-align:left;}
+.hor .head		{width:auto; padding:0 0.5em;}
+.hor li			{float:left; position:relative;}
+.hor li ul		{position:absolute; left:-999em; background:#fff; border:1px solid #999;}
+.hor li ul ul	{margin:-1.3em 0 0 13em;}
+.hor .icon		{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
+.hor li li a	{margin:0 0 0 2em;}
+
+/* css driven dropdown menus - vertical */
+.ver, .ver ul	{padding:0; margin:0; list-style:none; float:left; width:13em;}
+.ver li			{position:relative;}
+.ver li li		{position:relative; float:left; width:13em;}
+.ver li ul		{position:absolute; left:-999em; margin-left:11.05em; margin-top:-1.35em; background:#fff;}
+.ver li ul ul	{left:-999em;}
+.ver li a		{width:13em; w\idth:12em; display:block;}
+
+/* ieHover used as suckerfish class for MSIE hover support */
 .hor li:hover ul ul, .hor li:hover ul ul ul, .hor li.ieHover ul ul, .hor li.ieHover ul ul ul,
 .ver li:hover ul ul, .ver li:hover ul ul ul, .ver li.ieHover ul ul, .ver li.ieHover ul ul ul			{left:-999em;}
 .hor li:hover ul, .hor li li:hover ul, .hor li li li:hover ul, .hor li.ieHover ul, .hor li li.ieHover ul, .hor li li li.ieHover ul,
 .ver li:hover ul, .ver li li:hover ul, .ver li li li:hover ul, .ver li.ieHover ul, .ver li li.ieHover ul, .ver li li li.ieHover ul			{left:auto;}
-			/* Support for MSIE select box hiding part of suckerfish */
+
+/* Support for MSIE select box hiding part of suckerfish */
 .hor iframe,.ver iframe			{position:absolute; left:0; top:0; z-index:-1; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);}
-			/* tabs */
+
+/* tabs */
 .tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
 .tabsystem .tabcontainer ul,
 .tabsystem .tabcontainer li	{margin:0; padding:0; border:0; list-style-type:none; display:inline;}
 .tabsystem .tabcontainer .tab,
 .tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
-.tabsystem .tabpage			{clear:both;}
-h4					{margin:0; padding:0;}
-			/* these settings are still in motion... */
-a.external				{background:transparent url("icons/external_link.png") no-repeat right;  padding-right:1.3em;}
+.tabsystem .tabpage	{clear:both;}
+h4	{margin:0; padding:0;}
 
-/* prob. doesn't belong here...*/
-.stickies textarea,.stickies input[type='text']			{background:#ffc;}
-.stickynote .boxtitle	{border-bottom: 1px solid #dda;}
-.stickynote				{background-color:#ffc; width:300px; padding:3px;}
+/* these settings are still in motion... */
+a.external		{background:transparent url("icons/external_link.png") no-repeat right;  padding-right:1.3em;}
+
+/* should we move these settings to individual packages? */
+.stickies textarea,
+.stickies input[type='text']	{background:#ffc;}
+.stickynote .boxtitle			{border-bottom: 1px solid #dda;}
+.stickynote						{background-color:#ffc; width:300px; padding:3px;}
 .phpbb a:hover img {border:none}
 .phpbb img {border:none}
+
+/* fisheye gallery specific stuff */
+.fisheyeimage .boxcontent,
+.fisheyegallery .boxcontent,
+.image .boxcontent			{text-align:center;}
