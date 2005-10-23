@@ -1,11 +1,11 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.19 2005/10/22 23:14:15 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.20 2005/10/23 12:39:05 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
 pre, code			{font-family:monospace; font-size:12px; overflow:auto; text-align:left;}
 #tikilayouttable	{width:100%; padding:0; margin:0;}
-#bitleft			{vertical-align:top; width:170px; overflow:hidden;}
-#bitright			{vertical-align:top; width:170px;}
+#bitleft,
+#bitright			{vertical-align:top; width:170px; overflow:hidden;}
 #tikimain			{vertical-align:top;}
 #tikibottom			{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
 .introduction,
