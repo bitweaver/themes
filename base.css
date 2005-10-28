@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.20 2005/10/23 12:39:05 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.21 2005/10/28 00:26:25 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -157,3 +157,6 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat rig
 .fisheyeimage .boxcontent,
 .fisheyegallery .boxcontent,
 .image .boxcontent			{text-align:center;}
+
+/* multi file upload */
+#fileslist div span	{display:block; width:75%; float:left;}
