@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.6 2005/10/12 15:13:58 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.7 2005/10/29 17:57:03 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -24,9 +24,11 @@
 
 {if $browserInfo.browser eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
-	<!--[if gte IE 5.5000]>
-		<script type="text/javascript" src="{$smarty.const.THEMES_PKG_URL}js/sleight.js"></script>
-	<![endif]-->
+	{if !$quicktags}
+		<!--[if gte IE 5.5000]>
+			<script type="text/javascript" src="{$smarty.const.THEMES_PKG_URL}js/sleight.js"></script>
+		<![endif]-->
+	{/if}
 	<!--[if gte IE 5.0]>
 		<script type="text/javascript">
 			var nexusMenus = new Array(1)

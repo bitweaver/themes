@@ -44,7 +44,7 @@
 			<div class="row">
 				{formlabel label="Template" for="content"}
 				{forminput}
-					<textarea name="content" id="content" rows="25" cols="60">{$info.content|escape}</textarea>
+					<textarea name="content" id="content" rows="25" cols="50">{$info.content|escape}</textarea>
 				{/forminput}
 			</div>
 

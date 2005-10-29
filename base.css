@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.7 2005/10/23 14:42:30 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.8 2005/10/29 17:57:02 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -45,8 +45,8 @@ small				{color:#999;}
 .clear				{clear:both;}
 
 /*** forms ***/
+html>body textarea	{width:100%;}
 form			{margin:0; padding:0;}
-textarea		{width:100%;}
 .row			{clear:both;}
 .formlabel		{float:left; width:14em; text-align:right;}
 .forminput		{margin-left:14.5em;}
@@ -101,6 +101,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .navigation .right		{text-align:right;}
 
 /* css driven dropdown menus - horizontal */
+.hor			{line-height:18px;}
 #nav,#nav a,#nav li ul {z-index:10000;}
 .hor,.hor a,.hor li ul {z-index:1000;}
 .ver,.ver a,.ver li ul {z-index:1000;}
@@ -112,7 +113,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .hor .head		{width:auto; padding:0 0.5em;}
 .hor li			{float:left; position:relative;}
 .hor li ul		{position:absolute; left:-999em; background:#fff; border:1px solid #999;}
-.hor li ul ul	{margin:-1.3em 0 0 13em;}
+.hor li ul ul	{margin:-20px 0 0 13em;}
 .hor .icon		{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
 .hor li li a	{margin:0 0 0 2em;}
 
@@ -140,7 +141,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .tabsystem .tabcontainer .tab,
 .tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
 .tabsystem .tabpage	{clear:both;}
-h4	{margin:0; padding:0;}
+h4	{margin:0; padding:0; font-size:1em;}
 
 /* these settings are still in motion... */
 a.external		{background:transparent url("icons/external_link.png") no-repeat right;  padding-right:1.3em;}
@@ -157,3 +158,6 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat rig
 .fisheyeimage .boxcontent,
 .fisheyegallery .boxcontent,
 .image .boxcontent			{text-align:center;}
+
+/* multi file upload */
+#fileslist div span	{display:block; width:75%; float:left;}

@@ -24,7 +24,7 @@ return false;
 <div>
 	<form method="post" action="{$smarty.const.THEMES_PKG_URL}edit_css.php">
 	<div style="padding:4px;border-bottom:1px solid #c3b3a3;">
-		<textarea name="textData" rows="42" cols="80" wrap="virtual" style="padding:7px;padding-right:0;">{$data|escape}</textarea>
+		<textarea name="textData" rows="42" cols="50" wrap="virtual" style="padding:7px;padding-right:0;">{$data|escape}</textarea>
 	</div>
 	<div style="">
 		<span>  
