@@ -33,7 +33,7 @@ function fnPropertyChanged() {
 		var el = window.event.srcElement;
 		if (!el.src.match(/x\.gif$/i)) {
 			el.filters.item(0).src = el.src;
-			el.src = tikiRootUrl+"themes/js/x.gif";
+			el.src = bitRootUrl+"themes/js/x.gif";
 		}
 	}
 }
@@ -57,5 +57,5 @@ function fnFixPng(img) {
 	img.style.height = img.height + "px";
 	img.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + src + "', sizingMethod='scale')"
 	//img.src = "x.gif";
-	img.src = tikiRootUrl+"themes/js/x.gif";
+	img.src = bitRootUrl+"themes/js/x.gif";
 }

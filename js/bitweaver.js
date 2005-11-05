@@ -1,11 +1,11 @@
-// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.1.2.1 2005/11/05 21:31:42 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.1.2.2 2005/11/05 22:33:51 squareing Exp $
 
 //
 // Set client offset (in minutes) to a cookie to avoid server-side DST issues
 // Added 7/25/03 by Jeremy Jongsma (jjongsma@tickchat.com)
 //
-//alert( tikiCookiePath );
-//alert( tikiCookieDomain );
+//alert( bitCookiePath );
+//alert( bitCookieDomain );
 var expires = new Date();
 var offset = -(expires.getTimezoneOffset() * 60);
 expires.setFullYear(expires.getFullYear() + 1);
@@ -180,9 +180,9 @@ function setfoldericonstate(foo) {
 
 	cookie_value = getCookie(foo);
 	if (cookie_value == "o") {
-		pic.src = tikiIconDir + "expanded.gif";
+		pic.src = bitIconDir + "expanded.gif";
 	} else if (cookie_value == "c") {
-		pic.src = tikiIconDir + "collapsed.gif";
+		pic.src = bitIconDir + "collapsed.gif";
 	} else {
 		return;
 	}
@@ -213,8 +213,8 @@ function icntoggle(foo) {
 // * an argument defaults when it is assigned null as a placeholder
 // * a null placeholder is not required for trailing omitted arguments
 function setCookie(name, value, expire, path, domain, secure) {
-	var cookie_path = tikiCookiePath;
-	var cookie_domain = escape(tikiCookieDomain);
+	var cookie_path = bitCookiePath;
+	var cookie_domain = escape(bitCookieDomain);
 	var curCookie = name + "=" + escape(value)
 		+ ((expire) ? "; expires=" + expire.toGMTString() : "; expires=" + expires.toGMTString())
 		+ ((path) ? "; path=" + path : cookie_path)
@@ -252,8 +252,8 @@ function getCookie(name) {
 // [domain] - domain of the cookie (must be same as domain used to create cookie)
 // * path and domain default if assigned null or omitted if no explicit argument proceeds
 function deleteCookie(name, path, domain) {
-	var cookie_path = tikiCookiePath;
-	var cookie_domain = escape(tikiCookieDomain);
+	var cookie_path = bitCookiePath;
+	var cookie_domain = escape(bitCookieDomain);
 	if (getCookie(name)) {
 		document.cookie = name + "="
 			+ ((path) ? "; path=" + path : cookie_path) + ((domain) ? "; domain=" + domain : cookie_domain) + "; expires=Thu, 01-Jan-70 00:00:01 GMT";

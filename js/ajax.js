@@ -19,7 +19,7 @@ function createXMLHttpRequest() {
 var req = createXMLHttpRequest();
 function sendRequest(id,params) {
 	if(req) {
-		document.getElementById(id).innerHTML = '<span class="warning"><img src="'+tikiIconDir+'busy.gif" alt="Loading" title="Loading" style="vertical-align:middle;" /> '+document.getElementById(id).innerHTML+'</span>';
+		document.getElementById(id).innerHTML = '<img src="'+bitIconDir+'busy.gif" alt="Loading" title="Loading" style="vertical-align:middle; position:absolute;" /> '+document.getElementById(id).innerHTML;
 	} else {
 		document.getElementById(id).innerHTML = 'Your browser cannot display the content. Please upgrade your browser to a more recent version.';
 	}
@@ -28,7 +28,7 @@ function sendRequest(id,params) {
 	} else { 
 		var params = '';
 	}
-	req.open('get', tikiRootUrl+'themes/ajax.php?ajaxid='+id+params);
+	req.open('get', bitRootUrl+'themes/ajax.php?ajaxid='+id+params);
 	req.onreadystatechange = handleResponse;
 	req.send(null);
 }
