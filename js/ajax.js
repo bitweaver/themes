@@ -18,7 +18,9 @@ function createXMLHttpRequest() {
 }
 var req = createXMLHttpRequest();
 function sendRequest(id,params) {
-	if(!req) {
+	if(req) {
+		document.getElementById(id).innerHTML = '<span class="warning"><img src="'+tikiIconDir+'busy.gif" alt="Loading" title="Loading" style="vertical-align:middle;" /> '+document.getElementById(id).innerHTML+'</span>';
+	} else {
 		document.getElementById(id).innerHTML = 'Your browser cannot display the content. Please upgrade your browser to a more recent version.';
 	}
 	if(params) {
