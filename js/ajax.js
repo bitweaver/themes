@@ -18,7 +18,14 @@ function createXMLHttpRequest() {
 }
 var req = createXMLHttpRequest();
 function sendRequest(id,params) {
-	if(params) params = '&'+params; else var params = '';
+	if(!req) {
+		document.getElementById(id).innerHTML = 'Your browser cannot display the content. Please upgrade your browser to a more recent version.';
+	}
+	if(params) {
+		params = '&'+params;
+	} else { 
+		var params = '';
+	}
 	req.open('get', tikiRootUrl+'themes/ajax.php?ajaxid='+id+params);
 	req.onreadystatechange = handleResponse;
 	req.send(null);
