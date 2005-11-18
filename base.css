@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.23 2005/10/29 11:56:43 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.24 2005/11/18 20:56:19 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -100,6 +100,9 @@ ul.tree					{margin:0;padding-left:20px;}
 .navigation span		{display:block; width:50%; float:left;}
 .navigation .right		{text-align:right;}
 
+/* multi file upload */
+#fileslist div span	{display:block; width:75%; float:left;}
+
 /* css driven dropdown menus - horizontal */
 .hor			{line-height:18px;}
 #nav,#nav a,#nav li ul {z-index:10000;}
@@ -159,5 +162,5 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat rig
 .fisheyegallery .boxcontent,
 .image .boxcontent			{text-align:center;}
 
-/* multi file upload */
-#fileslist div span	{display:block; width:75%; float:left;}
+/* attachment browser */
+.attbrowser table	{text-align:center;}
