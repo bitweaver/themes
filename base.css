@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.24 2005/11/18 20:56:19 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.25 2005/11/21 17:27:57 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -13,7 +13,7 @@ pre, code			{font-family:monospace; font-size:12px; overflow:auto; text-align:le
 .norecords			{font-weight:bold;}
 .boxtitle			{text-align:center;}
 .boxtitle .icon		{vertical-align:middle;}
-.popup				{background:#fff; width:250px; border:1px solid #000;}
+.popup				{background:#fff; width:250px; border:1px solid #000; line-height:normal;}
 .icon,.icon:hover,
 a.icon,a.icon:hover	{border:0px;}
 .portrait,.avatar	{float:right; padding:0 0 5px 5px;}
@@ -41,7 +41,7 @@ td.actionicon		{text-align:right;}
 small				{color:#999;}
 .panelsubmitrow		{text-align:center;}
 .pagination			{text-align:center;}
-.storage			{float:right; clear:both;}
+.storage			{float:right; clear:both; text-align:center;}
 .clear				{clear:both;}
 
 /*** forms ***/
