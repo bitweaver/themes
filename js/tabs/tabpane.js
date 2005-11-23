@@ -1,12 +1,12 @@
-/*----------------------------------------------------------------------------\
-|							   Tab Pane 1.02								 |
-|-----------------------------------------------------------------------------|
-|						 Created by Erik Arvidsson						   |
-|				  (http://webfx.eae.net/contact.html#erik)				   |
-|					  For WebFX (http://webfx.eae.net/)					  |
-|-----------------------------------------------------------------------------|
-|				  Copyright (c) 1998 - 2003 Erik Arvidsson				   |
-\----------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------\
+|							   Tab Pane 1.02								|
+|---------------------------------------------------------------------------|
+|						 Created by Erik Arvidsson							|
+|				  (http://webfx.eae.net/contact.html#erik)					|
+|					  For WebFX (http://webfx.eae.net/)						|
+|---------------------------------------------------------------------------|
+|				  Copyright (c) 1998 - 2003 Erik Arvidsson					|
+\--------------------------------------------------------------------------*/
 
 // This function is used to define if the browser supports the needed
 // features
@@ -94,7 +94,7 @@ WebFXTabPane.prototype.setSelectedIndex = function ( n ) {
 		this.pages[ this.selectedIndex ].show();
 
 		if ( this.useCookie )
-			WebFXTabPane.setCookie( "webfxtab_" + this.element.id, n );	// session cookie
+			WebFXTabPane.setCookie( "webfxtab_" + this.element.id, 1 );	// session cookie
 	}
 };
 
