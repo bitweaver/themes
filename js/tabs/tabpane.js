@@ -94,7 +94,7 @@ WebFXTabPane.prototype.setSelectedIndex = function ( n ) {
 		this.pages[ this.selectedIndex ].show();
 
 		if ( this.useCookie )
-			WebFXTabPane.setCookie( "webfxtab_" + this.element.id, 1 );	// session cookie
+			WebFXTabPane.setCookie( "webfxtab_" + this.element.id, n, 1 );	// session cookie
 	}
 };
 
