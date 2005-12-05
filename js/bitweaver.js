@@ -1,4 +1,4 @@
-// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.2 2005/11/22 07:27:57 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.3 2005/12/05 23:54:18 squareing Exp $
 
 //
 // Set client offset (in minutes) to a cookie to avoid server-side DST issues
@@ -217,8 +217,8 @@ function setCookie(name, value, expire, path, domain, secure) {
 	var cookie_domain = escape(bitCookieDomain);
 	var curCookie = name + "=" + escape(value)
 		+ ((expire) ? "; expires=" + expire.toGMTString() : "; expires=" + expires.toGMTString())
-		+ ((path) ? "; path=" + path : cookie_path)
-		+ ((domain) ? "; domain=" + domain : cookie_domain)
+		+ ((path) ? "; path=" + path : "; path=" + cookie_path)
+		+ ((domain) ? "; domain=" + domain : "; domain=" + cookie_domain)
 		+ ((secure) ? "; secure" : "");
 //alert(curCookie);
 	document.cookie = curCookie;
