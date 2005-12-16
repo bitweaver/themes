@@ -1,4 +1,4 @@
-// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.1.2.3 2005/11/23 04:32:57 wolff_borg Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/js/Attic/bitweaver.js,v 1.1.2.4 2005/12/16 04:34:21 wolff_borg Exp $
 
 //
 // Set client offset (in minutes) to a cookie to avoid server-side DST issues
@@ -213,13 +213,14 @@ function icntoggle(foo) {
 // * an argument defaults when it is assigned null as a placeholder
 // * a null placeholder is not required for trailing omitted arguments
 function setCookie(name, value, expire, path, domain, secure) {
-	var cookie_path = bitCookiePath;
-	var cookie_domain = escape(bitCookieDomain);
+	var cookie_path = (path) ? path : bitCookiePath;
+	var cookie_domain = escape((domain) ? domain : bitCookieDomain);
+	var cookie_expire = (expire) ? expire.toGMTString() : expires.toGMTString();
 	var curCookie = name + "=" + escape(value)
-		+ ((expire) ? "; expires=" + expire.toGMTString() : "; expires=" + expires.toGMTString())
-		+ ((path) ? "; path=" + path : "; path=" + cookie_path)
-		+ ((domain) ? "; domain=" + domain : "; domain=" + cookie_domain)
-		+ ((secure) ? "; secure" : "");
+			+ "; path=" +  cookie_path
+			+ "; domain=" + cookie_domain
+			+ "; expires=" + cookie_expire
+			+ ((secure) ? "; secure" : "");
 //alert(curCookie);
 	document.cookie = curCookie;
 }
@@ -252,11 +253,11 @@ function getCookie(name) {
 // [domain] - domain of the cookie (must be same as domain used to create cookie)
 // * path and domain default if assigned null or omitted if no explicit argument proceeds
 function deleteCookie(name, path, domain) {
-	var cookie_path = bitCookiePath;
-	var cookie_domain = escape(bitCookieDomain);
+	var cookie_path = (path) ? path : bitCookiePath;
+	var cookie_domain = escape((domain) ? domain : bitCookieDomain);
 	if (getCookie(name)) {
 		document.cookie = name + "="
-			+ ((path) ? "; path=" + path : cookie_path) + ((domain) ? "; domain=" + domain : cookie_domain) + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
+			+ "; path=" +  cookie_path + "; domain=" + cookie_domain + "; expires=Thu, 01-Jan-70 00:00:01 GMT";
 	}
 }
 
