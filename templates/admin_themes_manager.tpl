@@ -32,7 +32,7 @@
 								<div class="clear"></div>
 							</li>
 						{/foreach}
-					<ul>
+					</ul>
 				{/legend}
 			{/jstab}
 

@@ -73,11 +73,11 @@
 						<td>{$channels[user].created|bit_short_datetime}</td>
 						<td>
 							{section name=ix loop=$channels[user].sections}
-								{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
+								{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirm('{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
 							{/section}
 						</td>
 						<td>
-						   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
+						   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirm('{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
 						   <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}"><img class="icon" alt="{tr}Edit{/tr}" src="{$smarty.const.LIBERTY_PKG_URL}icons/edit.gif" /></a>
 						</td>
 					</tr>
@@ -87,11 +87,11 @@
 						<td>{$channels[user].created|bit_short_datetime}</td>
 						<td>
 							{section name=ix loop=$channels[user].sections}
-								{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
+								{$channels[user].sections[ix]} <a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?removesection={$channels[user].sections[ix]}&amp;rtemplate_id={$channels[user].template_id}" onclick="return confirm('{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete_small" iexplain="remove"}</a> |
 							{/section}
 						</td>
 						<td>
-							<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirmTheLink(this,'{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
+							<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;remove={$channels[user].template_id}" onclick="return confirm('{tr}Are you sure you want to delete this template?{/tr}')" title="{tr}Click here to delete this template{/tr}">{biticon ipackage=liberty iname="delete" iexplain="remove"}</a>
 							<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_content_templates.php?offset={$offset}&amp;sort_mode={$sort_mode}&amp;template_id={$channels[user].template_id}">{biticon ipackage=liberty iname="edit" iexplain="edit"}</a>
 						</td>
 					</tr>
