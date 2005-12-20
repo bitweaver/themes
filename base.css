@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.27 2005/12/02 17:37:44 spiderr Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/Attic/base.css,v 1.1.1.1.2.28 2005/12/20 20:31:15 squareing Exp $ */
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -53,7 +53,7 @@ form			{margin:0; padding:0;}
 .formhelp		{cursor:help;}
 .closebutton	{position:absolute; top:1px; right:1px;}
 .submit			{text-align:center; padding-bottom:10px;}
-.minifind		{width:200px;}
+.minifind		{width:400px;}
 .error,
 .errorpage .boxtitle	{color:#f00; font-weight:bold;}
 .warning		{color:#f80;}
