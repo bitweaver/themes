@@ -7,8 +7,6 @@ pre, code			{font-family:monospace; font-size:12px; overflow:auto; text-align:le
 #bitright			{vertical-align:top; width:170px; overflow:hidden;}
 #bitmain			{vertical-align:top;}
 #bitbottom			{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
-.introduction,
-.description		{text-align:justify;}
 .norecords			{font-weight:bold;}
 .boxtitle			{text-align:center;}
 .boxtitle .icon		{vertical-align:middle;}
@@ -146,7 +144,6 @@ ul.tree					{margin:0;padding-left:20px;}
 .tabsystem .tabpage	{clear:both;}
 h4	{margin:0; padding:0; font-size:1em;}
 
-/* these settings are still in motion... */
 a.external		{background:transparent url("icons/external_link.png") no-repeat right;  padding-right:1.3em;}
 
 /* should we move these settings to individual packages? */
@@ -154,13 +151,14 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat rig
 .stickies input[type='text']	{background:#ffc;}
 .stickynote .boxtitle			{border-bottom: 1px solid #dda;}
 .stickynote						{background-color:#ffc; width:300px; padding:3px;}
-.phpbb a:hover img {border:none}
-.phpbb img {border:none}
 
-/* fisheye gallery specific stuff */
+.phpbb a:hover img	{border:none}
+.phpbb img			{border:none}
+
+.articles .content div.image	{float:left; padding:0 1em 0 0;}
+
 .fisheyeimage .boxcontent,
 .fisheyegallery .boxcontent,
-.image .boxcontent			{text-align:center;}
+.image .boxcontent	{text-align:center;}
 
-/* attachment browser */
 .attbrowser table	{text-align:center;}
