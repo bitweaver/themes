@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.9 2006/01/08 15:47:37 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.1.2.10 2006/01/10 19:34:29 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -24,19 +24,10 @@
 
 {if $browserInfo.browser eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
-	{if !$quicktags}
-		<!--[if gte IE 5.5000]>
-			<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=fixes/sleight.js"></script>
-		<![endif]-->
-	{/if}
-	<!--[if gte IE 5.0]>
-		<script type="text/javascript">
-			var nexusMenus = new Array(1)
-			nexusMenus[0] = 'nav'
-			{if $hoverfix}
-				{include file=$hoverfix}
-			{/if}
-		</script>
-		<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=fixes/hoverfix.js"></script>
+	<!--[if lt IE 7]>
+	<script type="text/javascript">
+		IE7_PNG_SUFFIX = ".png";
+	</script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=fixes/ie7/ie7-standard-p.js"></script>
 	<![endif]-->
 {/if}
