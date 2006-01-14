@@ -19,7 +19,7 @@
 		<link rel="alternate stylesheet" title="{$alt_name}" type="text/css" href="{$alt_path}" media="screen" />
 	{/foreach}
 
-	<script type="text/javascript" src="{$smarty.const.UTILL_PKG_URL}javascript/bitweaver.js"></script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/bitweaver.js"></script>
 
 	{literal}
 		<script type="text/javascript"><!--
