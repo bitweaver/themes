@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.8 2006/01/10 21:16:47 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.9 2006/01/14 19:55:32 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -14,11 +14,11 @@
 {/foreach}
 
 {if $gBitSystemPrefs.disable_jstabs ne 'y'}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=libs/tabpane.js"></script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/tabpane.js"></script>
 {/if}
 
 {if $gBitSystemPrefs.disable_fat ne 'y'}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=libs/fat.js"></script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
 {/if}
 {/strip}
 
@@ -28,6 +28,6 @@
 	<script type="text/javascript">
 		IE7_PNG_SUFFIX = ".png";
 	</script>
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/jscompressor.php?jsfile=fixes/ie7/ie7-standard-p.js"></script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
 	<![endif]-->
 {/if}
