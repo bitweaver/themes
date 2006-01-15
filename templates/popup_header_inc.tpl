@@ -30,10 +30,15 @@
 		--></script>
 	{/literal}
 
-	<!--[if gte IE 5.5000]>
-		<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/pngfix.js"></script>
-	<![endif]-->
-
+	{if $browserInfo.browser eq 'ie'}
+		<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
+		<!--[if lt IE 7]>
+		<script type="text/javascript">
+			IE7_PNG_SUFFIX = ".png";
+		</script>
+		<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
+		<![endif]-->
+	{/if}
 </head>
 <body>
 	<div id="attbrowser">
