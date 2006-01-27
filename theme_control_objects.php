@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.2 2005/08/01 18:41:27 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.3 2006/01/27 21:57:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -23,19 +23,8 @@ function correct_array(&$arr, $id, $name) {
 	}
 }
 
-if ($feature_theme_control != 'y') {
-	$gBitSmarty->assign('msg', tra("This feature is disabled").": feature_theme_control");
-
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
-
-if (!$gBitUser->isAdmin()) {
-	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
-
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
+$gBitSystem->verifyFeature( 'feature_theme_control' );
+$gBitSystem->verifyPermission( 'bit_p_admin' );
 
 $styles = $tcontrollib->getStyles();
 $gBitSmarty->assign_by_ref('styles', $styles);

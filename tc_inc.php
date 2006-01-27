@@ -1,11 +1,11 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.3 2005/08/01 18:41:27 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.4 2006/01/27 21:57:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-if ($feature_theme_control == 'y') {
+if ($gBitSystem->isFeatureActive( 'feature_theme_control' )) {
 	// defined: $cat_type and cat_objid
 	// search for theme for $cat_type
 	// then search for theme for md5($cat_type.cat_objid)

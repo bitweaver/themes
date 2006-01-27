@@ -1,12 +1,12 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.2 2005/08/01 18:41:27 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.3 2006/01/27 21:57:01 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
-// $Id: edit_css.php,v 1.2 2005/08/01 18:41:27 squareing Exp $
+// $Id: edit_css.php,v 1.3 2006/01/27 21:57:01 squareing Exp $
 include_once( '../bit_setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
@@ -84,26 +84,8 @@ function ls_a($wh)
 *****
 ***************************************/
 
-// Permission checks
-if (!isset($feature_editcss))
-	$feature_editcss = 'n';
-
-if (!isset($bit_p_create_css))
-	$bit_p_create_css = 'n';
-
-if ($feature_editcss != 'y') {
-	$gBitSmarty->assign('msg', tra("Feature disabled"));
-
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
-
-if (!$gBitUser->hasPermission( 'bit_p_create_css' )) {
-	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
-
-	$gBitSystem->display( 'error.tpl' );
-	die;
-}
+$gBitSystem->verifyFeature( 'feature_editcss' );
+$gBitSystem->verifyPermission( 'bit_p_create_css' );
 
 $customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );	// Path to this user's storage directory
 $customCSSFile = $customCSSPath.'custom.css';	// Path to this user's custom stylesheet
