@@ -31,16 +31,12 @@ if( $processForm ) {
 	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
 		$tcontrollib->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
 	}
-
-	//Clear the template cache in case the theme has changed TODO: Do this ONLY when the theme changes.
-	//TODO: Fix module render order so that this will correctly render the modules on the 1st try too.
-//	$gBitSmarty->clear_all_cache();
-//	$gBitSmarty->clear_compiled_tpl();
 }
 
 // apply the site style
 if( !empty( $_REQUEST["site_style"] ) ) {
 	$gBitSystem->storePreference( 'style', $_REQUEST["site_style"] );
+	$gBitSystem->storePreference( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '' );
 	$gPreviewStyle = $_REQUEST["site_style"];
 	$gBitSystem->mStyle = $_REQUEST["site_style"];
 }
@@ -48,7 +44,8 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 // Get list of available styles
 $styles = $tcontrollib->getStyles();
 $gBitSmarty->assign_by_ref( "styles", $styles );
-$stylesList = $tcontrollib->getStylesList();
+$subDirs = array( 'style_info', 'alternate' );
+$stylesList = $tcontrollib->getStylesList( NULL, NULL, $subDirs );
 $gBitSmarty->assign_by_ref( "stylesList", $stylesList );
 
 // set the options biticon takes

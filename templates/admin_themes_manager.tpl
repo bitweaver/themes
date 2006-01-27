@@ -19,14 +19,22 @@
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style}</a>
 								</h2>
 
-								{if $s.preview}
+								{if $s.style_info.preview}
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">
-										<img class="thumb" src="{$s.preview}" alt="{tr}Theme Preview{/tr}" title="{$s.style}" />
+										<img class="thumb" src="{$s.style_info.preview}" alt="{tr}Theme Preview{/tr}" title="{$s.style}" />
 									</a>
 								{/if}
 
-								{if $s.description}
-									{$s.description}
+								{if $s.style_info.description}
+									{$s.style_info.description}
+									{if $s.alternate}
+										<h3>{tr}Variations of this theme{/tr}</h3>
+										<ul>
+											{foreach from=$s.alternate key=variation item=d}
+												<li><a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}&amp;style_variation={$variation}">{$variation|replace:"_":" "}</a></li>
+											{/foreach}
+										</ul>
+									{/if}
 								{/if}
 
 								<div class="clear"></div>

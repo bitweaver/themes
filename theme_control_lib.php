@@ -202,10 +202,21 @@ deprecated
 		return $ret;
 	}
 
-	function getStylesList( $pDir=NULL, $pNullOption=NULL, $pSubDir = 'style_info' ) {
+	/**
+	* @param $pSubDirs a subdirectory to scan as well - you can pass in multiple dirs using an array
+	*/
+	function getStylesList( $pDir = NULL, $pNullOption = NULL, $pSubDirs = NULL ) {
 		global $gBitSystem;
 
 		$ret = array();
+
+		if( empty( $pSubDirs ) ) {
+			$subDirs[] = array( '' );
+		} elseif( !is_array( $pSubDirs ) ) {
+			$subDirs[] = $pSubDirs;
+		} else {
+			$subDirs = $pSubDirs;
+		}
 
 		if( empty( $pDir ) ) {
 			$pDir = THEMES_PKG_PATH.'styles/';
@@ -215,25 +226,31 @@ deprecated
 			$ret[] = '';
 		}
 
+		// open directories
 		if( is_dir( $pDir ) ) {
 			$h = opendir( $pDir );
+			// cycle through files / dirs
 			while( $file = readdir( $h ) ) {
-				if ( is_dir( $pDir.$file ) && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank') ) {
+				if ( is_dir( $pDir.$file ) && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank' ) ) {
 					$ret[$file]['style'] = $file;
-					if( is_dir( $infoDir = $pDir.$file.'/'.$pSubDir.'/' ) ) {
-						$dh = opendir( $infoDir );
-						while( $f = readdir( $dh ) ) {
-							if( preg_match( "/^preview/", $f ) ) {
-								$ret[$file]['preview'] = THEMES_PKG_URL.'styles/'.$file.'/'.$pSubDir.'/'.$f;
-							}
+					// check if we want to have a look in any subdirs
+					foreach( $subDirs as $dir ) {
+						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' ) ) {
+							$dh = opendir( $infoDir );
+							// cycle through files / dirs
+							while( $f = readdir( $dh ) ) {
+								if ( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' ) ) {
+									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.'styles/'.$file.'/'.$dir.'/'.$f;
 
-							if( $f == 'description.htm' ) {
-								$fh = fopen( $infoDir.$f, "r" );
-								$ret[$file]['description'] = fread( $fh, filesize( $infoDir.$f ) );
-								fclose( $fh );
+									if( preg_match( "/\.htm$/", $f ) ) {
+										$fh = fopen( $infoDir.$f, "r" );
+										$ret[$file][$dir][preg_replace( "/\.htm$/", "", $f )] = fread( $fh, filesize( $infoDir.$f ) );
+										fclose( $fh );
+									}
+								}
 							}
+							closedir( $dh );
 						}
-						closedir( $dh );
 					}
 				}
 			}
