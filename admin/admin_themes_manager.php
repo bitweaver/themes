@@ -31,11 +31,6 @@ if( $processForm ) {
 	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
 		$tcontrollib->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
 	}
-
-	//Clear the template cache in case the theme has changed TODO: Do this ONLY when the theme changes.
-	//TODO: Fix module render order so that this will correctly render the modules on the 1st try too.
-//	$gBitSmarty->clear_all_cache();
-//	$gBitSmarty->clear_compiled_tpl();
 }
 
 // apply the site style
