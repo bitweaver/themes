@@ -4,19 +4,19 @@ global $gBitInstaller;
 
 $tables = array(
 
-'tiki_theme_control_objects' => "
+'stickiescontrol_objects' => "
 	obj_id C(250) PRIMARY,
 	type C(250) NOTNULL,
 	name C(250) NOTNULL,
 	theme C(250) NOTNULL
 ",
 
-'tiki_theme_control_categs' => "
+'stickiescontrol_categs' => "
 	category_id I4 PRIMARY,
 	theme C(250) NOTNULL
 ",
 
-'tiki_theme_control_objects' => "
+'stickiescontrol_objects' => "
 	obj_id C(250) PRIMARY,
 	type C(250) NOTNULL,
 	name C(250) NOTNULL,
