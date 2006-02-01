@@ -28,6 +28,32 @@ $tables = array(
 	section C(160) PRIMARY
 ",
 
+'themes_layouts' => "
+	user_id I4 NOTNULL,
+	module_id I4 NOTNULL,
+	layout C(160) NOTNULL DEFAULT 'home',
+	position C(1) NOTNULL,
+	rows I4,
+	params C(255),
+	ord I4 NOTNULL DEFAULT '1'
+",
+
+'tiki_layouts_modules' => "
+	module_id I4 PRIMARY,
+	availability C(1),
+	title C(255),
+	cache_time I8,
+	rows I4,
+	params C(255),
+	groups X
+",
+
+'tiki_module_map' => "
+	module_id I4 AUTO PRIMARY,
+	module_rsrc C(250) NOTNULL
+",
+
+
 );
 
 global $gBitInstaller;
