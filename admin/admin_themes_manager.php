@@ -1,10 +1,8 @@
 <?php 
 require_once( '../../bit_setup_inc.php' );
-include_once( THEMES_PKG_PATH.'theme_control_lib.php' );
+require_once( KERNEL_PKG_PATH.'simple_form_functions_lib.php' );
 
 $gBitSystem->verifyPermission( 'bit_p_admin' );
-
-require_once( KERNEL_PKG_PATH.'simple_form_functions_lib.php' );
 
 // Handle Update
 $processForm = set_tab();
@@ -29,7 +27,7 @@ if( $processForm ) {
 	}
 
 	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
-		$tcontrollib->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
+		$gBitThemes->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
 	}
 }
 
@@ -42,10 +40,10 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 }
 
 // Get list of available styles
-$styles = $tcontrollib->getStyles();
+$styles = $gBitThemes->getStyles( NULL, TRUE );
 $gBitSmarty->assign_by_ref( "styles", $styles );
 $subDirs = array( 'style_info', 'alternate' );
-$stylesList = $tcontrollib->getStylesList( NULL, NULL, $subDirs );
+$stylesList = $gBitThemes->getStylesList( NULL, NULL, $subDirs );
 $gBitSmarty->assign_by_ref( "stylesList", $stylesList );
 
 // set the options biticon takes

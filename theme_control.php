@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control.php,v 1.3 2006/01/27 21:57:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control.php,v 1.4 2006/02/01 20:38:41 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -9,7 +9,6 @@
 // Initialization
 require_once( '../bit_setup_inc.php' );
 
-include_once( THEMES_PKG_PATH.'theme_control_lib.php' );
 include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 
 $gBitSystem->verifyFeature( 'feature_theme_control' );
@@ -18,13 +17,13 @@ $gBitSystem->verifyPermission( 'bit_p_admin' );
 $categories = $categlib->get_all_categories();
 $gBitSmarty->assign('categories', $categories);
 
-$styles = &$tcontrollib->getStyles();
+$styles = $gBitThemes->getStyles();
 $gBitSmarty->assign_by_ref( 'styles', $styles );
 
 if (isset($_REQUEST['assigcat'])) {
 	if (isset($_REQUEST['category_id'])) {
 		
-		$tcontrollib->tc_assign_category($_REQUEST['category_id'], $_REQUEST['theme']);
+		$gBitThemes->tc_assign_category($_REQUEST['category_id'], $_REQUEST['theme']);
 	} else {
 		$gBitSmarty->assign('msg', tra("Please create a category first"));
 
@@ -37,7 +36,7 @@ if (isset($_REQUEST["delete"])) {
 	if (isset($_REQUEST["categ"])) {
 		
 		foreach (array_keys($_REQUEST["categ"])as $cat) {
-			$tcontrollib->tc_remove_cat($cat);
+			$gBitThemes->tc_remove_cat($cat);
 		}
 	}
 }
@@ -68,7 +67,7 @@ if (isset($_REQUEST["find"])) {
 $gBitSmarty->assign('find', $find);
 
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$channels = $tcontrollib->tc_list_categories($offset, $maxRecords, $sort_mode, $find);
+$channels = $gBitThemes->tc_list_categories($offset, $maxRecords, $sort_mode, $find);
 
 $cant_pages = ceil($channels["cant"] / $maxRecords);
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);

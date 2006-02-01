@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.3 2006/01/27 21:57:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/theme_control_objects.php,v 1.4 2006/02/01 20:38:41 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -9,7 +9,6 @@
 // Initialization
 require_once( '../bit_setup_inc.php' );
 
-include_once( THEMES_PKG_PATH.'theme_control_lib.php' );
 include_once( CATEGORIES_PKG_PATH.'categ_lib.php');
 include_once( FILEGALS_PKG_PATH.'filegal_lib.php' );
 include_once( ARTICLES_PKG_PATH.'art_lib.php' );
@@ -26,7 +25,7 @@ function correct_array(&$arr, $id, $name) {
 $gBitSystem->verifyFeature( 'feature_theme_control' );
 $gBitSystem->verifyPermission( 'bit_p_admin' );
 
-$styles = $tcontrollib->getStyles();
+$styles = $gBitThemes->getStyles();
 $gBitSmarty->assign_by_ref('styles', $styles);
 
 $find_objects = '';
@@ -123,13 +122,13 @@ if (isset($_REQUEST['assign'])) {
 	
 	list($id, $name) = explode('|', $_REQUEST['objdata']);
 
-	$tcontrollib->tc_assign_object($id, $_REQUEST['theme'], $_REQUEST['type'], $name);
+	$gBitThemes->tc_assign_object($id, $_REQUEST['theme'], $_REQUEST['type'], $name);
 }
 
 if (isset($_REQUEST["delete"])) {
 	
 	foreach (array_keys($_REQUEST["obj"])as $obj) {
-		$tcontrollib->tc_remove_object($obj);
+		$gBitThemes->tc_remove_object($obj);
 	}
 }
 
@@ -159,7 +158,7 @@ if (isset($_REQUEST["find"])) {
 $gBitSmarty->assign('find', $find);
 
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$channels = $tcontrollib->tc_list_objects($_REQUEST['type'], $offset, $maxRecords, $sort_mode, $find);
+$channels = $gBitThemes->tc_list_objects($_REQUEST['type'], $offset, $maxRecords, $sort_mode, $find);
 
 $cant_pages = ceil($channels["cant"] / $maxRecords);
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);

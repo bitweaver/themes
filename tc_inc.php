@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.4 2006/01/27 21:57:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/Attic/tc_inc.php,v 1.5 2006/02/01 20:38:41 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -19,14 +19,14 @@ if ($gBitSystem->isFeatureActive( 'feature_theme_control' )) {
 		$tc_theme = '';
 
 		if (count($tc_categs)) {
-			$tc_theme = $tcontrollib->tc_get_theme_by_categ($tc_categs[0]);
+			$tc_theme = $gBitThemes->tc_get_theme_by_categ($tc_categs[0]);
 		}
 	}
 
     // OBJECTS - if object has been particularly set, override SECTION or CATEGORIES $tc_theme
     // if not set, make sure we don't squash whatever $tc_theme may have been
 	if (isset($cat_type) && isset($cat_objid)) {
-		if( $obj_theme = $tcontrollib->tc_get_theme_by_object($cat_type, $cat_objid) ) {
+		if( $obj_theme = $gBitThemes->tc_get_theme_by_object($cat_type, $cat_objid) ) {
 			$tc_theme = $obj_theme;
 		}
 	}

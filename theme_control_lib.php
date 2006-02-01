@@ -1,167 +1,10 @@
 <?php
 
-class ThemeControlLib extends BitBase {
-	function ThemeControlLib() {				
+class BitThemes extends BitBase {
+	function BitThemes() {				
 		BitBase::BitBase();
 	}
 
-	function tc_assign_category($category_id, $theme) {
-		$this->tc_remove_cat($category_id);
-
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?";
-		$this->mDb->query($query,array($category_id),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."themes_control_categs`(`category_id`,`theme`) values(?,?)";
-		$this->mDb->query($query,array($category_id,$theme));
-	}
-/*
-deprecated
-	function tc_assign_section($section, $theme) {
-		$this->tc_remove_section($section);
-
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?";
-		$this->mDb->query($query,array($section),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."themes_control_sections`(`section`,`theme`) values(?,?)";
-		$this->mDb->query($query,array($section,$theme));
-	}
-*/
-	function tc_assign_object($obj_id, $theme, $type, $name) {
-
-		$obj_id = md5($type . $obj_id);
-		$this->tc_remove_object($obj_id);
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_objects` where `obj_id`=?";
-		$this->mDb->query($query,array($obj_id),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."themes_control_objects`(`obj_id`,`theme`,`type`,`name`) values(?,?,?,?)";
-		$this->mDb->query($query,array($obj_id,$theme,$type,$name));
-	}
-
-	function tc_get_theme_by_categ( $pCategory ) {
-		$ret = '';
-		if( !empty( $pCategory['category_id'] ) && is_numeric( $pCategory['category_id'] ) ) {
-			if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?",array($pCategory['category_id']))) {
-				return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?",array($pCategory['category_id']));
-			}
-		}
-		return $ret;
-	}
-/*
-	function tc_get_theme_by_section($section) {
-		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?",array($section))) {
-			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?",array($section));
-		} else {
-			return '';
-		}
-	}
-*/
-	function tc_get_theme_by_object($type, $obj_id) {
-		$obj_id = md5($type . $obj_id);
-
-		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id))) {
-			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id));
-		} else {
-			return '';
-		}
-	}
-
-	function tc_list_categories($offset, $maxRecords, $sort_mode, $find) {
-
-		if ($find) {
-			$findesc = '%' . strtoupper( $find ). '%';
-			$mid = " where (UPPER(`theme`) like ?)";
-			$bindvars=array($findesc);
-		} else {
-			$mid = "";
-			$bindvars=array();
-		}
-
-		$query = "select lc.`category_id`,lc.`name`,`theme` from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` lc where tcc.`category_id`=lc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` lc where tcc.`category_id`=lc.`category_id` $mid";
-		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->mDb->getOne($query_cant,$bindvars);
-		$ret = array();
-
-		while ($res = $result->fetchRow()) {
-			$ret[] = $res;
-		}
-
-		$retval = array();
-		$retval["data"] = $ret;
-		$retval["cant"] = $cant;
-		return $retval;
-	}
-/*
-	function tc_list_sections($offset, $maxRecords, $sort_mode, $find) {
-
-		if ($find) {
-			$findesc = '%' . $find . '%';
-
-			$mid = " where (`theme` like $findesc)";
-			$bindvars=array($findesc);
-		} else {
-			$mid = "";
-			$bindvars=array();
-		}
-
-		$query = "select * from `".BIT_DB_PREFIX."themes_control_sections` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_sections` $mid";
-		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->mDb->getOne($query_cant,$bindvars);
-		$ret = array();
-
-		while ($res = $result->fetchRow()) {
-			$ret[] = $res;
-		}
-
-		$retval = array();
-		$retval["data"] = $ret;
-		$retval["cant"] = $cant;
-		return $retval;
-	}
-*/
-	function tc_list_objects($type, $offset, $maxRecords, $sort_mode, $find) {
-
-		if ($find) {
-			$findesc = '%' . strtoupper( $find ). '%';
-			$mid = " where (UPPER(`theme`) like ?)";
-			$bindvars=array($type, $findesc);
-		} else {
-			$mid = "";
-			$bindvars=array($type);
-		}
-
-		$query = "select * from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? $mid";
-		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
-		$cant = $this->mDb->getOne($query_cant,$bindvars);
-		$ret = array();
-
-		while ($res = $result->fetchRow()) {
-			$ret[] = $res;
-		}
-
-		$retval = array();
-		$retval["data"] = $ret;
-		$retval["cant"] = $cant;
-		return $retval;
-	}
-
-	function tc_remove_cat($cat) {
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?";
-
-		$this->mDb->query($query,array($cat));
-	}
-/*
-	function tc_remove_section($section) {
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?";
-
-		$this->mDb->query($query,array($section));
-	}
-*/
-	function tc_remove_object($obj_id) {
-		$query = "delete from `".BIT_DB_PREFIX."themes_control_objects` where `obj_id`=?";
-
-		$this->mDb->query($query,array($obj_id));
-	}
-	
 	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
 		global $gBitSystem;
 		global $gBitUser;
@@ -274,7 +117,7 @@ deprecated
 		while( false!==( $file_or_folder = readdir( $handle ) ) ) {
 			if( $file_or_folder != "." && $file_or_folder != ".." ) {
 				if( is_dir( $path.'/'.$file_or_folder ) ) {
-					 $this->expunge_dir( $path.'/'.$file_or_folder );	// recursive
+					BitThemes::expunge_dir( $path.'/'.$file_or_folder );
 				} else {
 					unlink( $path.'/'.$file_or_folder );
 				}
@@ -287,7 +130,7 @@ deprecated
 	}
 }
 
-global $tcontrollib;
-$tcontrollib  = new ThemeControlLib();
+//global $tcontrollib;
+//$tcontrollib  = new ThemeControlLib();
 
 ?>

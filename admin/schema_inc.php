@@ -4,18 +4,6 @@ global $gBitInstaller;
 
 $tables = array(
 
-'themes_control_objects' => "
-	obj_id C(250) PRIMARY,
-	type C(250) NOTNULL,
-	name C(250) NOTNULL,
-	theme C(250) NOTNULL
-",
-
-'themes_control_categs' => "
-	category_id I4 PRIMARY,
-	theme C(250) NOTNULL
-",
-
 'themes_content_templates' => "
 	template_id I4 AUTO PRIMARY,
 	content X,
@@ -56,8 +44,6 @@ $tables = array(
 
 );
 
-global $gBitInstaller;
-
 foreach( array_keys( $tables ) AS $tableName ) {
 	$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, $tableName, $tables[$tableName], TRUE );
 }
@@ -78,6 +64,6 @@ $gBitInstaller->registerPackageInfo( THEMES_PKG_NAME, array(
 	'dependencies' => '',
 ) );
 
-$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, '', '', TRUE );
+//$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, '', '', TRUE );
 
 ?>

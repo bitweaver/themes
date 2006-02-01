@@ -22,7 +22,7 @@ array( 'RENAMECOLUMN' => array(
 		'BWR2' => array(
 // de-tikify tables
 array( 'DATADICT' => array(
-	array( 'RENAMETABLE' => array(
+	array( 'DROPTABLE' => array(
 		'tiki_theme_control_categs' => 'themes_control_categs',
 		'tiki_theme_control_objects' => 'themes_control_objects',
 	)),
