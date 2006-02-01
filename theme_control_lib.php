@@ -8,9 +8,9 @@ class ThemeControlLib extends BitBase {
 	function tc_assign_category($category_id, $theme) {
 		$this->tc_remove_cat($category_id);
 
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_categs` where `category_id`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?";
 		$this->mDb->query($query,array($category_id),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."stickiescontrol_categs`(`category_id`,`theme`) values(?,?)";
+		$query = "insert into `".BIT_DB_PREFIX."themes_control_categs`(`category_id`,`theme`) values(?,?)";
 		$this->mDb->query($query,array($category_id,$theme));
 	}
 /*
@@ -18,9 +18,9 @@ deprecated
 	function tc_assign_section($section, $theme) {
 		$this->tc_remove_section($section);
 
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_sections` where `section`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?";
 		$this->mDb->query($query,array($section),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."stickiescontrol_sections`(`section`,`theme`) values(?,?)";
+		$query = "insert into `".BIT_DB_PREFIX."themes_control_sections`(`section`,`theme`) values(?,?)";
 		$this->mDb->query($query,array($section,$theme));
 	}
 */
@@ -28,25 +28,25 @@ deprecated
 
 		$obj_id = md5($type . $obj_id);
 		$this->tc_remove_object($obj_id);
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_objects` where `obj_id`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_objects` where `obj_id`=?";
 		$this->mDb->query($query,array($obj_id),-1,-1);
-		$query = "insert into `".BIT_DB_PREFIX."stickiescontrol_objects`(`obj_id`,`theme`,`type`,`name`) values(?,?,?,?)";
+		$query = "insert into `".BIT_DB_PREFIX."themes_control_objects`(`obj_id`,`theme`,`type`,`name`) values(?,?,?,?)";
 		$this->mDb->query($query,array($obj_id,$theme,$type,$name));
 	}
 
 	function tc_get_theme_by_categ( $pCategory ) {
 		$ret = '';
 		if( !empty( $pCategory['category_id'] ) && is_numeric( $pCategory['category_id'] ) ) {
-			if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."stickiescontrol_categs` where `category_id`=?",array($pCategory['category_id']))) {
-				return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."stickiescontrol_categs` where `category_id`=?",array($pCategory['category_id']));
+			if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?",array($pCategory['category_id']))) {
+				return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?",array($pCategory['category_id']));
 			}
 		}
 		return $ret;
 	}
 /*
 	function tc_get_theme_by_section($section) {
-		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."stickiescontrol_sections` where `section`=?",array($section))) {
-			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."stickiescontrol_sections` where `section`=?",array($section));
+		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?",array($section))) {
+			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?",array($section));
 		} else {
 			return '';
 		}
@@ -55,8 +55,8 @@ deprecated
 	function tc_get_theme_by_object($type, $obj_id) {
 		$obj_id = md5($type . $obj_id);
 
-		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."stickiescontrol_objects` where `type`=? and `obj_id`=?",array($type,$obj_id))) {
-			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."stickiescontrol_objects` where `type`=? and `obj_id`=?",array($type,$obj_id));
+		if ($this->mDb->getOne("select count(*) from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id))) {
+			return $this->mDb->getOne("select `theme` from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? and `obj_id`=?",array($type,$obj_id));
 		} else {
 			return '';
 		}
@@ -73,8 +73,8 @@ deprecated
 			$bindvars=array();
 		}
 
-		$query = "select tc.`category_id`,tc.`name`,`theme` from `".BIT_DB_PREFIX."stickiescontrol_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."stickiescontrol_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid";
+		$query = "select tc.`category_id`,tc.`name`,`theme` from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid";
 		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
@@ -101,8 +101,8 @@ deprecated
 			$bindvars=array();
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."stickiescontrol_sections` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."stickiescontrol_sections` $mid";
+		$query = "select * from `".BIT_DB_PREFIX."themes_control_sections` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_sections` $mid";
 		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
@@ -128,8 +128,8 @@ deprecated
 			$bindvars=array($type);
 		}
 
-		$query = "select * from `".BIT_DB_PREFIX."stickiescontrol_objects` where `type`=? $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."stickiescontrol_objects` where `type`=? $mid";
+		$query = "select * from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_objects` where `type`=? $mid";
 		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
@@ -145,19 +145,19 @@ deprecated
 	}
 
 	function tc_remove_cat($cat) {
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_categs` where `category_id`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_categs` where `category_id`=?";
 
 		$this->mDb->query($query,array($cat));
 	}
 /*
 	function tc_remove_section($section) {
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_sections` where `section`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_sections` where `section`=?";
 
 		$this->mDb->query($query,array($section));
 	}
 */
 	function tc_remove_object($obj_id) {
-		$query = "delete from `".BIT_DB_PREFIX."stickiescontrol_objects` where `obj_id`=?";
+		$query = "delete from `".BIT_DB_PREFIX."themes_control_objects` where `obj_id`=?";
 
 		$this->mDb->query($query,array($obj_id));
 	}
