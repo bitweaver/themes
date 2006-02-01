@@ -73,8 +73,8 @@ deprecated
 			$bindvars=array();
 		}
 
-		$query = "select tc.`category_id`,tc.`name`,`theme` from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
-		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` tc where tcc.`category_id`=tc.`category_id` $mid";
+		$query = "select lc.`category_id`,lc.`name`,`theme` from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` lc where tcc.`category_id`=lc.`category_id` $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_control_categs` tcc,`".BIT_DB_PREFIX."categories` lc where tcc.`category_id`=lc.`category_id` $mid";
 		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
 		$cant = $this->mDb->getOne($query_cant,$bindvars);
 		$ret = array();
