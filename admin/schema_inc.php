@@ -16,13 +16,6 @@ $tables = array(
 	theme C(250) NOTNULL
 ",
 
-'themes_control_objects' => "
-	obj_id C(250) PRIMARY,
-	type C(250) NOTNULL,
-	name C(250) NOTNULL,
-	theme C(250) NOTNULL
-",
-
 );
 
 global $gBitInstaller;
