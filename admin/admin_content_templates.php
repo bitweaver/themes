@@ -1,6 +1,6 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/Attic/admin_content_templates.php,v 1.3 2005/08/07 17:45:04 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/Attic/admin_content_templates.php,v 1.4 2006/02/02 10:32:22 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
@@ -9,7 +9,8 @@
 // Initialization
 require_once( '../../bit_setup_inc.php' );
 
-include_once( THEMES_PKG_PATH.'templates_lib.php' );
+include_once( THEMES_PKG_PATH.'BitTemplates.php' );
+$bitTemplates = new BitTemplates();
 
 if (!$gBitUser->hasPermission( 'bit_p_edit_content_templates' )) {
 	$gBitSmarty->assign('msg', tra("You dont have permission to use this feature"));
@@ -25,27 +26,27 @@ if (!isset($_REQUEST["template_id"])) {
 $gBitSmarty->assign('template_id', $_REQUEST["template_id"]);
 
 if ($_REQUEST["template_id"]) {
-	$info = $templateslib->get_template($_REQUEST["template_id"]);
+	$info = $bitTemplates->get_template($_REQUEST["template_id"]);
 
-	if ($templateslib->template_is_in_section($_REQUEST["template_id"], 'html')) {
+	if ($bitTemplates->template_is_in_section($_REQUEST["template_id"], 'html')) {
 		$info["section_html"] = 'y';
 	} else {
 		$info["section_html"] = 'n';
 	}
 
-	if ($templateslib->template_is_in_section($_REQUEST["template_id"], 'wiki')) {
+	if ($bitTemplates->template_is_in_section($_REQUEST["template_id"], 'wiki')) {
 		$info["section_wiki"] = 'y';
 	} else {
 		$info["section_wiki"] = 'n';
 	}
 
-	if ($templateslib->template_is_in_section($_REQUEST["template_id"], 'newsletters')) {
+	if ($bitTemplates->template_is_in_section($_REQUEST["template_id"], 'newsletters')) {
 		$info["section_newsletters"] = 'y';
 	} else {
 		$info["section_newsletters"] = 'n';
 	}
 
-	if ($templateslib->template_is_in_section($_REQUEST["template_id"], 'cms')) {
+	if ($bitTemplates->template_is_in_section($_REQUEST["template_id"], 'cms')) {
 		$info["section_cms"] = 'y';
 	} else {
 		$info["section_cms"] = 'n';
@@ -65,12 +66,12 @@ $gBitSmarty->assign('info', $info);
 
 if (isset($_REQUEST["remove"])) {
 	
-	$templateslib->remove_template($_REQUEST["remove"]);
+	$bitTemplates->remove_template($_REQUEST["remove"]);
 }
 
 if (isset($_REQUEST["removesection"])) {
 	
-	$templateslib->remove_template_from_section($_REQUEST["rtemplate_id"], $_REQUEST["removesection"]);
+	$bitTemplates->remove_template_from_section($_REQUEST["rtemplate_id"], $_REQUEST["removesection"]);
 }
 
 $gBitSmarty->assign('preview', 'n');
@@ -115,7 +116,7 @@ if (isset($_REQUEST["preview"])) {
 
 if (isset($_REQUEST["save"])) {
 	
-	$tid = $templateslib->replace_template($_REQUEST["template_id"], $_REQUEST["name"], $_REQUEST["content"]);
+	$tid = $bitTemplates->replace_template($_REQUEST["template_id"], $_REQUEST["name"], $_REQUEST["content"]);
 
 	$gBitSmarty->assign("template_id", '0');
 	$info["name"] = '';
@@ -127,27 +128,27 @@ if (isset($_REQUEST["save"])) {
 	$gBitSmarty->assign('info', $info);
 
 	if (isset($_REQUEST["section_html"]) && $_REQUEST["section_html"] == 'on') {
-		$templateslib->add_template_to_section($tid, 'html');
+		$bitTemplates->add_template_to_section($tid, 'html');
 	} else {
-		$templateslib->remove_template_from_section($tid, 'html');
+		$bitTemplates->remove_template_from_section($tid, 'html');
 	}
 
 	if (isset($_REQUEST["section_wiki"]) && $_REQUEST["section_wiki"] == 'on') {
-		$templateslib->add_template_to_section($tid, 'wiki');
+		$bitTemplates->add_template_to_section($tid, 'wiki');
 	} else {
-		$templateslib->remove_template_from_section($tid, 'wiki');
+		$bitTemplates->remove_template_from_section($tid, 'wiki');
 	}
 
 	if (isset($_REQUEST["section_newsletters"]) && $_REQUEST["section_newsletters"] == 'on') {
-		$templateslib->add_template_to_section($tid, 'newsletters');
+		$bitTemplates->add_template_to_section($tid, 'newsletters');
 	} else {
-		$templateslib->remove_template_from_section($tid, 'newsletters');
+		$bitTemplates->remove_template_from_section($tid, 'newsletters');
 	}
 
 	if (isset($_REQUEST["section_cms"]) && $_REQUEST["section_cms"] == 'on') {
-		$templateslib->add_template_to_section($tid, 'cms');
+		$bitTemplates->add_template_to_section($tid, 'cms');
 	} else {
-		$templateslib->remove_template_from_section($tid, 'cms');
+		$bitTemplates->remove_template_from_section($tid, 'cms');
 	}
 }
 
@@ -174,7 +175,7 @@ if (isset($_REQUEST["find"])) {
 $gBitSmarty->assign('find', $find);
 
 $gBitSmarty->assign_by_ref('sort_mode', $sort_mode);
-$channels = $templateslib->list_all_templates($offset, $maxRecords, $sort_mode, $find);
+$channels = $bitTemplates->list_all_templates($offset, $maxRecords, $sort_mode, $find);
 
 $cant_pages = ceil($channels["cant"] / $maxRecords);
 $gBitSmarty->assign_by_ref('cant_pages', $cant_pages);
@@ -195,9 +196,7 @@ if ($offset > 0) {
 
 $gBitSmarty->assign_by_ref('channels', $channels["data"]);
 
-
-
 // Display the template
-$gBitSystem->display( 'bitpackage:themes/admin_content_templates.tpl');
+$gBitSystem->display( 'bitpackage:themes/admin_content_templates.tpl', tra( 'Content Templates' ) );
 
 ?>

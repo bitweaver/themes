@@ -1,8 +1,8 @@
 <?php
 
-class TemplatesLib extends BitBase {
+class BitTemplates extends BitBase {
 	function TemplatesLib() {				
-	BitBase::BitBase();
+		BitBase::BitBase();
 	}
 
 	function list_all_templates($offset, $maxRecords, $sort_mode, $find) {
@@ -86,8 +86,45 @@ class TemplatesLib extends BitBase {
 		$result = $this->mDb->query($query,array((int)$template_id));
 		return true;
 	}
-}
 
-$templateslib = new TemplatesLib();
+	// =========== moved here from wiki/BitPage - xing
+	function list_templates($section, $offset, $maxRecords, $sort_mode, $find) {
+		$bindvars = array($section);
+		if ($find) {
+		$findesc = '%'.strtoupper( $find ).'%';
+		$mid = " and (UPPER(`content`) like ?)";
+		$bindvars[] = $findesc;
+		} else {
+		$mid = "";
+		}
+
+		$query = "select `name` ,`created`,tcts.`template_id` from `".BIT_DB_PREFIX."themes_content_templates` tct, `".BIT_DB_PREFIX."themes_content_templates_sections` tcts ";
+		$query.= " where tcts.`template_id`=tct.`template_id` and tcts.`section`=? $mid order by ".$this->mDb->convert_sortmode($sort_mode);
+		$query_cant = "select count(*) from `".BIT_DB_PREFIX."themes_content_templates` tct, `".BIT_DB_PREFIX."themes_content_templates_sections` tcts ";
+		$query_cant.= "where tcts.`template_id`=tct.`template_id` and tcts.`section`=? $mid";
+		$result = $this->mDb->query($query,$bindvars,$maxRecords,$offset);
+		$cant = $this->mDb->getOne($query_cant,$bindvars);
+		$ret = array();
+
+		while ($res = $result->fetchRow()) {
+		$query2 = "select `section`  from `".BIT_DB_PREFIX."themes_content_templates_sections` where `template_id`=?";
+
+		$result2 = $this->mDb->query($query2,array((int)$res["template_id"]));
+		$sections = array();
+
+		while ($res2 = $result2->fetchRow()) {
+			$sections[] = $res2["section"];
+		}
+
+		$res["sections"] = $sections;
+		$ret[] = $res;
+		}
+
+		$retval = array();
+		$retval["data"] = $ret;
+		$retval["cant"] = $cant;
+		return $retval;
+	}
+}
 
 ?>
