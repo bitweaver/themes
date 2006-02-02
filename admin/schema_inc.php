@@ -4,18 +4,6 @@ global $gBitInstaller;
 
 $tables = array(
 
-'themes_content_templates' => "
-	template_id I4 AUTO PRIMARY,
-	content X,
-	name C(200),
-	created I8
-",
-
-'themes_content_templates_sections' => "
-	template_id I4 PRIMARY,
-	section C(160) PRIMARY
-",
-
 'themes_layouts' => "
 	user_id I4 NOTNULL,
 	module_id I4 NOTNULL,
