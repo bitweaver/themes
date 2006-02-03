@@ -24,6 +24,12 @@ $tables = array(
 	groups X
 ",
 
+'themes_custom_modules' => "
+  name C(200) PRIMARY,
+  title C(40),
+  data X
+",
+
 'themes_module_map' => "
 	module_id I4 AUTO PRIMARY,
 	module_rsrc C(250) NOTNULL

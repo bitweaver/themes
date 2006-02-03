@@ -8,9 +8,9 @@ $upgrades = array(
 	'BWR1' => array(
 // STEP 1
 array( 'DATADICT' => array(
-array( 'RENAMECOLUMN' => array( 
-	'tiki_theme_control_categs' => array( '`categId`' => '`category_id` I4' ),
-	'tiki_theme_control_objects' => array( '`objId`' => '`obj_id` I4' ),
+	array( 'RENAMECOLUMN' => array( 
+		'tiki_theme_control_categs' => array( '`categId`' => '`category_id` I4' ),
+		'tiki_theme_control_objects' => array( '`objId`' => '`obj_id` I4' ),
 	),
 ),
 )),
@@ -25,6 +25,9 @@ array( 'DATADICT' => array(
 	array( 'DROPTABLE' => array(
 		'tiki_theme_control_categs' => 'themes_control_categs',
 		'tiki_theme_control_objects' => 'themes_control_objects',
+	)),
+	array( 'RENAMETABLE' => array(
+		'tiki_user_modules' => 'themes_custom_modules',
 	)),
 )),
 		)
