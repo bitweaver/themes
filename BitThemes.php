@@ -267,14 +267,12 @@ class BitThemes extends BitBase {
 	function storeModulesBatch( $pParamHash ) {
 		if( $this->verifyBatch( $pParamHash ) ) {
 			foreach( $pParamHash['store']['layout'] as $module_id => $storeModule ) {
-				$locId = array( 'name' => 'module_id', 'value' => $module_id );
 				$table = "`".BIT_DB_PREFIX."themes_layouts`";
-				$this->mDb->associateUpdate( $table, $storeModule, $locId );
+				$this->mDb->associateUpdate( $table, $storeModule, array( 'module_id' => $module_id ) );
 			}
 			foreach( $pParamHash['store']['modules'] as $module_id => $storeModule ) {
-				$locId = array( 'name' => 'module_id', 'value' => $module_id );
 				$table = "`".BIT_DB_PREFIX."themes_layouts_modules`";
-				$this->mDb->associateUpdate( $table, $storeModule, $locId );
+				$this->mDb->associateUpdate( $table, $storeModule, array( 'module_id' => $module_id ) );
 			}
 		}
 		return TRUE;
