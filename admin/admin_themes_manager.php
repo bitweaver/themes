@@ -14,7 +14,7 @@ if( $processForm ) {
 	);
 
 	foreach ($pref_simple_values as $svitem) {
-		simple_set_value ($svitem);
+		simple_set_value ($svitem, THEMES_PKG_NAME);
 	}
 
 	$pref_toggles = array(
@@ -23,7 +23,7 @@ if( $processForm ) {
 	);
 
 	foreach ($pref_toggles as $toggle) {
-		simple_set_toggle ($toggle);
+		simple_set_toggle ($toggle, THEMES_PKG_NAME);
 	}
 
 	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
@@ -33,8 +33,8 @@ if( $processForm ) {
 
 // apply the site style
 if( !empty( $_REQUEST["site_style"] ) ) {
-	$gBitSystem->storePreference( 'style', $_REQUEST["site_style"] );
-	$gBitSystem->storePreference( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '' );
+	$gBitSystem->storePreference( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
+	$gBitSystem->storePreference( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
 	$gPreviewStyle = $_REQUEST["site_style"];
 	$gBitSystem->mStyle = $_REQUEST["site_style"];
 }
