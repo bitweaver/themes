@@ -150,7 +150,7 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .stickies textarea,
 .stickies input[type='text']	{background:#ffc;}
 .stickynote .boxtitle			{border-bottom: 1px solid #dda;}
-.stickynote						{background-color:#ffc; width:300px; padding:3px;}
+.stickynote						{background-color:#ffc; width:300px; padding:3px; float:left; margin: 5px;}
 
 .phpbb a:hover img	{border:none}
 .phpbb img			{border:none}
