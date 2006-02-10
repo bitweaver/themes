@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.10 2006/01/25 12:58:43 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.11 2006/02/10 10:36:16 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -20,8 +20,6 @@
 
 {* drag and drop javascript doesn't work with fat loaded - hardcode css for now *}
 {if $loadDragDrop}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/drag/coordinates.js"></script>
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/drag/drag.js"></script>
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/drag/dragdrop.js"></script>
 
 	{literal}
