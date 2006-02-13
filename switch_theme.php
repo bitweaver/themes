@@ -10,9 +10,9 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 	$orig_url = $bit_index;
 }
 
-if (isset($_GET['theme']) && $gBitSystem->getPreference('feature_user_theme') == 'y'){
+if (isset($_GET['theme']) && $gBitSystem->getPreference('users_themes') == 'y'){
 	$new_theme = $_GET['theme'];
-	if(isset($user) && $gBitSystem->getPreference('feature_user_preferences') == 'y' ) {  
+	if(isset($user) && $gBitSystem->getPreference('users_preferences') == 'y' ) {  
 		$gBitUser->storePreference('theme',$new_theme);
 		setcookie('tiki-theme', '', time()-3600*24*30*12, $gBitSystem->getPreference('cookie_path'), $gBitSystem->getPreference('cookie_domain'));
 	} else {

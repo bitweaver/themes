@@ -1,12 +1,12 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.4 2006/02/01 20:38:41 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.5 2006/02/13 10:06:19 squareing Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
-// $Id: edit_css.php,v 1.4 2006/02/01 20:38:41 squareing Exp $
+// $Id: edit_css.php,v 1.5 2006/02/13 10:06:19 squareing Exp $
 include_once( '../bit_setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
@@ -83,7 +83,7 @@ function ls_a($wh)
 *****
 ***************************************/
 
-$gBitSystem->verifyFeature( 'feature_editcss' );
+$gBitSystem->verifyFeature( 'themes_edit_css' );
 $gBitSystem->verifyPermission( 'bit_p_create_css' );
 
 $customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );	// Path to this user's storage directory
