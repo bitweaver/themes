@@ -9,7 +9,7 @@ $tables = array(
 	module_id I4 NOTNULL,
 	layout C(160) NOTNULL DEFAULT 'home',
 	position C(1) NOTNULL,
-	rows I4,
+	`rows` I4,
 	params C(255),
 	ord I4 NOTNULL DEFAULT '1'
 ",
@@ -19,7 +19,7 @@ $tables = array(
 	availability C(1),
 	title C(255),
 	cache_time I8,
-	rows I4,
+	`rows` I4,
 	params C(255),
 	groups X
 ",
