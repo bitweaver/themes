@@ -123,10 +123,10 @@ class BitThemes extends BitBase {
 		if( empty( $pHash['availability'] ) ) $pHash['availability'] = NULL;
 		if( empty( $pHash['params'] ) ) $pHash['params'] = NULL;
 		if( empty( $pHash['title'] ) ) $pHash['title'] = NULL;
-		if( empty( $pHash['rows'] ) ) {
-			$pHash['rows'] = NULL;
+		if( empty( $pHash['module_rows'] ) ) {
+			$pHash['module_rows'] = NULL;
 		} else {
-			$pHash['rows'] = is_numeric($pHash['rows']) ? $pHash['rows'] : 10;
+			$pHash['module_rows'] = is_numeric($pHash['module_rows']) ? $pHash['module_rows'] : 10;
 		}
 		if( empty( $pHash['cache_time'] ) ) {
 			$pHash['cache_time'] = NULL;
@@ -168,15 +168,15 @@ class BitThemes extends BitBase {
 				$pHash['groups'] = NULL;
 			}
 
-			$bindVars = array( $pHash['availability'], $pHash['title'], $pHash['cache_time'], $pHash['rows'],  $pHash['groups'], $pHash['module_id'] );
+			$bindVars = array( $pHash['availability'], $pHash['title'], $pHash['cache_time'], $pHash['module_rows'],  $pHash['groups'], $pHash['module_id'] );
 
 			if ( ($modCount) > 0 ) {
 				$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules`
-					SET `availability`=?, `title`=?, `cache_time`=?, `rows`=?, `groups`=?
+					SET `availability`=?, `title`=?, `cache_time`=?, `module_rows`=?, `groups`=?
 					WHERE `module_id`=?";
 			} else {
 				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts_modules`
-					( `availability`, `title`, `cache_time`, `rows`, `groups`, `module_id` )
+					( `availability`, `title`, `cache_time`, `module_rows`, `groups`, `module_id` )
 					VALUES ( ?, ?, ?, ?, ?, ? )";
 			}
 			$result = $this->mDb->query( $query, $bindVars );
@@ -214,7 +214,7 @@ class BitThemes extends BitBase {
 			foreach( $pParamHash['modules'] as $module_id => $params ) {
 				// all values that makes sense from themes_layouts_modules are here
 				// perhaps we can rewrite verifyModuleParams to work with this thing here.
-				$paramOptions = array( 'rows', 'title', 'params', 'cache_time' );
+				$paramOptions = array( 'module_rows', 'title', 'params', 'cache_time' );
 				foreach( $paramOptions as $option ) {
 					// we need to be able to set things in the db to NULL, if the user wants to nuke some settings
 					if( isset( $params[$option] ) ) {
@@ -603,7 +603,7 @@ class BitThemes extends BitBase {
 
 	function getModuleParameters($mod_rsrc, $user_id = ROOT_USER_ID ) {
 		// First we try to get preferences at the per-user level (e.g. from themes_layouts table)
-		$query = "SELECT tl.`params`, tl.`rows`
+		$query = "SELECT tl.`params`, tl.`module_rows`
 				  FROM `".BIT_DB_PREFIX."themes_layouts` tl, `".BIT_DB_PREFIX."themes_module_map` tmm
 				  WHERE tmm.`module_rsrc` = ? AND tl.`user_id` = ? AND tmm.`module_id` = tl.`module_id`";
 		$row = $this->mDb->getRow($query,array($mod_rsrc, $user_id));
@@ -612,7 +612,7 @@ class BitThemes extends BitBase {
 
 		if( empty( $row['params'] ) ) {
 			// No per-user preferences were stored for this user so we will pull the default parameters
-			$query = "SELECT tlm.`params`, tlm.`rows`
+			$query = "SELECT tlm.`params`, tlm.`module_rows`
 				  FROM `".BIT_DB_PREFIX."themes_layouts_modules` tlm, `".BIT_DB_PREFIX."themes_module_map` tmm
 				  WHERE tmm.`module_rsrc` = ? AND tmm.`module_id` = tlm.`module_id`";
 			$row = $this->mDb->getRow($query,array($mod_rsrc));
@@ -627,7 +627,7 @@ class BitThemes extends BitBase {
 			}
 		}
 
-		$params['rows'] = (!empty($row['rows'] ) ? $row['rows'] : 10);	// interim hack - drewslater
+		$params['module_rows'] = (!empty($row['module_rows'] ) ? $row['module_rows'] : 10);	// interim hack - drewslater
 
 		return $params;
 	}
