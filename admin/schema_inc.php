@@ -8,7 +8,7 @@ $tables = array(
 	user_id I4 NOTNULL,
 	module_id I4 NOTNULL,
 	layout C(160) NOTNULL DEFAULT 'home',
-	position C(1) NOTNULL,
+	layout_position C(1) NOTNULL,
 	module_rows I4,
 	params C(255),
 	ord I4 NOTNULL DEFAULT '1'
