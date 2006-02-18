@@ -162,7 +162,7 @@ class BitThemes extends BitBase {
 				$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
 			}
 
-			$query = "SELECT COUNT(*) AS `count` FROM `".BIT_DB_PREFIX."themes_layouts_modules` WHERE `module_id`=?";
+			$query = 'SELECT COUNT(*) AS "count" FROM `".BIT_DB_PREFIX."themes_layouts_modules` WHERE `module_id`=?';
 			$modCount = $this->mDb->getOne($query,array($pHash['module_id']));
 			if( empty( $pHash['groups'] ) ) {
 				$pHash['groups'] = NULL;
@@ -253,7 +253,7 @@ class BitThemes extends BitBase {
 								// module_id-<id> is the information fed from the drag / drop javascript
 								if( preg_match( "/^module_id-".$module['module_id']."$/", $_module ) ) {
 									$pParamHash['store']['layout'][$module['module_id']]['ord'] = $_pos + 1;
-									$pParamHash['store']['layout'][$module['module_id']]['position'] = substr( $_area, 0, 1 );
+									$pParamHash['store']['layout'][$module['module_id']]['layout_position'] = substr( $_area, 0, 1 );
 								}
 							}
 						}
