@@ -162,7 +162,7 @@ class BitThemes extends BitBase {
 				$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
 			}
 
-			$query = 'SELECT COUNT(*) AS "count" FROM `".BIT_DB_PREFIX."themes_layouts_modules` WHERE `module_id`=?';
+			$query = "SELECT COUNT(*) AS `count` FROM `".BIT_DB_PREFIX."themes_layouts_modules` WHERE `module_id`=?";
 			$modCount = $this->mDb->getOne($query,array($pHash['module_id']));
 			if( empty( $pHash['groups'] ) ) {
 				$pHash['groups'] = NULL;
@@ -293,7 +293,7 @@ class BitThemes extends BitBase {
 			}
 
 			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts`
-				(`user_id`, `module_id`, `position`, `ord`, `params`, `layout`)
+				(`user_id`, `module_id`, `layout_position`, `ord`, `params`, `layout`)
 				VALUES (?,?,?,?,?,?)";
 			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['module_id'], $pHash['pos'], (int)$pHash['ord'], $pHash['params'], $pHash['layout'] ) );
 		}
