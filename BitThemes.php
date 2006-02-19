@@ -162,7 +162,7 @@ class BitThemes extends BitBase {
 				$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
 			}
 
-			$query = "SELECT COUNT(*) AS `count` FROM `".BIT_DB_PREFIX."themes_layouts_modules` WHERE `module_id`=?";
+			$query = 'SELECT COUNT(*) AS "count" FROM `'.BIT_DB_PREFIX.'themes_layouts_modules` WHERE `module_id`=?';
 			$modCount = $this->mDb->getOne($query,array($pHash['module_id']));
 			if( empty( $pHash['groups'] ) ) {
 				$pHash['groups'] = NULL;
