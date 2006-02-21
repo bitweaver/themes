@@ -127,14 +127,8 @@ ul.tree					{margin:0;padding-left:20px;}
 .ver li ul ul	{left:-999em;}
 .ver li a		{width:13em; w\idth:12em; display:block;}
 
-/* ieHover used as suckerfish class for MSIE hover support */
-.hor li:hover ul ul, .hor li:hover ul ul ul, .hor li.ieHover ul ul, .hor li.ieHover ul ul ul,
-.ver li:hover ul ul, .ver li:hover ul ul ul, .ver li.ieHover ul ul, .ver li.ieHover ul ul ul			{left:-999em;}
-.hor li:hover ul, .hor li li:hover ul, .hor li li li:hover ul, .hor li.ieHover ul, .hor li li.ieHover ul, .hor li li li.ieHover ul,
-.ver li:hover ul, .ver li li:hover ul, .ver li li li:hover ul, .ver li.ieHover ul, .ver li li.ieHover ul, .ver li li li.ieHover ul			{left:auto;}
-
-/* Support for MSIE select box hiding part of suckerfish */
-.hor iframe,.ver iframe			{position:absolute; left:0; top:0; z-index:-1; filter:progid:DXImageTransform.Microsoft.Alpha(style=0,opacity=0);}
+.hor li:hover ul ul,.hor li:hover ul ul ul,.ver li:hover ul ul,.ver li:hover ul ul ul	{left:-999em;}
+.hor li:hover ul,.hor li li:hover ul,.hor li li li:hover ul,.ver li:hover ul,.ver li li:hover ul,.ver li li li:hover ul	{left:auto;}
 
 /* tabs */
 .tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
