@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.11 2006/02/10 10:36:16 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.12 2006/02/22 12:54:34 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -61,7 +61,7 @@
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
 {/if}
 
-{if $browserInfo.browser eq 'ie'}
+{if $gBrowserInfo.browser eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
 	<!--[if lt IE 7]>
 	<script type="text/javascript">
