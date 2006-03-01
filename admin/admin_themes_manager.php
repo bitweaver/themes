@@ -33,8 +33,8 @@ if( $processForm ) {
 
 // apply the site style
 if( !empty( $_REQUEST["site_style"] ) ) {
-	$gBitSystem->storePreference( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
-	$gBitSystem->storePreference( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
+	$gBitSystem->storeConfig( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
+	$gBitSystem->storeConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
 	$gPreviewStyle = $_REQUEST["site_style"];
 	$gBitSystem->mStyle = $_REQUEST["site_style"];
 }
