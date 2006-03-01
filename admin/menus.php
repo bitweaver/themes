@@ -9,7 +9,7 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 		if( empty($_REQUEST["menu_$menuPackage"] ) ) {
 			// the package menu is off - store it off
 			$gBitSystem->storePreference( "menu_$menuPackage", 'n', 'themes', THEMES_PKG_NAME );
-		} elseif( $gBitSystem->getPreference( "menu_$menuPackage" ) == 'n' ) {
+		} elseif( $gBitSystem->getConfig( "menu_$menuPackage" ) == 'n' ) {
 			// the package menu was off and now is on. Just delete the pref since on is the assumed state
 			$gBitSystem->storePreference( "menu_$menuPackage", NULL, 'themes', THEMES_PKG_NAME );
 		}

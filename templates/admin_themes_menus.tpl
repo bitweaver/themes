@@ -14,7 +14,7 @@
 
 <ul class="data">
 {foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-<li class="item"><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getPreference("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/>{$menu.title}</li>
+<li class="item"><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getConfig("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/>{$menu.title}</li>
 {/foreach}
 </ul>
 			{/forminput}

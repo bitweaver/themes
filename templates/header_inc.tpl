@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.12 2006/02/22 12:54:34 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.13 2006/03/01 18:35:18 spiderr Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -13,7 +13,7 @@
 	<link rel="alternate stylesheet" title="{$alt_name}" type="text/css" href="{$alt_path}" media="screen" />
 {/foreach}
 
-{if $gBitSystemPrefs.disable_jstabs ne 'y'}
+{if $gBitSystem->getConfig('disable_jstabs') ne 'y'}
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/tabpane.js"></script>
 {/if}
 {/strip}
@@ -57,7 +57,7 @@
 		}
 	//]]></script>
 	{/literal}
-{elseif !$gBitSystemPrefs.disable_fat}
+{elseif !$gBitSystem->getConfig('disable_fat')}
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
 {/if}
 

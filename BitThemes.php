@@ -28,7 +28,7 @@ class BitThemes extends BitBase {
 			closedir( $h );
 		}
 
-		if( $bIncludeCustom && $gBitSystem->getPreference( 'themes_edit_css' ) ) {	
+		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' ) ) {	
 			// Include the users custom css if they have created one
 			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
 			$customCSSFile = $customCSSPath.'custom.css';
