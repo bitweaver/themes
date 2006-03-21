@@ -342,7 +342,7 @@ class BitThemes extends BitBase {
 		// security check
 		if( ($gBitUser->isAdmin() || $securityOK || ( $gBitUser->mUserId==$pUserId )) && is_numeric( $pModuleId ) ) {
 			$this->unassignModule( $pModuleId, $pUserId, $pLayout );
-			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts` (`user_id`, `module_id`, `layout`, `position`, `ord`) VALUES(?,?,?,?,?)";
+			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts` (`user_id`, `module_id`, `layout`, `layout_position`, `ord`) VALUES(?,?,?,?,?)";
 			$result = $this->mDb->query( $query, array( $pUserId, (int)$pModuleId, $pLayout, $pPosition, $pOrder ) );
 		}
 	}
@@ -406,7 +406,7 @@ class BitThemes extends BitBase {
 
 	function modulePosition( $pModuleId, $pUserId, $pLayout, $pPosition ) {
 		if( is_numeric( $pModuleId ) ) {
-			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `position`=? WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `layout_position`=? WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
 			$result = $this->mDb->query( $query, array( $pPosition, $pModuleId, $pUserId, $pLayout ) );
 		}
 	}
