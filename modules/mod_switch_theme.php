@@ -1,4 +1,5 @@
 <?php
+global $gBitThemes;
 $change_theme = $gBitSystem->getConfig('users_themes');
 $gBitSmarty->assign('change_theme', $change_theme);
 $style = $gBitSystem->getStyle();
