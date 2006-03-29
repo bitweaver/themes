@@ -5,7 +5,13 @@
 require_once( '../../bit_setup_inc.php' );
 
 if( !empty( $_REQUEST['update_menus'] ) ) {
-	foreach( array_keys( $gBitSystem->mAppMenu ) as $menuPackage ) {
+	if( !empty( $gBitSystem->mAppMenuDisabled ) ) {
+		$disabled = &$gBitSystem->mAppMenuDisabled;
+	} else {
+		$disabled = array();
+	}
+
+	foreach( array_keys( array_merge( $gBitSystem->mAppMenu ,$disabled ) ) as $menuPackage ) {
 		if( empty($_REQUEST["menu_$menuPackage"] ) ) {
 			// the package menu is off - store it off
 			$gBitSystem->storeConfig( "menu_$menuPackage", 'n', 'themes', THEMES_PKG_NAME );
@@ -14,6 +20,8 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 			$gBitSystem->storeConfig( "menu_$menuPackage", NULL, 'themes', THEMES_PKG_NAME );
 		}
 	}
+	header( "Location: ".THEMES_PKG_URL."admin/menus.php" );
+	die;
 }
 
 $gBitSystem->verifyPermission( 'bit_p_admin' );

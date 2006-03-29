@@ -14,6 +14,10 @@
 				{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
 					<label><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getConfig("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/> {$menu.title|escape}</label><br />
 				{/foreach}
+				<br /><br />
+				{foreach from=$gBitSystem->mAppMenuDisabled key=pkgName item=menu}
+					<label><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getConfig("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/> {$menu.title|escape}</label><br />
+				{/foreach}
 			{/forminput}
 		</div>
 
