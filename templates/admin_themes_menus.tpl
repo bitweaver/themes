@@ -11,11 +11,9 @@
 		<div class="row">
 			{formlabel label="Package Menus" for=""}
 			{forminput}
-				<ul class="data">
-					{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-						<li class="item"><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getConfig("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/>{$menu.title|escape}</li>
-					{/foreach}
-				</ul>
+				{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
+					<label><input type="checkbox" name="menu_{$pkgName}" {if $gBitSystem->getConfig("menu_`$pkgName`",'y')=='y'}checked="checked"{/if}/> {$menu.title|escape}</label><br />
+				{/foreach}
 			{/forminput}
 		</div>
 
