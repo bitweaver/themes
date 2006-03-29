@@ -29,6 +29,15 @@ array( 'DATADICT' => array(
 	array( 'RENAMETABLE' => array(
 		'tiki_user_modules' => 'themes_custom_modules',
 	)),
+	array( 'RENAMECOLUMN' => array(
+		'themes_layouts' => array(
+			'`rows`' => 'module_rows'
+			'`position`' => 'layout_position'
+		),
+		'themes_layouts_modules' => array(
+			'`rows`' => 'module_rows'
+		),
+	)),
 )),
 		)
 	),
