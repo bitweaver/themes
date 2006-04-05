@@ -108,7 +108,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .hor,.hor a,.hor li ul {z-index:1000;}
 .ver,.ver a,.ver li ul {z-index:1000;}
 .hor,.hor ul	{padding:0; margin:0; list-style:none;}
-.hor a			{white-space:nowrap; display:block;}
+.hor a			{display:block;}
 .hor li			{width:auto;}
 .hor li li,
 .hor li ul		{width:13em; display:block; text-align:left;}
