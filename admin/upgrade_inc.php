@@ -31,8 +31,8 @@ array( 'DATADICT' => array(
 	)),
 	array( 'RENAMECOLUMN' => array(
 		'themes_layouts' => array(
-			'`rows`' => 'module_rows'
-			'`position`' => 'layout_position'
+			'`rows`' => 'module_rows',
+			'`position`' => 'layout_position',
 		),
 		'themes_layouts_modules' => array(
 			'`rows`' => 'module_rows'
