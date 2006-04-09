@@ -2,7 +2,7 @@
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
 table.dBug_array	{width:auto; border: 1px solid black; border-spacing:1px;}
-pre,pre *,code,code *	{font-family:monospace !important; text-align:left;}
+pre,pre *,code,code *,.code	{font-family:monospace !important; text-align:left;}
 pre					{overflow:auto; text-align:left;}
 #bitlayouttable		{width:100%; padding:0; margin:0;}
 #bitleft,
