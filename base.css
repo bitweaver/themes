@@ -160,3 +160,5 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .attbrowser table	{text-align:center;}
 
 .meta { float: left; width: 30%; }
+
+.suggest {background-color:white; border:1px solid #ddd;}
