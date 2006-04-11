@@ -162,3 +162,4 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .meta { float: left; width: 30%; }
 
 .suggest {background-color:white; border:1px solid #ddd;}
+.suggest .suggestion { color: black; padding: 2px; }
