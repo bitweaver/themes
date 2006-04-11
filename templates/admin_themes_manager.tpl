@@ -84,24 +84,6 @@
 				{/form}
 			{/jstab}
 
-			{if $gBitSystem->isPackageActive( 'stylist' ) and $gBitUser->hasPermission( 'bit_p_use_stylist' )}
-				{jstab title="Edit Theme"}
-					{form legend="Edit Theme" ipackage="stylist" ifile="index.php"}
-						<div class="row">
-							{formlabel label="Edit theme" for="c_style"}
-							{forminput}
-								{html_options name="c_style" id="c_style" output=$styles values=$styles}
-								{formhelp note="You can edit your theme using the package <a href=\"http://www.bitweaver.org/wiki/index.php?page=StylistPackage\">stylist</a>."}
-							{/forminput}
-						</div>
-
-						<div class="row submit">
-							<input type="submit" name="stylistTabSubmit" value="{tr}Edit{/tr}" />
-						</div>
-					{/form}
-				{/jstab}
-			{/if}
-
 			{jstab title="Delete Theme"}
 				{form legend="Delete Theme"}
 					<div class="row">

@@ -381,7 +381,7 @@ class BitThemes extends BitBase {
 		}
 
 		// security check
-		if( ($gBitUser->isAdmin() || ( $pUserId && $gBitUser->mUserId==$pUserId ) || $gBitUser->object_has_permission( $gBitUser->mUserId, $gQueryUser->mInfo['content_id'], 'bituser', 'bit_p_admin_user') ) && is_numeric( $pModuleId ) ) {
+		if( ($gBitUser->isAdmin() || ( $pUserId && $gBitUser->mUserId==$pUserId ) || $gBitUser->object_has_permission( $gBitUser->mUserId, $gQueryUser->mInfo['content_id'], 'bituser', 'p_users_admin') ) && is_numeric( $pModuleId ) ) {
 			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` where `module_id`=? $userSql $layoutSql";
 			$result = $this->mDb->query( $query, $binds );
 		}
