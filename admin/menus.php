@@ -42,7 +42,7 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 	die;
 }
 
-$gBitSystem->verifyPermission( 'bit_p_admin' );
+$gBitSystem->verifyPermission( 'p_admin' );
 
 $gBitSystem->display( 'bitpackage:themes/admin_themes_menus.tpl', 'Themes Manager' );
 ?>

@@ -2,7 +2,7 @@
 require_once( '../../bit_setup_inc.php' );
 require_once( KERNEL_PKG_PATH.'simple_form_functions_lib.php' );
 
-$gBitSystem->verifyPermission( 'bit_p_admin' );
+$gBitSystem->verifyPermission( 'p_admin' );
 
 // Handle Update
 $processForm = set_tab();
