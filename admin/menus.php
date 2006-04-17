@@ -6,15 +6,15 @@ require_once( '../../bit_setup_inc.php' );
 require_once( KERNEL_PKG_PATH."simple_form_functions_lib.php" );
 
 $formMenuSettings = array(
-	'top_bar' => array(
+	'site_top_bar' => array(
 		'label' => 'Top bar menu',
 		'note' => 'Here you can enable or disable the menubar at the top of the page (available in most themes). Before you disable this bar, please make sure you have some means of navigation set up to access at least the administration page.',
 	),
-	'top_bar_dropdown' => array(
+	'site_top_bar_dropdown' => array(
 		'label' => 'Dropdown menu',
 		'note' => 'Use the CSS driven dropdown menus in the top bar. Compatibility and further reading can be found at <a class="external" href="http://www.htmldog.com/articles/suckerfish/dropdowns/">Suckerfish Dropdowns</a>.',
 	),
-	'hide_my_top_bar_link' => array(
+	'site_hide_my_top_bar_link' => array(
 		'label' => 'Hide "My" Link',
 		'note' => 'Hide the <strong>My &lt;sitename&gt;</strong> link from users that are not logged in.',
 	),

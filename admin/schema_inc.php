@@ -25,9 +25,9 @@ $tables = array(
 ",
 
 'themes_custom_modules' => "
-  name C(200) PRIMARY,
-  title C(40),
-  data X
+	name C(200) PRIMARY,
+	title C(40),
+	data X
 ",
 
 'themes_module_map' => "
@@ -60,13 +60,11 @@ $gBitInstaller->registerPackageInfo( THEMES_PKG_NAME, array(
 
 //$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, '', '', TRUE );
 $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
-	//array(THEMES_PKG_NAME,'bidirectional_text','n' ),
-	array(THEMES_PKG_NAME,'slide_style', DEFAULT_THEME ),
+	array(THEMES_PKG_NAME,'site_slide_style', DEFAULT_THEME ),
 	array(THEMES_PKG_NAME,'style', DEFAULT_THEME ),
-	array(THEMES_PKG_NAME,'top_bar_dropdown','y' ),
-	array(THEMES_PKG_NAME,'bot_bar','y'),
-	array(THEMES_PKG_NAME,'top_bar','y'),
-	array(THEMES_PKG_NAME,'jstabs','y' ),
+	array(THEMES_PKG_NAME,'site_top_bar_dropdown','y' ),
+	array(THEMES_PKG_NAME,'site_bot_bar','y'),
+	array(THEMES_PKG_NAME,'site_top_bar','y'),
 ) );
 
 ?>

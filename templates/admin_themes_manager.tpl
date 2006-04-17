@@ -47,9 +47,9 @@
 			{jstab title="Miscellaneous"}
 				{form legend="Miscellaneous Settings"}
 					<div class="row">
-						{formlabel label="Slideshows theme" for="slide_style"}
+						{formlabel label="Slideshows theme" for="site_slide_style"}
 						{forminput}
-							{html_options name="slide_style" id="slide_style" output=$styles values=$styles selected=$gBitSystem->mPrefs.slide_style}
+							{html_options name="site_slide_style" id="site_slide_style" output=$styles values=$styles selected=$gBitSystem->mPrefs.site_slide_style}
 							{formhelp note="This theme will be used when viewing a wikipage as a slideshow."}
 						{/forminput}
 					</div>
@@ -63,9 +63,9 @@
 					</div>
 
 					<div class="row">
-						{formlabel label="Disable Javascript Tabs" for="disable_jstabs"}
+						{formlabel label="Disable Javascript Tabs" for="site_disable_jstabs"}
 						{forminput}
-							<input type="checkbox" name="disable_jstabs" value='y' id="disable_jstabs"{if $gBitSystem->isFeatureActive( 'disable_jstabs' )} checked="checked"{/if} />
+							<input type="checkbox" name="site_disable_jstabs" value='y' id="site_disable_jstabs"{if $gBitSystem->isFeatureActive( 'site_disable_jstabs' )} checked="checked"{/if} />
 							{formhelp note="If you have difficulties with the javascript tabs, of you don't like them, you can disable them here."}
 						{/forminput}
 					</div>

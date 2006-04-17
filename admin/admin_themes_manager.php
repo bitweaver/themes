@@ -9,8 +9,8 @@ $processForm = set_tab();
 
 if( $processForm ) {
 	$pref_simple_values = array(
-		"slide_style",
-		"biticon_display",
+		"site_slide_style",
+		"site_biticon_display_style",
 	);
 
 	foreach ($pref_simple_values as $svitem) {
@@ -18,8 +18,8 @@ if( $processForm ) {
 	}
 
 	$pref_toggles = array(
-		"disable_jstabs",
-		"disable_fat",
+		"site_disable_jstabs",
+		"site_disable_fat",
 	);
 
 	foreach ($pref_toggles as $toggle) {
