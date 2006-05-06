@@ -53,9 +53,6 @@ $gBitInstaller->registerSchemaIndexes( KERNEL_PKG_NAME, $indices );
 $gBitInstaller->registerPackageInfo( THEMES_PKG_NAME, array(
 	'description' => "The Themes package is an integral part of bitweaver which allows you to control the look and feel of you site.",
 	'license' => '<a href="http://www.gnu.org/licenses/licenses.html#LGPL">LGPL</a>',
-	'version' => '0.1',
-	'state' => 'beta',
-	'dependencies' => '',
 ) );
 
 //$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, '', '', TRUE );
