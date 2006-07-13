@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.15 2006/04/17 16:23:23 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.16 2006/07/13 12:07:13 squareing Exp $ *}
 {strip}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
@@ -61,7 +61,7 @@
 		}
 	//]]></script>
 	{/literal}
-{elseif !$gBitSystem->getConfig('disable_fat')}
+{elseif !$gBitSystem->getConfig('site_disable_fat')}
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
 {/if}
 

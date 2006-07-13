@@ -71,9 +71,9 @@
 					</div>
 
 					<div class="row">
-						{formlabel label="Disable Fading" for="disable_fat"}
+						{formlabel label="Disable Fading" for="site_disable_fat"}
 						{forminput}
-							<input type="checkbox" name="disable_fat" value='y' id="disable_fat"{if $gBitSystem->isFeatureActive( 'disable_fat' )} checked="checked"{/if} />
+							<input type="checkbox" name="site_disable_fat" value='y' id="site_disable_fat"{if $gBitSystem->isFeatureActive( 'site_disable_fat' )} checked="checked"{/if} />
 							{formhelp note="Disable the fading effect used when displaying any success, warning or error messages."}
 						{/forminput}
 					</div>
