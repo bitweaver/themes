@@ -16,7 +16,7 @@
 									{if $style eq $s.style}
 										{biticon ipackage=liberty iname=success iexplain="Current Theme"}&nbsp;
 									{/if}
-									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style}</a>
+									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style|replace:"_":" "}</a>
 								</h2>
 
 								{if $s.style_info.preview}
