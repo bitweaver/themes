@@ -1,6 +1,4 @@
 <?php
-global $gBitSystem, $gBitSmarty;
-
 $registerHash = array(
 	'package_name' => 'themes',
 	'package_path' => dirname( __FILE__ ).'/',
