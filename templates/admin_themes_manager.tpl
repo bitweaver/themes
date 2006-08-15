@@ -49,15 +49,15 @@
 					<div class="row">
 						{formlabel label="Slideshows theme" for="site_slide_style"}
 						{forminput}
-							{html_options name="site_slide_style" id="site_slide_style" output=$styles values=$styles selected=$gBitSystem->mPrefs.site_slide_style}
+							{html_options name="site_slide_style" id="site_slide_style" output=$styles values=$styles selected=$gBitSystem->mConfig.site_slide_style}
 							{formhelp note="This theme will be used when viewing a wikipage as a slideshow."}
 						{/forminput}
 					</div>
 
 					<div class="row">
-						{formlabel label="Display action links as" for="biticon_display"}
+						{formlabel label="Display action links as" for="site_biticon_display_style"}
 						{forminput}
-							{html_options name="biticon_display" id="biticon_display" options=$biticon_display_options selected=$gBitSystem->mPrefs.biticon_display}
+							{html_options name="site_biticon_display_style" id="site_biticon_display_style" options=$biticon_display_options selected=$gBitSystem->mConfig.site_biticon_display_style}
 							{formhelp note="Changing this setting will modify the way all action icons are displayed on your site. Icons in menus are not affected."}
 						{/forminput}
 					</div>
