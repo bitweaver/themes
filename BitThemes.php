@@ -73,7 +73,7 @@ class BitThemes extends BitBase {
 		if( is_dir( $pDir ) ) {
 			$h = opendir( $pDir );
 			// cycle through files / dirs
-			while( $file = readdir( $h ) ) {
+			while( FALSE !== ( $file = readdir( $h ) ) ) {
 				if ( is_dir( $pDir.$file ) && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank' ) ) {
 					$ret[$file]['style'] = $file;
 					// check if we want to have a look in any subdirs
@@ -81,8 +81,8 @@ class BitThemes extends BitBase {
 						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' ) ) {
 							$dh = opendir( $infoDir );
 							// cycle through files / dirs
-							while( $f = readdir( $dh ) ) {
-								if ( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' ) ) {
+							while( FALSE !== ( $f = readdir( $dh ) ) ) {
+								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' ) ) {
 									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.'styles/'.$file.'/'.$dir.'/'.$f;
 
 									if( preg_match( "/\.htm$/", $f ) ) {
@@ -92,6 +92,8 @@ class BitThemes extends BitBase {
 									}
 								}
 							}
+							// sort the returned items
+							@ksort( $ret[$file][$dir] );
 							closedir( $dh );
 						}
 					}
