@@ -1,0 +1,7 @@
+div#wrapper				{float:right;}
+div.blocks3  #wrapper	{width: 70%;}
+div.blocks2e #wrapper	{width:100%;}
+div.blocks2n #wrapper	{width: 70%;}
+div.blocks1  #wrapper	{width:100%;}
+div#navigation			{float:left;width:29.9%}
+div#extra				{clear:both;width:100%}

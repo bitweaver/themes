@@ -1,0 +1,11 @@
+div#container				{width:700px;margin:0 auto}
+div#wrapper					{float:left;width:100%}
+div.blocks3  #content		{margin-left: 300px;}
+div.blocks2e #content		{margin-left: 150px;}
+div.blocks2n #content		{margin-left: 150px;}
+div.blocks1  #content		{margin-left:     0;}
+div#navigation				{float:left;width:150px;}
+div.blocks3  #navigation	{margin-left:-550px;}
+div.blocks2n #navigation	{margin-left:-700px;}
+div#extra					{float:left;width:150px;margin-left:-700px}
+div#footer					{clear:left;width:100%}

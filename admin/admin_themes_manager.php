@@ -31,6 +31,11 @@ if( $processForm ) {
 	}
 }
 
+// apply the style layout
+if( !empty( $_REQUEST["site_style_layout"] ) ) {
+	$gBitSystem->storeConfig( 'site_style_layout', ( ( $_REQUEST["site_style_layout"] != 'remove' ) ? $_REQUEST["site_style_layout"] : NULL ), THEMES_PKG_NAME );
+}
+
 // apply the site style
 if( !empty( $_REQUEST["site_style"] ) ) {
 	$gBitSystem->storeConfig( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
@@ -42,15 +47,19 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 // Get list of available styles
 $styles = $gBitThemes->getStyles( NULL, TRUE );
 $gBitSmarty->assign_by_ref( "styles", $styles );
+
 $subDirs = array( 'style_info', 'alternate' );
 $stylesList = $gBitThemes->getStylesList( NULL, NULL, $subDirs );
 $gBitSmarty->assign_by_ref( "stylesList", $stylesList );
 
+$styleLayouts = $gBitThemes->getStyleLayouts();
+$gBitSmarty->assign_by_ref( "styleLayouts", $styleLayouts );
+
 // set the options biticon takes
-$biticon_display_options = array( 
-	'icon' => tra( 'icon' ), 
-	'text' => tra( 'text' ), 
-	'icon_text' => tra( 'icon and text' ) 
+$biticon_display_options = array(
+	'icon' => tra( 'icon' ),
+	'text' => tra( 'text' ),
+	'icon_text' => tra( 'icon and text' )
 );
 $gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
 

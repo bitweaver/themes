@@ -21,7 +21,7 @@ class BitThemes extends BitBase {
 		if( is_dir( $pDir ) ) {
 			$h = opendir( $pDir );
 			while( $file = readdir( $h ) ) {
-				if ( is_dir( $pDir."$file") && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank') ) {
+				if ( is_dir( $pDir."$file" ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' ) ) {
 					$ret[] = $file;
 				}
 			}
@@ -42,6 +42,31 @@ class BitThemes extends BitBase {
 			sort( $ret );
 		}
 
+		return $ret;
+	}
+
+	function getStyleLayouts() {
+		$ret = array();
+
+		if( is_dir( THEMES_PKG_PATH.'layouts/' ) ) {
+			$h = opendir( THEMES_PKG_PATH.'layouts/' );
+			// collect all layouts
+			while( FALSE !== ( $file = readdir( $h ) ) ) {
+				if ( !preg_match( "/^\./", $file ) ) {
+					$ret[substr( $file, 0, ( strrpos( $file, '.' ) ) )][substr( $file, ( strrpos( $file, '.' ) + 1 ) )] = $file;
+				}
+			}
+			closedir( $h );
+
+			// weed out any files that don't have a css file associated with them
+			foreach( $ret as $key => $layout ) {
+				if( empty( $layout['css'] ) ) {
+					unset( $ret[$key] );
+				}
+			}
+
+			ksort( $ret );
+		}
 		return $ret;
 	}
 
@@ -74,7 +99,7 @@ class BitThemes extends BitBase {
 			$h = opendir( $pDir );
 			// cycle through files / dirs
 			while( FALSE !== ( $file = readdir( $h ) ) ) {
-				if ( is_dir( $pDir.$file ) && ( $file != '.' &&  $file != '..' &&  $file != 'CVS' &&  $file != 'slideshows' &&  $file != 'blank' ) ) {
+				if ( is_dir( $pDir.$file ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' ) ) {
 					$ret[$file]['style'] = $file;
 					// check if we want to have a look in any subdirs
 					foreach( $subDirs as $dir ) {

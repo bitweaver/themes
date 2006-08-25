@@ -1,5 +1,8 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.16 2006/07/13 12:07:13 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.17 2006/08/25 18:28:05 squareing Exp $ *}
 {strip}
+{if $gBitSystem->isFeatureActive( 'site_style_layout' )}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
+{/if}
 {if $gBitSystem->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitSystem->mStyles.styleSheet}" media="all" />
 {/if}

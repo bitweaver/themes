@@ -7,14 +7,14 @@
 
 	<div class="body">
 		{jstabs}
-			{jstab title="Site Theme"}
-				{legend legend="Pick Site Theme"}
+			{jstab title="Site Style"}
+				{legend legend="Pick Site Style"}
 					<ul class="data">
 						{foreach from=$stylesList item=s}
 							<li class="{cycle values='odd,even"} item">
 								<h2>
 									{if $style eq $s.style}
-										{biticon ipackage=liberty iname=success iexplain="Current Theme"}&nbsp;
+										{biticon ipackage=liberty iname=success iexplain="Current Style"}&nbsp;
 									{/if}
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style|replace:"_":" "}</a>
 								</h2>
@@ -27,7 +27,7 @@
 
 								{$s.style_info.description}
 								{if $s.alternate}
-									<h3>{tr}Variations of this theme{/tr}</h3>
+									<h3>{tr}Variations of this style{/tr}</h3>
 									<ul>
 										{foreach from=$s.alternate key=variation item=d}
 											<li><a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}&amp;style_variation={$variation}">{$variation|replace:"_":" "}</a></li>
@@ -42,8 +42,43 @@
 				{/legend}
 			{/jstab}
 
+			{jstab title="Style Layout"}
+				<p class="help">
+					{tr}Here you can pick the layout of the site style. this will basically rearrange the positions of the three columns.
+					<br />Please note that not all styles support this method of layout selection. Themes that support the style layout selection have a note of it in the description.
+					<br />For more information on the layouts and how to tweak them, please visit the <a class="external" href="http://www.bitweaver.org/wiki/ThemeLayouts">ThemeLayouts</a>{/tr}
+				</p>
+
+				{legend legend="Pick Style Layout"}
+					<ul class="data" style="list-style:none; margin:0; padding:0;">
+						<li class="item even" style="list-style:none; float:left; display:inline; padding:5px 0; margin:0 0 10px 10px; width:120px; text-align:center"><a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout=remove">{tr}Don't use any of the style layouts. I want to use my own.{/tr}</a></li>
+						{foreach from=$styleLayouts key=key item=layout}
+						<li class="item {cycle values="odd,even"}" style="list-style:none; float:left; display:inline; margin:0 0 10px 10px; width:120px; text-align:center">
+								<a style="height:150px; display:block;" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
+									{if $layout.gif}<img src="{$smarty.const.THEMES_PKG_URL}layouts/{$layout.gif}" alt="{tr}Layout{/tr}: {$key}" title="{tr}Layout{/tr}: {$key}"/><br />{/if}
+									{if $gBitSystem->getConfig('site_style_layout') == $key}{biticon ipackage=liberty iname=success iexplain="Current Style Layout"}{/if}
+									{$key|replace:"_":" "}
+									{if $layout.txt}<br />{include file="`$smarty.const.THEMES_PKG_PATH`layouts/`$layout.txt`"}{/if}
+								</a>
+							</li>
+						{/foreach}
+					</ul>
+				{/legend}
+
+				<ul class="help">
+					<li style="background:#ace; border-bottom:3px solid #fff;">{tr}Header: Found at the top of a website - contains website title and slogan.{/tr}</li>
+					<li style="background:#eca; border-bottom:3px solid #fff;">{tr}Content: The main content bearing section of a website.{/tr}</li>
+					<li style="background:#aec; border-bottom:3px solid #fff;">{tr}Navigation: Usually found on the left hand side - frequently contains links to important pages.{/tr}</li>
+					<li style="background:#cae; border-bottom:3px solid #fff;">{tr}Extra: Sometimes found on the right hand side - frequently contains adidtional information and links.{/tr}</li>
+					<li style="background:#cea; border-bottom:3px solid #fff;">{tr}Footer: Usually found at the bottom of a website - contains copyright information and 'powered by' link.{/tr}</li>
+					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}px: Indicates that the block is set using a defined pixel width.{/tr}</li>
+					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}%: Indicates that the block is set using a percentage, making it fluid in terms of browser window width.{/tr}</li>
+				</ul>
+			{/jstab}
+
 			{jstab title="Miscellaneous"}
 				{form legend="Miscellaneous Settings"}
+				{*
 					<div class="row">
 						{formlabel label="Slideshows theme" for="site_slide_style"}
 						{forminput}
@@ -51,6 +86,7 @@
 							{formhelp note="This theme will be used when viewing a wikipage as a slideshow."}
 						{/forminput}
 					</div>
+				*}
 
 					<div class="row">
 						{formlabel label="Display action links as" for="site_biticon_display_style"}
@@ -82,7 +118,7 @@
 				{/form}
 			{/jstab}
 
-			{jstab title="Delete Theme"}
+			{*jstab title="Delete Theme"}
 				{form legend="Delete Theme"}
 					<div class="row">
 						{formlabel label="Delete theme" for="fRemoveTheme"}
@@ -96,7 +132,7 @@
 						<input type="submit" name="deleteTabSubmit" value="{tr}Delete{/tr}" onclick="return confirm('Are you sure you want to delete the theme {$styles[ix]|escape}? you will not be able to retrieve them!');" />
 					</div>
 				{/form}
-			{/jstab}
+			{/jstab*}
 		{/jstabs}
 	</div> <!-- end .body -->
 </div>  <!-- end .themes -->

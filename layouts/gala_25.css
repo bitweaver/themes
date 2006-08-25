@@ -1,0 +1,8 @@
+div#wrapper				{float:left;width:100%;margin-left:-33%}
+div.blocks3  #content	{margin-left:33%;}
+div.blocks2e #content	{margin-left:33%;}
+div.blocks2n #content	{margin-left:33%;}
+div.blocks1  #content	{}
+div#navigation			{float:right;width:32.9%}
+div#extra				{float:right;clear:right;width:32.9%}
+div#footer				{clear:both;width:100%}

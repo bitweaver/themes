@@ -1,0 +1,12 @@
+div#wrapper		{float:left;width:100%;margin-left:-25%}
+div.blocks3  #wrapper	{margin-left:-25%;}
+div.blocks2e #wrapper	{margin-left:-25%;}
+div.blocks2n #wrapper	{margin-left:   0;}
+div.blocks1  #wrapper	{margin-left:   0;}
+div.blocks3  #content	{margin: 0 200px 0 25%;}
+div.blocks2e #content	{margin: 0     0 0 25%;}
+div.blocks2n #content	{margin: 0 200px 0   0;}
+div.blocks1  #content	{margin: 0     0 0   0;}
+div#navigation	{float:left;width:200px;margin-left:-200px}
+div#extra		{float:left;width:25%}
+div#footer		{clear:left;width:100%}
