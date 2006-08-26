@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.17 2006/08/25 18:28:05 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.18 2006/08/26 19:12:17 squareing Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -24,6 +24,16 @@
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/tabpane.js"></script>
 {/if}
 {/strip}
+
+{if $loadLayoutGalaCss}
+	{literal}
+	<style type="text/css">
+		ul#layoutgala		{list-style:none; margin:0; padding:0;}
+		ul#layoutgala li	{list-style:none; float:left; display:inline; margin:0 0 10px 10px; width:120px; text-align:center}
+		ul#layoutgala li a	{height:150px; display:block;}
+	</style>
+	{/literal}
+{/if}
 
 {* drag and drop javascript doesn't work with fat loaded - hardcode css for now *}
 {if $loadDragDrop}

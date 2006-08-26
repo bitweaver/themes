@@ -63,5 +63,8 @@ $biticon_display_options = array(
 );
 $gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
 
+// crude method of loading css styling but we can fix this later
+$gBitSmarty->assign( "loadLayoutGalaCss", TRUE );
+
 $gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
 ?>

@@ -50,10 +50,10 @@
 				</p>
 
 				{legend legend="Pick Style Layout"}
-					<ul style="list-style:none; margin:0; padding:0;">
+					<ul id="layoutgala">
 						{foreach from=$styleLayouts key=key item=layout}
-							<li class="{cycle values="even,odd"}" style="list-style:none; float:left; display:inline; margin:0 0 10px 10px; width:120px; text-align:center">
-								<a style="height:150px; display:block;" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
+							<li class="{cycle values="even,odd"}">
+								<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
 									{if $layout.gif}<img src="{$smarty.const.THEMES_PKG_URL}layouts/{$layout.gif}" alt="{tr}Layout{/tr}: {$key}" title="{tr}Layout{/tr}: {$key}"/><br />{/if}
 									{if $gBitSystem->getConfig('site_style_layout') == $key}{biticon ipackage=liberty iname=success iexplain="Current Style Layout"}{/if}
 									{$key|replace:"_":" "}
