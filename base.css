@@ -4,10 +4,6 @@ table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width
 table.dBug_array	{width:auto; border: 1px solid black; border-spacing:1px;}
 pre,pre *,code,code *,.code	{font-family:monospace !important; text-align:left;}
 pre					{overflow:auto; text-align:left;}
-#bitlayouttable		{width:100%; padding:0; margin:0;}
-#bitleft,
-#bitright			{vertical-align:top; width:170px; overflow:hidden;}
-#bitmain			{vertical-align:top;}
 #footer				{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
 .norecords			{font-weight:bold;}
 .boxtitle			{text-align:center;}
