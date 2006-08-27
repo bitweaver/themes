@@ -59,6 +59,7 @@ $gBitInstaller->registerPackageInfo( THEMES_PKG_NAME, array(
 $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 	array(THEMES_PKG_NAME,'site_slide_style', DEFAULT_THEME ),
 	array(THEMES_PKG_NAME,'style', DEFAULT_THEME ),
+	array(THEMES_PKG_NAME,'site_style_layout', 'gala_13' ),
 	array(THEMES_PKG_NAME,'site_top_bar_dropdown','y' ),
 	array(THEMES_PKG_NAME,'site_bot_bar','y'),
 	array(THEMES_PKG_NAME,'site_top_bar','y'),
