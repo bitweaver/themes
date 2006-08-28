@@ -41,11 +41,15 @@ array( 'DATADICT' => array(
 			'`rows`' => '`module_rows` I4'
 		),
 	)),
-))
+)),
+array( 'QUERY' =>
+	array( 'SQL92' => array(
+		"INSERT INTO `".BIT_DB_PREFIX."kernel_config` ( `config_name`, `package`, `config_value` ) VALUES ( 'site_style_layout', '".THEMES_PKG_NAME."', 'gala_13' )"
 		)
 	),
+)),
 
-);
+));
 
 if( isset( $upgrades[$gUpgradeFrom][$gUpgradeTo] ) ) {
 	$gBitSystem->registerUpgrade( THEMES_PKG_NAME, $upgrades[$gUpgradeFrom][$gUpgradeTo] );
