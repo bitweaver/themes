@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.18 2006/08/26 19:12:17 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.19 2006/08/29 21:02:44 wjames5 Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -44,10 +44,12 @@
 		ul.boxy,
 		ul.boxy li			{min-height:2em; list-style-type:none; border:#ccc solid 1px; padding:4px 4px 0 4px; margin:0px; border:#ccc 1px solid;}
 		ul.boxy				{background:#fff; margin:0px;}
-		ul.boxy li			{background:#edf; cursor:move; margin:0 0 4px 0; padding:2px;}
+		ul.boxy li			{cursor:move; margin:0 0 4px 0; padding:2px;}
 		ul.boxy li			{position:absolute; width:250px;}
 		.layout ul.boxy li	{position:relative !important; width:auto !important;}
-		ul#center li		{background:#def;}
+		ul#left li			{background:#bfc;}
+		ul#center li		{background:#fda;}
+		ul#right li			{background:#cbf;}
 	</style>
 
 	<script type="text/javascript">//<![CDATA[
