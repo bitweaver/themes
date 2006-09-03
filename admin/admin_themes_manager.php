@@ -31,6 +31,11 @@ if( $processForm ) {
 	}
 }
 
+// apply the icon theme
+if( !empty( $_REQUEST["site_icon_style"] ) ) {
+	$gBitSystem->storeConfig( 'site_icon_style', $_REQUEST["site_icon_style"], THEMES_PKG_NAME );
+}
+
 // apply the style layout
 if( !empty( $_REQUEST["site_style_layout"] ) ) {
 	$gBitSystem->storeConfig( 'site_style_layout', ( ( $_REQUEST["site_style_layout"] != 'remove' ) ? $_REQUEST["site_style_layout"] : NULL ), THEMES_PKG_NAME );
@@ -51,6 +56,10 @@ $gBitSmarty->assign_by_ref( "styles", $styles );
 $subDirs = array( 'style_info', 'alternate' );
 $stylesList = $gBitThemes->getStylesList( NULL, NULL, $subDirs );
 $gBitSmarty->assign_by_ref( "stylesList", $stylesList );
+
+$subDirs = array( 'style_info' );
+$iconStyles = $gBitThemes->getStylesList( THEMES_PKG_PATH."icon_styles/", NULL, $subDirs );
+$gBitSmarty->assign_by_ref( "iconStyles", $iconStyles );
 
 $styleLayouts = $gBitThemes->getStyleLayouts();
 $gBitSmarty->assign_by_ref( "styleLayouts", $styleLayouts );

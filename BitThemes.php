@@ -108,7 +108,7 @@ class BitThemes extends BitBase {
 							// cycle through files / dirs
 							while( FALSE !== ( $f = readdir( $dh ) ) ) {
 								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' ) ) {
-									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.'styles/'.$file.'/'.$dir.'/'.$f;
+									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.basename( dirname( dirname( $infoDir ) ) ).'/'.$file.'/'.$dir.'/'.$f;
 
 									if( preg_match( "/\.htm$/", $f ) ) {
 										$fh = fopen( $infoDir.$f, "r" );

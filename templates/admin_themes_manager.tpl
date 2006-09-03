@@ -14,7 +14,7 @@
 							<li class="{cycle values='odd,even"} item">
 								<h2>
 									{if $style eq $s.style}
-										{biticon ipackage=liberty iname=success iexplain="Current Style"}&nbsp;
+										{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style"}&nbsp;
 									{/if}
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style|replace:"_":" "}</a>
 								</h2>
@@ -55,7 +55,7 @@
 							<li class="{cycle values="even,odd"}">
 								<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
 									{if $layout.gif}<img src="{$smarty.const.THEMES_PKG_URL}layouts/{$layout.gif}" alt="{tr}Layout{/tr}: {$key}" title="{tr}Layout{/tr}: {$key}"/><br />{/if}
-									{if $gBitSystem->getConfig('site_style_layout') == $key}{biticon ipackage=liberty iname=success iexplain="Current Style Layout"}{/if}
+									{if $gBitSystem->getConfig('site_style_layout') == $key}{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style Layout"}{/if}
 									{$key|replace:"_":" "}
 									{if $layout.txt}<br />{include file="`$smarty.const.THEMES_PKG_PATH`layouts/`$layout.txt`"}{/if}
 								</a>
@@ -73,6 +73,36 @@
 					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}px: Indicates that the block is set using a defined pixel width.{/tr}</li>
 					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}%: Indicates that the block is set using a percentage, making it fluid in terms of browser window width.{/tr}</li>
 				</ul>
+			{/jstab}
+
+			{jstab title="Icon Style"}
+				{legend legend="Pick Icon Style"}
+					<p class="help">
+						Icon themes can be downloaded from <a href="http://art.gnome.org/themes/icon/">Gnome</a> or <a href="http://www.kde-look.org/?xcontentmode=27">KDE</a> as long as they adhere to the <a href="http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html">Icon Naming Specifications</a>. For more information, please visit <a href="http://www.bitweaver.org/wiki/IconStyles">IconStyles</a>.
+					</p>
+
+					<ul class="data">
+						{foreach from=$iconStyles item=s}
+							<li class="{cycle values='odd,even"} item">
+								<h2>
+									{if $gBitSystem->getConfig('site_icon_style') eq $s.style}
+										{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style"}&nbsp;
+									{/if}
+									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_icon_style={$s.style}">{$s.style|replace:"_":" "}</a>
+								</h2>
+
+								{if $s.style_info.preview}
+									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_icon_style={$s.style}">
+										<img class="thumb" src="{$s.style_info.preview}" alt="{tr}Theme Preview{/tr}" title="{$s.style}" />
+									</a>
+								{/if}
+
+								{$s.style_info.description}
+								<div class="clear"></div>
+							</li>
+						{/foreach}
+					</ul>
+				{/legend}
 			{/jstab}
 
 			{jstab title="Miscellaneous"}
