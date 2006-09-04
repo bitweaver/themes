@@ -98,6 +98,9 @@
 								{/if}
 
 								{$s.style_info.description}
+								{if $smarty.const.DEFAULT_ICON_STYLE eq $s.style}
+									<br /><span class="highlight">{tr}This icon style is the default. If an icon is not found in the selected icon theme, the icon from here will be used instead{/tr}</span>
+								{/if}
 								<div class="clear"></div>
 							</li>
 						{/foreach}
