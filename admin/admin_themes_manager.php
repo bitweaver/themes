@@ -64,6 +64,37 @@ $gBitSmarty->assign_by_ref( "iconStyles", $iconStyles );
 $styleLayouts = $gBitThemes->getStyleLayouts();
 $gBitSmarty->assign_by_ref( "styleLayouts", $styleLayouts );
 
+// pick some icons for the preview.
+$sampleIcons = array(
+	'applications-internet',
+	'applications-multimedia',
+	'applications-office',
+	'dialog-cancel',
+	'dialog-error',
+	'dialog-information',
+	'dialog-ok',
+	'dialog-warning',
+	'emblem-default',
+	'emblem-downloads',
+	'emblem-favorite',
+	'emblem-important',
+	'emblem-photos',
+	'emblem-readonly',
+	'emblem-shared',
+	'emblem-unreadable',
+	'go-jump',
+	'go-home',
+	'go-down',
+	'go-next',
+	'go-previous',
+	'go-up',
+	'help-browser',
+	'folder-new',
+	'folder-open',
+	'folder',
+);
+$gBitSmarty->assign( "sampleIcons", $sampleIcons );
+
 // set the options biticon takes
 $biticon_display_options = array(
 	'icon' => tra( 'icon' ),

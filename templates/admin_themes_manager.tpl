@@ -98,6 +98,12 @@
 								{/if}
 
 								{$s.style_info.description}
+
+								<h3>{tr}Sample icons{/tr}</h2>
+								{foreach from=$sampleIcons item=icon}
+									{biticon ipackage=icons istyle=$s.style iname="large/$icon" iexplain=$icon}
+								{/foreach}
+
 								{if $smarty.const.DEFAULT_ICON_STYLE eq $s.style}
 									<br /><span class="highlight">{tr}This icon style is the default. If an icon is not found in the selected icon theme, the icon from here will be used instead{/tr}</span>
 								{/if}
