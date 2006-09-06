@@ -12,7 +12,7 @@
 					<ul class="data">
 						{foreach from=$stylesList item=s}
 							<li class="{cycle values='odd,even"} item">
-								<h2>
+								<h2 {if $style eq $s.style}class="highlight"{/if}>
 									{if $style eq $s.style}
 										{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style"}&nbsp;
 									{/if}
@@ -53,7 +53,7 @@
 					<ul id="layoutgala">
 						{foreach from=$styleLayouts key=key item=layout}
 							<li class="{cycle values="even,odd"}">
-								<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
+								<a {if $gBitSystem->getConfig('site_style_layout') == $key}class="highlight" {/if}href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
 									{if $layout.gif}<img src="{$smarty.const.THEMES_PKG_URL}layouts/{$layout.gif}" alt="{tr}Layout{/tr}: {$key}" title="{tr}Layout{/tr}: {$key}"/><br />{/if}
 									{if $gBitSystem->getConfig('site_style_layout') == $key}{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style Layout"}{/if}
 									{$key|replace:"_":" "}
@@ -84,7 +84,7 @@
 					<ul class="data">
 						{foreach from=$iconStyles item=s}
 							<li class="{cycle values='odd,even"} item">
-								<h2>
+								<h2 {if $style eq $s.style}class="highlight"{/if}>
 									{if $gBitSystem->getConfig('site_icon_style') eq $s.style}
 										{biticon ipackage="icons" iname="dialog-ok" iexplain="Current Style"}&nbsp;
 									{/if}
