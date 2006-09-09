@@ -80,6 +80,9 @@
 					<p class="help">
 						Icon themes can be downloaded from <a class="external" href="http://art.gnome.org/themes/icon/">Gnome</a> or <a class="external" href="http://www.kde-look.org/?xcontentmode=27">KDE</a> as long as they adhere to the <a class="external" href="http://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html">Icon Naming Specifications</a>. For more information, please visit <a class="external" href="http://www.bitweaver.org/wiki/IconStyles">IconStyles</a>.
 					</p>
+					<p class="help">
+						If you are a developer and you want to view a list of available icons, you can do this with the {smartlink ititle="Icon Browser" ifile="admin/icon_browser.php"}.
+					</p>
 
 					<ul class="data">
 						{foreach from=$iconStyles item=s}
