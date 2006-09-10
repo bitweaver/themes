@@ -4,33 +4,6 @@ require_once( KERNEL_PKG_PATH.'simple_form_functions_lib.php' );
 
 $gBitSystem->verifyPermission( 'p_admin' );
 
-// Handle Update
-$processForm = set_tab();
-
-if( $processForm ) {
-	$pref_simple_values = array(
-		"site_slide_style",
-		"site_biticon_display_style",
-	);
-
-	foreach ($pref_simple_values as $svitem) {
-		simple_set_value ($svitem, THEMES_PKG_NAME);
-	}
-
-	$pref_toggles = array(
-		"site_disable_jstabs",
-		"site_disable_fat",
-	);
-
-	foreach ($pref_toggles as $toggle) {
-		simple_set_toggle ($toggle, THEMES_PKG_NAME);
-	}
-
-	if( isset( $_REQUEST['fRemoveTheme'] ) ) {
-		$gBitThemes->expunge_dir( THEMES_PKG_PATH.'styles/'.$_REQUEST['fRemoveTheme'] );
-	}
-}
-
 // apply the icon theme
 if( !empty( $_REQUEST["site_icon_style"] ) ) {
 	$gBitSystem->storeConfig( 'site_icon_style', $_REQUEST["site_icon_style"], THEMES_PKG_NAME );
@@ -80,18 +53,9 @@ $sampleIcons = array(
 	'go-next',
 	'go-up',
 	'help-browser',
-	'folder-open',
 	'folder',
 );
 $gBitSmarty->assign( "sampleIcons", $sampleIcons );
-
-// set the options biticon takes
-$biticon_display_options = array(
-	'icon' => tra( 'icon' ),
-	'text' => tra( 'text' ),
-	'icon_text' => tra( 'icon and text' )
-);
-$gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
 
 // crude method of loading css styling but we can fix this later
 $gBitSmarty->assign( "loadLayoutGalaCss", TRUE );
