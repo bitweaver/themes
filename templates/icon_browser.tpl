@@ -10,6 +10,8 @@
 			Both sizes <em>large</em> and <em>small</em> are displayed side by side.
 			<br />
 			Missing icons haven't been submitted by the tango team yet - they will however be added as they become available.
+			<br />
+			Please view the <a class="external" href="http://tango.freedesktop.org/Tango_Icon_Gallery">Tango icon gallery</a> for the originally designated uses of the icons.
 		</p>
 		{foreach from=$iconHash key=set item=iconSet}
 			<h2>{$set}</h2>
@@ -17,7 +19,7 @@
 				<tr>
 					<th style="width:29%">{tr}Icon name{/tr}</th>
 					<th style="width:1%" colspan="2">{tr}Icons{/tr}</th>
-					<th style="width:70%">{tr}Description{/tr}</th>
+					<th style="width:70%">{tr}bitweaver uses{/tr}</th>
 				</tr>
 
 				{foreach from=$iconSet key=iname item=iexplain}
