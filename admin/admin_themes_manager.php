@@ -11,15 +11,25 @@ if( !empty( $_REQUEST["site_icon_style"] ) ) {
 
 // apply the style layout
 if( !empty( $_REQUEST["site_style_layout"] ) ) {
-	$gBitSystem->storeConfig( 'site_style_layout', ( ( $_REQUEST["site_style_layout"] != 'remove' ) ? $_REQUEST["site_style_layout"] : NULL ), THEMES_PKG_NAME );
+	if( !empty( $_REQUEST['approved'] ) ) {
+		$gBitSystem->storeConfig( 'site_style_layout', ( ( $_REQUEST["site_style_layout"] != 'remove' ) ? $_REQUEST["site_style_layout"] : NULL ), THEMES_PKG_NAME );
+	} else {
+		$gBitSystem->setConfig( 'site_style_layout', ( ( $_REQUEST["site_style_layout"] != 'remove' ) ? $_REQUEST["site_style_layout"] : NULL ), THEMES_PKG_NAME );
+		$gBitSmarty->assign( 'approve', TRUE );
+	}
 }
 
 // apply the site style
 if( !empty( $_REQUEST["site_style"] ) ) {
-	$gBitSystem->storeConfig( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
-	$gBitSystem->storeConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
-	$gPreviewStyle = $_REQUEST["site_style"];
-	$gBitSystem->mStyle = $_REQUEST["site_style"];
+	if( !empty( $_REQUEST['approved'] ) ) {
+		$gBitSystem->storeConfig( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
+		$gBitSystem->storeConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
+		$gBitSystem->mStyle = $gPreviewStyle = $_REQUEST["site_style"];
+	} else {
+		$gPreviewStyle = $_REQUEST["site_style"];
+		$gBitSystem->setConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
+		$gBitSmarty->assign( 'approve', TRUE );
+	}
 }
 
 // Get list of available styles
@@ -58,7 +68,7 @@ $sampleIcons = array(
 $gBitSmarty->assign( "sampleIcons", $sampleIcons );
 
 // crude method of loading css styling but we can fix this later
-$gBitSmarty->assign( "loadLayoutGalaCss", TRUE );
+$gBitSmarty->assign( "loadThemesCss", TRUE );
 
 $gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
 ?>

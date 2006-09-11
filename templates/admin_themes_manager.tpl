@@ -6,6 +6,15 @@
 	</div>
 
 	<div class="body">
+		{if $approve}
+			<div id="themeapprove">
+				<h1>{tr}Confirm Selection{/tr}</h1>
+				<p>{tr}The settings you have chosen has not been applied to the site yet. This allows you to test the styles before applying them to your site. To accept the change, please click on the accept button below{/tr}<p>
+				<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php">{biticon ipackage=icons iname="large/dialog-cancel" iexplain="Cancel"}</a>
+				<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$smarty.request.site_style}&amp;style_variation={$smarty.request.style_variation}&amp;site_style_layout={$smarty.request.site_style_layout}&amp;approved=1">{biticon ipackage=icons iname="large/dialog-ok" iexplain="Accept"}</a>
+			</div>
+		{/if}
+
 		{jstabs}
 			{jstab title="Site Style"}
 				{legend legend="Pick Site Style"}
