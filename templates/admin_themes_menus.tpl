@@ -18,7 +18,7 @@
 	<div class="body">
 
 		{jstabs}
-			{jstab title="Menu Settigns"}
+			{jstab title="Menu Settings"}
 				{form legend="Menu Settings"}
 					{foreach from=$formMenuSettings key=feature item=output}
 						<div class="row">
