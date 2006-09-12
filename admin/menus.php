@@ -30,14 +30,21 @@ if( !empty( $_REQUEST['menu_settings'] ) ) {
 
 if( !empty( $_REQUEST['update_menus'] ) ) {
 	foreach( array_keys( $gBitSystem->mAppMenu ) as $menuPackage ) {
-		if( empty($_REQUEST["menu_$menuPackage"] ) ) {
+		if( empty( $_REQUEST["menu_$menuPackage"] ) ) {
 			// the package menu is off - store it off
-			$gBitSystem->storeConfig( "menu_$menuPackage", 'n', 'themes', THEMES_PKG_NAME );
+			$gBitSystem->storeConfig( "menu_$menuPackage", 'n', THEMES_PKG_NAME );
 		} elseif( $gBitSystem->getConfig( "menu_$menuPackage" ) == 'n' ) {
 			// the package menu was off and now is on. Just delete the pref since on is the assumed state
-			$gBitSystem->storeConfig( "menu_$menuPackage", NULL, 'themes', THEMES_PKG_NAME );
+			$gBitSystem->storeConfig( "menu_$menuPackage", NULL, THEMES_PKG_NAME );
+		}
+
+		if( !empty( $_REQUEST["{$menuPackage}_menu_text"] ) ) {
+			// someone thinks that our default package names aren't good enough! HA!
+			$gBitSystem->storeConfig( "{$menuPackage}_menu_text", $_REQUEST["{$menuPackage}_menu_text"], THEMES_PKG_NAME );
 		}
 	}
+
+	// need to reload page to apply settings
 	header( "Location: ".THEMES_PKG_URL."admin/menus.php" );
 	die;
 }

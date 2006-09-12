@@ -40,8 +40,13 @@
 						{formlabel label="Package Menus" for=""}
 						{forminput}
 							{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-								<label><input type="checkbox" name="menu_{$pkgName}" {if !$menu.disabled}checked="checked"{/if}/> {$menu.title|escape}</label><br />
+								<label>
+									<input type="checkbox" name="menu_{$pkgName}" {if !$menu.is_disabled}checked="checked"{/if}/>
+									<input type="text" name="{$pkgName}_menu_text" value="{$menu.menu_title|escape}"/>
+								</label>
+								<br />
 							{/foreach}
+							{formhelp note="Here you can select what menus to display and what title they should have."}
 						{/forminput}
 					</div>
 
