@@ -5,6 +5,9 @@
 require_once( '../../bit_setup_inc.php' );
 require_once( KERNEL_PKG_PATH."simple_form_functions_lib.php" );
 
+$gBitSmarty->assign( 'loadDragDrop', TRUE );
+$gBitSystem->setOnloadScript('initDragDrop();');
+
 $formMenuSettings = array(
 	'site_top_bar' => array(
 		'label' => 'Top bar menu',

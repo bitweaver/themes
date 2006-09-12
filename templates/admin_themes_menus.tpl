@@ -1,3 +1,13 @@
+{literal}
+<script type="text/javascript">//<![CDATA[
+    function initDragDrop() {
+        var list = $( "menusorter" );
+        DragDrop.makeListContainer( list, "menu_sort" );
+//      list.onDragOver = function() { this.style["background"] = "#feb"; };
+//      list.onDragOut = function() {this.style["background"] = "none"; };
+    };
+//]]></script>
+{/literal}
 {strip}
 
 <div class="admin themes">
@@ -39,13 +49,15 @@
 					<div class="row">
 						{formlabel label="Package Menus" for=""}
 						{forminput}
+							<ul id="menusorter" class="sortable boxy">
 							{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-								<label>
+								<li id="menu-{$pkgName}">
 									<input type="checkbox" name="menu_{$pkgName}" {if !$menu.is_disabled}checked="checked"{/if}/>
 									<input type="text" name="{$pkgName}_menu_text" value="{$menu.menu_title|escape}"/>
-								</label>
 								<br />
+								</li>
 							{/foreach}
+							</ul>
 							{formhelp note="Here you can select what menus to display and what title they should have."}
 						{/forminput}
 					</div>

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.20 2006/09/11 12:53:15 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.21 2006/09/12 22:22:18 spiderr Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -48,7 +48,7 @@
 		ul.boxy li			{min-height:2em; list-style-type:none; border:#ccc solid 1px; padding:4px 4px 0 4px; margin:0px; border:#ccc 1px solid;}
 		ul.boxy				{background:#fff; margin:0px;}
 		ul.boxy li			{cursor:move; margin:0 0 4px 0; padding:2px;}
-		ul.boxy li			{position:absolute; width:250px;}
+		ul.boxy li			{position:relative; width:250px;}
 		.layout ul.boxy li	{position:relative !important; width:auto !important;}
 		ul#left li			{background:#bfc;}
 		ul#center li		{background:#fda;}
