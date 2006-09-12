@@ -48,8 +48,7 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 	}
 
 	// need to reload page to apply settings
-	header( "Location: ".THEMES_PKG_URL."admin/menus.php" );
-	die;
+	bit_redirect( THEMES_PKG_URL."admin/menus.php" );
 }
 
 $gBitSystem->verifyPermission( 'p_admin' );
