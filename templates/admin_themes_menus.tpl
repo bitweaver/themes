@@ -49,11 +49,12 @@
 					<div class="row">
 						{formlabel label="Package Menus" for=""}
 						{forminput}
-							<ul id="menusorter" class="sortable boxy">
+							<ul {*id="menusorter"*} class="sortable boxy" style="width:307px">
 							{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-								<li id="menu-{$pkgName}">
+								<li id="menu-{$pkgName}" style="width:300px">
 									<input type="checkbox" name="menu_{$pkgName}" {if !$menu.is_disabled}checked="checked"{/if}/>
 									<input type="text" name="{$pkgName}_menu_text" value="{$menu.menu_title|escape}"/>
+									{tr}Position{/tr}: <input type="text" name="{$pkgName}_menu_position" size="2" value="{$menu.menu_position|escape}"/>
 								<br />
 								</li>
 							{/foreach}

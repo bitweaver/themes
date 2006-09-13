@@ -45,6 +45,13 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 			// someone thinks that our default package names aren't good enough! HA!
 			$gBitSystem->storeConfig( "{$menuPackage}_menu_text", $_REQUEST["{$menuPackage}_menu_text"], THEMES_PKG_NAME );
 		}
+		
+		if( !empty( $_REQUEST["{$menuPackage}_menu_position"] ) ) {
+			// someone thinks that our default package names aren't good enough! HA!
+			$gBitSystem->storeConfig( "{$menuPackage}_menu_position", $_REQUEST["{$menuPackage}_menu_position"], THEMES_PKG_NAME );
+		} else {
+			$gBitSystem->storeConfig( "{$menuPackage}_menu_position", NULL, THEMES_PKG_NAME );
+		}
 	}
 
 	// need to reload page to apply settings
