@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.22 2006/09/13 10:00:59 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.23 2006/09/14 06:41:01 squareing Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -32,8 +32,8 @@
 		div#themeapprove a	{display:block; float:left; margin:10px; padding:20px 71px; background:#eee; border:1px solid #ccc; vertical-align:middle;}
 		div#themeapprove a:hover	{background-color:#b83;}
 		ul#layoutgala		{list-style:none; margin:0; padding:0;}
-		ul#layoutgala li	{list-style:none; float:left; display:inline; margin:0 0 10px 10px; width:120px; text-align:center}
-		ul#layoutgala li a	{height:160px; display:block; line-height:1.2em;}
+		ul#layoutgala li	{list-style:none; float:left; display:inline; margin:0 0 0.5em 0.5em; width:120px; text-align:center}
+		ul#layoutgala li a	{height:160px; display:block; line-height:1.2em; padding:0.5em 0;}
 	</style>
 	{/literal}
 {/if}
