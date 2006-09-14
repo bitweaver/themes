@@ -6,8 +6,6 @@ pre,pre *,code,code *,.code	{font-family:monospace !important; text-align:left;}
 pre					{overflow:auto; text-align:left;}
 #footer				{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
 .norecords			{font-weight:bold;}
-.boxtitle			{text-align:center;}
-.boxtitle .icon		{vertical-align:middle;}
 .popup				{background:#fff; width:250px; border:1px solid #000; line-height:normal;}
 .icon,.icon:hover,
 a.icon,a.icon:hover	{border:0px;}
@@ -50,7 +48,6 @@ form				{margin:0; padding:0;}
 .submit				{text-align:center; padding-bottom:10px;}
 .minifind			{width:400px;}
 .error,
-.errorpage .boxtitle	{color:#f00; font-weight:bold;}
 .warning			{color:#f80;}
 .success			{color:#090;}
 .display.confirm .body {width:450px; margin:0 auto;}
