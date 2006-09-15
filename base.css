@@ -141,7 +141,7 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 /* should we move these settings to individual packages? */
 .stickies textarea,
 .stickies input[type='text']	{background:#ffc;}
-.stickynote .boxtitle			{border-bottom: 1px solid #dda;}
+.stickynote h3					{border-bottom: 1px solid #dda;}
 .stickynote						{background-color:#ffc; width:300px; padding:3px;float:left;}
 
 .phpbb a:hover img	{border:none}
