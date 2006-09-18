@@ -115,6 +115,8 @@ ul.tree					{margin:0;padding-left:20px;}
 .hor li ul ul	{margin:-20px 0 0 13em;}
 .hor .icon		{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
 .hor li li a	{margin:0 0 0 2em;}
+/* msie dropdown menu */
+.hor table		{margin:-1px; width:auto; border-collapse:collapse; font-size:1em;}
 
 /* css driven dropdown menus - vertical */
 .ver, .ver ul	{padding:0; margin:0; list-style:none; float:left; width:13em;}
