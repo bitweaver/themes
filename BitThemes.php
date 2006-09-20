@@ -267,7 +267,7 @@ class BitThemes extends BitBase {
 
 		global $gBitSystem;
 		// compare $pParamHash['user_id'] with $gBitUser - otherwise a user could simply set user_id in url and screw up someone elses layout.
-		$bitLayout = $gBitSystem->getLayout( ( ( !empty( $pParamHash['user_id'] ) && ( $gBitUser->mUserId == $pParamHash['user_id'] ) ) ? $pParamHash['user_id'] : ROOT_USER_ID ), $_REQUEST['fPackage'], FALSE );
+		$bitLayout = $gBitSystem->getLayout( ( ( !empty( $pParamHash['user_id'] ) && ( $gBitUser->mUserId == $pParamHash['user_id'] ) ) ? $pParamHash['user_id'] : ROOT_USER_ID ), $_REQUEST['module_package'], FALSE );
 
 		// prepare modules positional data for storage
 		if( !empty( $bitLayout ) && !empty( $newLayout ) ) {
@@ -307,15 +307,15 @@ class BitThemes extends BitBase {
 
 	function storeLayout( $pHash ) {
 		if( $this->verifyLayoutParams( $pHash ) ) {
-			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id`=? AND `layout`=? AND `module_id`=?";
-			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['layout'], (int)$pHash['module_id'] ) );
-			//check for valid values
-			// kernel layout (site default) params are stored in themes_layouts_modules
-			if( $pHash['layout'] == 'kernel' ) {
+			if( !isset( $pHash['params'] ) ) {
 				$pHash['params'] = NULL;
 			}
 
-			if( !isset( $pHash['params'] ) ) {
+			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id`=? AND `layout`=? AND `module_id`=? AND `ord`=?";
+			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['layout'], (int)$pHash['module_id'], $pHash['ord'] ) );
+			//check for valid values
+			// kernel layout (site default) params are stored in themes_layouts_modules
+			if( $pHash['layout'] == 'kernel' ) {
 				$pHash['params'] = NULL;
 			}
 
@@ -382,7 +382,7 @@ class BitThemes extends BitBase {
 		}
 	}
 
-	function unassignModule( $pModuleId, $pUserId = NULL, $pLayout = NULL ) {
+	function unassignModule( $pModuleId, $pUserId = NULL, $pLayout = NULL, $pOrder ) {
 		global $gBitUser;
 		global $gQueryUser;
 
@@ -400,14 +400,19 @@ class BitThemes extends BitBase {
 			$userSql = '';
 		}
 
+		$layoutSql = '';
+
 		if ($pLayout) {
-			$layoutSql = " AND `layout` = ? ";
+			$layoutSql .= " AND `layout` = ? ";
 			array_push($binds, $pLayout);
-		} else {
-			$layoutSql = '';
 		}
 
-		// security check
+		if( $pOrder ) {
+			$layoutSql .= " AND `ord` = ? ";
+			array_push($binds, $pOrder);
+		}
+
+	// security check
 		if( ($gBitUser->isAdmin() || ( $pUserId && $gBitUser->mUserId==$pUserId ) || $gBitUser->object_has_permission( $gBitUser->mUserId, $gQueryUser->mInfo['content_id'], 'bituser', 'p_users_admin') ) && is_numeric( $pModuleId ) ) {
 			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` where `module_id`=? $userSql $layoutSql";
 			$result = $this->mDb->query( $query, $binds );
