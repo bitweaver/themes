@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.24 2006/09/21 13:09:25 wjames5 Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.25 2006/09/22 16:47:32 spiderr Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -81,4 +81,15 @@
 	{/literal}
 {elseif !$gBitSystem->getConfig('site_disable_fat')}
 	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
+{/if}
+
+{* this is also required for drop menus to work properly on MSIE. Do not remove until all issues are fully handled. - spiderr *}
+{if $gBrowserInfo.browser eq 'ie'}
+	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
+	<!--[if lt IE 7]>
+	<script type="text/javascript">
+		   IE7_PNG_SUFFIX = ".png";
+	</script>
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
+	<![endif]-->
 {/if}
