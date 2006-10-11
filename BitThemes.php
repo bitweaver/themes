@@ -382,7 +382,7 @@ class BitThemes extends BitBase {
 		}
 	}
 
-	function unassignModule( $pModuleId, $pUserId = NULL, $pLayout = NULL, $pOrder ) {
+	function unassignModule( $pModuleId, $pUserId = NULL, $pLayout = NULL, $pOrder = NULL ) {
 		global $gBitUser;
 		global $gQueryUser;
 
