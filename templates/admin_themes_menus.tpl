@@ -1,43 +1,52 @@
-{*literal}
-<script type="text/javascript">//<![CDATA[
-    function initDragDrop() {
-        var list = $( "menusorter" );
-        DragDrop.makeListContainer( list, "menu_sort" );
-//      list.onDragOver = function() { this.style["background"] = "#feb"; };
-//      list.onDragOut = function() {this.style["background"] = "none"; };
-    };
-//]]></script>
-{/literal*}
 {strip}
-
 <div class="admin themes">
 	<div class="header">
 		<h1> {tr}Active Menus{/tr}</h1>
 	</div>
 
 	<div class="body">
-		{form legend="Menu Settings"}
-			{foreach from=$formMenuSettings key=feature item=output}
+		{form}
+			{legend legend="Menu Settings"}
+				{foreach from=$formMenuSettings key=feature item=output}
+					<div class="row">
+						{formlabel label=`$output.label` for=$feature}
+						{forminput}
+							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
+							{formhelp hash=$output}
+						{/forminput}
+					</div>
+				{/foreach}
+
 				<div class="row">
-					{formlabel label=`$output.label` for=$feature}
+					{formlabel label="Menu Title" for="site_menu_title"}
 					{forminput}
-						{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
-						{formhelp hash=$output}
+						<input size="40" type="text" name="site_menu_title" id="site_menu_title" value="{$gBitSystem->getConfig('site_menu_title')|escape}" />
+						{formhelp note="Override the default home page link name in the top menu bar."}
 					{/forminput}
 				</div>
-			{/foreach}
 
-			<div class="row">
-				{formlabel label="Menu Title" for="site_menu_title"}
-				{forminput}
-					<input size="40" type="text" name="site_menu_title" id="site_menu_title" value="{$gBitSystem->getConfig('site_menu_title')|escape}" />
-					{formhelp note="Override the default home page link name in the top menu bar."}
-				{/forminput}
-			</div>
+				<div class="row submit">
+					<input type="submit" name="menu_settings" value="{tr}Change preferences{/tr}" />
+				</div>
+			{/legend}
 
-			<div class="row submit">
-				<input type="submit" name="menu_settings" value="{tr}Change preferences{/tr}" />
-			</div>
+			{if $gBitSystem->isFeatureActive( 'site_top_bar' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
+				{legend legend="Menu Javascript Settings"}
+					{foreach from=$formMenuJsSettings key=feature item=output}
+						<div class="row">
+							{formlabel label=`$output.label` for=$feature}
+							{forminput}
+								{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
+								{formhelp hash=$output}
+							{/forminput}
+						</div>
+					{/foreach}
+
+					<div class="row submit">
+						<input type="submit" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
+					</div>
+				{/legend}
+			{/if}
 		{/form}
 
 		{if $gBitSystem->isFeatureActive( 'site_top_bar' )}

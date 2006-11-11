@@ -5,8 +5,9 @@
 require_once( '../../bit_setup_inc.php' );
 require_once( KERNEL_PKG_PATH."simple_form_functions_lib.php" );
 
-$gBitSmarty->assign( 'loadDragDrop', TRUE );
-$gBitSystem->setOnloadScript('initDragDrop();');
+//$gBitSmarty->assign( 'loadDragDrop', TRUE );
+//$gBitSystem->setOnloadScript('initDragDrop();');
+$gBitSystem->verifyPermission( 'p_admin' );
 
 $formMenuSettings = array(
 	'site_top_bar' => array(
@@ -24,11 +25,36 @@ $formMenuSettings = array(
 );
 $gBitSmarty->assign( 'formMenuSettings',$formMenuSettings );
 
+$formMenuJsSettings = array(
+	'site_top_bar_js' => array(
+		'label' => 'Enhance Dropdown with Javascript',
+		'note' => 'This small javascript will delay the menu slightly making it easier to navigate. Also you can apply below effects. Please see <a class="external" href="http://www.twinhelix.com">TwinHelix</a> for details.',
+	),
+	'site_top_bar_js_fade' => array(
+		'label' => 'Fade Effect',
+		'note' => 'Fade in menu dropdown elements.',
+	),
+	'site_top_bar_js_swipe' => array(
+		'label' => 'Swipe Effect',
+		'note' => 'Sweep the menu from the top dwon.',
+	),
+	'site_top_bar_js_clip' => array(
+		'label' => 'Clip Effect',
+		'note' => 'Similar to the swipe effect.',
+	),
+);
+
 if( !empty( $_REQUEST['menu_settings'] ) ) {
 	foreach( array_keys( $formMenuSettings ) as $item ) {
 		simple_set_toggle( $item, THEMES_PKG_NAME );
 	}
 	simple_set_value( 'site_menu_title', THEMES_PKG_NAME );
+}
+
+if( !empty( $_REQUEST['menu_js_settings'] ) ) {
+	foreach( array_keys( $formMenuJsSettings ) as $item ) {
+		simple_set_toggle( $item, THEMES_PKG_NAME );
+	}
 }
 
 if( !empty( $_REQUEST['update_menus'] ) ) {
@@ -45,7 +71,7 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 			// someone thinks that our default package names aren't good enough! HA!
 			$gBitSystem->storeConfig( "{$menuPackage}_menu_text", $_REQUEST["{$menuPackage}_menu_text"], THEMES_PKG_NAME );
 		}
-		
+
 		if( !empty( $_REQUEST["{$menuPackage}_menu_position"] ) ) {
 			// someone thinks that our default package names aren't good enough! HA!
 			$gBitSystem->storeConfig( "{$menuPackage}_menu_position", $_REQUEST["{$menuPackage}_menu_position"], THEMES_PKG_NAME );
@@ -58,7 +84,9 @@ if( !empty( $_REQUEST['update_menus'] ) ) {
 	bit_redirect( THEMES_PKG_URL."admin/menus.php" );
 }
 
-$gBitSystem->verifyPermission( 'p_admin' );
+if( $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' ) ) {
+	$gBitSmarty->assign( 'formMenuJsSettings',$formMenuJsSettings );
+}
 
 $gBitSystem->display( 'bitpackage:themes/admin_themes_menus.tpl', 'Themes Manager' );
 ?>
