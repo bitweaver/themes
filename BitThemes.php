@@ -650,7 +650,7 @@ class BitThemes extends BitBase {
 			$row = $this->mDb->getRow($query,array($mod_rsrc));
 		}
 		if( !empty( $row['params'] ) ) {
-			$tok = strtok($paramsStr,';');
+			$tok = strtok($row['params'],';');
 			while ($tok) {
 				$pref = explode('=',$tok);
 					if (count($pref) >= 2)
