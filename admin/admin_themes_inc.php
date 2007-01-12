@@ -1,6 +1,6 @@
 <?php
 $themeSettings = array(
-	'feature_jscalendar' => array(
+	'site_use_jscalendar' => array(
 		'label' => 'Enable JSCalendar',
 		'note' => 'JSCalendar is a javascript calendar popup that allows you to easily select a date using an easy to use and appealing interface.',
 	),
