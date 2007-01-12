@@ -1,7 +1,7 @@
 <?php
 
 class BitThemes extends BitBase {
-	function BitThemes() {				
+	function BitThemes() {
 		BitBase::BitBase();
 	}
 
@@ -132,6 +132,21 @@ class BitThemes extends BitBase {
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * get the icon cache path
+	 * 
+	 * @access public
+	 * @return absolute path on where the system should store it's icons
+	 */
+	function getIconCachePath() {
+		global $gSniffer, $gBitSystem;
+		$cachedir = TEMP_PKG_PATH.'themes/biticon/'.$gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE ).'/';
+		if( !is_dir( $cachedir )) {
+			mkdir_p( $cachedir );
+		}
+		return $cachedir;
 	}
 
 	// =================== MODULES ====================
@@ -419,7 +434,7 @@ class BitThemes extends BitBase {
 		}
 		return true;
 	}
-	
+
 	function moduleUp( $pModuleId, $pUserId, $pLayout ) {
 		if( is_numeric( $pModuleId ) ) {
 			$query = "update `".BIT_DB_PREFIX."themes_layouts` SET `ord`=`ord`-1 WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
@@ -540,9 +555,9 @@ class BitThemes extends BitBase {
 	function getAllModules( $pDir='modules', $pPrefix='mod_' ) {
 		global $gBitSystem;
 		if( $user_modules = $this->listCustomModules() ) {
-	
+
 			$all_modules = array();
-	
+
 			if( $pPrefix == 'mod_' ) {
 				foreach ($user_modules["data"] as $um) {
 					$all_modules[tra( 'Custom Modules' )]['_custom:custom/'.$um["name"]] = $um["name"];
@@ -721,20 +736,24 @@ class BitThemes extends BitBase {
 	* @note caution!
 	*/
 	function expunge_dir( $path ) {
-		$handle = opendir($path);
-		while( false!==( $file_or_folder = readdir( $handle ) ) ) {
-			if( $file_or_folder != "." && $file_or_folder != ".." ) {
-				if( is_dir( $path.'/'.$file_or_folder ) ) {
-					BitThemes::expunge_dir( $path.'/'.$file_or_folder );
-				} else {
-					unlink( $path.'/'.$file_or_folder );
+		$ret = FALSE;
+		if( $handle = opendir( $path )) {
+			while( false!==( $file_or_folder = readdir( $handle ))) {
+				if( $file_or_folder != "." && $file_or_folder != ".." ) {
+					if( is_dir( $path.'/'.$file_or_folder )) {
+						BitThemes::expunge_dir( $path.'/'.$file_or_folder );
+					} else {
+						unlink( $path.'/'.$file_or_folder );
+					}
 				}
 			}
+			closedir( $handle );
+
+			if( rmdir( $path )) {
+				$ret = TRUE;
+			}
 		}
-		closedir( $handle );
-		if( rmdir( $path ) ) {
-			return true;	
-		}
+		return $ret;
 	}
 
 	/* =============== UNUSED FUNCTIONS ================ can be removed soon - xing
