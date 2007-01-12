@@ -28,8 +28,8 @@ if( !empty( $_REQUEST['change_prefs'] ) ) {
 		simple_set_value( $svitem, THEMES_PKG_NAME );
 	}
 
-	foreach( $themeSettings as $toggle ) {
-		simple_set_toggle( key( $toggle ), THEMES_PKG_NAME );
+	foreach( array_keys( $themeSettings ) as $toggle ) {
+		simple_set_toggle( $toggle, THEMES_PKG_NAME );
 	}
 }
 
