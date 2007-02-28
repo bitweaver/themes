@@ -200,7 +200,7 @@ class BitThemes extends BitBase {
 			if( !@BitBase::verifyId( $pHash['module_id'] ) ) {
 				$pHash['module_id'] = $this->mDb->GenID( 'themes_module_map_module_id_seq' );
 				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_module_map` (`module_id`, `module_rsrc`) VALUES ( ?, ? )";	// Insert a row for this module
-				$result = $this->mDb->query($query,array($pHash['module_rsrc'], $pHash['module_id']));
+				$result = $this->mDb->query($query,array($pHash['module_id'], $pHash['module_rsrc']));
 			}
 
 			$query = 'SELECT COUNT(*) AS "count" FROM `'.BIT_DB_PREFIX.'themes_layouts_modules` WHERE `module_id`=?';
