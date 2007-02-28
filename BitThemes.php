@@ -191,17 +191,16 @@ class BitThemes extends BitBase {
 		return TRUE;
 	}
 
-	function storeModule( &$pHash ) {
+	function storeModule( &$pHash ) {	  
 		if( $this->verifyModuleParams( $pHash ) ) {
 			$query = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_module_map` WHERE `module_rsrc`=?";
 			$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
 
 			// If this module is not listed in the module map...
 			if( !@BitBase::verifyId( $pHash['module_id'] ) ) {
-				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_module_map` (`module_rsrc`) VALUES ( ? )";	// Insert a row for this module
-				$result = $this->mDb->query($query,array($pHash['module_rsrc']));
-				$query = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_module_map` WHERE `module_rsrc`=?";	// Get the module_id assigned to it
-				$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
+				$pHash['module_id'] = $this->mDb->GenID( 'themes_module_map_module_id_seq' );
+				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_module_map` (`module_id`, `module_rsrc`) VALUES ( ?, ? )";	// Insert a row for this module
+				$result = $this->mDb->query($query,array($pHash['module_rsrc'], $pHash['module_id']));
 			}
 
 			$query = 'SELECT COUNT(*) AS "count" FROM `'.BIT_DB_PREFIX.'themes_layouts_modules` WHERE `module_id`=?';
@@ -227,7 +226,6 @@ class BitThemes extends BitBase {
 				$this->mDb->query( "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules` SET `params`=? WHERE `module_id`=?", array( $pHash['params'], $pHash['module_id'] ) );
 			}
 		}
-
 	}
 
 	function verifyLayoutParams( &$pHash ) {
