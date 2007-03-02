@@ -161,3 +161,8 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 
 .suggest {background-color:white; border:1px solid #ddd;}
 .suggest .suggestion { color: black; padding: 2px; }
+
+.bitboard .title h3 {margin: 0px; font-size: 1.2em}
+.bitboard .desc {font-size: .9em; clear:both;}
+.bitboard .topic {font-size: .9em;}
+
