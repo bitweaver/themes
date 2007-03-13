@@ -166,3 +166,8 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .bitboard .desc {font-size: .9em; clear:both;}
 .bitboard .topic {font-size: .9em;}
 
+/* multisites */
+#multisites table.data th.servername	{width:18%}
+#multisites table.data th.description	{width:30%}
+#multisites table.data th.settings		{width:50%}
+#multisites table.data th.actions		{width:2%}
