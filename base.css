@@ -167,7 +167,10 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .bitboard .topic {font-size: .9em;}
 
 /* multisites */
-#multisites table.data th.servername	{width:18%}
-#multisites table.data th.description	{width:30%}
-#multisites table.data th.settings		{width:50%}
-#multisites table.data th.actions		{width:2%}
+#multisites table.data 					{width:99%;border-collapse:collapse}
+#multisites table.data th				{text-align:center;background:#ddd;color:#fff}
+#multisites table.data td				{border-bottom:1px dotted #ddd;vertical-align:top}
+#multisites table.data em				{border-top:3px solid #ddd;display:block;clear:both}
+#multisites td.server					{width:37%}
+#multisites td.settings 				{width:63%;padding:4px 0 4px 8px}
+#multisites td.settings strong			{}
