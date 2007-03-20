@@ -13,6 +13,8 @@ a.icon,a.icon:hover	{border:0px;}
 .portrait,.avatar	{float:right; padding:0 0 5px 5px;}
 .menu .head			{display:block; white-space:nowrap;}
 .menu .item			{display:block;}
+.active a.head 				{font-weight:bolder}
+.active a.head:visited		{font-weight:bolder}
 .highlight			{font-weight:bolder;}
 a.create			{font-style:italic}
 a.skip				{position:absolute; top:0; left:-999em;}
