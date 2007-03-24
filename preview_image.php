@@ -1,5 +1,5 @@
-<div align="center">
+<div style="text-aligen:center">
 <?php
-print('<img align="center" src="'.$_REQUEST['fImg'].'">');
+print('<img style="display:block;margin:0 auto" src="'.$_REQUEST['fImg'].'">');
 ?>
 </div>
