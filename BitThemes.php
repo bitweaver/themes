@@ -182,7 +182,6 @@ class BitThemes extends BitBase {
 			$pHash['groups'] = implode( ' ', $pHash['groups'] );
 		}
 
-
 		if( empty( $pHash['module_id'] ) || !is_numeric( $pHash['module_id'] ) ) {
 			$query = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_module_map` WHERE `module_rsrc`=?";
 			$pHash['module_id'] = $this->mDb->getOne( $query, array( $pHash['module_rsrc'] ) );
@@ -193,9 +192,6 @@ class BitThemes extends BitBase {
 
 	function storeModule( &$pHash ) {	  
 		if( $this->verifyModuleParams( $pHash ) ) {
-			$query = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_module_map` WHERE `module_rsrc`=?";
-			$pHash['module_id'] = $this->mDb->getOne($query,array($pHash['module_rsrc']));
-
 			// If this module is not listed in the module map...
 			if( !@BitBase::verifyId( $pHash['module_id'] ) ) {
 				$pHash['module_id'] = $this->mDb->GenID( 'themes_module_map_module_id_seq' );
@@ -244,6 +240,7 @@ class BitThemes extends BitBase {
 		return $ret;
 	}
 
+	// part of Drag and Drop
 	function verifyBatch( &$pParamHash ) {
 		// initialise variables
 		$pParamHash['store']['modules'] = array();
@@ -304,6 +301,7 @@ class BitThemes extends BitBase {
 		return TRUE;
 	}
 
+	// part of Drag and Drop
 	function storeModulesBatch( $pParamHash ) {
 		if( $this->verifyBatch( $pParamHash ) ) {
 			foreach( $pParamHash['store']['layout'] as $module_id => $storeModule ) {
@@ -435,10 +433,10 @@ class BitThemes extends BitBase {
 
 	function moduleUp( $pModuleId, $pUserId, $pLayout ) {
 		if( is_numeric( $pModuleId ) ) {
-			$query = "update `".BIT_DB_PREFIX."themes_layouts` SET `ord`=`ord`-1 WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `ord`=`ord`-1 WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
 			$result = $this->mDb->query( $query, array( $pModuleId, $pUserId, $pLayout ) );
 		}
-		return true;
+		return TRUE;
 	}
 
 	function moduleDown( $pModuleId, $pUserId, $pLayout ) {
@@ -446,7 +444,14 @@ class BitThemes extends BitBase {
 			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `ord`=`ord`+1 WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
 			$result = $this->mDb->query( $query, array( $pModuleId, $pUserId, $pLayout ) );
 		}
-		return true;
+		return TRUE;
+	}
+
+	function moduleOrder( $pModuleId, $pUserId, $pLayout, $pOrder ) {
+		if( is_numeric( $pModuleId ) ) {
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `ord`=? WHERE `module_id`=? AND `user_id`=? AND `layout`=?";
+			$result = $this->mDb->query( $query, array( $pOrder, $pModuleId, $pUserId, $pLayout ) );
+		}
 	}
 
 	function modulePosition( $pModuleId, $pUserId, $pLayout, $pPosition ) {
