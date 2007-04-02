@@ -28,19 +28,164 @@ array( 'DATADICT' => array(
 	)),
 	array( 'RENAMETABLE' => array(
 		'tiki_user_modules'    => 'themes_custom_modules',
+	)),
+
+	array( 'RENAMECOLUMN' => array(
+		'tiki_layouts' => array(
+			'`rows`' => '`module_rows` I4 NOTNULL',
+			'`position`' => '`layout_position` C(1) NOTNULL',
+		),
+		'tiki_layouts_modules' => array(
+			'`rows`' => '`module_rows` I4'
+		),
+	)),
+	/* don't rename since we've done considerable work to schema - see below
+	array( 'RENAMETABLE' => array(
 		'tiki_layouts'         => 'themes_layouts',
 		'tiki_layouts_modules' => 'themes_layouts_modules',
 		'tiki_module_map'      => 'themes_module_map',
 	)),
-	array( 'RENAMECOLUMN' => array(
-		'themes_layouts' => array(
-			'`rows`' => '`module_rows` I4 NOTNULL',
-			'`position`' => '`layout_position` C(1) NOTNULL',
-		),
-		'themes_layouts_modules' => array(
-			'`rows`' => '`module_rows` I4'
-		),
+	 */
+
+	// create new theme_layouts table
+	array( 'DATADICT' => array(
+		array( 'CREATE' => array (
+			'themes_layouts' => "
+				module_id I4 PRIMARY,
+				title C(255),
+				layout C(160) NOTNULL DEFAULT 'kernel',
+				layout_area C(1) NOTNULL,
+				module_rows I4,
+				module_rsrc C(250) NOTNULL,
+				params C(255),
+				cache_time I8,
+				groups C(255),
+				pos I4 NOTNULL DEFAULT '1'
+			",
+		)),
 	)),
+
+	// merge data from old tables into new themes_layouts
+	array( 'QUERY' =>
+		array( 'SQL92' => array(
+			"INSERT INTO `".BIT_DB_PREFIX."themes_layouts` ( module_id, title, layout, layout_area, module_rows, module_rsrc, params, cache_time, groups, pos )
+				SELECT tlm.module_id, tlm.title, tl.layout, tl.layout_position, tlm.module_rows, tmm.module_rsrc, tlm.params, tlm.cache_time, tlm.groups, tl.ord
+				FROM `".BIT_DB_PREFIX."tiki_layouts_modules` tlm, `".BIT_DB_PREFIX."tiki_layouts` tl, `".BIT_DB_PREFIX."tiki_module_map` tmm
+				WHERE tlm.module_id=tl.module_id AND tmm.module_id=tlm.module_id",
+		)),
+	),
+	// we're done - remove old tables
+	/*
+	array( 'DATADICT' => array(
+		array( 'DROPTABLE' => array(
+			'tiki_layouts',
+			'tiki_layouts_modules',
+			'tiki_module_map',
+		)),
+	)),
+	 */
+
+	// themes_custom_modules
+	array( 'DATADICT' => array(
+		// rename original column
+		array( 'RENAMECOLUMN' => array(
+			'themes_custom_modules'  => array(
+				'`name`'  => "`temp_name` C(255) NOTNULL",            // set NOTNULL PRIMARY
+				'`title`' => "`temp_title` C(255)",                   // set error_message NOTNULL DEFAULT ''
+			),
+		)),
+		// add new column
+		array( 'ALTER' => array(
+			'liberty_action_log' => array(
+				'name'    => array( '`name`', "VARCHAR(40) PRIMARY NOTNULL" ),
+				'title'   => array( '`title`', 'VARCHAR(200)' ),
+			),
+		)),
+	)),
+	// copy all the data accross
+	array( 'QUERY' =>
+		array( 'SQL92' => array(
+			"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `name` = `temp_name`",
+			"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `title` = `temp_title`",
+		)),
+	),
+	// drop original column
+	array( 'DATADICT' => array(
+		array( 'DROPCOLUMN' => array(
+			'themes_custom_modules' => array( '`temp_name`' ),
+			'themes_custom_modules' => array( '`temp_title`' ),
+		)),
+	)),
+
+	/* TODO: convert themes_layouts and themes_layouts_modules to the new themes_layouts
+	FROM:
+	'themes_layouts' => "
+		user_id I4 NOTNULL,
+		module_id I4 NOTNULL,
+		layout C(160) NOTNULL DEFAULT 'home',
+		layout_position C(1) NOTNULL,
+		module_rows I4,
+		params C(255),
+		ord I4 NOTNULL DEFAULT '1'
+	",
+
+	'themes_layouts_modules' => "
+		module_id I4 PRIMARY,
+		availability C(1),
+		title C(255),
+		cache_time I8,
+		module_rows I4,
+		params C(255),
+		groups X
+	",
+
+	TO:
+	'themes_layouts' => "
+		module_id I4 PRIMARY,
+		title C(255),
+		layout C(160) NOTNULL DEFAULT 'kernel',
+		layout_area C(1) NOTNULL,
+		module_rows I4,
+		module_rsrc C(250) NOTNULL,
+		params C(255),
+		cache_time I8,
+		groups C(255),
+		pos I4 NOTNULL DEFAULT '1'
+	",
+
+
+	// themes_layouts
+	array( 'DATADICT' => array(
+		// rename original column
+		array( 'RENAMECOLUMN' => array(
+			'themes_layouts'  => array(
+				'`name`'  => "`temp_name` C(255) NOTNULL",            // set NOTNULL PRIMARY
+				'`title`' => "`temp_title` C(255)",                   // set error_message NOTNULL DEFAULT ''
+			),
+		)),
+		// add new column
+		array( 'ALTER' => array(
+			'liberty_action_log' => array(
+				'name'    => array( '`name`', "VARCHAR(40) PRIMARY NOTNULL" ),
+				'title'   => array( '`title`', 'VARCHAR(200)' ),
+			),
+		)),
+	)),
+	// copy all the data accross
+	array( 'QUERY' =>
+		array( 'SQL92' => array(
+			"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `name` = `temp_name`",
+			"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `title` = `temp_title`",
+		)),
+	),
+	// drop original column
+	array( 'DATADICT' => array(
+		array( 'DROPCOLUMN' => array(
+			'themes_custom_modules' => array( '`temp_name`' ),
+			'themes_custom_modules' => array( '`temp_title`' ),
+		)),
+	)),
+	/* */
 )),
 array( 'QUERY' =>
 	array( 'SQL92' => array(

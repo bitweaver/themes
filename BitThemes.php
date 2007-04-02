@@ -1,11 +1,549 @@
 <?php
 
 class BitThemes extends BitBase {
+	// Array that contains a full description of the current layout
+	var $mLayout = array();
+
 	function BitThemes() {
 		BitBase::BitBase();
 	}
 
-	// =================== STYLES ====================
+
+
+
+	// =================== Layout ====================
+	/**
+	* load current layout into mLayout
+	*
+	* @param  $pParamHash
+	* @return none
+	* @access public
+	*/
+	//function loadLayout($pUserMixed = ROOT_USER_ID, $pLayout = ACTIVE_PACKAGE, $pFallbackLayout = DEFAULT_PACKAGE, $pForceReload = FALSE) {
+	function loadLayout( $pParamHash = NULL ) {
+		global $gBitSystem;
+		if( empty( $this->mLayout ) || !count( $this->mLayout )){
+			$this->mLayout = $this->getLayout( $pParamHash );
+
+			// this needs to occur here to ensure that we don't distrub the fallback process during layout loading
+			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_left_col' ) ) {
+				unset( $this->mLayout['l'] );
+			}
+			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_right_col' ) ) {
+				unset( $this->mLayout['r'] );
+			}
+		}
+	}
+
+	/**
+	 * get the current layout from the database
+	 * 
+	 * @param array $pParamHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	//function getLayout( $pUserMixed = null, $pLayout = ACTIVE_PACKAGE, $pFallback = TRUE, $pFallbackLayout = DEFAULT_PACKAGE ) {
+	function getLayout( $pParamHash = NULL ) {
+		global $gCenterPieces, $gBitUser, $gBitSystem;
+		$ret = array( 'l' => NULL, 'c' => NULL, 'r' => NULL );
+		$bindVars = array();
+
+		$pParamHash['layout']           = ( !empty( $pParamHash['layout'] ) ? $pParamHash['layout'] : ACTIVE_PACKAGE );
+		$pParamHash['fallback']         = (( isset( $pParamHash['fallback'] ) && $pParamHash['fallback'] === FALSE ) ? FALSE : TRUE );
+		$pParamHash['fallback_layout']  = ( !empty( $pParamHash['fallback_layout'] ) ? $pParamHash['fallback_layout'] : DEFAULT_PACKAGE );
+
+		// This query will always pull ALL of the ACTIVE_PACKAGE _and_ DEFAULT_PACKAGE modules (in that order)
+		// This saves a count() query to see if the ACTIVE_PACKAGE has a layout, since it usually probably doesn't
+		// I don't know if it's better or not to save the count() query and retrieve more data - my gut says so,
+		// but i've done no research - spiderr
+		if( $pParamHash['fallback'] && $pParamHash['layout'] != DEFAULT_PACKAGE && $this->dType != 'firebird' && $this->dType != 'mssql'  && $this->dType != 'oci8'  && $this->dType != 'oci8po' ) {
+			// ORDER BY comparison is crucial so current layout modules come up first
+			$whereClause = " (tl.`layout`=? OR tl.`layout`=?) ORDER BY tl.`layout`=? DESC, ";
+			$bindVars[] = $pParamHash['layout'];
+			$bindVars[] = $pParamHash['fallback_layout'];
+			$bindVars[] = $pParamHash['layout'];
+		} elseif( $pParamHash['fallback'] && $pParamHash['layout'] != DEFAULT_PACKAGE ) {
+			// ORDER BY is crucial so current layout modules come up first
+			$whereClause = " (tl.`layout`=? OR tl.`layout`=?) ORDER BY tl.`layout` DESC, ";
+			$bindVars[] = $pParamHash['layout'];
+			$bindVars[] = $pParamHash['fallback_layout'];
+		} elseif( $pParamHash['layout'] ) {
+			$whereClause = " tl.`layout`=? ORDER BY ";
+			array_push( $bindVars, $pParamHash['layout'] );
+		}
+
+		$query = "
+			SELECT tl.*
+			FROM `".BIT_DB_PREFIX."themes_layouts` tl
+			WHERE $whereClause ".$this->mDb->convertSortmode( "pos_asc" );
+
+		if( $result = $this->mDb->query( $query, $bindVars )) {
+			$row = $result->fetchRow();
+			// Check to see if we have ACTIVE_PACKAGE modules at the top of the results
+			if( isset( $row['layout'] ) && ( $row['layout'] != DEFAULT_PACKAGE ) && ( ACTIVE_PACKAGE != DEFAULT_PACKAGE )) {
+				$skipDefaults = TRUE;
+			} else {
+				$skipDefaults = FALSE;
+			}
+
+			$gCenterPieces = array();
+			while( $row ) {
+				if( $skipDefaults && $row['layout'] == DEFAULT_PACKAGE ) {
+					// we're done! we've got all the non-DEFAULT_PACKAGE modules
+					break;
+				}
+
+				// transform groups to managable array
+				if( empty( $row["groups"] )) {
+					// default is that module is visible at all times
+					$row["visible"] = TRUE;
+					$row["module_groups"] = array();
+				} else {
+					// convert groups string to hash
+					if( preg_match( '/[A-Za-z]/', $row["groups"] )) {
+						// old style serialized group names
+						$row["module_groups"] = array();
+						if( $grps = @unserialize( $row["groups"] )) {
+							foreach( $grps as $grp ) {
+								global $gBitUser;
+								if( !( $groupId = array_search( $grp, $gBitUser->mGroups ))) {
+									if( $gBitUser->isAdmin() ) {
+										$row["module_groups"][] = $gBitUser->groupExists( $grp, '*' );
+									}
+								}
+
+								if( @$this->verifyId( $groupId )) {
+									$row["module_groups"][] = $groupId;
+								}
+							}
+						}
+					} else {
+						// new imploded style
+						$row["module_groups"] = explode( ' ', $row["groups"] );
+					}
+
+					if( $gBitUser->isAdmin() ) {
+						$row["visible"] = TRUE;
+					} else {
+						// Check for the right groups
+						foreach( $row["module_groups"] as $modGroupId ) {
+							if( $gBitUser->isInGroup( $modGroupId )) {
+								$row["visible"] = TRUE;
+								break; // no need to continue looping
+							}
+						}
+					}
+				}
+
+				if( empty( $ret[$row['layout_area']] )) {
+					$ret[$row['layout_area']] = array();
+				}
+
+				if( !empty( $row['params'] )) {
+					// only call crazy regex when params are too complex for parse_str()
+					if( strpos( trim( $row['params'] ), ' ' )) {
+						$row['module_params'] = parse_xml_attributes( $row['params'] );
+					} else {
+						parse_str( $row["params"], $row['module_params'] );
+					}
+				} else {
+					$row['module_params'] = array();
+				}
+
+				if( $row['layout_area'] == CENTER_COLUMN ) {
+					array_push( $gCenterPieces, $row );
+				}
+
+				if( !empty( $row["visible"] )) {
+					array_push( $ret[$row['layout_area']], $row );
+				}
+
+				$row = $result->fetchRow();
+			}
+		}
+		return $ret;
+	}
+
+
+
+
+	// =================== Modules ====================
+	/**
+	 * Verfiy module parameters when storing a new module
+	 * 
+	 * @param array $pHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function verifyModuleParams( &$pHash ) {
+		// we need at least a module_id or a module_rsrc
+		if( empty( $pHash['module_id'] ) && empty( $pHash['module_rsrc'] )) {
+			$this->mErrors['module_rsrc'] = tra( 'No module id or module file given.' );
+		} elseif( !empty( $pHash['module_id'] )) {
+			$pHash['store']['module_id'] = $pHash['module_id'];
+		} elseif( !empty( $pHash['module_rsrc'] )) {
+			$pHash['store']['module_rsrc'] = $pHash['module_rsrc'];
+		}
+
+		if( $this->verifyArea( $pHash['layout_area'] )) {
+			$pHash['store']['layout_area']   = $pHash['layout_area'];
+		}
+
+		$pHash['store']['title']         = ( !empty( $pHash['title'] )             ? $pHash['title']         : NULL );
+		$pHash['store']['params']        = ( !empty( $pHash['params'] )            ? $pHash['params']        : NULL );
+		$pHash['store']['layout']        = ( !empty( $pHash['layout'] )            ? $pHash['layout']        : DEFAULT_PACKAGE );
+		$pHash['store']['module_rows']   = ( @is_numeric( $pHash['module_rows'] )  ? $pHash['module_rows']   : NULL );
+		$pHash['store']['cache_time']    = ( @is_numeric( $pHash['cache_time'] )   ? $pHash['cache_time']    : NULL );
+		$pHash['store']['pos']           = ( @is_numeric( $pHash['pos'] )          ? $pHash['pos']           : NULL );
+
+		if( !empty( $pHash['groups'] ) && is_array( $pHash['groups'] )) {
+			$pHash['store']['groups'] = implode( ' ', $pHash['groups'] );
+		} else {
+			$pHash['store']['groups'] = NULL;
+		}
+
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * storeModule 
+	 * 
+	 * @param array $pHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function storeModule( &$pHash ) {
+		if( $this->verifyModuleParams( $pHash )) {
+			$table = BIT_DB_PREFIX."themes_layouts";
+
+			if( @BitBase::verifyId( $pHash['store']['module_id'] )) {
+				// if we've been passed a module_id, we are updating an entry in the DB
+				$result = $this->mDb->associateUpdate( $table, $pHash['store'], array( 'module_id' => $pHash['store']['module_id'] ));
+			} else {
+				// no module_id yet - let's get one
+				$pHash['store']['module_id'] = $this->mDb->GenID( 'themes_layouts_module_id_seq' );
+				$result = $this->mDb->associateInsert( $table, $pHash['store'] );
+			}
+		}
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * getModuleData 
+	 * 
+	 * @param array $pModuleId 
+	 * @access public
+	 * @return module details of the requested module id
+	 */
+	function getModuleData( $pModuleId ) {
+		if( @BitBase::verifyId( $pModuleId )) {
+			return( $this->mDb->getRow( "SELECT tl.* FROM `".BIT_DB_PREFIX."themes_layouts` tl WHERE `module_id`=? ", array( $pModuleId )));
+		}
+	}
+
+	/**
+	 * moduleUp 
+	 * 
+	 * @param array $pModuleId 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function moveModuleUp( $pModuleId ) {
+		if( @BitBase::verifyId( $pModuleId ) ) {
+			// first we get next module we want to swap with
+			$moduleData = $this->getModuleData( $pModuleId );
+			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`<=? AND `module_id`<>?";
+			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
+			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
+				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
+					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`-1 WHERE `module_id`=?";
+					$result = $this->mDb->query( $query, array( $moduleData['module_id'] ));
+				} else {
+					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
+					$result = $this->mDb->query( $query, array( $moduleSwap['pos'], $moduleData['module_id'] ));
+					$result = $this->mDb->query( $query, array( $moduleData['pos'], $moduleSwap['module_id'] ));
+				}
+			}
+		}
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * moduleDown 
+	 * 
+	 * @param array $pModuleId 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function moveModuleDown( $pModuleId ) {
+		if( @BitBase::verifyId( $pModuleId ) ) {
+			// first we get next module we want to swap with
+			$moduleData = $this->getModuleData( $pModuleId );
+			$query  = "SELECT MIN(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`>=? AND `module_id`<>?";
+			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
+			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
+				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
+					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`+1 WHERE `module_id`=?";
+					$result = $this->mDb->query( $query, array( $moduleData['module_id'] ));
+				} else {
+					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
+					$result = $this->mDb->query( $query, array( $moduleSwap['pos'], $moduleData['module_id'] ));
+					$result = $this->mDb->query( $query, array( $moduleData['pos'], $moduleSwap['module_id'] ));
+				}
+			}
+		}
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * moveModuleToArea 
+	 * 
+	 * @param array $pModuleId 
+	 * @param array $pArea 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function moveModuleToArea( $pModuleId, $pArea ) {
+		if( @BitBase::verifyId( $pModuleId ) && $this->verifyArea( $pArea )) {
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `layout_area`=? WHERE `module_id`=?";
+			$result = $this->mDb->query( $query, array( $pArea, $pModuleId ));
+		}
+		return TRUE;
+	}
+
+	/**
+	 * unassignModule 
+	 * 
+	 * @param array $pModuleId can be a module id or a resource path. if it is a resource path, all modules with that resource will be removed
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function unassignModule( $pModuleMixed ) {
+		$ret = FALSE;
+		if( @BitBase::verifyId( $pModuleMixed )) {
+			if( $this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `module_id`=?", array( $pModuleMixed ))) {
+				$ret = TRUE;
+			}
+		} elseif( !empty( $pModuleMixed )) {
+			if( $this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `module_rsrc`=?", array( $pModuleMixed ))) {
+				$ret = TRUE;
+			}
+		}
+		return $ret;
+	}
+
+	/**
+	 * if the specified area doesn't make any sense, we just dump it in the left column
+	 * 
+	 * @param array $pArea l --> left       r --> right       c --> center       b --> bottom       t --> top
+	 * @access public
+	 * @return valid area
+	 */
+	function verifyArea( &$pArea ) {
+		if( empty( $pArea ) || !preg_match( '/^[lrcbt]$/', $pArea )) {
+			$pArea = 'l';
+		}
+		return TRUE;
+	}
+
+	/**
+	 * generateModuleNames 
+	 * 
+	 * @param array $p2DHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function generateModuleNames( &$p2DHash ) {
+		if( is_array( $p2DHash ) ) {
+			// Generate human friendly names
+			foreach( array_keys( $p2DHash ) as $col ) {
+				if( count( $p2DHash[$col] ) ) {
+					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
+						list($source, $file) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
+						@list($rsrc, $package) = split( ':', $source );
+						// handle special case for custom modules
+						if( !isset( $package ) ) {
+							$package = $rsrc;
+						}
+						$file = str_replace( 'mod_', '', $file );
+						$file = str_replace( '.tpl', '', $file );
+						$p2DHash[$col][$mod]['name'] = $package.' -> '.str_replace( '_', ' ', $file );
+					}
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * getAllModules 
+	 * 
+	 * @param string $pDir 
+	 * @param string $pPrefix 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getAllModules( $pDir='modules', $pPrefix='mod_' ) {
+		global $gBitSystem;
+		$all_modules = array();
+
+		if(( $modules = $this->getCustomModuleList() ) && $pPrefix == 'mod_' ) {
+			foreach( $modules as $m ) {
+				$all_modules[tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = $m["name"];
+			}
+		}
+
+		// iterate through all packages and look for all possible modules
+		foreach( array_keys( $gBitSystem->mPackages ) as $key ) {
+			if( $gBitSystem->isPackageActive( $key ) ) {
+				$loc = BIT_ROOT_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
+				if( @is_dir( $loc ) ) {
+					$h = opendir( $loc );
+					if( $h ) {
+						while (($file = readdir($h)) !== false) {
+							if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
+								$all_modules[ucfirst( $key )]['bitpackage:'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
+							}
+						}
+						closedir ($h);
+					}
+				}
+				// we scan temp/<pkg>/modules for module files as well for on the fly generated modules (e.g. nexus)
+				if( $pDir == 'modules' ) {
+					$loc = TEMP_PKG_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
+					if( @is_dir( $loc ) ) {
+						$h = opendir( $loc );
+						if( $h ) {
+							while (($file = readdir($h)) !== false) {
+								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
+									$all_modules[ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
+								}
+							}
+							closedir ($h);
+						}
+					}
+				}
+			}
+		}
+
+		return $all_modules;
+	}
+
+
+
+	// =================== Custom Modules ====================
+	/**
+	 * verifyCustomModule 
+	 * 
+	 * @param array $pParamHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function verifyCustomModule( &$pParamHash ) {
+		if( !empty( $pParamHash['name'] ) && preg_match( "/[a-zA-Z]/", $pParamHash['name'] )) {
+			$pParamHash['store']['name'] = substr( strtolower( preg_replace( "/[^\w]*/", "", $pParamHash['name'] )), 0, 40 );
+		}
+
+		if( empty( $pParamHash['store']['name'] )) {
+			$this->mErrors[] = tra( 'You need to provide a name for your custom module. Only alphanumeric characters are allowed and you need to use at least one letter.' );
+		}
+
+		if( !empty( $pParamHash['title'] )) {
+			$pParamHash['store']['title'] = substr( $pParamHash['title'], 0, 200 );
+		}
+
+		if( !empty( $pParamHash['data'] )) {
+			$pParamHash['store']['data'] = $pParamHash['data'];
+		}
+
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * storeCustomModule 
+	 * 
+	 * @param array $pParamHash 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function storeCustomModule( $pParamHash ) {
+		if( $this->verifyCustomModule( $pParamHash )) {
+			$table = "`".BIT_DB_PREFIX."themes_custom_modules`";
+			$result = $this->mDb->query( "DELETE FROM $table WHERE `name`=?", array( $pParamHash['store']['name'] ));
+			$result = $this->mDb->associateInsert( $table, $pParamHash['store'] );
+		}
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * getCustomModule 
+	 * 
+	 * @param array $pName 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getCustomModule( $pName ) {
+		if( !empty( $pName )) {
+			return $this->mDb->getRow( "SELECT * FROM `".BIT_DB_PREFIX."themes_custom_modules` WHERE `name`=?", array( $pName ));
+		}
+	}
+
+	/**
+	 * getCustomModuleList 
+	 * 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getCustomModuleList() {
+		return( $this->mDb->getAll( "SELECT * FROM `".BIT_DB_PREFIX."themes_custom_modules`" ));
+	}
+
+	/**
+	 * expungeCustomModule 
+	 * 
+	 * @param array $pName 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function expungeCustomModule( $pName ) {
+		if( !empty( $pName )) {
+			$this->unassignModule( '_custom:custom/'.$pName );
+			$result = $this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_custom_modules` WHERE `name`=?", array( $pName ));
+		}
+		return TRUE;
+	}
+
+	/**
+	 * isCustomModule 
+	 * 
+	 * @param array $pMixed either name of module or the rsrc of a module
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function isCustomModule( $pMixed ) {
+		if( strpos( $pMixed, "_custom:custom" ) !== FALSE ) {
+			return TRUE;
+		} elseif( strpos( $pMixed, "bitpackage:" ) !== FALSE ) {
+			return FALSE;
+		} else {
+			$result = $this->mDb->getOne( "SELECT `name` FROM `".BIT_DB_PREFIX."themes_custom_modules` WHERE `name`=?", array( $pMixed ));
+			return( !empty( $result ));
+		}
+	}
+
+
+
+
+	// =================== Styles ====================
+	/**
+	 * getStyles 
+	 * 
+	 * @param array $pDir 
+	 * @param array $pNullOption 
+	 * @param array $bIncludeCustom 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
 	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
 		global $gBitSystem, $gBitUser;
 
@@ -45,6 +583,12 @@ class BitThemes extends BitBase {
 		return $ret;
 	}
 
+	/**
+	 * getStyleLayouts 
+	 * 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
 	function getStyleLayouts() {
 		$ret = array();
 
@@ -72,7 +616,13 @@ class BitThemes extends BitBase {
 
 	/**
 	* @param $pSubDirs a subdirectory to scan as well - you can pass in multiple dirs using an array
-	*/
+	 * 
+	 * @param array $pDir 
+	 * @param array $pNullOption 
+	 * @param array $pSubDirs 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
 	function getStylesList( $pDir = NULL, $pNullOption = NULL, $pSubDirs = NULL ) {
 		global $gBitSystem;
 
@@ -149,7 +699,88 @@ class BitThemes extends BitBase {
 		return $cachedir;
 	}
 
-	// =================== MODULES ====================
+
+
+
+	// =================== old modules code ====================
+	// deprecated stuff and temporary place holders
+	// 																		--------------- all of these functions will be removed quite soon
+	function storeLayout() {
+		deprecated( 'Please remove this function and use storeModule instead' );
+	}
+
+	function getModuleParameters($mod_rsrc, $user_id = ROOT_USER_ID ) {
+		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
+
+		// First we try to get preferences at the per-user level (e.g. from themes_layouts table)
+		$query = "SELECT tl.`params`, tl.`module_rows`
+				  FROM `".BIT_DB_PREFIX."themes_layouts` tl, `".BIT_DB_PREFIX."themes_module_map` tmm
+				  WHERE tmm.`module_rsrc` = ? AND tl.`user_id` = ? AND tmm.`module_id` = tl.`module_id`";
+		$row = $this->mDb->getRow($query,array($mod_rsrc, $user_id));
+
+		$params = array();
+
+		if( empty( $row['params'] ) ) {
+			// No per-user preferences were stored for this user so we will pull the default parameters
+			$query = "SELECT tlm.`params`, tlm.`module_rows`
+				  FROM `".BIT_DB_PREFIX."themes_layouts_modules` tlm, `".BIT_DB_PREFIX."themes_module_map` tmm
+				  WHERE tmm.`module_rsrc` = ? AND tmm.`module_id` = tlm.`module_id`";
+			$row = $this->mDb->getRow($query,array($mod_rsrc));
+		}
+		if( !empty( $row['params'] ) ) {
+			$tok = strtok($row['params'],';');
+			while ($tok) {
+				$pref = explode('=',$tok);
+					if (count($pref) >= 2)
+						$params[$pref[0]] = $pref[1];
+				$tok = strtok(';');
+			}
+		}
+
+		$params['module_rows'] = (!empty($row['module_rows'] ) ? $row['module_rows'] : 10);	// interim hack - drewslater
+
+		return $params;
+	}
+
+	function storeModuleParameters($mod_rsrc, $user_id, $params) {
+		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
+
+		if (!is_numeric($mod_rsrc))
+			$module_id = $this->getModuleId($mod_rsrc);
+		else
+			$module_id = $mod_rsrc;
+
+		$paramsStr = '';
+
+		foreach ($params as $setting=>$value) {
+			$paramsStr .= "$setting=$value;";
+		}
+
+		if (!$module_id)
+			return FALSE;
+
+		if ($user_id) {
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `params` = ?  WHERE `module_id` = ? AND `user_id` = ?";
+			$result = $this->mDb->query($query, array($paramsStr, $module_id, $user_id));
+		} else {
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules` SET `params` = ? WHERE `module_id` = ?";
+			$result = $this->mDb->query($query, array($paramsStr, $module_id));
+		}
+
+		return TRUE;
+	}
+
+	function getModuleId($mod_rsrc) {
+		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
+
+		$query = "SELECT `module_id`
+			  FROM `".BIT_DB_PREFIX."themes_module_map`
+			  WHERE `module_rsrc` = ?";
+		$ret = $this->mDb->getOne($query, array($mod_rsrc));
+		return $ret;
+	}
+
+	/* =============== UNUSED FUNCTIONS ================ can be removed soon - xing
 	function replaceCustomModule($name, $title, $data) {
 		if ((!empty($name)) && (!empty($title)) && (!empty($data))) {
 			$query = "delete from `".BIT_DB_PREFIX."themes_custom_modules` where `name`=?";
@@ -162,63 +793,61 @@ class BitThemes extends BitBase {
 	}
 
 	function verifyModuleParams( &$pHash ) {
-		if( empty( $pHash['availability'] ) ) $pHash['availability'] = NULL;
-		if( empty( $pHash['params'] ) ) $pHash['params'] = NULL;
-		if( empty( $pHash['title'] ) ) $pHash['title'] = NULL;
-		if( empty( $pHash['module_rows'] ) ) {
-			$pHash['module_rows'] = NULL;
-		} else {
-			$pHash['module_rows'] = is_numeric($pHash['module_rows']) ? $pHash['module_rows'] : 10;
-		}
-		if( empty( $pHash['cache_time'] ) ) {
-			$pHash['cache_time'] = NULL;
-		} else {
-			$pHash['cache_time'] = is_numeric($pHash['cache_time']) ? $pHash['cache_time'] : 0;
-		}
-		if( empty( $pHash['type'] ) ) $pHash['type'] = NULL;
-		if( empty( $pHash['groups'] ) ) {
+		$pHash = array(
+			'module_rsrc'  => $pHash['module_rsrc'],
+			'availability' => ( !empty( $pHash['availability'] )     ? $pHash['availability'] : NULL ),
+			'params'       => ( !empty( $pHash['params'] )           ? $pHash['params']       : NULL ),
+			'title'        => ( !empty( $pHash['title'] )            ? $pHash['title']        : NULL ),
+			'layout'       => ( !empty( $pHash['layout'] )           ? $pHash['layout']       : 'kernel' ),
+			'module_rows'  => ( @is_numeric( $pHash['module_rows'] ) ? $pHash['module_rows']  : NULL ),
+			'cache_time'   => ( @is_numeric( $pHash['cache_time'] )  ? $pHash['cache_time']   : NULL ),
+			'ord'          => ( @is_numeric( $pHash['ord'] )         ? $pHash['ord']          : NULL ),
+			'pos'          => ( @is_string( $pHash['pos'] )          ? $pHash['pos']          : NULL ),
+		);
+
+		if( empty( $pHash['groups'] )) {
 			$pHash['groups'] = NULL;
-		} elseif( is_array( $pHash['groups'] ) ) {
+		} elseif( is_array( $pHash['groups'] )) {
 			$pHash['groups'] = implode( ' ', $pHash['groups'] );
 		}
 
-		if( empty( $pHash['module_id'] ) || !is_numeric( $pHash['module_id'] ) ) {
-			$query = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_module_map` WHERE `module_rsrc`=?";
-			$pHash['module_id'] = $this->mDb->getOne( $query, array( $pHash['module_rsrc'] ) );
+		// get a module_id if the module is already available in the map
+		if( empty( $pHash['module_id'] ) || !is_numeric( $pHash['module_id'] )) {
+			$pHash['module_id'] = $this->getModuleId( $pHash['module_rsrc'] );
+		}
+
+		// If this module is not listed in the module map we add it
+		if( !@BitBase::verifyId( $pHash['module_id'] )) {
+			$pHash['module_id'] = $this->mDb->GenID( 'themes_module_map_module_id_seq' );
+			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_module_map` (`module_id`, `module_rsrc`) VALUES ( ?, ? )";
+			$result = $this->mDb->query( $query, array( $pHash['module_id'], $pHash['module_rsrc'] ));
 		}
 
 		return TRUE;
 	}
 
-	function storeModule( &$pHash ) {	  
-		if( $this->verifyModuleParams( $pHash ) ) {
-			// If this module is not listed in the module map...
-			if( !@BitBase::verifyId( $pHash['module_id'] ) ) {
-				$pHash['module_id'] = $this->mDb->GenID( 'themes_module_map_module_id_seq' );
-				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_module_map` (`module_id`, `module_rsrc`) VALUES ( ?, ? )";	// Insert a row for this module
-				$result = $this->mDb->query($query,array($pHash['module_id'], $pHash['module_rsrc']));
-			}
-
+	function storeModule( &$pHash ) {
+		if( $this->verifyModuleParams( $pHash )) {
 			$query = 'SELECT COUNT(*) AS "count" FROM `'.BIT_DB_PREFIX.'themes_layouts_modules` WHERE `module_id`=?';
-			$modCount = $this->mDb->getOne($query,array($pHash['module_id']));
-			if( empty( $pHash['groups'] ) ) {
-				$pHash['groups'] = NULL;
-			}
+			$modCount = $this->mDb->getOne( $query, array( $pHash['module_id'] ));
 
 			$bindVars = array( $pHash['availability'], $pHash['title'], $pHash['cache_time'], $pHash['module_rows'],  $pHash['groups'], $pHash['module_id'] );
 
-			if ( ($modCount) > 0 ) {
-				$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules`
+			if( $modCount > 0 ) {
+				$query = "
+					UPDATE `".BIT_DB_PREFIX."themes_layouts_modules`
 					SET `availability`=?, `title`=?, `cache_time`=?, `module_rows`=?, `groups`=?
 					WHERE `module_id`=?";
 			} else {
-				$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts_modules`
+				$query = "
+					INSERT INTO `".BIT_DB_PREFIX."themes_layouts_modules`
 					( `availability`, `title`, `cache_time`, `module_rows`, `groups`, `module_id` )
 					VALUES ( ?, ?, ?, ?, ?, ? )";
 			}
 			$result = $this->mDb->query( $query, $bindVars );
 
-			if( !isset($pHash['layout']) || $pHash['layout'] == 'kernel' ) {
+			// update parameters
+			if( $pHash['layout'] == 'kernel' ) {
 				$this->mDb->query( "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules` SET `params`=? WHERE `module_id`=?", array( $pHash['params'], $pHash['module_id'] ) );
 			}
 		}
@@ -240,6 +869,30 @@ class BitThemes extends BitBase {
 		return $ret;
 	}
 
+	function storeLayout( $pHash ) {
+		if( $this->verifyLayoutParams( $pHash ) ) {
+			if( !isset( $pHash['params'] ) ) {
+				$pHash['params'] = NULL;
+			}
+
+			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id`=? AND `layout`=? AND `module_id`=? AND `ord`=?";
+			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['layout'], (int)$pHash['module_id'], $pHash['ord'] ) );
+			//check for valid values
+			// kernel layout (site default) params are stored in themes_layouts_modules
+			if( $pHash['layout'] == 'kernel' ) {
+				$pHash['params'] = NULL;
+			}
+
+			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts`
+				(`user_id`, `module_id`, `layout_position`, `ord`, `params`, `layout`)
+				VALUES (?,?,?,?,?,?)";
+			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['module_id'], $pHash['pos'], (int)$pHash['ord'], $pHash['params'], $pHash['layout'] ) );
+		}
+		return true;
+	}
+	 */
+
+	/*
 	// part of Drag and Drop
 	function verifyBatch( &$pParamHash ) {
 		// initialise variables
@@ -316,28 +969,6 @@ class BitThemes extends BitBase {
 		return TRUE;
 	}
 
-	function storeLayout( $pHash ) {
-		if( $this->verifyLayoutParams( $pHash ) ) {
-			if( !isset( $pHash['params'] ) ) {
-				$pHash['params'] = NULL;
-			}
-
-			$query = "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id`=? AND `layout`=? AND `module_id`=? AND `ord`=?";
-			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['layout'], (int)$pHash['module_id'], $pHash['ord'] ) );
-			//check for valid values
-			// kernel layout (site default) params are stored in themes_layouts_modules
-			if( $pHash['layout'] == 'kernel' ) {
-				$pHash['params'] = NULL;
-			}
-
-			$query = "INSERT INTO `".BIT_DB_PREFIX."themes_layouts`
-				(`user_id`, `module_id`, `layout_position`, `ord`, `params`, `layout`)
-				VALUES (?,?,?,?,?,?)";
-			$result = $this->mDb->query( $query, array( $pHash['user_id'], $pHash['module_id'], $pHash['pos'], (int)$pHash['ord'], $pHash['params'], $pHash['layout'] ) );
-		}
-		return true;
-	}
-
 	function getAssignedModules( $name ) {
 		$query = "select tlm.*, count() from `".BIT_DB_PREFIX."themes_layouts_modules` where `name`=?";
 
@@ -398,7 +1029,7 @@ class BitThemes extends BitBase {
 		global $gQueryUser;
 
 		if (!is_numeric($pModuleId)) {
-			$pModuleId = $this->get_module_id($pModuleId);
+			$pModuleId = $this->getModuleId($pModuleId);
 			if (!$pModuleId)
 				return FALSE;
 		}
@@ -532,84 +1163,9 @@ class BitThemes extends BitBase {
 			return( $package.' -> '.str_replace( '_', ' ', $file ) );
 		}
 	}
+	 */
 
-	function generateModuleNames( &$p2DHash ) {
-		if( is_array( $p2DHash ) ) {
-			// Generate human friendly names
-			foreach( array_keys( $p2DHash ) as $col ) {
-				if( count( $p2DHash[$col] ) ) {
-					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
-						list($source, $file) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
-						@list($rsrc, $package) = split( ':', $source );
-						// handle special case for custom modules
-						if( !isset( $package ) ) {
-							$package = $rsrc;
-						}
-						$file = str_replace( 'mod_', '', $file );
-						$file = str_replace( '.tpl', '', $file );
-						$p2DHash[$col][$mod]['name'] = $package.' -> '.str_replace( '_', ' ', $file );
-					}
-				}
-			}
-		}
-	}
-
-
-	function getAllModules( $pDir='modules', $pPrefix='mod_' ) {
-		global $gBitSystem;
-		if( $user_modules = $this->listCustomModules() ) {
-
-			$all_modules = array();
-
-			if( $pPrefix == 'mod_' ) {
-				foreach ($user_modules["data"] as $um) {
-					$all_modules[tra( 'Custom Modules' )]['_custom:custom/'.$um["name"]] = $um["name"];
-				}
-			}
-		}
-
-		// iterate through all packages and look for all possible modules
-		foreach( array_keys( $gBitSystem->mPackages ) as $key ) {
-			if( $gBitSystem->isPackageActive( $key ) ) {
-				$loc = BIT_ROOT_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
-				if( @is_dir( $loc ) ) {
-					$h = opendir( $loc );
-					if( $h ) {
-						while (($file = readdir($h)) !== false) {
-							if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
-								$all_modules[ucfirst( $key )]['bitpackage:'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
-							}
-						}
-						closedir ($h);
-					}
-				}
-				// we scan temp/<pkg>/modules for module files as well for on the fly generated modules (e.g. nexus)
-				if( $pDir == 'modules' ) {
-					$loc = TEMP_PKG_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
-					if( @is_dir( $loc ) ) {
-						$h = opendir( $loc );
-						if( $h ) {
-							while (($file = readdir($h)) !== false) {
-								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
-									$all_modules[ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
-								}
-							}
-							closedir ($h);
-						}
-					}
-				}
-			}
-		}
-
-		return $all_modules;
-	}
-
-	function isCustomModule($name) {
-		$query = "select `name`  from `".BIT_DB_PREFIX."themes_custom_modules` where `name`=?";
-		$result = $this->mDb->query($query,array($name));
-		return $result->numRows();
-	}
-
+	/*
 	function getCustomModule($name) {
 		$query = "select * from `".BIT_DB_PREFIX."themes_custom_modules` where `name`=?";
 		$result = $this->mDb->query($query,array($name));
@@ -618,7 +1174,7 @@ class BitThemes extends BitBase {
 	}
 
 	function removeCustomModule($name) {
-		$moduleId = $this->get_module_id('_custom:custom/'.$name);
+		$moduleId = $this->getModuleId('_custom:custom/'.$name);
 
 		if ($moduleId) {
 			$this->unassignModule($moduleId);
@@ -651,93 +1207,6 @@ class BitThemes extends BitBase {
 		return $retval;
 	}
 
-	function getModuleParameters($mod_rsrc, $user_id = ROOT_USER_ID ) {
-		// First we try to get preferences at the per-user level (e.g. from themes_layouts table)
-		$query = "SELECT tl.`params`, tl.`module_rows`
-				  FROM `".BIT_DB_PREFIX."themes_layouts` tl, `".BIT_DB_PREFIX."themes_module_map` tmm
-				  WHERE tmm.`module_rsrc` = ? AND tl.`user_id` = ? AND tmm.`module_id` = tl.`module_id`";
-		$row = $this->mDb->getRow($query,array($mod_rsrc, $user_id));
-
-		$params = array();
-
-		if( empty( $row['params'] ) ) {
-			// No per-user preferences were stored for this user so we will pull the default parameters
-			$query = "SELECT tlm.`params`, tlm.`module_rows`
-				  FROM `".BIT_DB_PREFIX."themes_layouts_modules` tlm, `".BIT_DB_PREFIX."themes_module_map` tmm
-				  WHERE tmm.`module_rsrc` = ? AND tmm.`module_id` = tlm.`module_id`";
-			$row = $this->mDb->getRow($query,array($mod_rsrc));
-		}
-		if( !empty( $row['params'] ) ) {
-			$tok = strtok($row['params'],';');
-			while ($tok) {
-				$pref = explode('=',$tok);
-					if (count($pref) >= 2)
-						$params[$pref[0]] = $pref[1];
-				$tok = strtok(';');
-			}
-		}
-
-		$params['module_rows'] = (!empty($row['module_rows'] ) ? $row['module_rows'] : 10);	// interim hack - drewslater
-
-		return $params;
-	}
-
-	function storeModuleParameters($mod_rsrc, $user_id, $params) {
-		if (!is_numeric($mod_rsrc))
-			$module_id = $this->get_module_id($mod_rsrc);
-		else
-			$module_id = $mod_rsrc;
-
-		$paramsStr = '';
-
-		foreach ($params as $setting=>$value) {
-			$paramsStr .= "$setting=$value;";
-		}
-
-		if (!$module_id)
-			return FALSE;
-
-		if ($user_id) {
-			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `params` = ?  WHERE `module_id` = ? AND `user_id` = ?";
-			$result = $this->mDb->query($query, array($paramsStr, $module_id, $user_id));
-		} else {
-			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts_modules` SET `params` = ? WHERE `module_id` = ?";
-			$result = $this->mDb->query($query, array($paramsStr, $module_id));
-		}
-
-		return TRUE;
-	}
-
-	function get_module_id($mod_rsrc) {
-		$query = "SELECT `module_id`
-			  FROM `".BIT_DB_PREFIX."themes_module_map`
-			  WHERE `module_rsrc` = ?";
-		$ret = $this->mDb->getOne($query, array($mod_rsrc));
-		return $ret;
-	}
-
-	function user_has_module_assigned($iUserId, $iLayout = NULL, $iModuleId = NULL, $iModuleRsrc = NULL) {
-		$ret = FALSE;
-		if (!$iModuleId && $iModuleRsrc) {
-			$iModuleId = $this->get_module_id($iModuleRsrc);
-		}
-
-		if ($iModuleId && $iUserId) {
-			$bindVars = array($iUserId, $iModuleId);
-			$sql = "SELECT count(*) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id` = ? AND `module_id` = ?";
-			if ($iLayout) {
-				$bindVars[] = $iLayout;
-				$sql .= " AND `layout` = ?";
-			}
-			$ret = (bool)$this->mDb->getOne($sql, $bindVars);
-		}
-		return $ret;
-	}
-	/**
-	* delete entire folder and everything within it
-	* @param path path to folder
-	* @note caution!
-	*/
 	function expunge_dir( $path ) {
 		$ret = FALSE;
 		if( $handle = opendir( $path )) {
@@ -759,7 +1228,24 @@ class BitThemes extends BitBase {
 		return $ret;
 	}
 
-	/* =============== UNUSED FUNCTIONS ================ can be removed soon - xing
+	function user_has_module_assigned($iUserId, $iLayout = NULL, $iModuleId = NULL, $iModuleRsrc = NULL) {
+		$ret = FALSE;
+		if (!$iModuleId && $iModuleRsrc) {
+			$iModuleId = $this->getModuleId($iModuleRsrc);
+		}
+
+		if ($iModuleId && $iUserId) {
+			$bindVars = array($iUserId, $iModuleId);
+			$sql = "SELECT count(*) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `user_id` = ? AND `module_id` = ?";
+			if ($iLayout) {
+				$bindVars[] = $iLayout;
+				$sql .= " AND `layout` = ?";
+			}
+			$ret = (bool)$this->mDb->getOne($sql, $bindVars);
+		}
+		return $ret;
+	}
+
 	function store_rows($rows, $mod_rsrc, $user_id = NULL) {
 		$module_id = $this->get_module_id($mod_rsrc);
 
