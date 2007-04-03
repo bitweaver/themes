@@ -1,6 +1,6 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.2 2007/04/03 14:10:54 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.3 2007/04/03 15:05:19 squareing Exp $ *}
 {strip}
-<div class="module box {$modInfo.name}">
+<div class="module box {$modInfo.name|replace:"_":"-"}">
 	{if $modInfo.title}
 		<h3>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
