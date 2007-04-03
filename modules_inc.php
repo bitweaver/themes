@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.1 2007/04/02 21:09:36 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.2 2007/04/03 14:10:54 squareing Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -50,7 +50,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						unset( $data );
 					} else {
 						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
-						global $module_rows, $module_params, $module_title, $moduleParams;
+						global $module_rows, $module_params, $module_title;
 						$module_params = $r['module_params']; // backwards compatability
 
 						if( !$r['module_rows'] ) {
@@ -70,8 +70,12 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						$gBitSmarty->assign_by_ref( 'module_rows', $module_rows = $r['module_rows'] );
 						$gBitSmarty->assign_by_ref( 'module_id', $r["module_id"] );
 						$gBitSmarty->assign_by_ref( 'module_layout', $r["layout"] );
-						 */
 						$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
+						 */
+						// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
+						$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
+						// assign the custom module title
+						$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
 						$r['data'] = $gBitSmarty->fetch( $r['module_rsrc'] );
 
 						unset( $moduleParams );
