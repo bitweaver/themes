@@ -139,16 +139,7 @@ class BitThemes extends BitBase {
 					$ret[$row['layout_area']] = array();
 				}
 
-				if( !empty( $row['params'] )) {
-					// only call crazy regex when params are too complex for parse_str()
-					if( strpos( trim( $row['params'] ), ' ' )) {
-						$row['module_params'] = parse_xml_attributes( $row['params'] );
-					} else {
-						parse_str( $row["params"], $row['module_params'] );
-					}
-				} else {
-					$row['module_params'] = array();
-				}
+				$row['module_params'] = $this->parseString( $row['params'] );
 
 				if( $row['layout_area'] == CENTER_COLUMN ) {
 					array_push( $gCenterPieces, $row );
@@ -237,7 +228,9 @@ class BitThemes extends BitBase {
 	 */
 	function getModuleData( $pModuleId ) {
 		if( @BitBase::verifyId( $pModuleId )) {
-			return( $this->mDb->getRow( "SELECT tl.* FROM `".BIT_DB_PREFIX."themes_layouts` tl WHERE `module_id`=? ", array( $pModuleId )));
+			$ret = $this->mDb->getRow( "SELECT tl.* FROM `".BIT_DB_PREFIX."themes_layouts` tl WHERE `module_id`=? ", array( $pModuleId ));
+			$ret['module_params'] = $this->parseString( $ret['params'] );
+			return $ret;
 		}
 	}
 
@@ -374,7 +367,6 @@ class BitThemes extends BitBase {
 		}
 	}
 
-
 	/**
 	 * getAllModules 
 	 * 
@@ -427,6 +419,44 @@ class BitThemes extends BitBase {
 		}
 
 		return $all_modules;
+	}
+
+	/**
+	 * get a module-specfic parameters
+	 * 
+	 * @param array $pModuleId 
+	 * @access public
+	 * @return array or parameters
+	 */
+	function getModuleParameters( $pModuleId ) {
+		$ret = array();
+		if( @BitBase::verifyId( $pModuleId )) {
+			$module = $this->getModuleData( $pModuleId );
+			$ret = $module['module_params'];
+		} else {
+			deprecated( 'Please use the module parameters found in vd( $moduleParams[\'module_params\'] ); or pass in the module id for a database lookup.' );
+		}
+		return $ret;
+	}
+
+	/**
+	 * parse URL-like parameter string
+	 * 
+	 * @param array $pParseString 
+	 * @access public
+	 * @return array or parameters
+	 */
+	function parseString( $pParseString ) {
+		$ret = array();
+		if( !empty( $pParseString )) {
+			// only call crazy regex when params are too complex for parse_str()
+			if( strpos( trim( $pParseString ), ' ' )) {
+				$ret = parse_xml_attributes( $pParseString );
+			} else {
+				parse_str( $pParseString, $ret );
+			}
+		}
+		return $ret;
 	}
 
 
@@ -709,39 +739,6 @@ class BitThemes extends BitBase {
 		deprecated( 'Please remove this function and use storeModule instead' );
 	}
 
-	function getModuleParameters($mod_rsrc, $user_id = ROOT_USER_ID ) {
-		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
-
-		// First we try to get preferences at the per-user level (e.g. from themes_layouts table)
-		$query = "SELECT tl.`params`, tl.`module_rows`
-				  FROM `".BIT_DB_PREFIX."themes_layouts` tl, `".BIT_DB_PREFIX."themes_module_map` tmm
-				  WHERE tmm.`module_rsrc` = ? AND tl.`user_id` = ? AND tmm.`module_id` = tl.`module_id`";
-		$row = $this->mDb->getRow($query,array($mod_rsrc, $user_id));
-
-		$params = array();
-
-		if( empty( $row['params'] ) ) {
-			// No per-user preferences were stored for this user so we will pull the default parameters
-			$query = "SELECT tlm.`params`, tlm.`module_rows`
-				  FROM `".BIT_DB_PREFIX."themes_layouts_modules` tlm, `".BIT_DB_PREFIX."themes_module_map` tmm
-				  WHERE tmm.`module_rsrc` = ? AND tmm.`module_id` = tlm.`module_id`";
-			$row = $this->mDb->getRow($query,array($mod_rsrc));
-		}
-		if( !empty( $row['params'] ) ) {
-			$tok = strtok($row['params'],';');
-			while ($tok) {
-				$pref = explode('=',$tok);
-					if (count($pref) >= 2)
-						$params[$pref[0]] = $pref[1];
-				$tok = strtok(';');
-			}
-		}
-
-		$params['module_rows'] = (!empty($row['module_rows'] ) ? $row['module_rows'] : 10);	// interim hack - drewslater
-
-		return $params;
-	}
-
 	function storeModuleParameters($mod_rsrc, $user_id, $params) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 
@@ -781,6 +778,39 @@ class BitThemes extends BitBase {
 	}
 
 	/* =============== UNUSED FUNCTIONS ================ can be removed soon - xing
+	function getModuleParameters($mod_rsrc, $user_id = ROOT_USER_ID ) {
+		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
+
+		// First we try to get preferences at the per-user level (e.g. from themes_layouts table)
+		$query = "SELECT tl.`params`, tl.`module_rows`
+				  FROM `".BIT_DB_PREFIX."themes_layouts` tl, `".BIT_DB_PREFIX."themes_module_map` tmm
+				  WHERE tmm.`module_rsrc` = ? AND tl.`user_id` = ? AND tmm.`module_id` = tl.`module_id`";
+		$row = $this->mDb->getRow($query,array($mod_rsrc, $user_id));
+
+		$params = array();
+
+		if( empty( $row['params'] ) ) {
+			// No per-user preferences were stored for this user so we will pull the default parameters
+			$query = "SELECT tlm.`params`, tlm.`module_rows`
+				  FROM `".BIT_DB_PREFIX."themes_layouts_modules` tlm, `".BIT_DB_PREFIX."themes_module_map` tmm
+				  WHERE tmm.`module_rsrc` = ? AND tmm.`module_id` = tlm.`module_id`";
+			$row = $this->mDb->getRow($query,array($mod_rsrc));
+		}
+		if( !empty( $row['params'] ) ) {
+			$tok = strtok($row['params'],';');
+			while ($tok) {
+				$pref = explode('=',$tok);
+					if (count($pref) >= 2)
+						$params[$pref[0]] = $pref[1];
+				$tok = strtok(';');
+			}
+		}
+
+		$params['module_rows'] = (!empty($row['module_rows'] ) ? $row['module_rows'] : 10);	// interim hack - drewslater
+
+		return $params;
+	}
+
 	function replaceCustomModule($name, $title, $data) {
 		if ((!empty($name)) && (!empty($title)) && (!empty($data))) {
 			$query = "delete from `".BIT_DB_PREFIX."themes_custom_modules` where `name`=?";
