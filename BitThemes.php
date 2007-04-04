@@ -994,7 +994,7 @@ class BitThemes extends BitBase {
 
 
 
-	// =================== old modules code ====================
+	// =================== old code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
 	function storeLayout() {
@@ -1006,4 +1006,5 @@ class BitThemes extends BitBase {
 	function getModuleId($mod_rsrc) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 	}
+}
 ?>
