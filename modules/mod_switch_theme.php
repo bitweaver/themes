@@ -2,7 +2,7 @@
 global $gBitThemes;
 $change_theme = $gBitSystem->getConfig('users_themes');
 $gBitSmarty->assign('change_theme', $change_theme);
-$style = $gBitSystem->getStyle();
+$style = $gBitThemes->getStyle();
 
 if( $change_theme == 'y' ) {
 	if ($gBitUser->isValid() && $gBitSystem->getConfig('users_preferences') == 'y') {

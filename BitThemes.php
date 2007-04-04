@@ -1,12 +1,246 @@
 <?php
-
+/**
+ * BitThemes 
+ * 
+ * @uses BitBase
+ */
 class BitThemes extends BitBase {
 	// Array that contains a full description of the current layout
 	var $mLayout = array();
 
+	// contains the currently active style
+	var $mStyle;
+
+	// an array with style information
+	var $mStyles = array();
+
+
+
+
+	/**
+	 * Initiate class
+	 * 
+	 * @return void
+	 */
 	function BitThemes() {
 		BitBase::BitBase();
 	}
+
+
+
+
+	// =================== Styles ====================
+	/**
+	 * load up all style related information
+	 * populates mStyle and mStyles
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function loadStyle() {
+		global $gPreviewStyle;
+		// setup our theme style and check if a preview theme has been picked
+		if( $gPreviewStyle !== FALSE ) {
+			$this->setStyle( $gPreviewStyle );
+		}
+
+		if( empty( $this->mStyles['styleSheet'] )) {
+			$this->mStyles['styleSheet'] = $this->getStyleCss();
+		}
+
+		$this->mStyles['headerIncFiles']    = $this->getTplIncludeFiles( "header_inc.tpl" );
+		$this->mStyles['footerIncFiles']    = $this->getTplIncludeFiles( "footer_inc.tpl" );
+		$this->mStyles['browserStyleSheet'] = $this->getBrowserStyleCss();
+		$this->mStyles['customStyleSheet']  = $this->getCustomStyleCss();
+		//$this->mStyles['altStyleSheets']    = $this->getAltStyleCss();
+
+		// define style url and path
+		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
+		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
+	}
+
+	/**
+	* scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
+	*
+	* @param none $
+	* @access private
+	* @return array of paths to existing header_inc.tpl files
+	*/
+	function getTplIncludeFiles( $pFilename ) {
+		global $gBitSystem;
+		// these package templates will be included last
+		$prepend = array( 'kernel' );
+		$append = array( 'themes' );
+		$anti = $mid = $post = array();
+		foreach( $gBitSystem->mPackages as $package => $info ) {
+			if( !empty( $info['path'] )) {
+				$file = $info['path'].'templates/'.$pFilename;
+				$out = "bitpackage:{$package}/{$pFilename}";
+				if( is_readable( $file )) {
+					if( in_array( $package, $prepend )) {
+						$anti[] = $out;
+					} elseif( in_array( $package, $append )) {
+						$post[] = $out;
+					} else {
+						$mid[] = $out;
+					}
+				}
+			}
+		}
+		$ret = array_merge( $anti, $mid, $post );
+		return $ret;
+	}
+
+	/**
+	* figure out the current style
+	*
+	* @param string $ pScanFile file to be looked for
+	* @return none
+	* @access public
+	*/
+	function getStyle() {
+		global $gBitSystem;
+		if( empty( $this->mStyle )) {
+			$this->mStyle = $gBitSystem->getConfig( 'style' );
+		}
+		return $this->mStyle;
+	}
+
+	/**
+	* figure out the current style
+	*
+	* @param string $ pScanFile file to be looked for
+	* @return none
+	* @access public
+	*/
+	function setStyle( $pStyle ) {
+		global $gBitSmarty;
+		$this->mStyle = $pStyle;
+		$gBitSmarty->assign( 'style', $pStyle );
+	}
+
+	/**
+	* figure out the current style
+	*
+	* @param string $ pScanFile file to be looked for
+	* @return none
+	* @access public
+	*/
+	function getStyleCss( $pStyle = NULL, $pUserId = NULL ) {
+		global $gBitSystem;
+		if( empty( $pStyle )) {
+			$pStyle = $this->getStyle();
+		}
+		$ret = '';
+
+		if( $pStyle == 'custom' ) {
+			// This is a page which uses a user-customized theme
+			// The user who owns the page (whose custom theme is being requested)
+			$homepageUser = new BitUser( $pUserId );
+			$homepageUser->load();
+			// Path to the user-customized css file
+			$cssPath = $homepageUser->getStoragePath( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
+			if( file_exists( $cssPath )) {
+				$ret = $homepageUser->getStorageURL( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
+			}
+		} else {
+			if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( THEMES_PKG_PATH.'styles/'.$pStyle.'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
+				$ret = THEMES_PKG_URL.'styles/'.$pStyle.'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
+			} elseif( is_readable( THEMES_PKG_PATH.'styles/'.$pStyle.'/'.$pStyle.'.css' )) {
+				$ret = THEMES_PKG_URL.'styles/'.$pStyle.'/'.$pStyle.'.css';
+			}
+		}
+		return $ret;
+	}
+
+	/**
+	* get the users custom.css file if there is one
+	*
+	* @param pStyle style the custom.css is part of
+	* @return path to custom.css file
+	* @access public
+	*/
+	function getCustomStyleCss( $pStyle = null ) {
+		$ret = null;
+		if( empty( $pStyle )) {
+			$pStyle = $this->getStyle();
+		}
+		return $ret;
+	}
+
+	/**
+	* get browser specific css file
+	*
+	* @param none
+	* @return path to browser specific css file
+	* @access public
+	*/
+	function getBrowserStyleCss() {
+		global $gSniffer;
+		if( file_exists( $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css' )) {
+			$ret = $this->getStyleUrl().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css';
+		}
+		return !empty( $ret ) ? $ret : NULL;
+	}
+
+	/**
+	* figure out the current style URL
+	*
+	* @param string $ pScanFile file to be looked for
+	* @return none
+	* @access public
+	*/
+	function getStyleUrl( $pStyle = NULL ) {
+		if( empty( $pStyle )) {
+			$pStyle = $this->getStyle();
+		}
+		return THEMES_PKG_URL.'styles/'.$pStyle.'/';
+	}
+
+	/**
+	* figure out the current style URL
+	*
+	* @param string $ pScanFile file to be looked for
+	* @return none
+	* @access public
+	*/
+	function getStylePath( $pStyle = NULL ) {
+		if( empty( $pStyle )) {
+			$pStyle = $this->getStyle();
+		}
+		return THEMES_PKG_PATH.'styles/'.$pStyle.'/';
+	}
+
+	/**
+	* get alternate style sheets
+	* probably obsolete - alternate stylesheets isn't really popular as they are not persistent when selected in the browser
+	*
+	* @param none
+	* @return array of style sheets with name of stylesheet as array
+	* @access public
+	*/
+	/*
+	function getAltStyleCss() {
+		$ret = NULL;
+		$alt_path = $this->getStylePath().'alternate/';
+		$alt_url = $this->getStyleUrl().'alternate/';
+		if( is_dir( $alt_path ) && $handle = opendir( $alt_path )) {
+			while( FALSE !== ( $file = readdir( $handle ))) {
+				if( ( $file != '.' || $file != '..' ) && preg_match( "/\.css$/i", $file )) {
+					$p[0] = "/_/";
+					$r[0] = " ";
+					$p[1] = "/\.css$/i";
+					$r[1] = "";
+					$name = preg_replace( $p, $r, $file );
+					$ret[$name] = $alt_url.$file;
+				}
+			}
+			closedir( $handle );
+		}
+		return $ret;
+	}
+	 */
+
 
 
 
@@ -26,10 +260,10 @@ class BitThemes extends BitBase {
 			$this->mLayout = $this->getLayout( $pParamHash );
 
 			// this needs to occur here to ensure that we don't distrub the fallback process during layout loading
-			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_left_col' ) ) {
+			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_left_col' )) {
 				unset( $this->mLayout['l'] );
 			}
-			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_right_col' ) ) {
+			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_right_col' )) {
 				unset( $this->mLayout['r'] );
 			}
 		}
@@ -242,7 +476,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function moveModuleUp( $pModuleId ) {
-		if( @BitBase::verifyId( $pModuleId ) ) {
+		if( @BitBase::verifyId( $pModuleId )) {
 			// first we get next module we want to swap with
 			$moduleData = $this->getModuleData( $pModuleId );
 			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`<=? AND `module_id`<>?";
@@ -269,7 +503,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function moveModuleDown( $pModuleId ) {
-		if( @BitBase::verifyId( $pModuleId ) ) {
+		if( @BitBase::verifyId( $pModuleId )) {
 			// first we get next module we want to swap with
 			$moduleData = $this->getModuleData( $pModuleId );
 			$query  = "SELECT MIN(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`>=? AND `module_id`<>?";
@@ -347,15 +581,15 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function generateModuleNames( &$p2DHash ) {
-		if( is_array( $p2DHash ) ) {
+		if( is_array( $p2DHash )) {
 			// Generate human friendly names
 			foreach( array_keys( $p2DHash ) as $col ) {
-				if( count( $p2DHash[$col] ) ) {
+				if( count( $p2DHash[$col] )) {
 					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
 						list($source, $file) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
 						@list($rsrc, $package) = split( ':', $source );
 						// handle special case for custom modules
-						if( !isset( $package ) ) {
+						if( !isset( $package )) {
 							$package = $rsrc;
 						}
 						$file = str_replace( 'mod_', '', $file );
@@ -387,13 +621,13 @@ class BitThemes extends BitBase {
 
 		// iterate through all packages and look for all possible modules
 		foreach( array_keys( $gBitSystem->mPackages ) as $key ) {
-			if( $gBitSystem->isPackageActive( $key ) ) {
+			if( $gBitSystem->isPackageActive( $key )) {
 				$loc = BIT_ROOT_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
-				if( @is_dir( $loc ) ) {
+				if( @is_dir( $loc )) {
 					$h = opendir( $loc );
 					if( $h ) {
 						while (($file = readdir($h)) !== false) {
-							if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
+							if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match )) {
 								$all_modules[ucfirst( $key )]['bitpackage:'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
 							}
 						}
@@ -403,11 +637,11 @@ class BitThemes extends BitBase {
 				// we scan temp/<pkg>/modules for module files as well for on the fly generated modules (e.g. nexus)
 				if( $pDir == 'modules' ) {
 					$loc = TEMP_PKG_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
-					if( @is_dir( $loc ) ) {
+					if( @is_dir( $loc )) {
 						$h = opendir( $loc );
 						if( $h ) {
 							while (($file = readdir($h)) !== false) {
-								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match ) ) {
+								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match )) {
 									$all_modules[ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
 								}
 							}
@@ -577,26 +811,26 @@ class BitThemes extends BitBase {
 	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
 		global $gBitSystem, $gBitUser;
 
-		if( empty( $pDir ) ) {
+		if( empty( $pDir )) {
 			$pDir = THEMES_PKG_PATH.'styles/';
 		}
 		$ret = array();
 
-		if( !empty( $pNullOption ) ) {
+		if( !empty( $pNullOption )) {
 			$ret[] = '';
 		}
 
-		if( is_dir( $pDir ) ) {
+		if( is_dir( $pDir )) {
 			$h = opendir( $pDir );
-			while( $file = readdir( $h ) ) {
-				if ( is_dir( $pDir."$file" ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' ) ) {
+			while( $file = readdir( $h )) {
+				if ( is_dir( $pDir."$file" ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
 					$ret[] = $file;
 				}
 			}
 			closedir( $h );
 		}
 
-		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' ) ) {	
+		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {	
 			// Include the users custom css if they have created one
 			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
 			$customCSSFile = $customCSSPath.'custom.css';
@@ -606,7 +840,7 @@ class BitThemes extends BitBase {
 			}
 		}
 
-		if( count( $ret ) ) {
+		if( count( $ret )) {
 			sort( $ret );
 		}
 
@@ -622,19 +856,19 @@ class BitThemes extends BitBase {
 	function getStyleLayouts() {
 		$ret = array();
 
-		if( is_dir( THEMES_PKG_PATH.'layouts/' ) ) {
+		if( is_dir( THEMES_PKG_PATH.'layouts/' )) {
 			$h = opendir( THEMES_PKG_PATH.'layouts/' );
 			// collect all layouts
-			while( FALSE !== ( $file = readdir( $h ) ) ) {
-				if ( !preg_match( "/^\./", $file ) ) {
-					$ret[substr( $file, 0, ( strrpos( $file, '.' ) ) )][substr( $file, ( strrpos( $file, '.' ) + 1 ) )] = $file;
+			while( FALSE !== ( $file = readdir( $h ))) {
+				if ( !preg_match( "/^\./", $file )) {
+					$ret[substr( $file, 0, ( strrpos( $file, '.' )))][substr( $file, ( strrpos( $file, '.' ) + 1 ))] = $file;
 				}
 			}
 			closedir( $h );
 
 			// weed out any files that don't have a css file associated with them
 			foreach( $ret as $key => $layout ) {
-				if( empty( $layout['css'] ) ) {
+				if( empty( $layout['css'] )) {
 					unset( $ret[$key] );
 				}
 			}
@@ -658,41 +892,41 @@ class BitThemes extends BitBase {
 
 		$ret = array();
 
-		if( empty( $pSubDirs ) ) {
+		if( empty( $pSubDirs )) {
 			$subDirs[] = array( '' );
-		} elseif( !is_array( $pSubDirs ) ) {
+		} elseif( !is_array( $pSubDirs )) {
 			$subDirs[] = $pSubDirs;
 		} else {
 			$subDirs = $pSubDirs;
 		}
 
-		if( empty( $pDir ) ) {
+		if( empty( $pDir )) {
 			$pDir = THEMES_PKG_PATH.'styles/';
 		}
 
-		if( !empty( $pNullOption ) ) {
+		if( !empty( $pNullOption )) {
 			$ret[] = '';
 		}
 
 		// open directories
-		if( is_dir( $pDir ) ) {
+		if( is_dir( $pDir )) {
 			$h = opendir( $pDir );
 			// cycle through files / dirs
-			while( FALSE !== ( $file = readdir( $h ) ) ) {
-				if ( is_dir( $pDir.$file ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' ) ) {
+			while( FALSE !== ( $file = readdir( $h ))) {
+				if ( is_dir( $pDir.$file ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
 					$ret[$file]['style'] = $file;
 					// check if we want to have a look in any subdirs
 					foreach( $subDirs as $dir ) {
-						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' ) ) {
+						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' )) {
 							$dh = opendir( $infoDir );
 							// cycle through files / dirs
-							while( FALSE !== ( $f = readdir( $dh ) ) ) {
-								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' ) ) {
-									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.basename( dirname( dirname( $infoDir ) ) ).'/'.$file.'/'.$dir.'/'.$f;
+							while( FALSE !== ( $f = readdir( $dh ))) {
+								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' )) {
+									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.basename( dirname( dirname( $infoDir ))).'/'.$file.'/'.$dir.'/'.$f;
 
-									if( preg_match( "/\.htm$/", $f ) ) {
+									if( preg_match( "/\.htm$/", $f )) {
 										$fh = fopen( $infoDir.$f, "r" );
-										$ret[$file][$dir][preg_replace( "/\.htm$/", "", $f )] = fread( $fh, filesize( $infoDir.$f ) );
+										$ret[$file][$dir][preg_replace( "/\.htm$/", "", $f )] = fread( $fh, filesize( $infoDir.$f ));
 										fclose( $fh );
 									}
 								}
@@ -707,7 +941,7 @@ class BitThemes extends BitBase {
 			closedir( $h );
 		}
 
-		if( count( $ret ) ) {
+		if( count( $ret )) {
 			ksort( $ret );
 		}
 
