@@ -333,28 +333,7 @@ class BitThemes extends BitBase {
 					$row["visible"] = TRUE;
 					$row["module_groups"] = array();
 				} else {
-					// convert groups string to hash
-					if( preg_match( '/[A-Za-z]/', $row["groups"] )) {
-						// old style serialized group names
-						$row["module_groups"] = array();
-						if( $grps = @unserialize( $row["groups"] )) {
-							foreach( $grps as $grp ) {
-								global $gBitUser;
-								if( !( $groupId = array_search( $grp, $gBitUser->mGroups ))) {
-									if( $gBitUser->isAdmin() ) {
-										$row["module_groups"][] = $gBitUser->groupExists( $grp, '*' );
-									}
-								}
-
-								if( @$this->verifyId( $groupId )) {
-									$row["module_groups"][] = $groupId;
-								}
-							}
-						}
-					} else {
-						// new imploded style
-						$row["module_groups"] = explode( ' ', $row["groups"] );
-					}
+					$row['module_groups'] = $this->parseGroups( $row['groups'] );
 
 					if( $gBitUser->isAdmin() ) {
 						$row["visible"] = TRUE;
@@ -385,6 +364,55 @@ class BitThemes extends BitBase {
 
 				$row = $result->fetchRow();
 			}
+		}
+		return $ret;
+	}
+
+	/**
+	 * get a brief summary of set layouts
+	 * 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getAllLayouts() {
+		$layouts = array();
+		$modules = $this->mDb->getAll( "SELECT tl.* FROM `".BIT_DB_PREFIX."themes_layouts` tl ORDER BY ".$this->mDb->convertSortmode( "pos_asc" ));
+		foreach( $modules as $module ) {
+			$module['module_groups'] = $this->parseGroups( $module['groups'] );
+			$layouts[$module['layout']][$module['layout_area']][] = $module;
+		}
+		return $layouts;
+	}
+
+	/**
+	 * transform groups string to handy array
+	 * 
+	 * @param array $pParseString either space separated list of groups or serialised array
+	 * @access public
+	 * @return array of groups
+	 */
+	function parseGroups( $pParseString ) {
+		$ret = array();
+		// convert groups string to hash
+		if( preg_match( '/[A-Za-z]/', $pParseString )) {
+			// old style serialized group names
+			if( $grps = @unserialize( $pParseString )) {
+				foreach( $grps as $grp ) {
+					global $gBitUser;
+					if( !( $groupId = array_search( $grp, $gBitUser->mGroups ))) {
+						if( $gBitUser->isAdmin() ) {
+							$ret[] = $gBitUser->groupExists( $grp, '*' );
+						}
+					}
+
+					if( @$this->verifyId( $groupId )) {
+						$ret[] = $groupId;
+					}
+				}
+			}
+		} else {
+			// new imploded style
+			$ret = explode( ' ', $pParseString );
 		}
 		return $ret;
 	}
@@ -479,8 +507,8 @@ class BitThemes extends BitBase {
 		if( @BitBase::verifyId( $pModuleId )) {
 			// first we get next module we want to swap with
 			$moduleData = $this->getModuleData( $pModuleId );
-			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`<=? AND `module_id`<>?";
-			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
+			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? AND `pos`<=? AND `module_id`<>?";
+			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout'], $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
 			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
 				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
 					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`-1 WHERE `module_id`=?";
@@ -506,8 +534,8 @@ class BitThemes extends BitBase {
 		if( @BitBase::verifyId( $pModuleId )) {
 			// first we get next module we want to swap with
 			$moduleData = $this->getModuleData( $pModuleId );
-			$query  = "SELECT MIN(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout_area`=? AND `pos`>=? AND `module_id`<>?";
-			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
+			$query  = "SELECT MIN(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? AND `pos`>=? AND `module_id`<>?";
+			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout'], $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
 			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
 				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
 					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`+1 WHERE `module_id`=?";
@@ -574,11 +602,11 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * generateModuleNames 
+	 * generates module names on full hash by reference
 	 * 
-	 * @param array $p2DHash 
+	 * @param array $p2DHash layout hash
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return void
 	 */
 	function generateModuleNames( &$p2DHash ) {
 		if( is_array( $p2DHash )) {
@@ -586,15 +614,15 @@ class BitThemes extends BitBase {
 			foreach( array_keys( $p2DHash ) as $col ) {
 				if( count( $p2DHash[$col] )) {
 					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
-						list($source, $file) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
-						@list($rsrc, $package) = split( ':', $source );
+						list( $source, $file ) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
+						@list( $rsrc, $package ) = split( ':', $source );
 						// handle special case for custom modules
 						if( !isset( $package )) {
 							$package = $rsrc;
 						}
 						$file = str_replace( 'mod_', '', $file );
 						$file = str_replace( '.tpl', '', $file );
-						$p2DHash[$col][$mod]['name'] = $package.' -> '.str_replace( '_', ' ', $file );
+						$p2DHash[$col][$mod]['name'] = $package.' &raquo; '.str_replace( '_', ' ', $file );
 					}
 				}
 			}

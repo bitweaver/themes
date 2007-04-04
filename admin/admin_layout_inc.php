@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.1 2007/04/02 18:55:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.2 2007/04/04 18:07:15 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -22,7 +22,6 @@ $layout = $gBitThemes->getLayout( $layoutHash );
 if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 	foreach( $_REQUEST['modules'] as $module_id => $module ) {
 		$module['module_id'] = $module_id;
-		$module['layout']    = $_REQUEST['module_package'];
 		$module['user_id']   = ROOT_USER_ID;
 		$gBitThemes->storeModule( $module );
 	}
