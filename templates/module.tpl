@@ -1,6 +1,6 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.3 2007/04/03 15:05:19 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.4 2007/04/09 02:08:40 wjames5 Exp $ *}
 {strip}
-<div class="module box {$modInfo.name|replace:"_":"-"}">
+<div class="module box {$modInfo.name|replace:"_":"-"} pos-{$moduleParams.layout_area}{$moduleParams.pos}">
 	{if $modInfo.title}
 		<h3>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
@@ -20,7 +20,7 @@
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}</a>{/if}
 		</h3>
 	{/if}
-	<div class="boxcontent" id="{$modInfo.name}"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state};"{/if}>
+	<div class="boxcontent {$modInfo.name} pos-{$moduleParams.layout_area}{$moduleParams.pos}"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state};"{/if}>
 		{$modInfo.data}
 	</div>
 </div>
