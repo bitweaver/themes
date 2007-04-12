@@ -259,12 +259,14 @@ class BitThemes extends BitBase {
 		if( empty( $this->mLayout ) || !count( $this->mLayout )){
 			$this->mLayout = $this->getLayout( $pParamHash );
 
-			// this needs to occur here to ensure that we don't distrub the fallback process during layout loading
-			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_left_col' )) {
-				unset( $this->mLayout['l'] );
-			}
-			if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE.'_hide_right_col' )) {
-				unset( $this->mLayout['r'] );
+			// hideable areas
+			$hideable = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
+
+			// this needs to occur after loading the layout to ensure that we don't distrub the fallback process during layout loading
+			foreach( $hideable as $layout => $area ) {
+				if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE."_hide_{$area}_col" )) {
+					unset( $this->mLayout[$layout] );
+				}
 			}
 		}
 	}
@@ -646,7 +648,7 @@ class BitThemes extends BitBase {
 	 * @return valid area
 	 */
 	function verifyArea( &$pArea ) {
-		if( empty( $pArea ) || !preg_match( '/^[lrcbt]$/', $pArea )) {
+		if( empty( $pArea ) || !preg_match( '/^[lrctb]$/', $pArea )) {
 			$pArea = 'l';
 		}
 		return TRUE;

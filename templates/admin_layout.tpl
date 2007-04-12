@@ -1,40 +1,52 @@
 {strip}
 {formfeedback hash=$feedback}
 
+<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
+	<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
+	<tr>
+		{foreach from=$layoutAreas item=area key=colkey}
+			{if $colkey =='top'}
+				<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+			{elseif $colkey =='bottom'}
+				</tr>
+				<tr>
+					<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+			{else}
+				<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
+			{/if}
+
+				<table class="data" style="width:100%">
+					<tr>
+						<th>{tr}{$colkey} area{/tr}</th>
+					</tr>
+					{section name=ix loop=$layout.$area}
+						<tr>
+							<td>
+								{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix] condensed=1}
+							</td>
+						</tr>
+					{sectionelse}
+						<tr>
+							<td colspan="3" align="center">
+								{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
+							</td>
+						</tr>
+					{/section}
+				</table>
+			</td>
+
+			{if $colkey =='top'}
+				</tr>
+				<tr>
+			{/if}
+		{/foreach}
+	</tr>
+</table>
+
 {form}
-	<input type="hidden" name="module_package" value="{$module_package}" />
 	<input type="hidden" name="page" value="{$page}" />
 
-	<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
-		<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
-		<tr>
-			{foreach from=$layoutAreas item=area key=colkey }
-				<td style="width:33%" valign="top">
-					<table class="data" style="width:100%">
-						<tr>
-							<th>{tr}{$colkey} column{/tr}</th>
-						</tr>
-						{section name=ix loop=$layout.$area}
-							<tr class="{cycle values="even,odd"}">
-								<td>
-									{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix]}
-								</td>
-							</tr>
-						{sectionelse}
-							<tr class="{cycle values="even,odd"}" >
-								<td colspan="3" align="center">
-									{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
-								</td>
-							</tr>
-						{/section}
-					</table>
-				</td>
-			{/foreach}
-		</tr>
-	</table>
-
 	<div class="submit">
-		<input type="submit" name="update_modules" value="{tr}Update Module Settings{/tr}" />
 		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
 	</div>
 {/form}
@@ -101,8 +113,14 @@
 				{formlabel label="Position" for="layout_area"}
 				{forminput}
 					<select name="fAssign[layout_area]" id="layout_area">
-						<option value="l" {if $fAssign.layout_area eq 'l'}selected="selected"{/if}>{tr}left column{/tr}</option>
-						<option value="r" {if $fAssign.layout_area eq 'r'}selected="selected"{/if}>{tr}right column{/tr}</option>
+						{if $gBitSystem->isFeatureActive('site_top_column')}
+							<option value="t" {if $fAssign.layout_area eq 't'}selected="selected"{/if}>{tr}Top{/tr}</option>
+						{/if}
+						<option value="l" {if $fAssign.layout_area eq 'l'}selected="selected"{/if}>{tr}Left column{/tr}</option>
+						<option value="r" {if $fAssign.layout_area eq 'r'}selected="selected"{/if}>{tr}Right column{/tr}</option>
+						{if $gBitSystem->isFeatureActive('site_bottom_column')}
+							<option value="b" {if $fAssign.layout_area eq 'b'}selected="selected"{/if}>{tr}Bottom{/tr}</option>
+						{/if}
 					</select>
 					{formhelp note="Select the column this module should be displayed in."}
 				{/forminput}
@@ -272,17 +290,19 @@
 			{/foreach}
 
 			<table id="hidecolumns">
-				<caption>{tr}Hide columns in selected packages.{/tr}</caption>
+				<caption>{tr}Hide areas in selected packages.{/tr}</caption>
 				<thead>
 					<tr>
 						<th>{tr}Package{/tr}</th>
-						<th>{tr}hide left column{/tr}</th>
-						<th>{tr}hide right column{/tr}</th>
+						<th>{tr}Top{/tr}</th>
+						<th>{tr}Left{/tr}</th>
+						<th>{tr}Right{/tr}</th>
+						<th>{tr}Bottom{/tr}</th>
 					</tr>
 				</thead>
 				<tfoot>
 					<tr>
-						<td colspan="3">
+						<td colspan="5">
 							<div class="row submit">
 								<input type="submit" name="HideTabSubmit" value="{tr}Change preferences{/tr}" />
 							</div>
@@ -293,8 +313,10 @@
 					{foreach from=$hideColumns item=name key=package}
 					<tr class="{cycle values="odd,even"}">
 						<td>{$name}</td>
+						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_top_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_top_col")}checked="checked"{/if} /></td>
 						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_left_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_left_col")}checked="checked"{/if} /></td>
 						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_right_col]"  value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_right_col")}checked="checked"{/if} /></td>
+						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_bottom_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_bottom_col")}checked="checked"{/if} /></td>
 					</tr>
 					{/foreach}
 				</tbody>

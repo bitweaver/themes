@@ -1,9 +1,13 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.5 2007/04/12 14:23:47 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.6 2007/04/12 17:56:08 squareing Exp $ *}
 {strip}
 {if $moduleParams.layout_area == "l"}
 	{assign var=area value="navig"}
 {elseif $moduleParams.layout_area == "r"}
 	{assign var=area value="extra"}
+{elseif $moduleParams.layout_area == "t"}
+	{assign var=area value="header"}
+{elseif $moduleParams.layout_area == "b"}
+	{assign var=area value="footer"}
 {/if}
 
 <div class="module {$modInfo.name|replace:"_":"-"}" id="{$area}{$moduleParams.pos}">

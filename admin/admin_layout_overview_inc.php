@@ -36,7 +36,15 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	}
 }
 
-$layoutAreas = array( 'left'=>'l', 'center'=>'c', 'right'=>'r' );
+if( $gBitSystem->isFeatureActive( 'site_top_column' )) {
+	$layoutAreas['top'] = 't';
+}
+$layoutAreas['left']   = 'l';
+$layoutAreas['center'] = 'c';
+$layoutAreas['right']  = 'r';
+if( $gBitSystem->isFeatureActive( 'site_bottom_column' )) {
+	$layoutAreas['bottom'] = 'b';
+}
 $gBitSmarty->assign_by_ref( 'layoutAreas', $layoutAreas );
 
 $layouts = $gBitThemes->getAllLayouts();

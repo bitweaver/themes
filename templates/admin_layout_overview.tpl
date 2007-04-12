@@ -12,20 +12,29 @@
 
 		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
 			<tr>
-				{foreach from=$layoutAreas item=area key=colkey }
-					<td style="width:33%" valign="top">
+				{foreach from=$layoutAreas item=area key=colkey}
+					{if $colkey =='top'}
+						<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+					{elseif $colkey =='bottom'}
+						</tr>
+						<tr>
+							<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+					{else}
+						<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
+					{/if}
+
 						<table class="data" style="width:100%">
 							<tr>
-								<th>{tr}{$colkey} column{/tr}</th>
+								<th>{tr}{$colkey} area{/tr}</th>
 							</tr>
 							{section name=ix loop=$layout.$area}
-								<tr class="{cycle values="even,odd"}">
+								<tr>
 									<td>
 										{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix]}
 									</td>
 								</tr>
 							{sectionelse}
-								<tr class="{cycle values="even,odd"}" >
+								<tr>
 									<td colspan="3" align="center">
 										{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
 									</td>
@@ -33,6 +42,11 @@
 							{/section}
 						</table>
 					</td>
+
+					{if $colkey =='top'}
+						</tr>
+						<tr>
+					{/if}
 				{/foreach}
 			</tr>
 		</table>

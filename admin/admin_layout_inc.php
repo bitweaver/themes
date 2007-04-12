@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.3 2007/04/12 14:26:22 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.4 2007/04/12 17:56:08 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -19,6 +19,7 @@ $layoutHash = array(
 );
 $layout = $gBitThemes->getLayout( $layoutHash );
 
+/* this is now part of the overview page to simpify the ui on this page
 if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 	foreach( $_REQUEST['modules'] as $module_id => $module ) {
 		$module['module_id'] = $module_id;
@@ -26,6 +27,7 @@ if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 		$gBitThemes->storeModule( $module );
 	}
 }
+ */
 
 if( !empty( $_REQUEST['fix_pos'] )) {
 	$gBitThemes->fixPositions( $_REQUEST['module_package'] );
@@ -39,13 +41,21 @@ if( !empty( $_REQUEST['module_name'] ) ) {
 $gBitSystem->verifyInstalledPackages();
 
 $formMiscFeatures = array(
+	'site_top_column' => array(
+		'label' => 'Top Module Area',
+		'note' => 'Check to enable the top module area site-wide.',
+	),
 	'site_right_column' => array(
-		'label' => 'Right Module Column',
-		'note' => 'Check to enable the right column site-wide.',
+		'label' => 'Right Module Area',
+		'note' => 'Check to enable the right module area site-wide.',
 	),
 	'site_left_column' => array(
-		'label' => 'Left Module Column',
-		'note' => 'Check to enable the left column site-wide.',
+		'label' => 'Left Module Area',
+		'note' => 'Check to enable the left module area site-wide.',
+	),
+	'site_bottom_column' => array(
+		'label' => 'Bottom Module Area',
+		'note' => 'Check to enable the bottom module area site-wide.',
 	),
 );
 $gBitSmarty->assign( 'formMiscFeatures',$formMiscFeatures );
@@ -69,25 +79,20 @@ if( $processForm == 'Hide' ) {
 		simple_set_toggle( $item, THEMES_PKG_NAME );
 	}
 
-	// evaluate what columns to hide
-	foreach( array_keys( $hideColumns ) as $package ) {
-		// left side first
-		$pref = $package."_hide_left_col";
-		if( isset( $_REQUEST['hide'][$pref] ) ) {
-			$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
-		} else {
-			// remove the setting from the db if it's not set
-			$gBitSystem->storeConfig( $pref, NULL );
-		}
+	// hideable areas
+	$hideable = array( 'top', 'left', 'right', 'bottom' );
 
-		// now the right side
-		$pref = $package."_hide_right_col";
+	// evaluate what columns to hide
+	foreach( $hideable as $area ) {
+	foreach( array_keys( $hideColumns ) as $package ) {
+		$pref = "{$package}_hide_{$area}_col";
 		if( isset( $_REQUEST['hide'][$pref] ) ) {
 			$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
 		} else {
 			// remove the setting from the db if it's not set
 			$gBitSystem->storeConfig( $pref, NULL );
 		}
+	}
 	}
 } elseif( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	if( isset( $_REQUEST['move_module'] )) {
@@ -133,7 +138,15 @@ $layout = $gBitThemes->getLayout( $layoutHash );
 $gBitThemes->generateModuleNames( $layout );
 $gBitSmarty->assign_by_ref( 'layout', $layout );
 
-$layoutAreas = array( 'left'=>'l', 'center'=>'c', 'right'=>'r' );
+if( $gBitSystem->isFeatureActive( 'site_top_column' )) {
+	$layoutAreas['top'] = 't';
+}
+$layoutAreas['left']   = 'l';
+$layoutAreas['center'] = 'c';
+$layoutAreas['right']  = 'r';
+if( $gBitSystem->isFeatureActive( 'site_bottom_column' )) {
+	$layoutAreas['bottom'] = 'b';
+}
 $gBitSmarty->assign_by_ref( 'layoutAreas', $layoutAreas );
 
 $allModules = $gBitThemes->getAllModules();
