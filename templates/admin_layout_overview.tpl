@@ -5,7 +5,10 @@
 	<input type="hidden" name="page" value="{$page}" />
 
 	{foreach from=$layouts item=layout key=module_package}
-		<h1>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</h1>
+		<h1>
+			{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}
+			&nbsp; {smartlink ititle="Remove this Layout" ibiticon="icons/edit-delete" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
+		</h1>
 
 		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
 			<tr>
@@ -38,6 +41,7 @@
 
 	<div class="submit">
 		<input type="submit" name="update_modules" value="{tr}Update Module Settings{/tr}" />
+		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
 	</div>
 {/form}
 {/strip}

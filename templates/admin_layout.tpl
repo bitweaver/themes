@@ -35,6 +35,7 @@
 
 	<div class="submit">
 		<input type="submit" name="update_modules" value="{tr}Update Module Settings{/tr}" />
+		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
 	</div>
 {/form}
 
@@ -44,7 +45,6 @@
 		{formlabel label="Create Customized layout for" for="module_package"}
 		{forminput}
 			<select name="module_package" id="module_package" onchange="this.form.submit();">
-				<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
 				{foreach key=name item=package from=$gBitSystem->mPackages}
 					{if $package.installed and ($package.activatable or $package.tables)}
 						<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
@@ -56,6 +56,7 @@
 						</option>
 					{/if}
 				{/foreach}
+				<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
 			</select>
 
 			<noscript>

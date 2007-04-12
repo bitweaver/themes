@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.2 2007/04/04 18:07:15 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.3 2007/04/12 14:26:22 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -25,6 +25,10 @@ if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 		$module['user_id']   = ROOT_USER_ID;
 		$gBitThemes->storeModule( $module );
 	}
+}
+
+if( !empty( $_REQUEST['fix_pos'] )) {
+	$gBitThemes->fixPositions( $_REQUEST['module_package'] );
 }
 
 if( !empty( $_REQUEST['module_name'] ) ) {
@@ -117,9 +121,8 @@ if( $processForm == 'Hide' ) {
 	$gBitThemes->storeModule( $fAssign );
 }
 
-$sortedPackages = $gBitSystem->mPackages;
-asort( $sortedPackages );
-$gBitSmarty->assign( 'sortedPackages', $sortedPackages );
+// this will sort the layout selection dropdown
+ksort( $gBitSystem->mPackages );
 $gBitSmarty->assign( 'module_package', $_REQUEST['module_package'] );
 
 $layoutHash = array(

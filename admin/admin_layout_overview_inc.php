@@ -6,6 +6,14 @@ if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 	}
 }
 
+if( !empty( $_REQUEST['fix_pos'] )) {
+	$gBitThemes->fixPositions();
+}
+
+if( !empty( $_REQUEST['remove_layout'] )) {
+	$gBitThemes->expungeLayout( $_REQUEST['remove_layout'] );
+}
+
 if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	if( isset( $_REQUEST['move_module'] )) {
 		switch( $_REQUEST['move_module'] ) {

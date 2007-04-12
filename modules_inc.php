@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.2 2007/04/03 14:10:54 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.3 2007/04/12 14:26:21 squareing Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -65,13 +65,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							$replace[1] = " ";
 							$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucfirst( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
 						}
-						/* This was the old and now deprecated assignment stuff.
-						$gBitSmarty->assign_by_ref( 'moduleTitle', $r['module_title'] );
-						$gBitSmarty->assign_by_ref( 'module_rows', $module_rows = $r['module_rows'] );
-						$gBitSmarty->assign_by_ref( 'module_id', $r["module_id"] );
-						$gBitSmarty->assign_by_ref( 'module_layout', $r["layout"] );
-						$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
-						 */
+
 						// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
 						$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
 						// assign the custom module title

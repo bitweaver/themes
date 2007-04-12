@@ -369,6 +369,31 @@ class BitThemes extends BitBase {
 	}
 
 	/**
+	 * fix postional data in database using increments of 10 to make it easy for inserting new modules
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function fixPositions( $pLayout = NULL ) {
+		$layouts = $this->getAllLayouts();
+
+		// if we only want to fix the positions of a given layout, strip down the hash
+		if( !empty( $pLayout ) && !empty( $layouts[$pLayout] )) {
+			$layouts = array( $layouts[$pLayout] );
+		}
+
+		foreach( $layouts as $layout ) {
+			foreach( $layout as $column ) {
+				$i = 5;
+				foreach( $column as $module ) {
+					$this->mDb->query( "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET pos=? WHERE module_id=?", array( $i, $module['module_id'] ));
+					$i += 5;
+				}
+			}
+		}
+	}
+
+	/**
 	 * get a brief summary of set layouts
 	 * 
 	 * @access public
@@ -381,7 +406,24 @@ class BitThemes extends BitBase {
 			$module['module_groups'] = $this->parseGroups( $module['groups'] );
 			$layouts[$module['layout']][$module['layout_area']][] = $module;
 		}
+		ksort( $layouts );
 		return $layouts;
+	}
+
+	/**
+	 * expungeLayout 
+	 * 
+	 * @param array $pLayout 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function expungeLayout( $pLayout = NULL ) {
+		$bindVars;
+		if( !empty( $pLayout )) {
+			$whereSql = "WHERE layout=?";
+			$bindVars[] = $pLayout;
+		}
+		$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` $whereSql", $bindVars );
 	}
 
 	/**
@@ -505,20 +547,7 @@ class BitThemes extends BitBase {
 	 */
 	function moveModuleUp( $pModuleId ) {
 		if( @BitBase::verifyId( $pModuleId )) {
-			// first we get next module we want to swap with
-			$moduleData = $this->getModuleData( $pModuleId );
-			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? AND `pos`<=? AND `module_id`<>?";
-			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout'], $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
-			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
-				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
-					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`-1 WHERE `module_id`=?";
-					$result = $this->mDb->query( $query, array( $moduleData['module_id'] ));
-				} else {
-					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
-					$result = $this->mDb->query( $query, array( $moduleSwap['pos'], $moduleData['module_id'] ));
-					$result = $this->mDb->query( $query, array( $moduleData['pos'], $moduleSwap['module_id'] ));
-				}
-			}
+			$this->moveModule( $pModuleId, 'up' );
 		}
 		return( count( $this->mErrors ) == 0 );
 	}
@@ -532,13 +561,35 @@ class BitThemes extends BitBase {
 	 */
 	function moveModuleDown( $pModuleId ) {
 		if( @BitBase::verifyId( $pModuleId )) {
+			$this->moveModule( $pModuleId, 'down' );
+		}
+		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * generic function to move module up or down
+	 * 
+	 * @param array $pModuleId 
+	 * @param string $pOrientation 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function moveModule( $pModuleId, $pDirection = 'down' ) {
+		if( @BitBase::verifyId( $pModuleId )) {
 			// first we get next module we want to swap with
 			$moduleData = $this->getModuleData( $pModuleId );
-			$query  = "SELECT MIN(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? AND `pos`>=? AND `module_id`<>?";
+			if( $pDirection == 'up' ) {
+				$pos_check = 'AND `pos`<=?';
+				$pos_set   = 'SET `pos`=`pos`-1';
+			} else {
+				$pos_check = 'AND `pos`>=?';
+				$pos_set   = 'SET `pos`=`pos`+1';
+			}
+			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? $pos_check AND `module_id`<>?";
 			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout'], $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
 			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
 				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
-					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=`pos`+1 WHERE `module_id`=?";
+					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` $pos_set WHERE `module_id`=?";
 					$result = $this->mDb->query( $query, array( $moduleData['module_id'] ));
 				} else {
 					$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
