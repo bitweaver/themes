@@ -5,22 +5,23 @@
 	<input type="hidden" name="page" value="{$page}" />
 
 	{foreach from=$layouts item=layout key=module_package}
-		<h1>
+		<h1 id="{$module_package}">
 			{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}
 			&nbsp; {smartlink ititle="Remove this Layout" ibiticon="icons/edit-delete" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
 		</h1>
 
 		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
 			<tr>
+				{cycle values="even,odd" print=0}
 				{foreach from=$layoutAreas item=area key=colkey}
 					{if $colkey =='top'}
-						<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+						<td class="{cycle}" colspan="3" style="vertical-align:top;">
 					{elseif $colkey =='bottom'}
 						</tr>
 						<tr>
-							<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+							<td class="{cycle}" colspan="3" style="vertical-align:top;">
 					{else}
-						<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
+						<td class="{cycle}" style="width:33%; vertical-align:top;">
 					{/if}
 
 						<table class="data" style="width:100%">
@@ -54,7 +55,7 @@
 	{/foreach}
 
 	<div class="submit">
-		<input type="submit" name="update_modules" value="{tr}Update Module Settings{/tr}" />
+		<input type="submit" name="update_modules" value="{tr}Apply module settings{/tr}" />
 		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
 	</div>
 {/form}

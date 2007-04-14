@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.4 2007/04/12 17:56:08 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.5 2007/04/14 18:48:05 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -19,17 +19,7 @@ $layoutHash = array(
 );
 $layout = $gBitThemes->getLayout( $layoutHash );
 
-/* this is now part of the overview page to simpify the ui on this page
-if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
-	foreach( $_REQUEST['modules'] as $module_id => $module ) {
-		$module['module_id'] = $module_id;
-		$module['user_id']   = ROOT_USER_ID;
-		$gBitThemes->storeModule( $module );
-	}
-}
- */
-
-if( !empty( $_REQUEST['fix_pos'] )) {
+if( !empty( $_REQUEST['fixpos'] )) {
 	$gBitThemes->fixPositions( $_REQUEST['module_package'] );
 }
 
@@ -60,6 +50,7 @@ $formMiscFeatures = array(
 );
 $gBitSmarty->assign( 'formMiscFeatures',$formMiscFeatures );
 
+// hide columns in individual packages
 foreach( $gBitSystem->mPackages as $key => $package ) {
 	if( !empty( $package['installed'] ) && ( !empty( $package['activatable'] ) || !empty( $package['tables'] ) ) ) {
 		if( $package['name'] == 'kernel' ) {
@@ -70,6 +61,13 @@ foreach( $gBitSystem->mPackages as $key => $package ) {
 }
 asort( $hideColumns );
 $gBitSmarty->assign( 'hideColumns', $hideColumns );
+
+// clone existing layout
+$cloneLayouts = $gBitThemes->getAllLayouts();
+$gBitSmarty->assign( 'cloneLayouts', $cloneLayouts );
+if( !empty( $_REQUEST['from_layout'] ) && !empty( $_REQUEST['to_layout'] )) {
+	$gBitThemes->cloneLayout( $_REQUEST['from_layout'], $_REQUEST['to_layout'] );
+}
 
 // process form - check what tab was used and set it
 $processForm = set_tab();
@@ -84,15 +82,15 @@ if( $processForm == 'Hide' ) {
 
 	// evaluate what columns to hide
 	foreach( $hideable as $area ) {
-	foreach( array_keys( $hideColumns ) as $package ) {
-		$pref = "{$package}_hide_{$area}_col";
-		if( isset( $_REQUEST['hide'][$pref] ) ) {
-			$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
-		} else {
-			// remove the setting from the db if it's not set
-			$gBitSystem->storeConfig( $pref, NULL );
+		foreach( array_keys( $hideColumns ) as $package ) {
+			$pref = "{$package}_hide_{$area}_col";
+			if( isset( $_REQUEST['hide'][$pref] ) ) {
+				$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
+			} else {
+				// remove the setting from the db if it's not set
+				$gBitSystem->storeConfig( $pref, NULL );
+			}
 		}
-	}
 	}
 } elseif( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	if( isset( $_REQUEST['move_module'] )) {

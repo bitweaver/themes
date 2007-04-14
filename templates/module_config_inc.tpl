@@ -1,35 +1,34 @@
 {strip}
 {if $condensed}
-	<div style="text-align:center">
-		{$modInfo.name}
+	<strong>{$modInfo.name}</strong>
+	<br />
+	{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc ) and $modInfo.title}
+		{tr}Title{/tr}: <em>{$modInfo.title|escape}</em>
 		<br />
-		{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc ) and $modInfo.title}
-			{tr}Title{/tr}: {$modInfo.title|escape}
-			<br />
+	{/if}
+	{tr}Position{/tr}: {$modInfo.pos}
+	<br />
+	{smartlink ititle="Up" ibiticon="icons/go-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
+	{biticon ipackage=liberty iname=spacer}
+	{smartlink ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
+	{biticon ipackage=liberty iname=spacer}
+	{if $colkey eq 'left' or $colkey eq 'right'}
+		{if $colkey == 'left'}
+			{assign var=icon value=next}
+			{assign var=move value=right}
+		{elseif $colkey == 'right'}
+			{assign var=icon value=previous}
+			{assign var=move value=left}
 		{/if}
-		{tr}Position{/tr}: {$modInfo.pos}
+		{smartlink ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
 		{biticon ipackage=liberty iname=spacer}
-		{smartlink ititle="Up" ibiticon="icons/go-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
+	{/if}
+	{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
+		{smartlink ititle="Edit" ibiticon="icons/accessories-text-editor" iforce=icon page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
 		{biticon ipackage=liberty iname=spacer}
-		{smartlink ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
-		{biticon ipackage=liberty iname=spacer}
-		{if $colkey eq 'left' or $colkey eq 'right'}
-			{if $colkey == 'left'}
-				{assign var=icon value=next}
-				{assign var=move value=right}
-			{elseif $colkey == 'right'}
-				{assign var=icon value=previous}
-				{assign var=move value=left}
-			{/if}
-			{smartlink ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
-			{biticon ipackage=liberty iname=spacer}
-		{/if}
-		{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
-			{smartlink ititle="Edit" ibiticon="icons/accessories-text-editor" iforce=icon page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
-			{biticon ipackage=liberty iname=spacer}
-		{/if}
-		{smartlink ititle="Unassign" ibiticon="icons/edit-delete" iforce=icon ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id}
-	</div>
+	{/if}
+	{smartlink ititle="Unassign" ibiticon="icons/edit-delete" iforce=icon ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id}
+	<hr />
 {else}
 	<table class="data">
 		<tr>
@@ -43,9 +42,23 @@
 		<tr>
 			<td style="text-align:right">{tr}Position{/tr}</td>
 			<td>
-				<input type="text" size="10" name="modules[{$modInfo.module_id}][pos]" value="{$modInfo.pos}" />
-				{smartlink ititle="Up" ibiticon="icons/go-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
-				{smartlink ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
+				<input type="text" size="4" name="modules[{$modInfo.module_id}][pos]" value="{$modInfo.pos}" />
+				{smartlink ianchor=$modInfo.layout ititle="Up" ibiticon="icons/go-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
+				{smartlink ianchor=$modInfo.layout ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
+				{if $colkey eq 'left' or $colkey eq 'right'}
+					{if $colkey == 'left'}
+						{assign var=icon value=next}
+						{assign var=move value=right}
+					{elseif $colkey == 'right'}
+						{assign var=icon value=previous}
+						{assign var=move value=left}
+					{/if}
+					{smartlink ianchor=$modInfo.layout ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
+				{/if}
+				{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
+					{smartlink ititle="Edit" ibiticon="icons/accessories-text-editor" iforce=icon page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
+				{/if}
+				{smartlink ianchor=$modInfo.layout ititle="Unassign" ibiticon="icons/edit-delete" iforce=icon ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id}
 			</td>
 		</tr>
 
@@ -83,28 +96,6 @@
 						<option value="{$groupId}" {if $selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
 					{/foreach}
 				</select>
-			</td>
-		</tr>
-
-		<tr>
-			<td style="text-align:right"></td>
-			<td>
-				{if $colkey eq 'left' or $colkey eq 'right'}
-					{if $colkey == 'left'}
-						{assign var=icon value=next}
-						{assign var=move value=right}
-					{elseif $colkey == 'right'}
-						{assign var=icon value=previous}
-						{assign var=move value=left}
-					{/if}
-					{smartlink ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
-				{/if}
-				&nbsp;&nbsp;
-				{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
-					{smartlink ititle="Edit" ibiticon="icons/accessories-text-editor" iforce=icon page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
-					&nbsp;&nbsp;
-				{/if}
-				{smartlink ititle="Unassign" ibiticon="icons/edit-delete" iforce=icon ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id}
 			</td>
 		</tr>
 	</table>

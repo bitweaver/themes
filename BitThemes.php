@@ -388,7 +388,7 @@ class BitThemes extends BitBase {
 			foreach( $layout as $column ) {
 				$i = 5;
 				foreach( $column as $module ) {
-					$this->mDb->query( "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET pos=? WHERE module_id=?", array( $i, $module['module_id'] ));
+					$this->mDb->query( "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET pos=? WHERE `module_id`=?", array( $i, $module['module_id'] ));
 					$i += 5;
 				}
 			}
@@ -412,6 +412,23 @@ class BitThemes extends BitBase {
 		return $layouts;
 	}
 
+	function cloneLayout( $pFromLayout, $pToLayout ) {
+		global $gBitSystem;
+		if( !empty( $pFromLayout ) && in_array( $pFromLayout, array_keys( $gBitSystem->mPackages )) && !empty( $pToLayout ) && in_array( $pToLayout, array_keys( $gBitSystem->mPackages ))) {
+			// nuke existing layout
+			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pToLayout ));
+			// get requested layout
+			$layout = $this->mDb->getAll( "
+				SELECT `title`, `layout_area`, `module_rows`, `module_rsrc`, `params`, `cache_time`, `groups`, `pos`
+				FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pFromLayout ));
+			foreach( $layout as $module ) {
+				$module['layout'] = $pToLayout;
+				$this->storeModule( $module );
+			}
+		}
+		return TRUE;
+	}
+
 	/**
 	 * expungeLayout 
 	 * 
@@ -422,7 +439,7 @@ class BitThemes extends BitBase {
 	function expungeLayout( $pLayout = NULL ) {
 		$bindVars;
 		if( !empty( $pLayout )) {
-			$whereSql = "WHERE layout=?";
+			$whereSql = "WHERE `layout`=?";
 			$bindVars[] = $pLayout;
 		}
 		$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` $whereSql", $bindVars );

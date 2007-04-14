@@ -1,6 +1,55 @@
 {strip}
 {formfeedback hash=$feedback}
 
+{form legend="Create Layout for Section"}
+	<input type="hidden" name="page" value="{$page}" />
+	<div class="row">
+		{formlabel label="Create Customized layout for" for="module_package"}
+		{forminput}
+			<select name="module_package" id="module_package" onchange="this.form.submit();">
+				{foreach key=name item=package from=$gBitSystem->mPackages}
+					{if $package.installed and ($package.activatable or $package.tables)}
+						<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
+							{if $name eq 'kernel'}
+								{tr}Site Default{/tr}
+							{else}
+								{tr}{$name|capitalize}{/tr}
+							{/if}
+						</option>
+					{/if}
+				{/foreach}
+				<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
+			</select>
+
+			<noscript>
+				{formhelp note="Apply this setting before you customise and assign modules below."}
+			</noscript>
+		{/forminput}
+	</div>
+
+	{if $cloneLayouts and $module_package != kernel}
+		<div class="row">
+			{formlabel label="Copy existing layout" for="clone_layout"}
+			{forminput}
+				<ul>
+					{foreach from=$cloneLayouts item=clone_layout key=clone_package}
+						{if $clone_package != $module_package}
+							<li><a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;from_layout={$clone_package}&amp;to_layout={$module_package}&amp;module_package={$module_package}">{if $clone_package == kernel}{tr}Site Default{/tr}{else}{tr}{$clone_package|capitalize}{/tr}{/if}</a></li>
+						{/if}
+					{/foreach}
+				</ul>
+				{tr}to {if $module_package == kernel}Site Default{else}{$module_package|capitalize}{/if}{/tr}
+			{/forminput}
+		</div>
+	{/if}
+
+	<noscript>
+		<div class="row submit">
+			<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
+		</div>
+	</noscript>
+{/form}
+
 <table style="width:100%" cellpadding="5" cellspacing="0" border="0">
 	<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
 	<tr>
@@ -43,46 +92,16 @@
 	</tr>
 </table>
 
-{form}
-	<input type="hidden" name="page" value="{$page}" />
-
-	<div class="submit">
-		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
-	</div>
-{/form}
-
-{form legend="Select Section"}
-	<input type="hidden" name="page" value="{$page}" />
-	<div class="row">
-		{formlabel label="Create Customized layout for" for="module_package"}
-		{forminput}
-			<select name="module_package" id="module_package" onchange="this.form.submit();">
-				{foreach key=name item=package from=$gBitSystem->mPackages}
-					{if $package.installed and ($package.activatable or $package.tables)}
-						<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
-							{if $name eq 'kernel'}
-								{tr}Site Default{/tr}
-							{else}
-								{tr}{$name|capitalize}{/tr}
-							{/if}
-						</option>
-					{/if}
-				{/foreach}
-				<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
-			</select>
-
-			<noscript>
-				{formhelp note="Apply this setting before you customise and assign modules below."}
-			</noscript>
-		{/forminput}
-	</div>
-
-	<noscript>
-		<div class="row submit">
-			<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
-		</div>
-	</noscript>
-{/form}
+<ul>
+	<li>
+		{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
+		{formhelp note="This will reset the position numbers of all modules using increments of 5."}
+	</li>
+	<li>
+		{smartlink ititle="Confugre Layouts" page=layout_overview}
+		{formhelp note="On this page you can configure all modules in all layouts."}
+	</li>
+</ul>
 
 {jstabs}
 	{jstab title="Assign column module"}
