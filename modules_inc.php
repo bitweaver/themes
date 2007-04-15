@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.3 2007/04/12 14:26:21 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.4 2007/04/15 18:30:51 squareing Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -37,6 +37,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							$r["data"] = $data;
 						} else {
 							if( $moduleParams = $gBitThemes->getCustomModule( $template )) {
+								$moduleParams = array_merge( $r, $moduleParams );
 								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
 								$data = $gBitSmarty->fetch( 'bitpackage:themes/custom_module.tpl' );
 
