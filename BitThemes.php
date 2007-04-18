@@ -141,7 +141,7 @@ class BitThemes extends BitBase {
 			// Path to the user-customized css file
 			$cssPath = $homepageUser->getStoragePath( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
 			if( file_exists( $cssPath )) {
-				$ret = $homepageUser->getStorageURL( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
+				$ret = $homepageUser->getStorageUrl( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
 			}
 		} else {
 			if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( THEMES_PKG_PATH.'styles/'.$pStyle.'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
