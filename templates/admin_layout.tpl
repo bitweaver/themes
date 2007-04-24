@@ -98,7 +98,7 @@
 		{formhelp note="This will reset the position numbers of all modules using increments of 5."}
 	</li>
 	<li>
-		{smartlink ititle="Confugre Layouts" page=layout_overview}
+		{smartlink ititle="Configure Layouts" page=layout_overview}
 		{formhelp note="On this page you can configure all modules in all layouts."}
 	</li>
 </ul>
