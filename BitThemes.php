@@ -437,7 +437,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function expungeLayout( $pLayout = NULL ) {
-		$bindVars;
+		$bindVars = array();
 		if( !empty( $pLayout )) {
 			$whereSql = "WHERE `layout`=?";
 			$bindVars[] = $pLayout;
