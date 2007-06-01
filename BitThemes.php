@@ -414,7 +414,9 @@ class BitThemes extends BitBase {
 
 	function cloneLayout( $pFromLayout, $pToLayout ) {
 		global $gBitSystem;
-		if( !empty( $pFromLayout ) && in_array( $pFromLayout, array_keys( $gBitSystem->mPackages )) && !empty( $pToLayout ) && in_array( $pToLayout, array_keys( $gBitSystem->mPackages ))) {
+		$packages   = array_keys( $gBitSystem->mPackages );
+		$packages[] = 'home';
+		if( !empty( $pFromLayout ) && in_array( $pFromLayout, $packages ) && !empty( $pToLayout ) && in_array( $pToLayout, $packages )) {
 			// nuke existing layout
 			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pToLayout ));
 			// get requested layout
