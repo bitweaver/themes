@@ -177,3 +177,7 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 #multisites td.server					{width:37%}
 #multisites td.settings 				{width:63%;padding:4px 0 4px 8px}
 #multisites td.settings strong			{}
+
+/* differences */
+del {background-color:#fcc;}
+ins {background-color:#cfc;}
