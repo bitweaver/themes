@@ -54,6 +54,10 @@ foreach( $layouts as $package => $layout ) {
 }
 $gBitSmarty->assign_by_ref( 'layouts', $layouts );
 
+$allModulesHelp = $gBitThemes->getAllModules( 'modules', 'help_mod_' );
+ksort( $allModulesHelp );
+$gBitSmarty->assign_by_ref( 'allModulesHelp', $allModulesHelp );
+
 $groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
 $gBitSmarty->assign_by_ref( "groups", $groups );
 ?>
