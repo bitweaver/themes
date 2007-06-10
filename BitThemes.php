@@ -338,7 +338,14 @@ class BitThemes extends BitBase {
 					$row['module_groups'] = $this->parseGroups( $row['groups'] );
 
 					if( $gBitUser->isAdmin() ) {
-						$row["visible"] = TRUE;
+						if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
+							if( in_array(1, $row['module_groups']) ) {
+								$row['visible'] = TRUE;
+							}
+						}
+						else {
+							$row["visible"] = TRUE;
+						}
 					} else {
 						// Check for the right groups
 						foreach( $row["module_groups"] as $modGroupId ) {

@@ -16,6 +16,10 @@ $themeSettings = array(
 		'label' => "Disable Javascript Tabs",
 		'note' =>"If you have difficulties with the javascript tabs, of you don't like them, you can disable them here.",
 	),
+	'site_mods_req_admn_grp' => array(
+		'label' => 'Module Groups Require Admin',
+		'note' => 'If a module has group restrictions the module only shows for the administrator if the administrator is in the configured groups. Otherwise all modules show to administrators all the time.',
+	),
 );
 $gBitSmarty->assign( 'themeSettings', $themeSettings );
 
