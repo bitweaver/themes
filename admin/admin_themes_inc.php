@@ -4,6 +4,10 @@ $themeSettings = array(
 		'label' => 'Enable JSCalendar',
 		'note' => 'JSCalendar is a javascript calendar popup that allows you to easily select a date using an easy to use and appealing interface.',
 	),
+	'themes_collapsible_modules' => array(
+		'label' => 'Collapsible Modules',
+		'note' => 'This allows users to collapse modules by clicking on their titles. Can be useful if you use many modules.',
+	),
 	'themes_edit_css' => array(
 		'label' => 'Edit Css',
 		'note' => 'Enables you to edit CSS files from within your browser to customise your site style according to your desires.',

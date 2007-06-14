@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.6 2007/04/12 17:56:08 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.7 2007/06/14 18:58:26 squareing Exp $ *}
 {strip}
 {if $moduleParams.layout_area == "l"}
 	{assign var=area value="navig"}
@@ -23,12 +23,12 @@
 						{biticon ipackage=liberty iname="move_left_right" iexplain="move left right"}</a>
 				</div>
 			{/if}
-			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:toggle('{$modInfo.name}');">{/if}
+			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:toggle('module{$area}{$moduleParams.pos}');">{/if}
 				{tr}{$modInfo.title}{/tr}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}</a>{/if}
 		</h3>
 	{/if}
-	<div class="boxcontent"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state};"{/if}>
+	<div class="boxcontent"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state|default:block};" id="module{$area}{$moduleParams.pos}"{/if}>
 		{$modInfo.data}
 	</div>
 </div>
