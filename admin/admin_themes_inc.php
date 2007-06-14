@@ -8,10 +8,10 @@ $themeSettings = array(
 		'label' => 'Collapsible Modules',
 		'note' => 'This allows users to collapse modules by clicking on their titles. Can be useful if you use many modules.',
 	),
-	'themes_edit_css' => array(
-		'label' => 'Edit Css',
-		'note' => 'Enables you to edit CSS files from within your browser to customise your site style according to your desires.',
-	),
+//	'themes_edit_css' => array(
+//		'label' => 'Edit Css',
+//		'note' => 'Enables you to edit CSS files from within your browser to customise your site style according to your desires.',
+//	),
 	'site_disable_fat' => array(
 		'label' => "Disable Fading",
 		'note' => "Disable the fading effect used when displaying any success, warning or error messages.",
