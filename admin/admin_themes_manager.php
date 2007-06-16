@@ -24,11 +24,11 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 	if( !empty( $_REQUEST['approved'] ) ) {
 		$gBitSystem->storeConfig( 'style', $_REQUEST["site_style"], THEMES_PKG_NAME );
 		$gBitSystem->storeConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
-		$gBitSystem->mStyle = $gPreviewStyle = $_REQUEST["site_style"];
+		$gBitThemes->setStyle( $_REQUEST["site_style"] );
 	} else {
-		$gPreviewStyle = $_REQUEST["site_style"];
 		$gBitSystem->setConfig( 'style_variation', !empty( $_REQUEST["style_variation"] ) ? $_REQUEST["style_variation"] : '', THEMES_PKG_NAME );
 		$gBitSmarty->assign( 'approve', TRUE );
+		$gBitThemes->setStyle( $_REQUEST["site_style"] );
 	}
 }
 

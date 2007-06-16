@@ -41,6 +41,7 @@ class BitThemes extends BitBase {
 		global $gPreviewStyle;
 		// setup our theme style and check if a preview theme has been picked
 		if( $gPreviewStyle !== FALSE ) {
+			deprecated( 'The use of $gPreviewStyle is deprecated. Please use $gBitThemes->setStyle() instead' );
 			$this->setStyle( $gPreviewStyle );
 		}
 
