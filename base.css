@@ -100,7 +100,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .navigation .right		{text-align:right;}
 
 /* multi file upload */
-#fileslist div span	{display:block; width:75%; float:left;}
+#fileslist span	{display:block;}
 
 /* css driven dropdown menus - horizontal */
 .hor			{line-height:18px;}
