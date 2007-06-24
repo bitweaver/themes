@@ -34,6 +34,7 @@ $gBitSmarty->assign( 'themeSettings', $themeSettings );
 if( !empty( $_REQUEST['change_prefs'] ) ) {
 	$pref_simple_values = array(
 		"site_biticon_display_style",
+		"site_icon_size",
 	);
 
 	foreach( $pref_simple_values as $svitem ) {
@@ -47,9 +48,15 @@ if( !empty( $_REQUEST['change_prefs'] ) ) {
 
 // set the options biticon takes
 $biticon_display_options = array(
-	'icon' => tra( 'icon' ),
-	'text' => tra( 'text' ),
-	'icon_text' => tra( 'icon and text' )
+	'icon' => tra( 'Icon' ),
+	'text' => tra( 'Text' ),
+	'icon_text' => tra( 'Icon and Text' )
 );
 $gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
+
+$biticon_sizes = array(
+	'small' => tra( 'Small' ),
+	'large' => tra( 'Large' ),
+);
+$gBitSmarty->assign( "biticon_sizes", $biticon_sizes );
 ?>
