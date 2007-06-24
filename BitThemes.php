@@ -1063,8 +1063,21 @@ class BitThemes extends BitBase {
 	 * @return absolute path on where the system should store it's icons
 	 */
 	function getIconCachePath() {
-		global $gSniffer, $gBitSystem;
-		$cachedir = TEMP_PKG_PATH.'themes/biticon/'.$gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE ).'/';
+		global $gSniffer, $gBitSystem, $gBitLanguage;
+
+		// use bitweaver version as dir in case there has been changes since the last version
+		$version = BIT_MAJOR_VERSION.BIT_MINOR_VERSION.BIT_SUB_VERSION;
+
+		// some browsers need special treatment due to different biticon feed.
+		if( $gSniffer->_browser_info['browser'] == 'ie' ) {
+			$browser = $gSniffer->_browser_info['browser'].$gSniffer->_browser_info['maj_ver'];
+		} elseif( $gSniffer->_browser_info['browser'] == 'lx' || $gSniffer->_browser_info['browser'] == 'li' ) {
+			$browser = 'text';
+		} else {
+			$browser = 'default';
+		}
+
+		$cachedir = TEMP_PKG_PATH.'themes/biticon/'.$version.'/'.$gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE ).'/'.$gBitLanguage->getLanguage().'/'.$browser.'/';
 		if( !is_dir( $cachedir )) {
 			mkdir_p( $cachedir );
 		}
