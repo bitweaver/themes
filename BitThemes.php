@@ -1071,8 +1071,6 @@ class BitThemes extends BitBase {
 		// some browsers need special treatment due to different biticon feed.
 		if( $gSniffer->_browser_info['browser'] == 'ie' ) {
 			$browser = $gSniffer->_browser_info['browser'].$gSniffer->_browser_info['maj_ver'];
-		} elseif( $gSniffer->_browser_info['browser'] == 'lx' || $gSniffer->_browser_info['browser'] == 'li' ) {
-			$browser = 'text';
 		} else {
 			$browser = 'default';
 		}
