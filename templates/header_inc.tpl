@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.30 2007/06/23 09:40:41 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.31 2007/07/09 18:29:26 squareing Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -17,7 +17,7 @@
 {/foreach}
 
 {if $loadMultiFile}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/multifile.js"></script>
+	{jspack ifile=libs/multifile.js}
 {/if}
 
 {if $gBitSystem->isFeatureActive('site_top_bar_js') && $gBitSystem->isFeatureActive('site_top_bar') && $gBitSystem->isFeatureActive('site_top_bar_dropdown')}
@@ -25,7 +25,7 @@
 {/if}
 
 {if !$gBitSystem->isFeatureActive('site_disable_jstabs')}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/tabpane.js"></script>
+	{jspack ifile=libs/tabpane.js}
 {/if}
 {/strip}
 
@@ -42,60 +42,19 @@
 	{/literal}
 {/if}
 
-{* drag and drop javascript doesn't work with fat loaded - hardcode css for now *}
-{if $loadDragDrop}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/drag/dragdrop.js"></script>
-
-	{literal}
-	<style type="text/css">
-		ul.boxy,
-		ul.boxy li			{min-height:2em; list-style-type:none; border:#ccc solid 1px; padding:4px 4px 0 4px; margin:0px; border:#ccc 1px solid;}
-		ul.boxy				{background:#fff; margin:0px;}
-		ul.boxy li			{cursor:move; margin:0 0 4px 0; padding:2px;}
-		ul.boxy li			{position:relative; width:250px;}
-		.layout ul.boxy li	{position:relative !important; width:auto !important;}
-		ul#left li			{background:#bfc;}
-		ul#center li		{background:#fda;}
-		ul#right li			{background:#cbf;}
-	</style>
-
-	<script type="text/javascript">//<![CDATA[
-		window.onload = function() {
-			var list = $( "left" );
-			DragDrop.makeListContainer( list, 'side_columns' );
-			list.onDragOver = function() { this.style["background"] = "#feb"; };
-			list.onDragOut = function() {this.style["background"] = "none"; };
-
-			list = $( "center" );
-			DragDrop.makeListContainer( list, 'center_column' );
-			list.onDragOver = function() { this.style["background"] = "#dfe"; };
-			list.onDragOut = function() {this.style["background"] = "none"; };
-
-			list = $( "right" );
-			DragDrop.makeListContainer( list, 'side_columns' );
-			list.onDragOver = function() { this.style["background"] = "#feb"; };
-			list.onDragOut = function() {this.style["background"] = "none"; };
-		};
-
-		function getSort( id ) {
-			order = $( id );
-			order.value = DragDrop.serData( id, null );
-		}
-	//]]></script>
-	{/literal}
-{elseif !$gBitSystem->getConfig('site_disable_fat')}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fat.js"></script>
+{if !$gBitSystem->getConfig('site_disable_fat')}
+	{jspack ifile=libs/fat.js}
 {/if}
 
 {if $gBrowserInfo.browser eq 'ie'}
-      <!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
-      <!--[if lt IE 7]>
-	  {if $gBitSystem->isFeatureActive( 'themes_use_msie_png_hack' )}
-		  <script type="text/javascript">
-			  IE7_PNG_SUFFIX = ".png";
-		  </script>
-	  {/if}
-      <script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
-      <![endif]-->
+	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
+	<!--[if lt IE 7]>
+	{if $gBitSystem->isFeatureActive( 'themes_use_msie_png_hack' )}
+		<script type="text/javascript">
+			IE7_PNG_SUFFIX = ".png";
+		</script>
+	{/if}
+	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
+	<![endif]-->
 {/if}
 
