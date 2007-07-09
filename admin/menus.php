@@ -1,4 +1,4 @@
-<?php 
+<?php
 //
 // (c) 2006 bitweaver.org - GNU LGPL
 //
@@ -36,7 +36,7 @@ $formMenuJsSettings = array(
 	),
 	'site_top_bar_js_swipe' => array(
 		'label' => 'Swipe Effect',
-		'note' => 'Sweep the menu from the top dwon.',
+		'note' => 'Sweep the menu from the top down.',
 	),
 	'site_top_bar_js_clip' => array(
 		'label' => 'Clip Effect',
