@@ -7,11 +7,6 @@ $registerHash = array(
 );
 $gBitSystem->registerPackage( $registerHash );
 
-// the use of gPreviewStyle is deprecated and will be replaced by using $gBitThemes->setStyle();
-// this is used to override the currently set site theme. when this is set everything else is ignored
-global $gPreviewStyle;
-$gPreviewStyle = FALSE;
-
 require_once( THEMES_PKG_PATH."BitThemes.php" );
 global $gBitThemes;
 $gBitThemes = new BitThemes();
@@ -23,23 +18,9 @@ if( !$gSniffer->_feature_set['css1'] && !$gSniffer->_feature_set['css2'] ) {
 }
 
 // setStyle first, in case package decides it wants to reset the style in it's own <package>/bit_setup_inc.php
-$theme = $gBitThemes->getStyle();
-$theme = !empty( $theme ) ? $theme : DEFAULT_THEME;
-// users_themes='y' is for the entire site, 'h' is just for users homepage and is dealt with on users/index.php
-if( !empty( $gBitSystem->mDomainInfo['style'] ) ) {
-	$theme = $gBitSystem->mDomainInfo['style'];
-} elseif( $gBitSystem->getConfig('users_themes') == 'y' ) {
-	if ( $gBitUser->isRegistered() && $gBitSystem->isFeatureActive( 'users_preferences' ) ) {
-		if( $userStyle = $gBitUser->getPreference('theme') ) {
-			$theme = $userStyle;
-		}
-	}
-	if( isset( $_COOKIE['tiki-theme'] )) {
-		$theme = $_COOKIE['tiki-theme'];
-	}
+if( !$gBitThemes->getStyle() ) {
+	$gBitThemes->setStyle( DEFAULT_THEME );
 }
-$gBitThemes->setStyle( $theme );
-
 $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
 ?>
