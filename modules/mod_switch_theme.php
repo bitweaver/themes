@@ -9,8 +9,8 @@ if( $change_theme == 'y' ) {
 		$userStyle = $gBitUser->getPreference('theme');
 		$style = empty($userStyle) ? $style : $userStyle;
 	}
-	if (isset($_COOKIE['tiki-theme'])) {
-		$style = $_COOKIE['tiki-theme'];
+	if (isset($_COOKIE['bit-theme'])) {
+		$style = $_COOKIE['bit-theme'];
 	}
 
 	$styles = $gBitThemes->getStyles( NULL, TRUE );
