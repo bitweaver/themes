@@ -212,36 +212,6 @@ class BitThemes extends BitBase {
 		return THEMES_PKG_PATH.'styles/'.$pStyle.'/';
 	}
 
-	/**
-	* get alternate style sheets
-	* probably obsolete - alternate stylesheets isn't really popular as they are not persistent when selected in the browser
-	*
-	* @param none
-	* @return array of style sheets with name of stylesheet as array
-	* @access public
-	*/
-	/*
-	function getAltStyleCss() {
-		$ret = NULL;
-		$alt_path = $this->getStylePath().'alternate/';
-		$alt_url = $this->getStyleUrl().'alternate/';
-		if( is_dir( $alt_path ) && $handle = opendir( $alt_path )) {
-			while( FALSE !== ( $file = readdir( $handle ))) {
-				if( ( $file != '.' || $file != '..' ) && preg_match( "/\.css$/i", $file )) {
-					$p[0] = "/_/";
-					$r[0] = " ";
-					$p[1] = "/\.css$/i";
-					$r[1] = "";
-					$name = preg_replace( $p, $r, $file );
-					$ret[$name] = $alt_url.$file;
-				}
-			}
-			closedir( $handle );
-		}
-		return $ret;
-	}
-	 */
-
 
 
 
@@ -1080,6 +1050,28 @@ class BitThemes extends BitBase {
 			mkdir_p( $cachedir );
 		}
 		return $cachedir;
+	}
+
+
+
+
+	// =================== Miscellaneous Methods ====================
+	/**
+	* Statically callable function to see if browser supports javascript
+	* determined by cookie set in bitweaver.js
+	* @access public
+	**/
+	function isJavascriptEnabled() {
+		return( !empty( $_COOKIE['javascript_enabled'] ) && $_COOKIE['javascript_enabled'] == 'y' );
+	}
+
+	/**
+	* Statically callable function to determine if the current call was made using Ajax
+	*
+	* @access public
+	**/
+	function isAjaxRequest() {
+		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_xml'] ));
 	}
 
 
