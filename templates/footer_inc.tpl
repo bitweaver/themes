@@ -1,5 +1,5 @@
-{if $gBitSystem->mAjax == 'prototype'}
-	{foreach from=$gBitSystem->mAjaxLibs item=ajaxLib}
+{if $gBitThemes->mAjax == 'prototype'}
+	{foreach from=$gBitThemes->mAjaxLibs item=ajaxLib}
 		{if $ajaxLib == 'debugger.js'}
 			<div id="jsdebug" style="padding:1em; margin:1em; border:0.5em solid #900; background:#fff; color:#000;">Prototype Debugger:<br /></div>
 		{/if}

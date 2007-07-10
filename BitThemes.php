@@ -14,6 +14,12 @@ class BitThemes extends BitBase {
 	// an array with style information
 	var $mStyles = array();
 
+	// Ajax framework that will be used for current page view
+	var $mAjax = NULL;
+
+	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
+	var $mAjaxLibs = array();
+
 
 
 
@@ -1072,6 +1078,29 @@ class BitThemes extends BitBase {
 	**/
 	function isAjaxRequest() {
 		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_xml'] ));
+	}
+
+	/**
+	 * Load Ajax libraries
+	 * 
+	 * @param array $pAjaxLib Name of the library we want to use e.g.: prototype or mochikit
+	 * @param array $pLibHash Array of additional libraries we need to load
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function loadAjax( $pAjaxLib, $pLibHash=NULL ) {
+		global $gBitSmarty, $gSniffer;
+		$ret = FALSE;
+		$ajaxLib = strtolower( $pAjaxLib );
+		if( $gSniffer->_browser_info['javascript'] ) {
+			if( $ret = ( empty( $this->mAjaxLib ) || $this->mAjaxLib == $ajaxLib ) ) {
+				$this->mAjax = $ajaxLib;
+				if( is_array( $pLibHash ) ) {
+					$this->mAjaxLibs = array_merge( $this->mAjaxLibs, $pLibHash );
+				}
+			}
+		}
+		return $ret;
 	}
 
 
