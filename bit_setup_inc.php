@@ -7,10 +7,12 @@ $registerHash = array(
 );
 $gBitSystem->registerPackage( $registerHash );
 
-$gLibertySystem->registerService( LIBERTY_SERVICE_THEMES, THEMES_PKG_NAME, array(
-	'content_display_function' => 'themes_content_display',
-	'content_list_function' => 'themes_content_list',
-) );
+// this does not work here
+// Call to a member function registerService() on a non-object
+//$gLibertySystem->registerService( LIBERTY_SERVICE_THEMES, THEMES_PKG_NAME, array(
+//	'content_display_function' => 'themes_content_display',
+//	'content_list_function' => 'themes_content_list',
+//) );
 
 require_once( THEMES_PKG_PATH."BitThemes.php" );
 global $gBitThemes;
