@@ -28,6 +28,14 @@ if( !$gBitThemes->getStyle() ) {
 }
 $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
+// This is a hack to prevent chicken-n-egg gPreScan scenario - liberty must come before themes.
+// Though honestly, the optimal fix is to remove prototype dependcy on the uploader if at all possible to 
+// avoid conflicts with other Ajax libs since the uploader affects any from with an upload in it.
+if ($gBitSystem->getConfig('liberty_attachment_style') == "ajax") {
+	$gBitThemes->loadAjax( 'prototype' );
+}
+
+
 function themes_content_display( $pContent ) {
 	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;	
 
