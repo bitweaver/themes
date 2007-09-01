@@ -1,5 +1,5 @@
 {literal}
-<script LANGUAGE="JavaScript">
+<script type="text/javascript">
 <!--//
 function confirmform(text)
 {
