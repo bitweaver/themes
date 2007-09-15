@@ -494,7 +494,7 @@ class BitThemes extends BitBase {
 		$pHash['store']['layout']        = ( !empty( $pHash['layout'] )            ? $pHash['layout']        : DEFAULT_PACKAGE );
 		$pHash['store']['module_rows']   = ( @is_numeric( $pHash['module_rows'] )  ? $pHash['module_rows']   : NULL );
 		$pHash['store']['cache_time']    = ( @is_numeric( $pHash['cache_time'] )   ? $pHash['cache_time']    : NULL );
-		$pHash['store']['pos']           = ( @is_numeric( $pHash['pos'] )          ? $pHash['pos']           : NULL );
+		$pHash['store']['pos']           = ( @is_numeric( $pHash['pos'] )          ? $pHash['pos']           : 1 );
 
 		if( !empty( $pHash['groups'] ) && is_array( $pHash['groups'] )) {
 			$pHash['store']['groups'] = implode( ' ', $pHash['groups'] );
