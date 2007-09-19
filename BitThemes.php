@@ -249,7 +249,7 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * get the current layout from the database
+	 * get the current layout from the database, layouts are fetched in this order in this order until one is successfully loaded: 'layout', 'fallback_layout', ACTIVE_PACKGE, DEFAULT_PACKAGE"
 	 * 
 	 * @param array $pParamHash 
 	 * @access public
@@ -259,38 +259,28 @@ class BitThemes extends BitBase {
 	function getLayout( $pParamHash = NULL ) {
 		global $gCenterPieces, $gBitUser, $gBitSystem;
 		$ret = array( 'l' => NULL, 'c' => NULL, 'r' => NULL );
-		$bindVars = array();
 
-		$pParamHash['layout']           = ( !empty( $pParamHash['layout'] ) ? $pParamHash['layout'] : ACTIVE_PACKAGE );
-		$pParamHash['fallback']         = (( isset( $pParamHash['fallback'] ) && $pParamHash['fallback'] === FALSE ) ? FALSE : TRUE );
-		$pParamHash['fallback_layout']  = ( !empty( $pParamHash['fallback_layout'] ) ? $pParamHash['fallback_layout'] : DEFAULT_PACKAGE );
-
-		// This query will always pull ALL of the ACTIVE_PACKAGE _and_ DEFAULT_PACKAGE modules (in that order)
-		// This saves a count() query to see if the ACTIVE_PACKAGE has a layout, since it usually probably doesn't
-		// I don't know if it's better or not to save the count() query and retrieve more data - my gut says so,
-		// but i've done no research - spiderr
-		if( $pParamHash['fallback'] && $pParamHash['layout'] != DEFAULT_PACKAGE && $this->dType != 'firebird' && $this->dType != 'mssql'  && $this->dType != 'oci8'  && $this->dType != 'oci8po' ) {
-			// ORDER BY comparison is crucial so current layout modules come up first
-			$whereClause = " (tl.`layout`=? OR tl.`layout`=?) ORDER BY tl.`layout`=? DESC, ";
-			$bindVars[] = $pParamHash['layout'];
-			$bindVars[] = $pParamHash['fallback_layout'];
-			$bindVars[] = $pParamHash['layout'];
-		} elseif( $pParamHash['fallback'] && $pParamHash['layout'] != DEFAULT_PACKAGE ) {
-			// ORDER BY is crucial so current layout modules come up first
-			$whereClause = " (tl.`layout`=? OR tl.`layout`=?) ORDER BY tl.`layout` DESC, ";
-			$bindVars[] = $pParamHash['layout'];
-			$bindVars[] = $pParamHash['fallback_layout'];
-		} elseif( $pParamHash['layout'] ) {
-			$whereClause = " tl.`layout`=? ORDER BY ";
-			array_push( $bindVars, $pParamHash['layout'] );
+		$layouts =  array();
+		if( !empty( $pParamHash['layout'] ) ) {
+			$layouts[]           = $pParamHash['layout'];
 		}
+		if( !empty( $pParamHash['fallback_layout'] ) ) {
+			$layouts[]      = $pParamHash['fallback_layout'];
+		}
+		$layouts[] = ACTIVE_PACKAGE;
+		$layouts[] = DEFAULT_PACKAGE;
 
-		$query = "
-			SELECT tl.*
-			FROM `".BIT_DB_PREFIX."themes_layouts` tl
-			WHERE $whereClause ".$this->mDb->convertSortmode( "pos_asc" );
-
-		if( $result = $this->mDb->query( $query, $bindVars )) {
+		foreach( $layouts AS $l ) {
+			$query =   "SELECT tl.*
+						FROM `".BIT_DB_PREFIX."themes_layouts` tl
+						WHERE  tl.`layout`=? ORDER BY ".$this->mDb->convertSortmode( "pos_asc" );
+			
+			$result = $this->mDb->query( $query, array( $l ) );
+			if( $result && $result->RecordCount() ) {
+				break;
+			}			
+		}
+		if( !empty( $result ) && $result->RecordCount() ) {
 			$row = $result->fetchRow();
 			// Check to see if we have ACTIVE_PACKAGE modules at the top of the results
 			if( isset( $row['layout'] ) && ( $row['layout'] != DEFAULT_PACKAGE ) && ( ACTIVE_PACKAGE != DEFAULT_PACKAGE )) {
