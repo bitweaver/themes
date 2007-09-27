@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.7 2007/06/14 18:58:26 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.8 2007/09/27 11:21:28 squareing Exp $ *}
 {strip}
 {if $moduleParams.layout_area == "l"}
 	{assign var=area value="navig"}
@@ -24,7 +24,11 @@
 				</div>
 			{/if}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:toggle('module{$area}{$moduleParams.pos}');">{/if}
-				{tr}{$modInfo.title}{/tr}
+				{if $modInfo.notra}
+					{$modInfo.title}
+				{else}
+					{tr}{$modInfo.title}{/tr}
+				{/if}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}</a>{/if}
 		</h3>
 	{/if}
