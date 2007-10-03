@@ -576,11 +576,13 @@ class BitThemes extends BitBase {
 			if( $pDirection == 'up' ) {
 				$pos_check = 'AND `pos`<=?';
 				$pos_set   = 'SET `pos`=`pos`-1';
+				$order     = 'ORDER BY pos DESC';
 			} else {
 				$pos_check = 'AND `pos`>=?';
 				$pos_set   = 'SET `pos`=`pos`+1';
+				$order     = 'ORDER BY pos ASC';
 			}
-			$query  = "SELECT MAX(`module_id`) FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? $pos_check AND `module_id`<>?";
+			$query  = "SELECT `module_id` FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=? AND `layout_area`=? $pos_check AND `module_id` <> ? $order";
 			$swapModuleId = $this->mDb->getOne( $query, array( $moduleData['layout'], $moduleData['layout_area'], $moduleData['pos'], $moduleData['module_id'] ));
 			if( $moduleSwap = $this->getModuleData( $swapModuleId )) {
 				if( $moduleData['pos'] == $moduleSwap['pos'] ) {
