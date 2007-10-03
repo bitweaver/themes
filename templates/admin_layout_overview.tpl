@@ -54,9 +54,16 @@
 		<hr />
 	{/foreach}
 
+	<div class="row">
+		{formlabel label="Adjust module postitions" for=""}
+		{forminput}
+			{smartlink ititle="Adjust module positions" ibiticon=icons/emblem-symbolic-link page=$page fixpos=1}
+			{formhelp note="This will reset the position numbers of all modules using increments of 5."}
+		{/forminput}
+	</div>
+
 	<div class="submit">
 		<input type="submit" name="update_modules" value="{tr}Apply module settings{/tr}" />
-		<input type="submit" name="fix_pos" value="{tr}Adjust module positions{/tr}" />
 	</div>
 {/form}
 

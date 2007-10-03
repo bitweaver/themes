@@ -6,7 +6,7 @@ if( !empty( $_REQUEST['update_modules'] ) && is_array( $_REQUEST['modules'] )) {
 	}
 }
 
-if( !empty( $_REQUEST['fix_pos'] )) {
+if( !empty( $_REQUEST['fixpos'] )) {
 	$gBitThemes->fixPositions();
 }
 
@@ -58,6 +58,7 @@ $allModulesHelp = $gBitThemes->getAllModules( 'modules', 'help_mod_' );
 ksort( $allModulesHelp );
 $gBitSmarty->assign_by_ref( 'allModulesHelp', $allModulesHelp );
 
+$gBitSmarty->assign( 'pageName', 'Layout Options' );
 $groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
 $gBitSmarty->assign_by_ref( "groups", $groups );
 ?>
