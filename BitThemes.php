@@ -14,9 +14,6 @@ class BitThemes extends BitBase {
 	// an array with style information
 	var $mStyles = array();
 
-	// Ajax framework that will be used for current page view
-	var $mAjax = NULL;
-
 	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
 	var $mAjaxLibs = array();
 
@@ -1084,15 +1081,31 @@ class BitThemes extends BitBase {
 		global $gBitSmarty, $gSniffer;
 		$ret = FALSE;
 		$ajaxLib = strtolower( $pAjaxLib );
-		if( $gSniffer->_browser_info['javascript'] ) {
-			if( $ret = ( empty( $this->mAjaxLib ) || $this->mAjaxLib == $ajaxLib ) ) {
-				$this->mAjax = $ajaxLib;
-				if( is_array( $pLibHash ) ) {
-					$this->mAjaxLibs = array_merge( $this->mAjaxLibs, $pLibHash );
-				}
+		if( $this->isJavascriptEnabled() ) {
+			if( !$this->isAjaxLib( $ajaxLib )) {
+				$this->mAjaxLibs[$ajaxLib] = array();
 			}
+
+			if( is_array( $pLibHash )) {
+				$this->mAjaxLibs[$ajaxLib] = array_merge( $this->mAjaxLibs[$ajaxLib], $pLibHash );
+			}
+
+			$ret = TRUE;
 		}
 		return $ret;
+	}
+
+	/**
+	 * check to see if a given ajax library is loaded
+	 * 
+	 * @param array $pAjaxLib 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function isAjaxLib( $pAjaxLib ) {
+		if( !empty( $this->mAjaxLibs ) && !empty( $pAjaxLib )) {
+			return in_array( strtolower( $pAjaxLib ), array_keys( $this->mAjaxLibs ));
+		}
 	}
 
 
