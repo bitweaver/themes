@@ -32,7 +32,7 @@ $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 // Though honestly, the optimal fix is to remove prototype dependcy on the uploader if at all possible to 
 // avoid conflicts with other Ajax libs since the uploader affects any from with an upload in it.
 if ($gBitSystem->getConfig('liberty_attachment_style') == "ajax") {
-	$gBitThemes->loadAjax( 'prototype' );
+	$gBitThemes->loadAjax( 'MochiKit' );
 }
 
 
