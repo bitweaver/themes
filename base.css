@@ -101,6 +101,7 @@ ul.tree					{margin:0;padding-left:20px;}
 
 /* multi file upload */
 #fileslist span	{display:block;}
+#upload_div file {display:block;}
 
 /* css driven dropdown menus - horizontal */
 .hor			{line-height:18px;}
