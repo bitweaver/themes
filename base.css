@@ -105,9 +105,9 @@ ul.tree					{margin:0;padding-left:20px;}
 
 /* css driven dropdown menus - horizontal */
 .hor			{line-height:18px;}
-#nav,#nav a,#nav li ul {z-index:10000;}
-.hor,.hor a,.hor li ul {z-index:1000;}
-.ver,.ver a,.ver li ul {z-index:1000;}
+#nav, #nav > *          {z-index:11000;}
+.hor, .ver,
+.hor > *, .ver > *      {z-index:1000;}
 .hor,.hor ul	{padding:0; margin:0; list-style:none;}
 .hor a			{display:block;}
 .hor li			{width:auto;}
