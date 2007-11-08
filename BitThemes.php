@@ -17,6 +17,9 @@ class BitThemes extends BitBase {
 	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
 	var $mAjaxLibs = array();
 
+	// Auxillary Files
+	var $mAuxFiles = array();
+
 
 
 
@@ -41,58 +44,54 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function loadStyle() {
-		global $gPreviewStyle;
+		global $gPreviewStyle, $gBitSystem;
 		// setup our theme style and check if a preview theme has been picked
 		if( !empty( $gPreviewStyle ) ) {
 			deprecated( 'The use of $gPreviewStyle is deprecated. Please use $gBitThemes->setStyle() instead' );
 			$this->setStyle( $gPreviewStyle );
 		}
 
+		// load default css files
 		if( empty( $this->mStyles['styleSheet'] )) {
 			$this->mStyles['styleSheet'] = $this->getStyleCss();
 		}
 
-		$this->mStyles['headerIncFiles']    = $this->getTplIncludeFiles( "header_inc.tpl" );
-		$this->mStyles['footerIncFiles']    = $this->getTplIncludeFiles( "footer_inc.tpl" );
-		$this->mStyles['browserStyleSheet'] = $this->getBrowserStyleCss();
-		$this->mStyles['customStyleSheet']  = $this->getCustomStyleCss();
-		//$this->mStyles['altStyleSheets']    = $this->getAltStyleCss();
+		// load tpl files that need to be included
+		$this->loadTplFiles( "header_inc" );
+		$this->loadTplFiles( "footer_inc" );
+
+		// join together all the javascript files
+		$this->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE );
+
+		if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
+			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE );
+		}
+
+		if( !$gBitSystem->getConfig( 'site_disable_fat' )) {
+			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE );
+		}
+
+		if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
+			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE );
+		}
+
+		// let's join the various files
+		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
+
+		// this is where we could join additional CSS files as well, but that 
+		// cuases problems:
+		// CSS files frequently use relative paths to images and such. These 
+		// are interpreted as relative to where the CSS file is. If we then 
+		// join various CSS files into one and store it somewhere else, all 
+		// these paths will break. We could replace given words in CSS files 
+		// with the full path, but this is likely to cause problems.
+		// - xing - Wednesday Nov 07, 2007   10:51:06 CET
+		$this->loadJavascript( $this->getBrowserStyleCss() );
+		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 
 		// define style url and path
 		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
 		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
-	}
-
-	/**
-	* scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
-	*
-	* @param none $
-	* @access private
-	* @return array of paths to existing header_inc.tpl files
-	*/
-	function getTplIncludeFiles( $pFilename ) {
-		global $gBitSystem;
-		// these package templates will be included last
-		$prepend = array( 'kernel' );
-		$append = array( 'themes' );
-		$anti = $mid = $post = array();
-		foreach( $gBitSystem->mPackages as $package => $info ) {
-			if( !empty( $info['path'] )) {
-				$file = $info['path'].'templates/'.$pFilename;
-				$out = "bitpackage:{$package}/{$pFilename}";
-				if( is_readable( $file )) {
-					if( in_array( $package, $prepend )) {
-						$anti[] = $out;
-					} elseif( in_array( $package, $append )) {
-						$post[] = $out;
-					} else {
-						$mid[] = $out;
-					}
-				}
-			}
-		}
-		$ret = array_merge( $anti, $mid, $post );
-		return $ret;
 	}
 
 	/**
@@ -130,46 +129,19 @@ class BitThemes extends BitBase {
 	* @return none
 	* @access public
 	*/
-	function getStyleCss( $pStyle = NULL, $pUserId = NULL ) {
+	function getStyleCss( $pStyle = NULL ) {
 		global $gBitSystem;
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
 		}
 		$ret = '';
 
-		if( $pStyle == 'custom' ) {
-			// This is a page which uses a user-customized theme
-			// The user who owns the page (whose custom theme is being requested)
-			$homepageUser = new BitUser( $pUserId );
-			$homepageUser->load();
-			// Path to the user-customized css file
-			$cssPath = $homepageUser->getStoragePath( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
-			if( file_exists( $cssPath )) {
-				$ret = $homepageUser->getStorageUrl( 'theme', $homepageUser->mUserId, NULL ).'custom.css';
-			}
-		} else {
-			if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( THEMES_PKG_PATH.'styles/'.$pStyle.'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
-				$ret = THEMES_PKG_URL.'styles/'.$pStyle.'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
-			} elseif( is_readable( THEMES_PKG_PATH.'styles/'.$pStyle.'/'.$pStyle.'.css' )) {
-				$ret = THEMES_PKG_URL.'styles/'.$pStyle.'/'.$pStyle.'.css';
-			}
+		if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( $this->getStylePath().'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
+			$ret = $this->getStyleUrl().'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
+		} elseif( is_readable( $this->getStylePath().'/'.$pStyle.'.css' )) {
+			$ret = $this->getStyleUrl().'/'.$pStyle.'.css';
 		}
-		return $ret;
-	}
-
-	/**
-	* get the users custom.css file if there is one
-	*
-	* @param pStyle style the custom.css is part of
-	* @return path to custom.css file
-	* @access public
-	*/
-	function getCustomStyleCss( $pStyle = null ) {
-		$ret = null;
-		if( empty( $pStyle )) {
-			$pStyle = $this->getStyle();
-		}
-		return $ret;
+		return str_replace( "//", "/", $ret );
 	}
 
 	/**
@@ -182,7 +154,7 @@ class BitThemes extends BitBase {
 	function getBrowserStyleCss() {
 		global $gSniffer;
 		if( file_exists( $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css' )) {
-			$ret = $this->getStyleUrl().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css';
+			$ret = $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css';
 		}
 		return !empty( $ret ) ? $ret : NULL;
 	}
@@ -271,11 +243,11 @@ class BitThemes extends BitBase {
 			$query =   "SELECT tl.*
 						FROM `".BIT_DB_PREFIX."themes_layouts` tl
 						WHERE  tl.`layout`=? ORDER BY ".$this->mDb->convertSortmode( "pos_asc" );
-			
+
 			$result = $this->mDb->query( $query, array( $l ) );
 			if( $result && $result->RecordCount() ) {
 				break;
-			}			
+			}
 		}
 		if( !empty( $result ) && $result->RecordCount() ) {
 			$row = $result->fetchRow();
@@ -1077,17 +1049,45 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function loadAjax( $pAjaxLib, $pLibHash=NULL ) {
+	function loadAjax( $pAjaxLib, $pLibHash=NULL, $pLibPath=NULL, $pPack = FALSE ) {
 		global $gBitSmarty, $gSniffer;
 		$ret = FALSE;
 		$ajaxLib = strtolower( $pAjaxLib );
 		if( $this->isJavascriptEnabled() ) {
+			// set the javascript lib path if not set yet
+			if( empty( $pLibPath )) {
+				switch( $ajaxLib ) {
+					case 'mochikit':
+						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
+						break;
+					default:
+						$pLibPath = UTIL_PKG_PATH."javascript/";
+						break;
+				}
+			}
+
 			if( !$this->isAjaxLib( $ajaxLib )) {
-				$this->mAjaxLibs[$ajaxLib] = array();
+				// mochikit is special
+				switch( $ajaxLib ) {
+					case 'mochikit':
+						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js' );
+						$this->loadJavascript( $pLibPath.'Base.js' );
+						$this->loadJavascript( $pLibPath.'Async.js' );
+						break;
+					case 'prototype':
+						$this->loadJavascript( $pLibPath.'prototype.js' );
+						break;
+				}
+				$this->mAjaxLibs[$ajaxLib] = TRUE;
 			}
 
 			if( is_array( $pLibHash )) {
-				$this->mAjaxLibs[$ajaxLib] = array_merge( $this->mAjaxLibs[$ajaxLib], $pLibHash );
+				foreach( $pLibHash as $lib ) {
+					$file = realpath( $pLibPath.'/'.$lib );
+					if( !$this->isAuxFile( $file, 'js' )) {
+						$this->loadJavascript( $file, $pPack );
+					}
+				}
 			}
 
 			$ret = TRUE;
@@ -1105,6 +1105,149 @@ class BitThemes extends BitBase {
 	function isAjaxLib( $pAjaxLib ) {
 		if( !empty( $this->mAjaxLibs ) && !empty( $pAjaxLib )) {
 			return in_array( strtolower( $pAjaxLib ), array_keys( $this->mAjaxLibs ));
+		}
+	}
+
+	/**
+	* scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
+	*
+	* @param none $
+	* @access private
+	* @return array of paths to existing header_inc.tpl files
+	*/
+	function loadTplFiles( $pFilename ) {
+		global $gBitSystem;
+		// these package templates will be included last
+		$prepend = array( 'kernel' );
+		$append = array( 'themes' );
+		$anti = $mid = $post = array();
+		foreach( $gBitSystem->mPackages as $package => $info ) {
+			if( !empty( $info['path'] )) {
+				$file = "{$info['path']}templates/{$pFilename}.tpl";
+				$out = "bitpackage:{$package}/{$pFilename}.tpl";
+				if( is_readable( $file )) {
+					if( in_array( $package, $prepend )) {
+						$anti[] = $out;
+					} elseif( in_array( $package, $append )) {
+						$post[] = $out;
+					} else {
+						$mid[] = $out;
+					}
+				}
+			}
+		}
+		$this->mAuxFiles['templates'][$pFilename] = array_merge( $anti, $mid, $post );
+	}
+
+	/**
+	 * loadJavascript 
+	 * 
+	 * @param array $pJavascriptFile 
+	 * @param array $pPack 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE ) {
+		if( !empty( $pJavascriptFile )) {
+			if( $pPack ) {
+				if( is_file( $pJavascriptFile )) {
+					// get a name for the cache file we're going to store
+					$cachefile = md5( $pJavascriptFile ).'.js';
+
+					// start up caching engine
+					if( empty( $this->mThemeCache )) {
+						require_once( KERNEL_PKG_PATH.'BitCache.php' );
+						$this->mThemeCache = new BitCache( 'themes', TRUE );
+					}
+
+					// if the file hasn't been packed and cached yet, we do that now.
+					if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pJavascriptFile ))) {
+						require_once( UTIL_PKG_PATH.'javascript/class.JavaScriptPacker.php' );
+						$packer = new JavaScriptPacker( file_get_contents( $pJavascriptFile ) );
+						$this->mThemeCache->writeCacheFile( $cachefile, $packer->pack() );
+					}
+
+					// update javascript file with new path
+					$pJavascriptFile = $this->mThemeCache->getCacheFile( $cachefile );
+				}
+			}
+
+			// ensure the path is valid and clean
+			if( !empty( $pJavascriptFile ) && $pJavascriptFile = realpath( $pJavascriptFile )) {
+				$this->mAuxFiles['js'][] = $pJavascriptFile;
+			}
+		}
+	}
+
+	/**
+	 * loadCss 
+	 * 
+	 * @param array $pCssFile 
+	 * @param array $pPath 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function loadCss( $pCssFile ) {
+		if( !empty( $pCssFile ) && $pCssFile = realpath( $pCssFile )) {
+			$this->mAuxFiles['css'][] = $pCssFile;
+		}
+	}
+
+	/**
+	 * joinAuxFiles will join all files in mAuxFiles[hash] into one cached file. This helps keep our HTTP requests down to a minimum.
+	 * 
+	 * @param string $pType specifies what files to join. typical values include 'javascript', 'css'
+	 * @access public
+	 * @return url to cached file
+	 */
+	function joinAuxFiles( $pType = 'js' ) {
+		$ret = FALSE;
+		if( !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
+			$cachestring = '';
+			$lastmodified = 0;
+			// get a unique cachefile name for this set of javascript files
+			foreach( $this->mAuxFiles[$pType] as $file ) {
+				if( is_file( $file )) {
+					$cachestring .= '|'.$file;
+					$lastmodified = max( $lastmodified, filemtime( $file ));
+				}
+			}
+			$cachefile = md5( $cachestring ).'.'.$pType;
+
+			// start up caching engine
+			if( empty( $this->mThemeCache )) {
+				require_once( KERNEL_PKG_PATH.'BitCache.php' );
+				$this->mThemeCache = new BitCache( 'themes', TRUE );
+			}
+
+			if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
+				$contents = '';
+				foreach( $this->mAuxFiles[$pType] as $file ) {
+					// if we have an extension to check against, we'll do that
+					$chars = 0 - ( strlen( $pType ) + 1 );
+					if( !empty( $pType ) && substr( $file, $chars ) == '.'.$pType && is_readable( $file )) {
+						$contents .= file_get_contents( $file )."\n\n";
+					}
+				}
+				$this->mThemeCache->writeCacheFile( $cachefile, $contents );
+			}
+
+			$ret = $this->mThemeCache->getCacheUrl( $cachefile );
+		}
+		return $ret;
+	}
+
+	/**
+	 * isAuxFile 
+	 * 
+	 * @param array $pFile 
+	 * @param array $pType 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function isAuxFile( $pFile, $pType ) {
+		if( !empty( $pFile ) && $pFile = realpath( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
+			return( in_array( $pFile, $this->mAuxFiles[$pType] ));
 		}
 	}
 

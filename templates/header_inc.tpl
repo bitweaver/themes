@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.32 2007/10/29 14:55:46 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.33 2007/11/08 21:59:35 squareing Exp $ *}
 {strip}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
@@ -9,42 +9,20 @@
 {if $gBitThemes->mStyles.browserStyleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.browserStyleSheet}" media="all" />
 {/if}
-{if $gBitThemes->mStyles.customStyleSheet}
-	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.custumStyleSheet}" media="all" />
+{if $gBitThemes->mStyles.joined_css}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
 {/if}
-{foreach from=$gBitThemes->mStyles.altStyleSheets item=alt_path key=alt_name}
-	<link rel="alternate stylesheet" title="{$alt_name}" type="text/css" href="{$alt_path}" media="screen" />
-{/foreach}
 
+{* annoyingly this is still required here since the liberty attachments plugin
+is called before gBitThemes is set and can therefore not call loadJavascript.
+if you want to load this from your php file, please use:
+$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/multifile.js', TRUE );
+this variable here will go as soon as we can work out how to load this from the
+plugin *}
 {if $loadMultiFile}
 	{jspack ifile=libs/multifile.js}
 {/if}
-
-{if $gBitSystem->isFeatureActive('site_top_bar_js') && $gBitSystem->isFeatureActive('site_top_bar') && $gBitSystem->isFeatureActive('site_top_bar_dropdown')}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/libs/fsmenu.js"></script>
-{/if}
-
-{if !$gBitSystem->isFeatureActive('site_disable_jstabs')}
-	{jspack ifile=libs/tabpane.js}
-{/if}
 {/strip}
-
-{if $loadThemesCss}
-	{literal}
-	<style type="text/css">
-		div#themeapprove	{position:fixed; color:#000; z-index:1000000; bottom:10px; right:10px; width:400px; background:#fff; border:3px solid #999; padding:20px; text-align:center; opacity:0.8;}
-		div#themeapprove a	{display:block; float:left; margin:10px; padding:20px 71px; background:#eee; border:1px solid #ccc; vertical-align:middle;}
-		div#themeapprove a:hover	{background-color:#b83;}
-		ul#layoutgala		{list-style:none; margin:0; padding:0;}
-		ul#layoutgala li	{list-style:none; float:left; display:inline; margin:0 0 0.5em 0.5em; width:120px; text-align:center}
-		ul#layoutgala li a	{height:160px; display:block; line-height:1.2em; padding:0.5em 0;}
-	</style>
-	{/literal}
-{/if}
-
-{if !$gBitSystem->getConfig('site_disable_fat')}
-	{jspack ifile=libs/fat.js}
-{/if}
 
 {if $gBrowserInfo.browser eq 'ie'}
 	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->

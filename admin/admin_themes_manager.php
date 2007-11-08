@@ -67,8 +67,8 @@ $sampleIcons = array(
 );
 $gBitSmarty->assign( "sampleIcons", $sampleIcons );
 
-// crude method of loading css styling but we can fix this later
-$gBitSmarty->assign( "loadThemesCss", TRUE );
+// load css file
+$gBitThemes->loadCss( THEMES_PKG_PATH.'themes.css' );
 
 $gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
 ?>
