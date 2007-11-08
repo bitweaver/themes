@@ -1046,6 +1046,7 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param array $pAjaxLib Name of the library we want to use e.g.: prototype or mochikit
 	 * @param array $pLibHash Array of additional libraries we need to load
+	 * @param boolean $pPack Set to true if you want to pack the javascript file
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1083,10 +1084,7 @@ class BitThemes extends BitBase {
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$file = realpath( $pLibPath.'/'.$lib );
-					if( !$this->isAuxFile( $file, 'js' )) {
-						$this->loadJavascript( $file, $pPack );
-					}
+					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack );
 				}
 			}
 
@@ -1111,9 +1109,9 @@ class BitThemes extends BitBase {
 	/**
 	* scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
 	*
-	* @param none $
+	* @param string $pFilename Name of template file we want to scan for and collect
 	* @access private
-	* @return array of paths to existing header_inc.tpl files
+	* @return void
 	*/
 	function loadTplFiles( $pFilename ) {
 		global $gBitSystem;
@@ -1140,12 +1138,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * loadJavascript 
+	 * Load an addition javascript file
 	 * 
-	 * @param array $pJavascriptFile 
-	 * @param array $pPack 
+	 * @param string $pJavascriptFile Full path to javascript file
+	 * @param boolean $pPack Set to true if you want to pack the javascript file
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return void
 	 */
 	function loadJavascript( $pJavascriptFile, $pPack = FALSE ) {
 		if( !empty( $pJavascriptFile )) {
@@ -1173,22 +1171,21 @@ class BitThemes extends BitBase {
 			}
 
 			// ensure the path is valid and clean
-			if( !empty( $pJavascriptFile ) && $pJavascriptFile = realpath( $pJavascriptFile )) {
+			if( !empty( $pJavascriptFile ) && $pJavascriptFile = realpath( $pJavascriptFile ) && !$this->isAuxFile( $pJavascriptFile, 'js' )) {
 				$this->mAuxFiles['js'][] = $pJavascriptFile;
 			}
 		}
 	}
 
 	/**
-	 * loadCss 
+	 * Load an additional CSS file
 	 * 
-	 * @param array $pCssFile 
-	 * @param array $pPath 
+	 * @param array $pCssFile Full path to CSS file 
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function loadCss( $pCssFile ) {
-		if( !empty( $pCssFile ) && $pCssFile = realpath( $pCssFile )) {
+		if( !empty( $pCssFile ) && $pCssFile = realpath( $pCssFile ) && !$this->isAuxFile( $pCssFile, 'css' )) {
 			$this->mAuxFiles['css'][] = $pCssFile;
 		}
 	}
@@ -1240,7 +1237,7 @@ class BitThemes extends BitBase {
 	/**
 	 * isAuxFile 
 	 * 
-	 * @param array $pFile 
+	 * @param array $pFile Full path to file
 	 * @param array $pType 
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
