@@ -96,7 +96,8 @@ $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 	array(THEMES_PKG_NAME,'site_icon_style', 'tango' ),
 	array(THEMES_PKG_NAME,'site_top_bar_dropdown','y' ),
 	array(THEMES_PKG_NAME,'site_bot_bar','y'),
-	array(THEMES_PKG_NAME,'site_top_bar','y'),
+	// obsolete feature
+	//array(THEMES_PKG_NAME,'site_top_bar','y'),
 ));
 
 ?>

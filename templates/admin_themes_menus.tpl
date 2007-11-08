@@ -27,15 +27,15 @@
 						{formhelp note="Override the default home page link name in the top menu bar."}
 					{/forminput}
 				</div>
-        	
+
 				<div class="row submit">
 					<input type="submit" name="menu_settings" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/form}
 		{/jstab}
-		
+
 		{jstab title="Effects"}
-			{if $gBitSystem->isFeatureActive( 'site_top_bar' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
+			{if $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
 				{form legend="Menu Javascript Settings"}
 					{foreach from=$formMenuJsSettings key=feature item=output}
 						<div class="row">
@@ -56,52 +56,49 @@
 		{/jstab}
 
 		{jstab title="Visibility"}
-			{if $gBitSystem->isFeatureActive( 'site_top_bar' )}
-				{form legend="Top bar menu"}
-					<p class="help">
-						{tr}Select what menus to display at the <strong>top of the page</strong>, their order and what title they should have. If you don't provide positional information, they will be sorted alphabetically. To create <strong>custom menus</strong>, please use the Nexus package instead.{/tr}
-					</p>			
-					<table summary="{tr}Select menus to display, their order and titles.{/tr}">
-						<thead>
-							<tr>
-								<th>{tr}Package{/tr}</th>
-								<th>{tr}Title{/tr}</th>
-								<th>{tr}Position{/tr}</th>
-							</tr>
-						</thead>
-						<tfoot>
-							<tr>
-								<td colspan="3">
-									<div class="row submit">
-										<input type="submit" name="update_menus" value="{tr}Update Menus{/tr}" />
-									</div>
-								</td>
-							</tr>
-						</tfoot>
-						<tbody>
-							{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
-								{forminput}
-									<tr>
-										<td title="{tr}Visible?{/tr}">
-											<input type="checkbox" name="menu_{$pkgName}" id="menu_{$pkgName}" {if !$menu.is_disabled}checked="checked"{/if}/>
-											&nbsp;
-											<label for="menu_{$pkgName}">{tr}{$pkgName}{/tr}
-										</td>
-										<td>
-											<input type="text" name="{$pkgName}_menu_text" value="{$menu.menu_title|escape}"/>
-										</td>
-										<td>
-											<input type="text" name="{$pkgName}_menu_position" size="2" value="{$menu.menu_position|escape}"/>
-										</td>
-									</tr>
-								{/forminput}
-							{/foreach}
-						</tbody>
-					</table>
-				{/form}
-			{else}
-				<p class="warning">{tr}No menu enabled.{/tr}</p>
-			{/if}
+			{form legend="Top bar menu"}
+				<p class="help">
+					{tr}Select what menus to display at the <strong>top of the page</strong>, their order and what title they should have. If you don't provide positional information, they will be sorted alphabetically. To create <strong>custom menus</strong>, please use the Nexus package instead.{/tr}<br />
+					{tr}If you can't see a menu at the top of your site and you want to have one, please go to the Layout Manager and add the 'top menu' kernel module to your layout.{/tr}
+				</p>
+				<table summary="{tr}Select menus to display, their order and titles.{/tr}">
+					<thead>
+						<tr>
+							<th>{tr}Package{/tr}</th>
+							<th>{tr}Title{/tr}</th>
+							<th>{tr}Position{/tr}</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<td colspan="3">
+								<div class="row submit">
+									<input type="submit" name="update_menus" value="{tr}Update Menus{/tr}" />
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+					<tbody>
+						{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
+							{forminput}
+								<tr>
+									<td title="{tr}Visible?{/tr}">
+										<input type="checkbox" name="menu_{$pkgName}" id="menu_{$pkgName}" {if !$menu.is_disabled}checked="checked"{/if}/>
+										&nbsp;
+										<label for="menu_{$pkgName}">{tr}{$pkgName}{/tr}
+									</td>
+									<td>
+										<input type="text" name="{$pkgName}_menu_text" value="{$menu.menu_title|escape}"/>
+									</td>
+									<td>
+										<input type="text" name="{$pkgName}_menu_position" size="2" value="{$menu.menu_position|escape}"/>
+									</td>
+								</tr>
+							{/forminput}
+						{/foreach}
+					</tbody>
+				</table>
+			{/form}
 		{/jstab}
 	{/jstabs}
 

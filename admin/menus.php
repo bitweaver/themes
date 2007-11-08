@@ -10,10 +10,11 @@ require_once( KERNEL_PKG_PATH."simple_form_functions_lib.php" );
 $gBitSystem->verifyPermission( 'p_admin' );
 
 $formMenuSettings = array(
-	'site_top_bar' => array(
-		'label' => 'Top bar menu',
-		'note' => 'Here you can enable or disable the menubar at the top of the page (available in most themes). Before you disable this bar, please make sure you have some means of navigation set up to access at least the administration page.',
-	),
+// this feature is obsolete since we now have this in a module
+//	'site_top_bar' => array(
+//		'label' => 'Top bar menu',
+//		'note' => 'Here you can enable or disable the menubar at the top of the page (available in most themes). Before you disable this bar, please make sure you have some means of navigation set up to access at least the administration page.',
+//	),
 	'site_top_bar_dropdown' => array(
 		'label' => 'Dropdown menu',
 		'note' => 'Use the CSS driven dropdown menus in the top bar. Compatibility and further reading can be found at <a class="external" href="http://www.htmldog.com/articles/suckerfish/dropdowns/">Suckerfish Dropdowns</a>.',
