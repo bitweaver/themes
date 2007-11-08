@@ -1,16 +1,20 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.8 2007/09/27 11:21:28 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.9 2007/11/08 09:33:11 nickpalmer Exp $ *}
 {strip}
-{if $moduleParams.layout_area == "l"}
-	{assign var=area value="navig"}
-{elseif $moduleParams.layout_area == "r"}
-	{assign var=area value="extra"}
-{elseif $moduleParams.layout_area == "t"}
-	{assign var=area value="header"}
-{elseif $moduleParams.layout_area == "b"}
-	{assign var=area value="footer"}
+{if empty($moduleArea)}
+	{if $moduleParams.layout_area == "l"}
+		{assign var=area value="navig"}
+	{elseif $moduleParams.layout_area == "r"}
+		{assign var=area value="extra"}
+	{elseif $moduleParams.layout_area == "t"}
+		{assign var=area value="header"}
+	{elseif $moduleParams.layout_area == "b"}
+		{assign var=area value="footer"}
+	{/if}
+{else}
+	{assign var=area value=$moduleArea}
 {/if}
 
-<div class="module {$modInfo.name|replace:"_":"-"}" id="{$area}{$moduleParams.pos}">
+<div class="module {$modInfo.name|replace:"_":"-"}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
 	{if $modInfo.title}
 		<h3>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
