@@ -111,7 +111,7 @@
 
 								{$s.style_info.description}
 
-								<h3>{tr}Sample icons{/tr}</h2>
+								<h3>{tr}Sample icons{/tr}</h3>
 								{foreach from=$sampleIcons item=icon}
 									{biticon ipackage=icons istyle=$s.style iname="large/$icon" iexplain=$icon}
 								{/foreach}
