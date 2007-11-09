@@ -74,7 +74,6 @@ class BitThemes extends BitBase {
 		if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
 			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE );
 		}
-		vd($this->mAuxFiles['js']);
 
 		// let's join the various files
 		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
