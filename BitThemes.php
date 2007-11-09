@@ -1182,7 +1182,7 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param array $pCssFile Full path to CSS file 
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return void
 	 */
 	function loadCss( $pCssFile ) {
 		if( !empty( $pCssFile ) && $pCssFile = realpath( $pCssFile ) && !$this->isAuxFile( $pCssFile, 'css' )) {
