@@ -74,6 +74,7 @@ class BitThemes extends BitBase {
 		if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
 			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE );
 		}
+		vd($this->mAuxFiles['js']);
 
 		// let's join the various files
 		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
@@ -1170,10 +1171,7 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			// ensure the path is valid and clean
-			if( !empty( $pJavascriptFile ) && $pJavascriptFile = realpath( $pJavascriptFile ) && !$this->isAuxFile( $pJavascriptFile, 'js' )) {
-				$this->mAuxFiles['js'][] = $pJavascriptFile;
-			}
+			$this->loadAuxFile( $pJavascriptFile, 'js' );
 		}
 	}
 
@@ -1185,16 +1183,14 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function loadCss( $pCssFile ) {
-		if( !empty( $pCssFile ) && $pCssFile = realpath( $pCssFile ) && !$this->isAuxFile( $pCssFile, 'css' )) {
-			$this->mAuxFiles['css'][] = $pCssFile;
-		}
+		$this->loadAuxFile( $pCssFile, 'css' );
 	}
 
 	/**
 	 * joinAuxFiles will join all files in mAuxFiles[hash] into one cached file. This helps keep our HTTP requests down to a minimum.
 	 * 
 	 * @param string $pType specifies what files to join. typical values include 'javascript', 'css'
-	 * @access public
+	 * @access private
 	 * @return url to cached file
 	 */
 	function joinAuxFiles( $pType = 'js' ) {
@@ -1235,6 +1231,24 @@ class BitThemes extends BitBase {
 	}
 
 	/**
+	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
+	 * 
+	 * @param array $pFile Full path to the file in question
+	 * @param array $pType 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function loadAuxFile( $pFile = NULL, $pType = NULL ) {
+		if( !empty( $pFile ) && !empty( $pType )) {
+			if( $pFile = realpath( $pFile )) {
+				if( !$this->isAuxFile( $pFile, $pType )) {
+					$this->mAuxFiles[$pType][] = $pFile;
+				}
+			}
+		}
+	}
+
+	/**
 	 * isAuxFile 
 	 * 
 	 * @param array $pFile Full path to file
@@ -1243,7 +1257,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function isAuxFile( $pFile, $pType ) {
-		if( !empty( $pFile ) && $pFile = realpath( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
+		if( !empty( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
 			return( in_array( $pFile, $this->mAuxFiles[$pType] ));
 		}
 	}
