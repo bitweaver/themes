@@ -1,5 +1,8 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.33 2007/11/08 21:59:35 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.34 2007/11/10 08:53:09 squareing Exp $ *}
 {strip}
+{if $gBitThemes->mStyles.joined_css}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
+{/if}
 {if $gBitSystem->isFeatureActive( 'site_style_layout' )}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$smarty.const.THEMES_PKG_URL}layouts/{$gBitSystem->getConfig('site_style_layout')}.css" media="all" />
 {/if}
@@ -8,9 +11,6 @@
 {/if}
 {if $gBitThemes->mStyles.browserStyleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.browserStyleSheet}" media="all" />
-{/if}
-{if $gBitThemes->mStyles.joined_css}
-	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
 {/if}
 
 {* annoyingly this is still required here since the liberty attachments plugin
