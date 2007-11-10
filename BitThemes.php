@@ -1071,9 +1071,9 @@ class BitThemes extends BitBase {
 				// mochikit is special
 				switch( $ajaxLib ) {
 					case 'mochikit':
-						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js' );
 						$this->loadJavascript( $pLibPath.'Base.js' );
 						$this->loadJavascript( $pLibPath.'Async.js' );
+						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js' );
 						break;
 					case 'prototype':
 						$this->loadJavascript( $pLibPath.'prototype.js' );
