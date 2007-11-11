@@ -314,6 +314,38 @@ class BitThemes extends BitBase {
 	}
 
 	/**
+	 * isModuleLoaded will check if a given modules is being used in the currently active layout
+	 * 
+	 * @param string $pModuleResource the module resource
+	 * @param string $pArea optionally specify the area the module should be found in
+	 * @access public
+	 * @return TRUE on success, FALSE on failure
+	 */
+	function isModuleLoaded( $pModuleResource, $pArea = NULL ) {
+		// load the layout if it hasn't been done yet
+		$this->loadLayout();
+
+		if( !$this->verifyArea( $pArea ) && !empty( $this->mLayout[$pArea] )) {
+			foreach( $this->mLayout[$pArea] as $module ) {
+				if( $pModuleResource == $module['module_rsrc'] ) {
+					return TRUE;
+				}
+			}
+		} else {
+			foreach( array_keys( $this->mLayout ) as $area ) {
+				if( !empty( $this->mLayout[$area] )) {
+					foreach( $this->mLayout[$area] as $module ) {
+						if( $pModuleResource == $module['module_rsrc'] ) {
+							return TRUE;
+						}
+					}
+				}
+			}
+		}
+		return FALSE;
+	}
+
+	/**
 	 * fix postional data in database using increments of 10 to make it easy for inserting new modules
 	 * 
 	 * @access public
@@ -444,8 +476,11 @@ class BitThemes extends BitBase {
 			$pHash['store']['module_rsrc'] = $pHash['module_rsrc'];
 		}
 
+		// if we don't have a valid area, we'll just shove it in the left column
 		if( $this->verifyArea( $pHash['layout_area'] )) {
-			$pHash['store']['layout_area']   = $pHash['layout_area'];
+			$pHash['store']['layout_area'] = $pHash['layout_area'];
+		} else {
+			$pHash['store']['layout_area'] = 'l';
 		}
 
 		$pHash['store']['title']         = ( !empty( $pHash['title'] )             ? $pHash['title']         : NULL );
@@ -576,7 +611,11 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function moveModuleToArea( $pModuleId, $pArea ) {
-		if( @BitBase::verifyId( $pModuleId ) && $this->verifyArea( $pArea )) {
+		if( !$this->verifyArea( $pArea )) {
+			$pArea = 'l';
+		}
+
+		if( @BitBase::verifyId( $pModuleId )) {
 			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `layout_area`=? WHERE `module_id`=?";
 			$result = $this->mDb->query( $query, array( $pArea, $pModuleId ));
 		}
@@ -612,10 +651,7 @@ class BitThemes extends BitBase {
 	 * @return valid area
 	 */
 	function verifyArea( &$pArea ) {
-		if( empty( $pArea ) || !preg_match( '/^[lrctb]$/', $pArea )) {
-			$pArea = 'l';
-		}
-		return TRUE;
+		return( !empty( $pArea ) && preg_match( '/^[lrctb]$/', $pArea ));
 	}
 
 	/**
