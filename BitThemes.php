@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.53 2007/11/11 13:35:47 squareing Exp $
- * @version  $Revision: 1.53 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.54 2007/11/11 17:49:24 wjames5 Exp $
+ * @version  $Revision: 1.54 $
  * @package themes
  */
 
@@ -1102,7 +1102,7 @@ class BitThemes extends BitBase {
 					case 'mochikit':
 						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pPosition++ );
 						$this->loadJavascript( $pLibPath.'Async.js', FALSE, $pPosition++ );
-						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js', FALSE, $pPosition++ );
+						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js', FALSE, 150 );
 						break;
 					case 'prototype':
 						$this->loadJavascript( $pLibPath.'prototype.js', FALSE, $pPosition++ );
