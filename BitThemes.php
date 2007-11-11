@@ -1,5 +1,11 @@
 <?php
 /**
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.52 2007/11/11 12:47:00 squareing Exp $
+ * @version  $Revision: 1.52 $
+ * @package themes
+ */
+
+/**
  * BitThemes 
  * 
  * @uses BitBase
