@@ -28,63 +28,18 @@ if( !$gBitThemes->getStyle() ) {
 }
 $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
-// This is a hack to prevent chicken-n-egg gPreScan scenario - liberty must come before themes.
-// Though honestly, the optimal fix is to remove prototype dependcy on the uploader if at all possible to 
-// avoid conflicts with other Ajax libs since the uploader affects any from with an upload in it.
-if ($gBitSystem->getConfig('liberty_attachment_style') == "ajax") {
-	$gBitThemes->loadAjax( 'MochiKit' );
+// load some core javascript files
+$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
+
+if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE, 40 );
 }
 
-
-function themes_content_display( $pContent ) {
-	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;	
-
-	// users_themes='u' is for all users content
-	if( $gBitSystem->getConfig('users_themes') == 'u' ) {
-		if( $gBitSystem->isFeatureActive( 'users_preferences' ) && is_object( $pContent ) && $pContent->isValid() ) {
-			if( $pContent->getField( 'user_id' ) == $gBitUser->mUserId ) {
-				// small optimization to reduce checking when we are looking at our own content, which is frequent
-				if( $userStyle = $gBitUser->getPreference('theme') ) {
-					$theme = $userStyle;
-				}
-			} else {
-				$theme = BitUser::getUserPreference( 'theme', NULL, $pContent->getField( 'user_id' ) );
-			}
-		}
-	}
-	if( !empty( $theme ) && $theme != DEFAULT_THEME ) {
-		$gBitThemes->setStyle( $theme );
-		if( !is_object( $gQueryUser ) ) {
-			$gQueryUser = new BitPermUser( $pContent->getField( 'user_id' ) );
-			$gQueryUser->load();
-			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
-		}
-	}
+if( !$gBitSystem->getConfig( 'site_disable_fat' )) {
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
 }
 
-function themes_content_list( $pContent, $pListHash ) {
-	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;	
-	// users_themes='u' is for all users content
-	if( $gBitSystem->getConfig('users_themes') == 'u' ) {
-		if( $gBitSystem->isFeatureActive( 'users_preferences' ) && !empty( $pListHash['user_id'] ) ) {
-			if( $pListHash['user_id'] == $gBitUser->mUserId ) {
-				// small optimization to reduce checking when we are looking at our own content, which is frequent
-				if( $userStyle = $gBitUser->getPreference('theme') ) {
-					$theme = $userStyle;
-				}
-			} else {
-				$theme = BitUser::getUserPreference( 'theme', NULL, $pListHash['user_id'] );
-			}
-		}
-	}
-	if( !empty( $theme ) && $theme != DEFAULT_THEME ) {
-		$gBitThemes->setStyle( $theme );
-		if( !is_object( $gQueryUser ) ) {
-			$gQueryUser = new BitPermUser( $pListHash['user_id'] );
-			$gQueryUser->load();
-			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
-		}
-	}
+if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE, 60 );
 }
-
 ?>

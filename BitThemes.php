@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.52 2007/11/11 12:47:00 squareing Exp $
- * @version  $Revision: 1.52 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.53 2007/11/11 13:35:47 squareing Exp $
+ * @version  $Revision: 1.53 $
  * @package themes
  */
 
@@ -65,21 +65,6 @@ class BitThemes extends BitBase {
 		// load tpl files that need to be included
 		$this->loadTplFiles( "header_inc" );
 		$this->loadTplFiles( "footer_inc" );
-
-		// join together all the javascript files
-		$this->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE );
-
-		if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
-			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE );
-		}
-
-		if( !$gBitSystem->getConfig( 'site_disable_fat' )) {
-			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE );
-		}
-
-		if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
-			$this->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE );
-		}
 
 		// let's join the various files
 		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
@@ -1102,9 +1087,11 @@ class BitThemes extends BitBase {
 				switch( $ajaxLib ) {
 					case 'mochikit':
 						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
+						$pPosition = 100;
 						break;
 					default:
 						$pLibPath = UTIL_PKG_PATH."javascript/";
+						$pPosition = 200;
 						break;
 				}
 			}
@@ -1113,12 +1100,12 @@ class BitThemes extends BitBase {
 				// mochikit is special
 				switch( $ajaxLib ) {
 					case 'mochikit':
-						$this->loadJavascript( $pLibPath.'Base.js' );
-						$this->loadJavascript( $pLibPath.'Async.js' );
-						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js' );
+						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pPosition++ );
+						$this->loadJavascript( $pLibPath.'Async.js', FALSE, $pPosition++ );
+						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js', FALSE, $pPosition++ );
 						break;
 					case 'prototype':
-						$this->loadJavascript( $pLibPath.'prototype.js' );
+						$this->loadJavascript( $pLibPath.'prototype.js', FALSE, $pPosition++ );
 						break;
 				}
 				$this->mAjaxLibs[$ajaxLib] = TRUE;
@@ -1126,7 +1113,7 @@ class BitThemes extends BitBase {
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack );
+					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pPosition );
 				}
 			}
 
@@ -1187,7 +1174,7 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return void
 	 */
-	function loadJavascript( $pJavascriptFile, $pPack = FALSE ) {
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 1 ) {
 		if( !empty( $pJavascriptFile )) {
 			if( $pPack ) {
 				if( is_file( $pJavascriptFile )) {
@@ -1212,7 +1199,7 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			$this->loadAuxFile( $pJavascriptFile, 'js' );
+			$this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
 		}
 	}
 
@@ -1223,8 +1210,8 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return void
 	 */
-	function loadCss( $pCssFile ) {
-		$this->loadAuxFile( $pCssFile, 'css' );
+	function loadCss( $pCssFile, $pPosition = 1 ) {
+		$this->loadAuxFile( $pCssFile, 'css', $pPosition );
 	}
 
 	/**
@@ -1237,6 +1224,7 @@ class BitThemes extends BitBase {
 	function joinAuxFiles( $pType = 'js' ) {
 		$ret = FALSE;
 		if( !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
+			ksort( $this->mAuxFiles[$pType] );
 			$cachestring = '';
 			$lastmodified = 0;
 			// get a unique cachefile name for this set of javascript files
@@ -1279,11 +1267,15 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function loadAuxFile( $pFile = NULL, $pType = NULL ) {
+	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1 ) {
 		if( !empty( $pFile ) && !empty( $pType )) {
 			if( $pFile = realpath( $pFile )) {
 				if( !$this->isAuxFile( $pFile, $pType )) {
-					$this->mAuxFiles[$pType][] = $pFile;
+					if( !empty( $this->mAuxFiles[$pType][$pPosition] )) {
+						$this->loadAuxFile( $pFile, $pType, $pPosition + 1 );
+					} else {
+						$this->mAuxFiles[$pType][$pPosition] = $pFile;
+					}
 				}
 			}
 		}
@@ -1319,4 +1311,71 @@ class BitThemes extends BitBase {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 	}
 }
+
+/**
+ * load content specific theme picked by user
+ * 
+ * @param array $pContent 
+ * @access public
+ * @return void
+ */
+function themes_content_display( $pContent ) {
+	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;
+
+	// users_themes='u' is for all users content
+	if( $gBitSystem->getConfig( 'users_themes' ) == 'u' ) {
+		if( $gBitSystem->isFeatureActive( 'users_preferences' ) && is_object( $pContent ) && $pContent->isValid() ) {
+			if( $pContent->getField( 'user_id' ) == $gBitUser->mUserId ) {
+				// small optimization to reduce checking when we are looking at our own content, which is frequent
+				if( $userStyle = $gBitUser->getPreference( 'theme' )) {
+					$theme = $userStyle;
+				}
+			} else {
+				$theme = BitUser::getUserPreference( 'theme', NULL, $pContent->getField( 'user_id' ) );
+			}
+		}
+	}
+	if( !empty( $theme ) && $theme != DEFAULT_THEME ) {
+		$gBitThemes->setStyle( $theme );
+		if( !is_object( $gQueryUser ) ) {
+			$gQueryUser = new BitPermUser( $pContent->getField( 'user_id' ) );
+			$gQueryUser->load();
+			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
+		}
+	}
+}
+
+/**
+ * themes_content_list 
+ * 
+ * @param array $pContent 
+ * @param array $pListHash 
+ * @access public
+ * @return void
+ */
+function themes_content_list( $pContent, $pListHash ) {
+	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;
+	// users_themes='u' is for all users content
+	if( $gBitSystem->getConfig( 'users_themes' ) == 'u' ) {
+		if( $gBitSystem->isFeatureActive( 'users_preferences' ) && !empty( $pListHash['user_id'] ) ) {
+			if( $pListHash['user_id'] == $gBitUser->mUserId ) {
+				// small optimization to reduce checking when we are looking at our own content, which is frequent
+				if( $userStyle = $gBitUser->getPreference('theme') ) {
+					$theme = $userStyle;
+				}
+			} else {
+				$theme = BitUser::getUserPreference( 'theme', NULL, $pListHash['user_id'] );
+			}
+		}
+	}
+	if( !empty( $theme ) && $theme != DEFAULT_THEME ) {
+		$gBitThemes->setStyle( $theme );
+		if( !is_object( $gQueryUser ) ) {
+			$gQueryUser = new BitPermUser( $pListHash['user_id'] );
+			$gQueryUser->load();
+			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
+		}
+	}
+}
+
 ?>
