@@ -1,10 +1,11 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.55 2007/11/11 18:21:06 wjames5 Exp $
- * @version  $Revision: 1.55 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.56 2007/11/11 22:14:55 squareing Exp $
+ * @version  $Revision: 1.56 $
  * @package themes
  */
 
+require_once( KERNEL_PKG_PATH.'BitCache.php' );
 /**
  * BitThemes 
  * 
@@ -36,6 +37,9 @@ class BitThemes extends BitBase {
 	 */
 	function BitThemes() {
 		BitBase::BitBase();
+
+		// start up caching engine
+		$this->mThemeCache = new BitCache( 'themes', TRUE );
 	}
 
 
@@ -1181,12 +1185,6 @@ class BitThemes extends BitBase {
 					// get a name for the cache file we're going to store
 					$cachefile = md5( $pJavascriptFile ).'.js';
 
-					// start up caching engine
-					if( empty( $this->mThemeCache )) {
-						require_once( KERNEL_PKG_PATH.'BitCache.php' );
-						$this->mThemeCache = new BitCache( 'themes', TRUE );
-					}
-
 					// if the file hasn't been packed and cached yet, we do that now.
 					if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pJavascriptFile ))) {
 						require_once( UTIL_PKG_PATH.'javascript/class.JavaScriptPacker.php' );
@@ -1235,12 +1233,6 @@ class BitThemes extends BitBase {
 				}
 			}
 			$cachefile = md5( $cachestring ).'.'.$pType;
-
-			// start up caching engine
-			if( empty( $this->mThemeCache )) {
-				require_once( KERNEL_PKG_PATH.'BitCache.php' );
-				$this->mThemeCache = new BitCache( 'themes', TRUE );
-			}
 
 			if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
 				$contents = '';
