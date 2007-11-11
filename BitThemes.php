@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.54 2007/11/11 17:49:24 wjames5 Exp $
- * @version  $Revision: 1.54 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.55 2007/11/11 18:21:06 wjames5 Exp $
+ * @version  $Revision: 1.55 $
  * @package themes
  */
 
@@ -1174,7 +1174,7 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return void
 	 */
-	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 1 ) {
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 300 ) {
 		if( !empty( $pJavascriptFile )) {
 			if( $pPack ) {
 				if( is_file( $pJavascriptFile )) {
