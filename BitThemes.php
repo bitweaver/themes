@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.56 2007/11/11 22:14:55 squareing Exp $
- * @version  $Revision: 1.56 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.57 2007/11/12 09:15:53 squareing Exp $
+ * @version  $Revision: 1.57 $
  * @package themes
  */
 
@@ -43,10 +43,8 @@ class BitThemes extends BitBase {
 	}
 
 
-
-
-	// =================== Styles ====================
-	/**
+	// {{{ =================== Styles ====================
+	/*
 	 * load up all style related information
 	 * populates mStyle and mStyles
 	 * 
@@ -90,12 +88,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* figure out the current style
-	*
-	* @param string $ pScanFile file to be looked for
-	* @return none
-	* @access public
-	*/
+	 * figure out the current style
+	 *
+	 * @param string $ pScanFile file to be looked for
+	 * @return none
+	 * @access public
+	 */
 	function getStyle() {
 		global $gBitSystem;
 		if( empty( $this->mStyle )) {
@@ -105,12 +103,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* figure out the current style
-	*
-	* @param string $ pScanFile file to be looked for
-	* @return none
-	* @access public
-	*/
+	 * figure out the current style
+	 *
+	 * @param string $ pScanFile file to be looked for
+	 * @return none
+	 * @access public
+	 */
 	function setStyle( $pStyle ) {
 		global $gBitSmarty;
 		$this->mStyle = $pStyle;
@@ -118,12 +116,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* figure out the current style
-	*
-	* @param string $ pScanFile file to be looked for
-	* @return none
-	* @access public
-	*/
+	 * figure out the current style
+	 *
+	 * @param string $ pScanFile file to be looked for
+	 * @return none
+	 * @access public
+	 */
 	function getStyleCss( $pStyle = NULL ) {
 		global $gBitSystem;
 		if( empty( $pStyle )) {
@@ -140,12 +138,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* get browser specific css file
-	*
-	* @param none
-	* @return path to browser specific css file
-	* @access public
-	*/
+	 * get browser specific css file
+	 *
+	 * @param none
+	 * @return path to browser specific css file
+	 * @access public
+	 */
 	function getBrowserStyleCss() {
 		global $gSniffer;
 		if( file_exists( $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css' )) {
@@ -155,12 +153,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* figure out the current style URL
-	*
-	* @param string $ pScanFile file to be looked for
-	* @return none
-	* @access public
-	*/
+	 * figure out the current style URL
+	 *
+	 * @param string $ pScanFile file to be looked for
+	 * @return none
+	 * @access public
+	 */
 	function getStyleUrl( $pStyle = NULL ) {
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
@@ -169,12 +167,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* figure out the current style URL
-	*
-	* @param string $ pScanFile file to be looked for
-	* @return none
-	* @access public
-	*/
+	 * figure out the current style URL
+	 *
+	 * @param string $ pScanFile file to be looked for
+	 * @return none
+	 * @access public
+	 */
 	function getStylePath( $pStyle = NULL ) {
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
@@ -182,19 +180,191 @@ class BitThemes extends BitBase {
 		return THEMES_PKG_PATH.'styles/'.$pStyle.'/';
 	}
 
-
-
-
-
-	// =================== Layout ====================
 	/**
-	* load current layout into mLayout
-	*
-	* @param  $pParamHash
-	* @return none
-	* @access public
-	*/
-	//function loadLayout($pUserMixed = ROOT_USER_ID, $pLayout = ACTIVE_PACKAGE, $pFallbackLayout = DEFAULT_PACKAGE, $pForceReload = FALSE) {
+	 * getStyles 
+	 * 
+	 * @param array $pDir 
+	 * @param array $pNullOption 
+	 * @param array $bIncludeCustom 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
+		global $gBitSystem, $gBitUser;
+
+		if( empty( $pDir )) {
+			$pDir = THEMES_PKG_PATH.'styles/';
+		}
+		$ret = array();
+
+		if( !empty( $pNullOption )) {
+			$ret[] = '';
+		}
+
+		if( is_dir( $pDir )) {
+			$h = opendir( $pDir );
+			while( $file = readdir( $h )) {
+				if ( is_dir( $pDir."$file" ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
+					$ret[] = $file;
+				}
+			}
+			closedir( $h );
+		}
+
+		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {	
+			// Include the users custom css if they have created one
+			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
+			$customCSSFile = $customCSSPath.'custom.css';
+
+			if (file_exists($customCSSFile)) {
+				$ret[] = 'custom';
+			}
+		}
+
+		if( count( $ret )) {
+			sort( $ret );
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * getStyleLayouts 
+	 * 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getStyleLayouts() {
+		$ret = array();
+
+		if( is_dir( THEMES_PKG_PATH.'layouts/' )) {
+			$h = opendir( THEMES_PKG_PATH.'layouts/' );
+			// collect all layouts
+			while( FALSE !== ( $file = readdir( $h ))) {
+				if ( !preg_match( "/^\./", $file )) {
+					$ret[substr( $file, 0, ( strrpos( $file, '.' )))][substr( $file, ( strrpos( $file, '.' ) + 1 ))] = $file;
+				}
+			}
+			closedir( $h );
+
+			// weed out any files that don't have a css file associated with them
+			foreach( $ret as $key => $layout ) {
+				if( empty( $layout['css'] )) {
+					unset( $ret[$key] );
+				}
+			}
+
+			ksort( $ret );
+		}
+		return $ret;
+	}
+
+	/**
+	* @param $pSubDirs a subdirectory to scan as well - you can pass in multiple dirs using an array
+	 * 
+	 * @param array $pDir 
+	 * @param array $pNullOption 
+	 * @param array $pSubDirs 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function getStylesList( $pDir = NULL, $pNullOption = NULL, $pSubDirs = NULL ) {
+		global $gBitSystem;
+
+		$ret = array();
+
+		if( empty( $pSubDirs )) {
+			$subDirs[] = array( '' );
+		} elseif( !is_array( $pSubDirs )) {
+			$subDirs[] = $pSubDirs;
+		} else {
+			$subDirs = $pSubDirs;
+		}
+
+		if( empty( $pDir )) {
+			$pDir = THEMES_PKG_PATH.'styles/';
+		}
+
+		if( !empty( $pNullOption )) {
+			$ret[] = '';
+		}
+
+		// open directories
+		if( is_dir( $pDir )) {
+			$h = opendir( $pDir );
+			// cycle through files / dirs
+			while( FALSE !== ( $file = readdir( $h ))) {
+				if ( is_dir( $pDir.$file ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
+					$ret[$file]['style'] = $file;
+					// check if we want to have a look in any subdirs
+					foreach( $subDirs as $dir ) {
+						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' )) {
+							$dh = opendir( $infoDir );
+							// cycle through files / dirs
+							while( FALSE !== ( $f = readdir( $dh ))) {
+								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' )) {
+									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.basename( dirname( dirname( $infoDir ))).'/'.$file.'/'.$dir.'/'.$f;
+
+									if( preg_match( "/\.htm$/", $f )) {
+										$fh = fopen( $infoDir.$f, "r" );
+										$ret[$file][$dir][preg_replace( "/\.htm$/", "", $f )] = fread( $fh, filesize( $infoDir.$f ));
+										fclose( $fh );
+									}
+								}
+							}
+							// sort the returned items
+							@ksort( $ret[$file][$dir] );
+							closedir( $dh );
+						}
+					}
+				}
+			}
+			closedir( $h );
+		}
+
+		if( count( $ret )) {
+			ksort( $ret );
+		}
+
+		return $ret;
+	}
+
+	/**
+	 * get the icon cache path
+	 * 
+	 * @access public
+	 * @return absolute path on where the system should store it's icons
+	 */
+	function getIconCachePath() {
+		global $gSniffer, $gBitSystem, $gBitLanguage;
+
+		// use bitweaver version as dir in case there has been changes since the last version
+		$version = BIT_MAJOR_VERSION.BIT_MINOR_VERSION.BIT_SUB_VERSION;
+
+		// some browsers need special treatment due to different biticon feed.
+		if( $gSniffer->_browser_info['browser'] == 'ie' ) {
+			$browser = $gSniffer->_browser_info['browser'].$gSniffer->_browser_info['maj_ver'];
+		} else {
+			$browser = 'default';
+		}
+
+		$cachedir = TEMP_PKG_PATH.'themes/biticon/'.$version.'/'.$gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE ).'/'.$gBitLanguage->getLanguage().'/'.$browser.'/';
+		if( !is_dir( $cachedir )) {
+			mkdir_p( $cachedir );
+		}
+		return $cachedir;
+	}
+	// }}}
+
+
+	// {{{ =================== Layout ====================
+	/**
+	 * load current layout into mLayout
+	 *
+	 * @param  $pParamHash
+	 * @return none
+	 * @access public
+	 */
 	function loadLayout( $pParamHash = NULL ) {
 		global $gBitSystem;
 		if( empty( $this->mLayout ) || !count( $this->mLayout )){
@@ -219,7 +389,6 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	//function getLayout( $pUserMixed = null, $pLayout = ACTIVE_PACKAGE, $pFallback = TRUE, $pFallbackLayout = DEFAULT_PACKAGE ) {
 	function getLayout( $pParamHash = NULL ) {
 		global $gCenterPieces, $gBitUser, $gBitSystem;
 		$ret = array( 'l' => NULL, 'c' => NULL, 'r' => NULL );
@@ -449,11 +618,10 @@ class BitThemes extends BitBase {
 		}
 		return $ret;
 	}
+	// }}}
 
 
-
-
-	// =================== Modules ====================
+	// {{{ =================== Modules ====================
 	/**
 	 * Verfiy module parameters when storing a new module
 	 * 
@@ -768,10 +936,10 @@ class BitThemes extends BitBase {
 		}
 		return $ret;
 	}
+	// }}}
 
 
-
-	// =================== Custom Modules ====================
+	// {{{ =================== Custom Modules ====================
 	/**
 	 * verifyCustomModule 
 	 * 
@@ -870,204 +1038,24 @@ class BitThemes extends BitBase {
 			return( !empty( $result ));
 		}
 	}
+	// }}}
 
 
-
-
-	// =================== Styles ====================
+	// {{{ =================== Javascript related Methods ====================
 	/**
-	 * getStyles 
-	 * 
-	 * @param array $pDir 
-	 * @param array $pNullOption 
-	 * @param array $bIncludeCustom 
+	 * Statically callable function to see if browser supports javascript
+	 * determined by cookie set in bitweaver.js
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function getStyles( $pDir = NULL, $pNullOption = NULL, $bIncludeCustom = FALSE ) {
-		global $gBitSystem, $gBitUser;
-
-		if( empty( $pDir )) {
-			$pDir = THEMES_PKG_PATH.'styles/';
-		}
-		$ret = array();
-
-		if( !empty( $pNullOption )) {
-			$ret[] = '';
-		}
-
-		if( is_dir( $pDir )) {
-			$h = opendir( $pDir );
-			while( $file = readdir( $h )) {
-				if ( is_dir( $pDir."$file" ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
-					$ret[] = $file;
-				}
-			}
-			closedir( $h );
-		}
-
-		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {	
-			// Include the users custom css if they have created one
-			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
-			$customCSSFile = $customCSSPath.'custom.css';
-
-			if (file_exists($customCSSFile)) {
-				$ret[] = 'custom';
-			}
-		}
-
-		if( count( $ret )) {
-			sort( $ret );
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * getStyleLayouts 
-	 * 
-	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
-	 */
-	function getStyleLayouts() {
-		$ret = array();
-
-		if( is_dir( THEMES_PKG_PATH.'layouts/' )) {
-			$h = opendir( THEMES_PKG_PATH.'layouts/' );
-			// collect all layouts
-			while( FALSE !== ( $file = readdir( $h ))) {
-				if ( !preg_match( "/^\./", $file )) {
-					$ret[substr( $file, 0, ( strrpos( $file, '.' )))][substr( $file, ( strrpos( $file, '.' ) + 1 ))] = $file;
-				}
-			}
-			closedir( $h );
-
-			// weed out any files that don't have a css file associated with them
-			foreach( $ret as $key => $layout ) {
-				if( empty( $layout['css'] )) {
-					unset( $ret[$key] );
-				}
-			}
-
-			ksort( $ret );
-		}
-		return $ret;
-	}
-
-	/**
-	* @param $pSubDirs a subdirectory to scan as well - you can pass in multiple dirs using an array
-	 * 
-	 * @param array $pDir 
-	 * @param array $pNullOption 
-	 * @param array $pSubDirs 
-	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
-	 */
-	function getStylesList( $pDir = NULL, $pNullOption = NULL, $pSubDirs = NULL ) {
-		global $gBitSystem;
-
-		$ret = array();
-
-		if( empty( $pSubDirs )) {
-			$subDirs[] = array( '' );
-		} elseif( !is_array( $pSubDirs )) {
-			$subDirs[] = $pSubDirs;
-		} else {
-			$subDirs = $pSubDirs;
-		}
-
-		if( empty( $pDir )) {
-			$pDir = THEMES_PKG_PATH.'styles/';
-		}
-
-		if( !empty( $pNullOption )) {
-			$ret[] = '';
-		}
-
-		// open directories
-		if( is_dir( $pDir )) {
-			$h = opendir( $pDir );
-			// cycle through files / dirs
-			while( FALSE !== ( $file = readdir( $h ))) {
-				if ( is_dir( $pDir.$file ) && ( $file != '.' && $file != '..' && $file != 'CVS' && $file != 'slideshows' && $file != 'blank' )) {
-					$ret[$file]['style'] = $file;
-					// check if we want to have a look in any subdirs
-					foreach( $subDirs as $dir ) {
-						if( is_dir( $infoDir = $pDir.$file.'/'.$dir.'/' )) {
-							$dh = opendir( $infoDir );
-							// cycle through files / dirs
-							while( FALSE !== ( $f = readdir( $dh ))) {
-								if( is_readable( $infoDir.$f ) && ( $f != '.' &&  $f != '..' &&  $f != 'CVS' )) {
-									$ret[$file][$dir][preg_replace( "/\..*/", "", $f )] = THEMES_PKG_URL.basename( dirname( dirname( $infoDir ))).'/'.$file.'/'.$dir.'/'.$f;
-
-									if( preg_match( "/\.htm$/", $f )) {
-										$fh = fopen( $infoDir.$f, "r" );
-										$ret[$file][$dir][preg_replace( "/\.htm$/", "", $f )] = fread( $fh, filesize( $infoDir.$f ));
-										fclose( $fh );
-									}
-								}
-							}
-							// sort the returned items
-							@ksort( $ret[$file][$dir] );
-							closedir( $dh );
-						}
-					}
-				}
-			}
-			closedir( $h );
-		}
-
-		if( count( $ret )) {
-			ksort( $ret );
-		}
-
-		return $ret;
-	}
-
-	/**
-	 * get the icon cache path
-	 * 
-	 * @access public
-	 * @return absolute path on where the system should store it's icons
-	 */
-	function getIconCachePath() {
-		global $gSniffer, $gBitSystem, $gBitLanguage;
-
-		// use bitweaver version as dir in case there has been changes since the last version
-		$version = BIT_MAJOR_VERSION.BIT_MINOR_VERSION.BIT_SUB_VERSION;
-
-		// some browsers need special treatment due to different biticon feed.
-		if( $gSniffer->_browser_info['browser'] == 'ie' ) {
-			$browser = $gSniffer->_browser_info['browser'].$gSniffer->_browser_info['maj_ver'];
-		} else {
-			$browser = 'default';
-		}
-
-		$cachedir = TEMP_PKG_PATH.'themes/biticon/'.$version.'/'.$gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE ).'/'.$gBitLanguage->getLanguage().'/'.$browser.'/';
-		if( !is_dir( $cachedir )) {
-			mkdir_p( $cachedir );
-		}
-		return $cachedir;
-	}
-
-
-
-
-	// =================== Miscellaneous Methods ====================
-	/**
-	* Statically callable function to see if browser supports javascript
-	* determined by cookie set in bitweaver.js
-	* @access public
-	**/
 	function isJavascriptEnabled() {
 		return( !empty( $_COOKIE['javascript_enabled'] ) && $_COOKIE['javascript_enabled'] == 'y' );
 	}
 
 	/**
-	* Statically callable function to determine if the current call was made using Ajax
-	*
-	* @access public
-	**/
+	 * Statically callable function to determine if the current call was made using Ajax
+	 *
+	 * @access public
+	 */
 	function isAjaxRequest() {
 		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_xml'] ));
 	}
@@ -1101,7 +1089,7 @@ class BitThemes extends BitBase {
 			}
 
 			if( !$this->isAjaxLib( $ajaxLib )) {
-				// mochikit is special
+				// load core javascript files for ajax libraries
 				switch( $ajaxLib ) {
 					case 'mochikit':
 						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pPosition++ );
@@ -1117,7 +1105,7 @@ class BitThemes extends BitBase {
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pPosition );
+					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pPosition++ );
 				}
 			}
 
@@ -1140,12 +1128,12 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	* scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
-	*
-	* @param string $pFilename Name of template file we want to scan for and collect
-	* @access private
-	* @return void
-	*/
+	 * scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
+	 *
+	 * @param string $pFilename Name of template file we want to scan for and collect
+	 * @access private
+	 * @return void
+	 */
 	function loadTplFiles( $pFilename ) {
 		global $gBitSystem;
 		// these package templates will be included last
@@ -1175,10 +1163,15 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param string $pJavascriptFile Full path to javascript file
 	 * @param boolean $pPack Set to true if you want to pack the javascript file
+	 * @param numeric $pPosition Specify the position of the javascript file in the load process
+	 * @NOTE:
+	 *  - generic javascript libraries are loaded between 1 and 99
+	 *  - ajax javascript libraries use position numbers between 100 and 599
+	 *  - by default all loaded javascript files are after 600.
 	 * @access public
 	 * @return void
 	 */
-	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 300 ) {
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600 ) {
 		if( !empty( $pJavascriptFile )) {
 			if( $pPack ) {
 				if( is_file( $pJavascriptFile )) {
@@ -1205,6 +1198,7 @@ class BitThemes extends BitBase {
 	 * Load an additional CSS file
 	 * 
 	 * @param array $pCssFile Full path to CSS file 
+	 * @param numeric $pPosition Specify the position of the javascript file in the load process
 	 * @access public
 	 * @return void
 	 */
@@ -1215,7 +1209,7 @@ class BitThemes extends BitBase {
 	/**
 	 * joinAuxFiles will join all files in mAuxFiles[hash] into one cached file. This helps keep our HTTP requests down to a minimum.
 	 * 
-	 * @param string $pType specifies what files to join. typical values include 'javascript', 'css'
+	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
 	 * @access private
 	 * @return url to cached file
 	 */
@@ -1255,7 +1249,8 @@ class BitThemes extends BitBase {
 	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
 	 * 
 	 * @param array $pFile Full path to the file in question
-	 * @param array $pType 
+	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
+	 * @param numeric $pPosition Specify the position of the javascript file in the load process
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1277,20 +1272,19 @@ class BitThemes extends BitBase {
 	 * isAuxFile 
 	 * 
 	 * @param array $pFile Full path to file
-	 * @param array $pType 
+	 * @param string $pType specifies what files to check. typical values include 'js', 'css'
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function isAuxFile( $pFile, $pType ) {
+	function isAuxFile( $pFile = NULL, $pType = NULL ) {
 		if( !empty( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
 			return( in_array( $pFile, $this->mAuxFiles[$pType] ));
 		}
 	}
+	// }}}
 
 
-
-
-	// =================== old code ====================
+	// {{{ =================== old code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
 	function storeLayout() {
@@ -1302,6 +1296,7 @@ class BitThemes extends BitBase {
 	function getModuleId($mod_rsrc) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 	}
+	// }}}
 }
 
 /**
