@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.57 2007/11/12 09:15:53 squareing Exp $
- * @version  $Revision: 1.57 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.58 2007/11/13 21:08:42 squareing Exp $
+ * @version  $Revision: 1.58 $
  * @package themes
  */
 
@@ -79,12 +79,16 @@ class BitThemes extends BitBase {
 		// these paths will break. We could replace given words in CSS files 
 		// with the full path, but this is likely to cause problems.
 		// - xing - Wednesday Nov 07, 2007   10:51:06 CET
-		$this->loadJavascript( $this->getBrowserStyleCss() );
-		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
+		$this->loadCss( $this->getLayoutStyleCss(), TRUE, 1 );
+		$this->mStyles['joined_css']  = $this->joinAuxFiles( 'css' );
+		// this needs to be loaded after the main css file since it should be 
+		// able to override style settings with this
+		$this->mStyles['browser_css'] = $this->getBrowserStyleCss();
 
 		// define style url and path
 		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
 		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
+		$this->loadCss( THEMES_STYLE_PATH.$this->getStyle().".css" );
 	}
 
 	/**
@@ -147,7 +151,22 @@ class BitThemes extends BitBase {
 	function getBrowserStyleCss() {
 		global $gSniffer;
 		if( file_exists( $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css' )) {
-			$ret = $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css';
+			$ret = $this->getStyleUrl().$this->getStyle().'_'.$gSniffer->property( 'browser' ).'.css';
+		}
+		return !empty( $ret ) ? $ret : NULL;
+	}
+
+	/**
+	 * get browser specific css file
+	 *
+	 * @param none
+	 * @return path to browser specific css file
+	 * @access public
+	 */
+	function getLayoutStyleCss() {
+		global $gBitSystem;
+		if( $gBitSystem->isFeatureActive( 'site_style_layout' )) {
+			$ret = realpath( THEMES_PKG_PATH."layouts/".$gBitSystem->getConfig( 'site_style_layout' ).".css" );
 		}
 		return !empty( $ret ) ? $ret : NULL;
 	}
@@ -1202,8 +1221,49 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return void
 	 */
-	function loadCss( $pCssFile, $pPosition = 1 ) {
+	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300 ) {
+		if( $pPack ) {
+			$pCssFile = $this->packCss( $pCssFile );
+		}
 		$this->loadAuxFile( $pCssFile, 'css', $pPosition );
+	}
+
+	/**
+	 * simply pack css file by removing excess whitespace and comments
+	 * 
+	 * @param array $pCssFile full path to css file
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function packCss( $pCssFile ) {
+		$ret = FALSE;
+		if( !empty( $pCssFile ) && is_readable( $pCssFile )) {
+			$cachefile = md5( $pCssFile ).'.css';
+
+			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
+				$content = file_get_contents( $pCssFile )."\n";
+				$pattern = array(
+					"!\n\s*!",                // leading whitespace
+					"!/\*.*\*/!",             // one line comments -- be aware that this might screw with advanced css hacks
+					"!\s*(\{|\}|;|:)[ \t]*!", // all whitespace around { } ; :
+					"![\t ]+!",               // reduce whitespace
+					"!,\s*!s",                // whitespace after ,
+					"!\n+!",                  // excess newlines
+				);
+				$replace = array(
+					"\n",
+					"",
+					"$1",
+					" ",
+					",",
+					"\n",
+				);
+				$content = preg_replace( $pattern, $replace, $content );
+				$this->mThemeCache->writeCacheFile( $cachefile, $content );
+			}
+			$ret = $this->mThemeCache->getCacheFile( $cachefile );
+		}
+		return $ret;
 	}
 
 	/**
@@ -1234,7 +1294,7 @@ class BitThemes extends BitBase {
 					// if we have an extension to check against, we'll do that
 					$chars = 0 - ( strlen( $pType ) + 1 );
 					if( !empty( $pType ) && substr( $file, $chars ) == '.'.$pType && is_readable( $file )) {
-						$contents .= file_get_contents( $file )."\n\n";
+						$contents .= file_get_contents( $file )."\n";
 					}
 				}
 				$this->mThemeCache->writeCacheFile( $cachefile, $contents );
