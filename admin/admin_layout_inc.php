@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.5 2007/04/14 18:48:05 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.6 2007/11/13 09:44:01 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -113,15 +113,26 @@ if( $processForm == 'Hide' ) {
 		}
 	}
 } elseif( $processForm == 'Center' || $processForm == 'Column' ) {
+	$fAssign = &$_REQUEST['fAssign'];
+
 	if( !empty( $_REQUEST['groups'] ) ) {
-		$_REQUEST['fAssign']['groups'] = '';
+		$fAssign['groups'] = '';
 		foreach( $_REQUEST['groups'] as $groupId ) {
-			$_REQUEST['fAssign']['groups'] .= $groupId.' ';
+			$fAssign['groups'] .= $groupId.' ';
 		}
 	}
-	$fAssign = &$_REQUEST['fAssign'];
-	$fAssign['layout'] = $_REQUEST['module_package'];
-	$gBitThemes->storeModule( $fAssign );
+
+	// either add the module to all available layouts or just the active one
+	if( !empty( $fAssign['add_to_all'] )) {
+		foreach( array_keys( $cloneLayouts ) as $pkg ) {
+			$fAssign['layout'] = $pkg;
+			$gBitThemes->storeModule( $fAssign );
+			unset( $fAssign['store'] );
+		}
+	} else {
+		$fAssign['layout'] = $_REQUEST['module_package'];
+		$gBitThemes->storeModule( $fAssign );
+	}
 }
 
 // this will sort the layout selection dropdown

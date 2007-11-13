@@ -201,6 +201,14 @@
 				{/forminput}
 			</div>
 
+			<div class="row">
+				{formlabel label="Add to all Layouts" for="add_to_all"}
+				{forminput}
+					<input type="checkbox" value="y" id="add_to_all" name="fAssign[add_to_all]" />
+					{formhelp note="If you check this, the module will be added to all custom layouts."}
+				{/forminput}
+			</div>
+
 			<div class="row submit">
 				<input type="submit" name="ColumnTabSubmit" value="{tr}Assign{/tr}" />
 			</div>
