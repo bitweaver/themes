@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.58 2007/11/13 21:08:42 squareing Exp $
- * @version  $Revision: 1.58 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.59 2007/11/15 07:31:41 squareing Exp $
+ * @version  $Revision: 1.59 $
  * @package themes
  */
 
@@ -1098,11 +1098,11 @@ class BitThemes extends BitBase {
 				switch( $ajaxLib ) {
 					case 'mochikit':
 						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
-						$pPosition = 100;
+						$pos = 100;
 						break;
 					default:
 						$pLibPath = UTIL_PKG_PATH."javascript/";
-						$pPosition = 200;
+						$pos = 200;
 						break;
 				}
 			}
@@ -1111,12 +1111,12 @@ class BitThemes extends BitBase {
 				// load core javascript files for ajax libraries
 				switch( $ajaxLib ) {
 					case 'mochikit':
-						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pPosition++ );
-						$this->loadJavascript( $pLibPath.'Async.js', FALSE, $pPosition++ );
+						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pos++ );
+						$this->loadJavascript( $pLibPath.'Async.js', FALSE, $pos++ );
 						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js', FALSE, 150 );
 						break;
 					case 'prototype':
-						$this->loadJavascript( $pLibPath.'prototype.js', FALSE, $pPosition++ );
+						$this->loadJavascript( $pLibPath.'libs/prototype.js', FALSE, $pos++ );
 						break;
 				}
 				$this->mAjaxLibs[$ajaxLib] = TRUE;
@@ -1124,7 +1124,7 @@ class BitThemes extends BitBase {
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pPosition++ );
+					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pos++ );
 				}
 			}
 
@@ -1273,10 +1273,16 @@ class BitThemes extends BitBase {
 	 * @access private
 	 * @return url to cached file
 	 */
-	function joinAuxFiles( $pType = 'js' ) {
+	function joinAuxFiles( $pType ) {
 		$ret = FALSE;
-		if( !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
+
+		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
+			// remove conflicting aux files
+			$this->cleanAuxFiles( $pType );
+
+			// sort by key to make use of position numbering
 			ksort( $this->mAuxFiles[$pType] );
+
 			$cachestring = '';
 			$lastmodified = 0;
 			// get a unique cachefile name for this set of javascript files
@@ -1306,11 +1312,37 @@ class BitThemes extends BitBase {
 	}
 
 	/**
+	 * cleanAuxFiles will remove unwanted aux files if conflicting files have been loaded
+	 * 
+	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
+	 * @access private
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @note: It is regrettable that we have this method here but our previous 
+	 *        use of prototype requires this cleanup and might be needed in the 
+	 *        future as well
+	 */
+	function cleanAuxFiles( $pType ) {
+		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
+			if( $pType = 'js' ) {
+				// prototype is loaded for a reason. we'll remove mochikit
+				if( $this->isAjaxLib( 'prototype' ) && $this->isAjaxLib( 'mochikit' )) {
+					foreach( $this->mAuxFiles[$pType] as $key => $js ) {
+						if( strstr( $js, 'Mochi' )) {
+							unset( $this->mAuxFiles[$pType][$key] );
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
 	 * 
 	 * @param array $pFile Full path to the file in question
 	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
-	 * @param numeric $pPosition Specify the position of the javascript file in the load process
+	 * @param numeric $pPosition Specify the position of the javascript file in the load process.
+	 *                           If the selected position is occupied, it will search for the next free position in the hash.
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1318,6 +1350,7 @@ class BitThemes extends BitBase {
 		if( !empty( $pFile ) && !empty( $pType )) {
 			if( $pFile = realpath( $pFile )) {
 				if( !$this->isAuxFile( $pFile, $pType )) {
+					// if the selected position is occupied, we'll try to load it in the next position
 					if( !empty( $this->mAuxFiles[$pType][$pPosition] )) {
 						$this->loadAuxFile( $pFile, $pType, $pPosition + 1 );
 					} else {
