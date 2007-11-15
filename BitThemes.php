@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.59 2007/11/15 07:31:41 squareing Exp $
- * @version  $Revision: 1.59 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.60 2007/11/15 07:38:36 squareing Exp $
+ * @version  $Revision: 1.60 $
  * @package themes
  */
 
@@ -1138,7 +1138,7 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param array $pAjaxLib 
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function isAjaxLib( $pAjaxLib ) {
 		if( !empty( $this->mAjaxLibs ) && !empty( $pAjaxLib )) {
@@ -1188,7 +1188,7 @@ class BitThemes extends BitBase {
 	 *  - ajax javascript libraries use position numbers between 100 and 599
 	 *  - by default all loaded javascript files are after 600.
 	 * @access public
-	 * @return void
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600 ) {
 		if( !empty( $pJavascriptFile )) {
@@ -1209,7 +1209,7 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			$this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
+			return $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
 		}
 	}
 
@@ -1219,13 +1219,13 @@ class BitThemes extends BitBase {
 	 * @param array $pCssFile Full path to CSS file 
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
 	 * @access public
-	 * @return void
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300 ) {
 		if( $pPack ) {
 			$pCssFile = $this->packCss( $pCssFile );
 		}
-		$this->loadAuxFile( $pCssFile, 'css', $pPosition );
+		return $this->loadAuxFile( $pCssFile, 'css', $pPosition );
 	}
 
 	/**
@@ -1233,7 +1233,7 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param array $pCssFile full path to css file
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function packCss( $pCssFile ) {
 		$ret = FALSE;
@@ -1344,7 +1344,7 @@ class BitThemes extends BitBase {
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process.
 	 *                           If the selected position is occupied, it will search for the next free position in the hash.
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1 ) {
 		if( !empty( $pFile ) && !empty( $pType )) {
@@ -1355,10 +1355,12 @@ class BitThemes extends BitBase {
 						$this->loadAuxFile( $pFile, $pType, $pPosition + 1 );
 					} else {
 						$this->mAuxFiles[$pType][$pPosition] = $pFile;
+						return TRUE;
 					}
 				}
 			}
 		}
+		return FALSE;
 	}
 
 	/**
@@ -1367,7 +1369,7 @@ class BitThemes extends BitBase {
 	 * @param array $pFile Full path to file
 	 * @param string $pType specifies what files to check. typical values include 'js', 'css'
 	 * @access public
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 * @return TRUE on success, FALSE on failure
 	 */
 	function isAuxFile( $pFile = NULL, $pType = NULL ) {
 		if( !empty( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
