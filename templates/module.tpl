@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.9 2007/11/08 09:33:11 nickpalmer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.10 2007/11/18 17:52:41 nickpalmer Exp $ *}
 {strip}
 {if empty($moduleArea)}
 	{if $moduleParams.layout_area == "l"}
@@ -9,6 +9,8 @@
 		{assign var=area value="header"}
 	{elseif $moduleParams.layout_area == "b"}
 		{assign var=area value="footer"}
+	{else}
+		{assign var=area value=NULL}
 	{/if}
 {else}
 	{assign var=area value=$moduleArea}
