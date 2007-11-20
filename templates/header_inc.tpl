@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.35 2007/11/13 21:08:42 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.36 2007/11/20 09:50:15 squareing Exp $ *}
 {strip}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
@@ -6,8 +6,8 @@
 {if $gBitThemes->mStyles.styleSheet}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.styleSheet}" media="all" />
 {/if}
-{if $gBitThemes->mStyles.browserStyleSheet}
-	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.browserStyleSheet}" media="all" />
+{if $gBitThemes->mStyles.browser_css}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.browser_css}" media="all" />
 {/if}
 
 {* annoyingly this is still required here since the liberty attachments plugin
