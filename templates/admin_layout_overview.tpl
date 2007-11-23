@@ -3,6 +3,13 @@
 
 {form}
 	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="nocollapse" value="{$smarty.request.nocollapse}" />
+
+	{if !$smarty.request.nocollapse}
+		<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{biticon iname="list-add" iforce=icon_text iexplain="Expand all modules"}</a>
+	{else}
+		<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{biticon iname="list-remove" iforce=icon_text iexplain="Collapse all modules"}</a>
+	{/if}
 
 	{foreach from=$layouts item=layout key=module_package}
 		<h1 id="{$module_package}">

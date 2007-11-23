@@ -18,71 +18,63 @@
 {/capture}
 
 {strip}
-{if $condensed}
-	<strong>{$modInfo.name}</strong>
-	<br />
-	{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc ) and $modInfo.title}
-		{tr}Title{/tr}: <em>{$modInfo.title|escape}</em>
-		<br />
-	{/if}
-	{tr}Position{/tr}: {$modInfo.pos}
-	<br />
-	{$smarty.capture.shared}
-	<hr />
-{else}
-	<table class="data">
-		<tr>
-			<th colspan="2">
-				{$modInfo.name}
-				<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
-				<input type="hidden" name="modules[{$modInfo.module_id}][layout]" value="{$module_package}" />
-			</th>
-		</tr>
+<h3>
+	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" style="font-family:monospace">[+]</span> {/if}
+		{$modInfo.name}
+		<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
+		<input type="hidden" name="modules[{$modInfo.module_id}][layout]" value="{$module_package}" />
+	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}</a>{/if}
+</h3>
 
-		<tr>
-			<td style="text-align:right">{tr}Position{/tr}</td>
-			<td>
-				<input type="text" size="4" name="modules[{$modInfo.module_id}][pos]" value="{$modInfo.pos}" />
-				{$smarty.capture.shared}
-			</td>
-		</tr>
+{$smarty.capture.shared}
 
-		{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc )}
+{if !$condensed}
+	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}<div id="id-{$modInfo.module_id}" style="display:none;">{/if}
+		<table class="data">
 			<tr>
-				<td style="text-align:right">{tr}Title{/tr}</td>
-				<td><input type="text" size="15" name="modules[{$modInfo.module_id}][title]" value="{$modInfo.title|escape}" /></td>
+				<td style="text-align:right">{tr}Position{/tr}</td>
+				<td>
+					<input type="text" size="4" name="modules[{$modInfo.module_id}][pos]" value="{$modInfo.pos}" />
+				</td>
 			</tr>
-			<tr>
-				<td style="text-align:right">{tr}Rows{/tr}</td>
-				<td><input type="text" size="15" name="modules[{$modInfo.module_id}][module_rows]" value="{$modInfo.module_rows}" /></td>
-			</tr>
-			<tr>
-				<td style="text-align:right">{tr}Parameters{/tr}</td>
-				<td><input type="text" size="15" name="modules[{$modInfo.module_id}][params]" value="{$modInfo.params}" /></td>
-			</tr>
-		{/if}
 
-		<tr>
-			<td style="text-align:right">{tr}Cache Time{/tr}</td>
-			<td><input type="text" size="15" name="modules[{$modInfo.module_id}][cache_time]" value="{$modInfo.cache_time}" /></td>
-		</tr>
+			{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc )}
+				<tr>
+					<td style="text-align:right">{tr}Title{/tr}</td>
+					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][title]" value="{$modInfo.title|escape}" /></td>
+				</tr>
+				<tr>
+					<td style="text-align:right">{tr}Rows{/tr}</td>
+					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][module_rows]" value="{$modInfo.module_rows}" /></td>
+				</tr>
+				<tr>
+					<td style="text-align:right">{tr}Parameters{/tr}</td>
+					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][params]" value="{$modInfo.params}" /></td>
+				</tr>
+			{/if}
 
-		<tr>
-			<td style="text-align:right">{tr}Groups{/tr}</td>
-			<td>
-				<select multiple="multiple" size="3" name="modules[{$modInfo.module_id}][groups][]">
-					{foreach from=$groups key=groupId item=group}
-						{assign var=selected value=n}
-						{foreach from=$modInfo.module_groups item=module_groups}
-							{if $groupId == $module_groups}
-								{assign var=selected value=y}
-							{/if}
+			<tr>
+				<td style="text-align:right">{tr}Cache Time{/tr}</td>
+				<td><input type="text" size="15" name="modules[{$modInfo.module_id}][cache_time]" value="{$modInfo.cache_time}" /></td>
+			</tr>
+
+			<tr>
+				<td style="text-align:right">{tr}Groups{/tr}</td>
+				<td>
+					<select multiple="multiple" size="3" name="modules[{$modInfo.module_id}][groups][]">
+						{foreach from=$groups key=groupId item=group}
+							{assign var=selected value=n}
+							{foreach from=$modInfo.module_groups item=module_groups}
+								{if $groupId == $module_groups}
+									{assign var=selected value=y}
+								{/if}
+							{/foreach}
+							<option value="{$groupId}" {if $selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
 						{/foreach}
-						<option value="{$groupId}" {if $selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
-					{/foreach}
-				</select>
-			</td>
-		</tr>
-	</table>
+					</select>
+				</td>
+			</tr>
+		</table>
+	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}</div>{/if}
 {/if}
 {/strip}
