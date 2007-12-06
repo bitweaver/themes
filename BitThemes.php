@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.60 2007/11/15 07:38:36 squareing Exp $
- * @version  $Revision: 1.60 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.61 2007/12/06 12:39:54 squareing Exp $
+ * @version  $Revision: 1.61 $
  * @package themes
  */
 
@@ -899,7 +899,7 @@ class BitThemes extends BitBase {
 				}
 				// we scan temp/<pkg>/modules for module files as well for on the fly generated modules (e.g. nexus)
 				if( $pDir == 'modules' ) {
-					$loc = TEMP_PKG_PATH.$gBitSystem->mPackages[$key]['dir'].'/'.$pDir;
+					$loc = TEMP_PKG_PATH.$gBitSystem->mPackages[$key]['name'].'/'.$pDir;
 					if( @is_dir( $loc )) {
 						$h = opendir( $loc );
 						if( $h ) {
