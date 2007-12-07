@@ -4,11 +4,11 @@ global $gBitSystem, $gUpgradeFrom, $gUpgradeTo;
 
 $upgrades = array(
 
-'BONNIE' => array( 
+'BONNIE' => array(
 	'BWR1' => array(
 // STEP 1
 array( 'DATADICT' => array(
-	array( 'RENAMECOLUMN' => array( 
+	array( 'RENAMECOLUMN' => array(
 		'tiki_theme_control_categs' => array( '`categId`' => '`category_id` I4' ),
 		'tiki_theme_control_objects' => array( '`objId`' => '`obj_id` I4' ),
 	),
@@ -103,25 +103,22 @@ array( 'DATADICT' => array(
 			'`title`' => "`temp_title` C(255)",                   // set error_message NOTNULL DEFAULT ''
 		),
 	)),
-	// add new column
-	array( 'ALTER' => array(
-		'themes_custom_modules' => array(
-			'name'    => array( '`name`', "VARCHAR(40)" ),
-			'title'   => array( '`title`', 'VARCHAR(200)' ),
-		),
-	)),
 )),
-// copy all the data accross
+// create new columns and copy all the data accross
+// the way this was done before didn't work for some reason - yettyn
 array( 'QUERY' =>
 	array( 'SQL92' => array(
+		"ALTER TABLE `".BIT_DB_PREFIX."themes_custom_modules` ADD COLUMN  `name` VARCHAR(40) FIRST",
+		"ALTER TABLE `".BIT_DB_PREFIX."themes_custom_modules` ADD COLUMN  `title` VARCHAR(200) AFTER `name`",
 		"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `name` = `temp_name`",
 		"UPDATE `".BIT_DB_PREFIX."themes_custom_modules` SET `title` = `temp_title`",
+		"ALTER TABLE `".BIT_DB_PREFIX."themes_custom_modules` DROP COLUMN  `temp_name`",
+		"ALTER TABLE `".BIT_DB_PREFIX."themes_custom_modules` ADD PRIMARY KEY (`name`)",
 	)),
 ),
 // drop original column
 array( 'DATADICT' => array(
 	array( 'DROPCOLUMN' => array(
-		'themes_custom_modules' => array( '`temp_name`' ),
 		'themes_custom_modules' => array( '`temp_title`' ),
 	)),
 )),
