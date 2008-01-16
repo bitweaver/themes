@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.62 2008/01/16 14:42:41 nickpalmer Exp $
- * @version  $Revision: 1.62 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.63 2008/01/16 14:49:51 nickpalmer Exp $
+ * @version  $Revision: 1.63 $
  * @package themes
  */
 
@@ -151,12 +151,13 @@ class BitThemes extends BitBase {
 	function getBrowserStyleCss() {
 		global $gSniffer;
 		$browser_prefix = $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' );
+		$browser_url_prefix = $this->getStyleUrl().$this->getStyle().'_'.$gSniffer->property( 'browser' );
 		// Allow us to split by major version with a fallback for others
 		if(  file_exists($browser_prefix.$gSniffer->property('maj_ver').'.css' )) {
-			$ret = $browser_prefix.$gSniffer->property('maj_ver').'.css';
+			$ret = $browser_url_prefix.$gSniffer->property('maj_ver').'.css';
 		}
 		else if( file_exists( $browser_prefix.'.css' )) {
-			$ret = $browser_prefix.'.css';
+			$ret = $browser_url_prefix.'.css';
 		}
 		return !empty( $ret ) ? $ret : NULL;
 	}
