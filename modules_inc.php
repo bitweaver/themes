@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.4 2007/04/15 18:30:51 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.5 2008/02/08 06:59:30 wjames5 Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -51,27 +51,50 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						unset( $data );
 					} else {
 						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
-						global $module_rows, $module_params, $module_title;
-						$module_params = $r['module_params']; // backwards compatability
-
-						if( !$r['module_rows'] ) {
-							$r['module_rows'] = 10;
+						global $module_rows, $module_params, $module_title, $gBitLanguage;
+						
+						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
+						if( !is_dir( $cacheDir )) {
+							mkdir_p( $cacheDir );
 						}
-
-						// if there's no custom title, get one from file name
-						if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
-							$pattern[0] = "/.*\/mod_(.*)\.tpl/";
-							$replace[0] = "$1";
-							$pattern[1] = "/_/";
-							$replace[1] = " ";
-							$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucfirst( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
+						
+						// include tpl name and module id to uniquely identify
+						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
+						
+						// if the time is right get the cache else get it fresh
+						if( file_exists( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
+							$fp = fopen( $cachefile, "r" );
+							$data = fread( $fp, filesize( $cachefile ));
+							fclose( $fp );
+							$r["data"] = $data;
+						} else {
+							$module_params = $r['module_params']; // backwards compatability
+						
+							if( !$r['module_rows'] ) {
+								$r['module_rows'] = 10;
+							}
+						
+							// if there's no custom title, get one from file name
+							if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
+								$pattern[0] = "/.*\/mod_(.*)\.tpl/";
+								$replace[0] = "$1";
+								$pattern[1] = "/_/";
+								$replace[1] = " ";
+								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucfirst( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
+							}
+						
+							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
+							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
+							// assign the custom module title
+							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
+							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
+						
+							// write to chache file
+							$fp = fopen( $cachefile, "w+" );
+							fwrite( $fp, $data, strlen( $data ));
+							fclose( $fp );
+							$r["data"] = $data;
 						}
-
-						// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
-						$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
-						// assign the custom module title
-						$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
-						$r['data'] = $gBitSmarty->fetch( $r['module_rsrc'] );
 
 						unset( $moduleParams );
 					}
