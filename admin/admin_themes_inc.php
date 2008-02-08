@@ -24,6 +24,10 @@ $themeSettings = array(
 		'label' => "Disable Javascript Tabs",
 		'note' =>"If you have difficulties with the javascript tabs, of you don't like them, you can disable them here.",
 	),
+	'site_fancy_zoom' => array(
+		'label' => "Enable Fancy Zoom for Images",
+		'note' =>"Use javascript to zoom images when clicking on them. This will modify the behaviour when viewing most images. If you are running a commercial site, please read the license notice in /util/javascript/fancyzoom/js-global/FancyZoom.js",
+	),
 	'site_mods_req_admn_grp' => array(
 		'label' => 'Module Groups Require Admin',
 		'note' => 'If a module has group restrictions the module only shows for the administrator if the administrator is in the configured groups. Otherwise all modules show to administrators all the time.',

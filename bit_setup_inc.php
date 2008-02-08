@@ -42,4 +42,10 @@ if( !$gBitSystem->getConfig( 'site_disable_fat' )) {
 if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE, 60 );
 }
+
+if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoom.js', FALSE, 80 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
+	$gBitSystem->setOnloadScript( 'setupZoom()' );
+}
 ?>
