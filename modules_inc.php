@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.5 2008/02/08 06:59:30 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.6 2008/02/19 22:14:15 spiderr Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -62,7 +62,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
 						
 						// if the time is right get the cache else get it fresh
-						if( file_exists( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
+						if( file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
 							$fp = fopen( $cachefile, "r" );
 							$data = fread( $fp, filesize( $cachefile ));
 							fclose( $fp );
