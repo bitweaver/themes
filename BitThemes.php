@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.63 2008/01/16 14:49:51 nickpalmer Exp $
- * @version  $Revision: 1.63 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.64 2008/03/25 19:42:36 wjames5 Exp $
+ * @version  $Revision: 1.64 $
  * @package themes
  */
 
@@ -447,7 +447,9 @@ class BitThemes extends BitBase {
 				$skipDefaults = FALSE;
 			}
 
-			$gCenterPieces = array();
+			if ( !is_array( $gCenterPieces ) ){
+				$gCenterPieces = array();
+			}
 			while( $row ) {
 				if( $skipDefaults && $row['layout'] == DEFAULT_PACKAGE ) {
 					// we're done! we've got all the non-DEFAULT_PACKAGE modules
