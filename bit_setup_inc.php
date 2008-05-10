@@ -48,4 +48,9 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
+
+// if the datafile plugin is active, we need to load the js file since we don't know where the plugin is being used
+if( $gLibertySystem->isPluginActive( 'dataattachment' )) {
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH."javascript/flv_player/swfobject.js", FALSE, 25 );
+}
 ?>
