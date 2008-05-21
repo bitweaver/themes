@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.6 2007/11/13 09:44:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.7 2008/05/21 12:44:48 wjames5 Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -116,10 +116,7 @@ if( $processForm == 'Hide' ) {
 	$fAssign = &$_REQUEST['fAssign'];
 
 	if( !empty( $_REQUEST['groups'] ) ) {
-		$fAssign['groups'] = '';
-		foreach( $_REQUEST['groups'] as $groupId ) {
-			$fAssign['groups'] .= $groupId.' ';
-		}
+		$fAssign['groups'] = $_REQUEST['groups'];
 	}
 
 	// either add the module to all available layouts or just the active one
