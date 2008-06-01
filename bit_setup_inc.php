@@ -49,8 +49,8 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
 
-// if the datafile plugin is active, we need to load the js file since we don't know where the plugin is being used
-if( $gLibertySystem->isPluginActive( 'dataattachment' )) {
+// load the flash player javascript if needed.
+if( $gLibertySystem->isPluginActive( 'mimeaudio' ) || $gLibertySystem->isPluginActive( 'mimeflv' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH."javascript/flv_player/swfobject.js", FALSE, 25 );
 }
 ?>
