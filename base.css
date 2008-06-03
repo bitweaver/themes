@@ -104,34 +104,34 @@ ul.tree					{margin:0;padding-left:20px;}
 #upload_div file {display:block;}
 
 /* css driven dropdown menus - horizontal */
-.hor			{line-height:18px;}
-#nav,#nav a,#nav li ul {z-index:10000;}
-.hor,.hor a,.hor li ul, .hor li ul > *, .ver li ul > *,
-.ver,.ver a,.ver li ul {z-index:1000;}
-.hor,.hor ul	{padding:0; margin:0; list-style:none;}
-.hor a			{display:block;}
-.hor li			{width:auto;}
-.hor li li,
-.hor li ul		{width:13em; display:block; text-align:left;}
-.hor .head		{width:auto; padding:0 0.5em;}
-.hor li			{float:left; position:relative;}
-.hor li ul		{position:absolute; left:-999em; background:#fff; border:1px solid #999;}
-.hor li ul ul	{margin:-20px 0 0 13em;}
-.hor .icon		{position:absolute; left:28px; top:2px; vertical-align:middle; margin-left:-26px;}
-.hor li li a	{margin:0 0 0 2em;}
-/* msie dropdown menu */
-.hor table		{margin:-1px; width:auto; border-collapse:collapse; font-size:1em;}
-
-/* css driven dropdown menus - vertical */
-.ver, .ver ul	{padding:0; margin:0; list-style:none; float:left; width:13em;}
-.ver li			{position:relative;}
-.ver li li		{position:relative; float:left; width:13em;}
-.ver li ul		{position:absolute; left:-999em; margin-left:11.05em; margin-top:-1.35em; background:#fff;}
-.ver li ul ul	{left:-999em;}
-.ver li a		{width:13em; w\idth:12em; display:block;}
-
-.hor li:hover ul ul,.hor li:hover ul ul ul,.ver li:hover ul ul,.ver li:hover ul ul ul	{left:-999em;}
-.hor li:hover ul,.hor li li:hover ul,.hor li li li:hover ul,.ver li:hover ul,.ver li li:hover ul,.ver li li li:hover ul	{left:auto;}
+ul.hor *		{line-height:20px;}
+ul.hor,
+ul.hor li,
+ul.hor ul		{padding:0; margin:0; list-style:none;}
+ul.hor a		{display:block; padding:0 6px;}
+ul.hor li		{width:auto;}
+ul.hor li li,
+ul.hor li ul	{width:13em; display:block; text-align:left;}
+ul.hor .head	{width:auto;}
+ul.hor li		{float:left; position:relative;}
+ul.hor li li a	{margin-left:20px;}
+ul.hor li li .icon	{vertical-align:middle; margin-left:-23px;}
+ul.hor li ul	{position:absolute; left:-999em; border:1px solid;}
+ul.hor li ul ul	{margin:-21px 0 0 13em;}
+/* remove admin icon margin */
+ul.hor li.m-admin li a {margin:0;}
+/* set some background colors for visibility */
+/* thanks to our favourite browser we can't simply inherit the values */
+#bittopbar	{z-index:1000;}
+ul.hor		{z-index:1001;}
+ul.hor ul		{z-index:1002;}
+ul.hor ul ul	{z-index:1003;}
+#bittopbar,
+ul.hor,
+ul.hor li,
+ul.hor li ul	{background:#fff;}
+ul.hor li:hover ul ul, ul.hor li:hover ul ul ul {left:-999em;}
+ul.hor li:hover ul, ul.hor li li:hover ul, ul.hor li li li:hover ul {left:auto;}
 
 /* tabs */
 .tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
@@ -142,7 +142,7 @@ ul.tree					{margin:0;padding-left:20px;}
 .tabsystem .tabpage	{clear:both;}
 h4	{margin:0; padding:0; font-size:1em;}
 
-a.external		{background:transparent url("icons/external_link.png") no-repeat left;  padding-left:12px;}
+a.external {background:transparent url( icons/external_link.png ) no-repeat left;  padding-left:12px;}
 
 /* should we move these settings to individual packages? */
 .stickies textarea,
@@ -171,13 +171,13 @@ a.external		{background:transparent url("icons/external_link.png") no-repeat lef
 .bitboard .topic {font-size: .9em;}
 
 /* multisites */
-#multisites table.data 					{width:99%;border-collapse:collapse}
-#multisites table.data th				{text-align:center;background:#ddd;color:#fff}
-#multisites table.data td				{border-bottom:1px dotted #ddd;vertical-align:top}
-#multisites table.data em				{border-top:3px solid #ddd;display:block;clear:both}
-#multisites td.server					{width:37%}
-#multisites td.settings 				{width:63%;padding:4px 0 4px 8px}
-#multisites td.settings strong			{}
+#multisites table.data 	{width:99%;border-collapse:collapse}
+#multisites table.data th	{text-align:center;background:#ddd;color:#fff}
+#multisites table.data td	{border-bottom:1px dotted #ddd;vertical-align:top}
+#multisites table.data em	{border-top:3px solid #ddd;display:block;clear:both}
+#multisites td.server	{width:37%}
+#multisites td.settings 	{width:63%;padding:4px 0 4px 8px}
+#multisites td.settings strong {}
 
 /* differences */
 del {background-color:#fcc;}
