@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.36 2007/11/20 09:50:15 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.37 2008/06/20 04:16:40 spiderr Exp $ *}
 {strip}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
@@ -19,6 +19,9 @@ plugin *}
 {if $loadMultiFile}
 	{jspack ifile=libs/multifile.js}
 {/if}
+{foreach from=$gBitThemes->mRawJsFiles item=jsFile}
+	<script type="text/javascript" src="{$jsFile}"></script>
+{/foreach}
 {/strip}
 
 {if $gBrowserInfo.browser eq 'ie'}

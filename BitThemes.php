@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.66 2008/06/02 18:11:45 squareing Exp $
- * @version  $Revision: 1.66 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.67 2008/06/20 04:16:40 spiderr Exp $
+ * @version  $Revision: 1.67 $
  * @package themes
  */
 
@@ -27,7 +27,8 @@ class BitThemes extends BitBase {
 	// Auxillary Files
 	var $mAuxFiles = array();
 
-
+	// Raw Javascript Files
+	var $mRawJsFiles = array();
 
 
 	/**
@@ -1097,6 +1098,7 @@ class BitThemes extends BitBase {
 	function loadAjax( $pAjaxLib, $pLibHash=NULL, $pLibPath=NULL, $pPack = FALSE ) {
 		global $gBitSmarty, $gSniffer;
 		$ret = FALSE;
+		$joined = TRUE;
 		$ajaxLib = strtolower( $pAjaxLib );
 		if( $this->isJavascriptEnabled() ) {
 			// set the javascript lib path if not set yet
@@ -1104,6 +1106,14 @@ class BitThemes extends BitBase {
 				switch( $ajaxLib ) {
 					case 'mochikit':
 						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
+						$pos = 100;
+						break;
+					case 'yui':
+						$pLibPath = UTIL_PKG_PATH."javascript/libs/yui/";
+						$pos = 100;
+						break;
+					case 'jquery':
+						$pLibPath = UTIL_PKG_URL."javascript/libs/jquery/";
 						$pos = 100;
 						break;
 					default:
@@ -1124,13 +1134,25 @@ class BitThemes extends BitBase {
 					case 'prototype':
 						$this->loadJavascript( $pLibPath.'libs/prototype.js', FALSE, $pos++ );
 						break;
+					case 'jquery':
+						$joined = FALSE;
+						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
+							$pLibPath .= 'min/';
+						} else {
+							$pLibPath .= 'full/';
+						}
+						$this->loadJavascript( $pLibPath.'jquery.js', FALSE, $pos++, $joined );
+						break;
+					case 'yui':
+						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
+						break;
 				}
 				$this->mAjaxLibs[$ajaxLib] = TRUE;
 			}
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pos++ );
+					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pos++, $joined );
 				}
 			}
 
@@ -1196,7 +1218,8 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600 ) {
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600, $pJoined = TRUE ) {
+		$ret = FALSE;
 		if( !empty( $pJavascriptFile )) {
 			if( $pPack ) {
 				if( is_file( $pJavascriptFile )) {
@@ -1215,8 +1238,14 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			return $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
+			if( $pJoined ) {
+				$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
+			} else {
+				array_push( $this->mRawJsFiles, $pJavascriptFile );
+				$ret = TRUE;
+			}
 		}
+		return $ret;
 	}
 
 	/**
