@@ -70,5 +70,5 @@ $gBitSmarty->assign( "sampleIcons", $sampleIcons );
 // load css file
 $gBitThemes->loadCss( THEMES_PKG_PATH.'themes.css' );
 
-$gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' );
+$gBitSystem->display( 'bitpackage:themes/admin_themes_manager.tpl', 'Themes Manager' , array( 'display_mode' => 'admin' ));
 ?>

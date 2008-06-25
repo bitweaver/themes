@@ -279,5 +279,5 @@ $iconHash = array(
 );
 
 $gBitSmarty->assign( 'iconHash', $iconHash );
-$gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) );
+$gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) , array( 'display_mode' => 'admin' ));
 ?>

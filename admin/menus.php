@@ -89,5 +89,5 @@ if( $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' ) ) {
 	$gBitSmarty->assign( 'formMenuJsSettings',$formMenuJsSettings );
 }
 
-$gBitSystem->display( 'bitpackage:themes/admin_themes_menus.tpl', 'Themes Manager' );
+$gBitSystem->display( 'bitpackage:themes/admin_themes_menus.tpl', 'Themes Manager' , array( 'display_mode' => 'admin' ));
 ?>

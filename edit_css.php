@@ -1,12 +1,12 @@
 <?php
 
-// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.5 2006/02/13 10:06:19 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.6 2008/06/25 22:21:25 spiderr Exp $
 
 // Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
 // All Rights Reserved. See copyright.txt for details and a complete list of authors.
 // Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
 
-// $Id: edit_css.php,v 1.5 2006/02/13 10:06:19 squareing Exp $
+// $Id: edit_css.php,v 1.6 2008/06/25 22:21:25 spiderr Exp $
 include_once( '../bit_setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
@@ -94,7 +94,7 @@ $gBitSmarty->assign_by_ref('customCSSImageURL',$customCSSImageURL);
 if (!file_exists($customCSSFile)) {
 	if (!copy(THEMES_PKG_PATH.'/styles/basic/basic.css', $customCSSFile)) {
 		$gBitSmarty->assign('msg', tra("Unable to create a custom CSS file for you!"));
-		$gBitSystem->display( 'error.tpl' );
+		$gBitSystem->display( 'error.tpl' , NULL, array( 'display_mode' => 'edit' ));
 		die;
 	}
 }
@@ -106,7 +106,7 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 
 	if (!$fp) {
 		$gBitSmarty->assign('msg', tra("You dont have permission to write the style sheet"));
-		$gBitSystem->display( 'error.tpl' );
+		$gBitSystem->display( 'error.tpl' , NULL, array( 'display_mode' => 'edit' ));
 		die;
 	}
 	
@@ -131,7 +131,7 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 
 	if (!$fp) {
 		$gBitSmarty->assign('msg', tra("You dont have permission to write the style sheet"));
-		$gBitSystem->display( 'error.tpl' );
+		$gBitSystem->display( 'error.tpl' , NULL, array( 'display_mode' => 'edit' ));
 		die;
 	}
 	
@@ -198,6 +198,6 @@ foreach ($imageList as $image) {
 
 $gBitSmarty->assign_by_ref('themeImages',$themeImages);	
 
-$gBitSystem->display( 'bitpackage:themes/edit_css.tpl');
+$gBitSystem->display( 'bitpackage:themes/edit_css.tpl', NULL, array( 'display_mode' => 'edit' ));
 
 ?>
