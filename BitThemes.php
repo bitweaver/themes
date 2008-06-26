@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.67 2008/06/20 04:16:40 spiderr Exp $
- * @version  $Revision: 1.67 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.68 2008/06/26 09:56:44 squareing Exp $
+ * @version  $Revision: 1.68 $
  * @package themes
  */
 
@@ -29,6 +29,9 @@ class BitThemes extends BitBase {
 
 	// Raw Javascript Files
 	var $mRawJsFiles = array();
+
+	// Display Mode
+	var $mDisplayMode;
 
 
 	/**
@@ -395,11 +398,16 @@ class BitThemes extends BitBase {
 			$this->mLayout = $this->getLayout( $pParamHash );
 
 			// hideable areas
-			$hideable = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
+			$areas = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
 
-			// this needs to occur after loading the layout to ensure that we don't distrub the fallback process during layout loading
-			foreach( $hideable as $layout => $area ) {
-				if( $gBitSystem->isFeatureActive( ACTIVE_PACKAGE."_hide_{$area}_col" )) {
+			/* this needs to occur after loading the layout to ensure that we don't distrub the fallback process during layout loading
+			 * we can disable clumns using various criteria:
+			 *     <package>_hide_<area>_col
+			 *     <package>_hide_<display_mode>_col
+			 *     <package>_hide_<area>_<display_mode>_col
+			 */
+			foreach( $areas as $layout => $area ) {
+				if( $gBitSystem->isFeatureActive( "{$this->mDisplayMode}_hide_{$area}_col" ) || $gBitSystem->isFeatureActive( ACTIVE_PACKAGE."_hide_{$area}_col" )) {
 					unset( $this->mLayout[$layout] );
 				}
 			}
@@ -418,11 +426,11 @@ class BitThemes extends BitBase {
 		$ret = array( 'l' => NULL, 'c' => NULL, 'r' => NULL );
 
 		$layouts =  array();
-		if( !empty( $pParamHash['layout'] ) ) {
-			$layouts[]           = $pParamHash['layout'];
+		if( !empty( $pParamHash['layout'] )) {
+			$layouts[] = $pParamHash['layout'];
 		}
-		if( !empty( $pParamHash['fallback_layout'] ) ) {
-			$layouts[]      = $pParamHash['fallback_layout'];
+		if( !empty( $pParamHash['fallback_layout'] )) {
+			$layouts[] = $pParamHash['fallback_layout'];
 		}
 		$layouts[] = ACTIVE_PACKAGE;
 		$layouts[] = DEFAULT_PACKAGE;
@@ -1412,6 +1420,64 @@ class BitThemes extends BitBase {
 		}
 	}
 	// }}}
+
+
+	// {{{ =================== Miscellaneous Stuff ====================
+	/**
+	 * setDisplayMode 
+	 * 
+	 * @param string $pDisplayMode 
+	 * @access public
+	 * @return void
+	 */
+	function setDisplayMode( $pDisplayMode ) {
+		if( !empty( $pDisplayMode )) {
+			$this->mDisplayMode = $pDisplayMode;
+		}
+	}
+
+	/**
+	 * Set the proper headers for requested output
+	 *
+	 * @param  $pFormat the output headers. Available options include: html, json, xml or none
+	 * @access public
+	 */
+	function setFormatHeader( $pFormat = 'html' ) {
+		// this will tell BitSystem::display what headers have been set in case it's been called independently
+		$this->mFormatHeader = $pFormat;
+
+		switch( $pFormat ) {
+			case "xml" :
+				//since we are returning xml we must report so in the header
+				//we also need to tell the browser not to cache the page
+				//see: http://mapki.com/index.php?title=Dynamic_XML
+				// Date in the past
+				header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );
+				// always modified
+				header( "Last-Modified: " . gmdate( "D, d M Y H:i:s" )." GMT" );
+				// HTTP/1.1
+				header( "Cache-Control: no-store, no-cache, must-revalidate" );
+				header( "Cache-Control: post-check=0, pre-check=0", FALSE );
+				// HTTP/1.0
+				header( "Pragma: no-cache" );
+				//XML Header
+				header( "Content-Type: text/xml" );
+				break;
+
+			case "json" :
+				header( 'Content-type: application/json' );
+				break;
+
+			case "none" :
+			case "center_only" :
+				break;
+
+			case "html" :
+			default :
+				header( 'Content-Type: text/html; charset=utf-8' );
+				break;
+		}
+	}
 
 
 	// {{{ =================== old code ====================

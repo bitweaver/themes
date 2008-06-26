@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.7 2008/05/21 12:44:48 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.8 2008/06/26 09:56:44 squareing Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -30,38 +30,6 @@ if( !empty( $_REQUEST['module_name'] ) ) {
 
 $gBitSystem->verifyInstalledPackages();
 
-$formMiscFeatures = array(
-	'site_top_column' => array(
-		'label' => 'Top Module Area',
-		'note' => 'Check to enable the top module area site-wide.',
-	),
-	'site_right_column' => array(
-		'label' => 'Right Module Area',
-		'note' => 'Check to enable the right module area site-wide.',
-	),
-	'site_left_column' => array(
-		'label' => 'Left Module Area',
-		'note' => 'Check to enable the left module area site-wide.',
-	),
-	'site_bottom_column' => array(
-		'label' => 'Bottom Module Area',
-		'note' => 'Check to enable the bottom module area site-wide.',
-	),
-);
-$gBitSmarty->assign( 'formMiscFeatures',$formMiscFeatures );
-
-// hide columns in individual packages
-foreach( $gBitSystem->mPackages as $key => $package ) {
-	if( !empty( $package['installed'] ) && ( !empty( $package['activatable'] ) || !empty( $package['tables'] ) ) ) {
-		if( $package['name'] == 'kernel' ) {
-			$package['name'] = tra( 'Site Default' );
-		}
-		$hideColumns[strtolower( $key )] =  ucfirst( $package['name'] );
-	}
-}
-asort( $hideColumns );
-$gBitSmarty->assign( 'hideColumns', $hideColumns );
-
 // clone existing layout
 $cloneLayouts = $gBitThemes->getAllLayouts();
 $gBitSmarty->assign( 'cloneLayouts', $cloneLayouts );
@@ -72,27 +40,7 @@ if( !empty( $_REQUEST['from_layout'] ) && !empty( $_REQUEST['to_layout'] )) {
 // process form - check what tab was used and set it
 $processForm = set_tab();
 
-if( $processForm == 'Hide' ) {
-	foreach( array_keys( $formMiscFeatures ) as $item ) {
-		simple_set_toggle( $item, THEMES_PKG_NAME );
-	}
-
-	// hideable areas
-	$hideable = array( 'top', 'left', 'right', 'bottom' );
-
-	// evaluate what columns to hide
-	foreach( $hideable as $area ) {
-		foreach( array_keys( $hideColumns ) as $package ) {
-			$pref = "{$package}_hide_{$area}_col";
-			if( isset( $_REQUEST['hide'][$pref] ) ) {
-				$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
-			} else {
-				// remove the setting from the db if it's not set
-				$gBitSystem->storeConfig( $pref, NULL );
-			}
-		}
-	}
-} elseif( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
+if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	if( isset( $_REQUEST['move_module'] )) {
 		switch( $_REQUEST['move_module'] ) {
 			case "unassign":

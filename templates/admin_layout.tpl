@@ -301,55 +301,6 @@
 			</div>
 		{/form}
 	{/jstab}
-
-	{jstab title="Column Control"}
-		{form legend="Column Visibility"}
-			<input type="hidden" name="page" value="{$page}" />
-
-			{foreach from=$formMiscFeatures key=feature item=output}
-				<div class="row">
-					{formlabel label=`$output.label` for=$feature}
-					{forminput}
-						{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
-						{formhelp hash=$output}
-					{/forminput}
-				</div>
-			{/foreach}
-
-			<table id="hidecolumns">
-				<caption>{tr}Hide areas in selected packages.{/tr}</caption>
-				<thead>
-					<tr>
-						<th>{tr}Package{/tr}</th>
-						<th>{tr}Top{/tr}</th>
-						<th>{tr}Left{/tr}</th>
-						<th>{tr}Right{/tr}</th>
-						<th>{tr}Bottom{/tr}</th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<td colspan="5">
-							<div class="row submit">
-								<input type="submit" name="HideTabSubmit" value="{tr}Change preferences{/tr}" />
-							</div>
-						</td>
-					</tr>
-				</tfoot>
-				<tbody>
-					{foreach from=$hideColumns item=name key=package}
-					<tr class="{cycle values="odd,even"}">
-						<td>{$name}</td>
-						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_top_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_top_col")}checked="checked"{/if} /></td>
-						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_left_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_left_col")}checked="checked"{/if} /></td>
-						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_right_col]"  value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_right_col")}checked="checked"{/if} /></td>
-						<td style="text-align:center;"><input type="checkbox" name="hide[{$package}_hide_bottom_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_hide_bottom_col")}checked="checked"{/if} /></td>
-					</tr>
-					{/foreach}
-				</tbody>
-			</table>
-		{/form}
-	{/jstab}
 {/jstabs}
 
 <h1>{tr}Modules Help{/tr}</h1>
