@@ -1,12 +1,12 @@
 div#wrapper				{float:left;width:100%;}
-div.blocks3  #wrapper	{margin-left:-200px;}
-div.blocks2e #wrapper	{margin-left:-200px;}
+div.blocks3  #wrapper	{margin-left:-260px;}
+div.blocks2e #wrapper	{margin-left:-260px;}
 div.blocks2n #wrapper	{margin-left:     0;}
 div.blocks1  #wrapper	{margin-left:     0;}
-div.blocks3  #content	{margin: 0 25% 0 200px;}
-div.blocks2e #content	{margin: 0   0 0 200px;}
+div.blocks3  #content	{margin: 0 25% 0 260px;}
+div.blocks2e #content	{margin: 0   0 0 260px;}
 div.blocks2n #content	{margin: 0 25% 0     0;}
 div.blocks1  #content	{margin: 0   0 0     0;}
 div#navigation			{float:left;width:25%;margin-left:-25%}
-div#extra				{float:left;width:200px}
+div#extra				{float:left;width:260px}
 div#footer				{clear:left;width:100%}

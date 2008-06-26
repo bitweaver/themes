@@ -1,12 +1,12 @@
 div#wrapper				{float:right;width:100%;}
-div.blocks3  #wrapper	{margin-left:-400px;}
-div.blocks2e #wrapper	{margin-left:-200px;}
-div.blocks2n #wrapper	{margin-left:-200px;}
+div.blocks3  #wrapper	{margin-left:-520px;}
+div.blocks2e #wrapper	{margin-left:-260px;}
+div.blocks2n #wrapper	{margin-left:-260px;}
 div.blocks1  #wrapper	{margin-left:     0;}
-div.blocks3  #content	{margin-left: 400px;}
-div.blocks2e #content	{margin-left: 200px;}
-div.blocks2n #content	{margin-left: 200px;}
+div.blocks3  #content	{margin-left: 520px;}
+div.blocks2e #content	{margin-left: 260px;}
+div.blocks2n #content	{margin-left: 260px;}
 div.blocks1  #content	{margin-left:     0;}
-div#navigation			{float:left;width:200px}
-div#extra				{float:right;width:200px}
+div#navigation			{float:left;width:260px}
+div#extra				{float:right;width:260px}
 div#footer				{clear:both;width:100%}
