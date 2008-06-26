@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.68 2008/06/26 09:56:44 squareing Exp $
- * @version  $Revision: 1.68 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.69 2008/06/26 11:40:16 squareing Exp $
+ * @version  $Revision: 1.69 $
  * @package themes
  */
 
@@ -397,17 +397,20 @@ class BitThemes extends BitBase {
 		if( empty( $this->mLayout ) || !count( $this->mLayout )){
 			$this->mLayout = $this->getLayout( $pParamHash );
 
-			// hideable areas
-			$areas = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
-
-			/* this needs to occur after loading the layout to ensure that we don't distrub the fallback process during layout loading
+			/**
+			 * this needs to occur after loading the layout to ensure that we don't distrub the fallback process during layout loading
 			 * we can disable clumns using various criteria:
 			 *     <package>_hide_<area>_col
-			 *     <package>_hide_<display_mode>_col
-			 *     <package>_hide_<area>_<display_mode>_col
+			 *     <display_mode>_hide_<area>_col
+			 *     <package>_<display_mode>_hide_<area>_col
 			 */
+			$areas = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
 			foreach( $areas as $layout => $area ) {
-				if( $gBitSystem->isFeatureActive( "{$this->mDisplayMode}_hide_{$area}_col" ) || $gBitSystem->isFeatureActive( ACTIVE_PACKAGE."_hide_{$area}_col" )) {
+				if(
+					$gBitSystem->isFeatureActive( "{$this->mDisplayMode}_hide_{$area}_col" ) ||
+					$gBitSystem->isFeatureActive( "{$gBitSystem->mActivePackage}_hide_{$area}_col" ) ||
+					$gBitSystem->isFeatureActive( "{$gBitSystem->mActivePackage}_{$this->mDisplayMode}_hide_{$area}_col" )
+				) {
 					unset( $this->mLayout[$layout] );
 				}
 			}

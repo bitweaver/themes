@@ -1,4 +1,7 @@
 <?php
+$feedback = array();
+
+// Columns
 $activeColumns = array(
 	'site_top_column' => array(
 		'label' => 'Top Module Area',
@@ -19,6 +22,16 @@ $activeColumns = array(
 );
 $gBitSmarty->assign( 'activeColumns', $activeColumns );
 
+// Areas
+$hideableAreas = array(
+	'top'    => 'Top',
+	'left'   => 'Left',
+	'right'  => 'Right',
+	'bottom' => 'Bottom',
+);
+$gBitSmarty->assign( 'hideableAreas', $hideableAreas );
+
+// Display modes
 $displayModes = array(
 	"display" => "Display content",
 	"list"    => "Display listings such as galleries",
@@ -34,44 +47,32 @@ foreach( $gBitSystem->mPackages as $key => $package ) {
 		if( $package['name'] == 'kernel' ) {
 			$package['name'] = tra( 'Site Default' );
 		}
-		$hideColumns[strtolower( $key )] =  ucfirst( $package['name'] );
+		$packageColumns[strtolower( $key )] =  ucfirst( $package['name'] );
 	}
 }
-asort( $hideColumns );
-$gBitSmarty->assign( 'hideColumns', $hideColumns );
+asort( $packageColumns );
+$gBitSmarty->assign( 'packageColumns', $packageColumns );
 
-if( !empty( $_REQUEST['column_control'] )) {
+// process the form
+if( !empty( $_REQUEST['reset_columns'] )) {
+	$gBitSystem->storeConfigMatch( "#_hide_(top|right|bottom|left)_col$#" );
+	$feedback['success'] = tra( "All custom column settings have been reset." );
+} elseif( !empty( $_REQUEST['column_control'] )) {
 	foreach( array_keys( $activeColumns ) as $item ) {
 		simple_set_toggle( $item, THEMES_PKG_NAME );
 	}
 
-	// hideable areas
-	$hideable = array( 'top', 'left', 'right', 'bottom' );
+	// first we'll remove all stored column settings
+	$gBitSystem->storeConfigMatch( "#_hide_(top|right|bottom|left)_col$#" );
 
-	// evaluate what columns to hide
-	foreach( $hideable as $area ) {
-		// packages
-		foreach( array_keys( $hideColumns ) as $package ) {
-			$pref = "{$package}_hide_{$area}_col";
-			if( isset( $_REQUEST['package'][$pref] ) ) {
-				$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
-			} else {
-				// remove the setting from the db if it's not set
-				$gBitSystem->storeConfig( $pref, NULL );
-			}
-		}
-
-		// modes
-		foreach( array_keys( $displayModes ) as $mode ) {
-			$pref = "{$mode}_hide_{$area}_col";
-			if( isset( $_REQUEST['mode'][$pref] ) ) {
-				$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
-			} else {
-				// remove the setting from the db if it's not set
-				$gBitSystem->storeConfig( $pref, NULL );
-			}
+	if( !empty( $_REQUEST['hide'] )) {
+		foreach( array_keys( $_REQUEST['hide'] ) as $pref ) {
+			$gBitSystem->storeConfig( $pref, 'y', THEMES_PKG_NAME );
 		}
 	}
+
+	$feedback['success'] = tra( "The settings were successfully stored." );
 }
 
+$gBitSmarty->assign( 'feedback', $feedback );
 ?>
