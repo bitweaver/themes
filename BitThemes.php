@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.69 2008/06/26 11:40:16 squareing Exp $
- * @version  $Revision: 1.69 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.70 2008/06/30 18:30:44 squareing Exp $
+ * @version  $Revision: 1.70 $
  * @package themes
  */
 
@@ -136,12 +136,12 @@ class BitThemes extends BitBase {
 		}
 		$ret = '';
 
-		if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( $this->getStylePath().'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
-			$ret = $this->getStyleUrl().'/alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
-		} elseif( is_readable( $this->getStylePath().'/'.$pStyle.'.css' )) {
-			$ret = $this->getStyleUrl().'/'.$pStyle.'.css';
+		if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( $this->getStylePath().'alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
+			$ret = $this->getStyleUrl().'alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
+		} elseif( is_readable( $this->getStylePath().$pStyle.'.css' )) {
+			$ret = $this->getStyleUrl().$pStyle.'.css';
 		}
-		return str_replace( "//", "/", $ret );
+		return $ret;
 	}
 
 	/**
