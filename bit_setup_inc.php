@@ -48,9 +48,4 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
-
-// load the flash player javascript if needed.
-if( $gLibertySystem->isPluginActive( 'mimeaudio' ) || $gLibertySystem->isPluginActive( 'mimeflv' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH."javascript/flv_player/swfobject.js", FALSE, 25 );
-}
 ?>
