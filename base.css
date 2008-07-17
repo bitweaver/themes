@@ -43,7 +43,7 @@ small				{color:#999;}
 /*** forms ***/
 html>body textarea	{width:100%;}
 form				{margin:0; padding:0;}
-.row				{clear:both;}
+/*.row				{clear:both;}*/
 .formlabel			{float:left; width:14em; text-align:right;}
 .forminput			{margin-left:14.5em;}
 .formhelp			{cursor:help;}
