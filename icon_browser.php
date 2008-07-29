@@ -1,7 +1,9 @@
 <?php
-require_once( "../../bit_setup_inc.php" );
+require_once( "../bit_setup_inc.php" );
 
-$gBitSystem->verifyPermission( 'p_admin' );
+if( !$gBitUser->isRegistered() ) {
+	$gBitSystem->fatalError( "You need to be registered to view this page." );
+}
 
 $iconUsage = array(
 	"dialog-ok"                => "Success / Accept",
@@ -36,15 +38,24 @@ $iconUsage = array(
 	"dialog-information"       => "Information",
 );
 $gBitSmarty->assign( 'iconUsage', $iconUsage );
+$gBitSmarty->assign( 'defaultIconList', icon_fetcher( THEMES_PKG_PATH."icon_styles/".DEFAULT_ICON_STYLE."/" ));
 
-$handle = opendir( THEMES_PKG_PATH."icon_styles/tango/large" );
-while( FALSE !== ( $icon = readdir( $handle ))) {
-	if( preg_match( "#\.png$#", $icon ) && !preg_match( "#^process-working\.#", $icon )) {
-		$iconList[] = str_replace( ".png", "", $icon );
-	}
+if( $gBitSystem->isFeatureActive( 'site_icon_style' ) && $gBitSystem->getConfig( 'site_icon_style' ) != DEFAULT_ICON_STYLE ) {
+	$gBitSmarty->assign( 'activeIconList', icon_fetcher( THEMES_PKG_PATH."icon_styles/".$gBitSystem->getConfig( 'site_icon_style' )."/" ));
 }
-asort( $iconList );
-$gBitSmarty->assign( 'iconList', $iconList );
 
-$gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) , array( 'display_mode' => 'admin' ));
+$gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) , array( 'display_mode' => 'display' ));
+
+function icon_fetcher( $pStylePath ) {
+	if( is_dir( $pStylePath."large" )) {
+		$handle = opendir( $pStylePath."large" );
+		while( FALSE !== ( $icon = readdir( $handle ))) {
+			if( preg_match( "#\.png$#", $icon ) && !preg_match( "#^process-working\.#", $icon )) {
+				$ret[str_replace( ".png", "", $icon )] = str_replace( ".png", "", $icon );
+			}
+		}
+	}
+	asort( $ret );
+	return $ret;
+}
 ?>
