@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.70 2008/06/30 18:30:44 squareing Exp $
- * @version  $Revision: 1.70 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.71 2008/07/31 19:25:25 bitweaver Exp $
+ * @version  $Revision: 1.71 $
  * @package themes
  */
 
@@ -1563,5 +1563,4 @@ function themes_content_list( $pContent, $pListHash ) {
 		}
 	}
 }
-
 ?>
