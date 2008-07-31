@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.71 2008/07/31 19:25:25 bitweaver Exp $
- * @version  $Revision: 1.71 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.72 2008/07/31 19:29:06 bitweaver Exp $
+ * @version  $Revision: 1.72 $
  * @package themes
  */
 
@@ -1563,4 +1563,5 @@ function themes_content_list( $pContent, $pListHash ) {
 		}
 	}
 }
+
 ?>
