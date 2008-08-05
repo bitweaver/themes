@@ -2,14 +2,14 @@
 $themeSettings = array(
 	'site_use_jscalendar' => array(
 		'label' => 'Enable JSCalendar',
-		'note' => 'JSCalendar is a javascript calendar popup that allows you to easily select a date using an easy to use and appealing interface.',
+		'note' => 'If checked, a calendar popup allows for easily selecting a date using an appealing interface.',
 	),
 	'themes_use_msie_png_hack' => array(
 		'label' => 'IE7-js',
-		'note' => 'A Javascript library to make Microsoft Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6. It is also needed for CSS driven dropdown menus.',
+		'note' => 'A Javascript library to make Microsoft\'s Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6. It is also needed for CSS driven dropdown menus.',
 	),
 	'themes_collapsible_modules' => array(
-		'label' => 'Collapsible Modules',
+		'label' => 'Collapsible modules',
 		'note' => 'This allows users to collapse modules by clicking on their titles. Can be useful if you use many modules.',
 	),
 //	'themes_edit_css' => array(
@@ -17,20 +17,20 @@ $themeSettings = array(
 //		'note' => 'Enables you to edit CSS files from within your browser to customise your site style according to your desires.',
 //	),
 	'site_disable_fat' => array(
-		'label' => "Disable Fading",
-		'note' => "Disable the fading effect used when displaying any success, warning or error messages.",
+		'label' => "Disable fading",
+		'note' => "If checked, success, warning or error messages display no fading effect anymore.",
 	),
 	'site_disable_jstabs' => array(
-		'label' => "Disable Javascript Tabs",
-		'note' =>"If you have difficulties with the javascript tabs, of you don't like them, you can disable them here.",
+		'label' => "Disable Javascript tabs",
+		'note' => "If checked, admin pages flow vertically, instead of displaying in a 'tabbed pages' interface.",
 	),
 	'site_fancy_zoom' => array(
-		'label' => "Enable Fancy Zoom for Images",
-		'note' =>"Use javascript to zoom images when clicking on them. This will modify the behaviour when viewing most images. If you are running a commercial site, please read the license notice in /util/javascript/fancyzoom/js-global/FancyZoom.js",
+		'label' => "Enable Fancy Zoom for images",
+		'note' => "If checked, a Javascript zooms images when clicking on them. This will modify the behaviour when viewing most images. If you are running a commercial site, please read the license notice in /util/javascript/fancyzoom/js-global/FancyZoom.js.",
 	),
 	'site_mods_req_admn_grp' => array(
-		'label' => 'Module Groups Require Admin',
-		'note' => 'If a module has group restrictions the module only shows for the administrator if the administrator is in the configured groups. Otherwise all modules show to administrators all the time.',
+		'label' => 'Modules require membership',
+		'note' => 'If enabled, modules with group restrictions require the administrator to be member of the group. If disabled, all modules are always visible to administrators.',
 	),
 );
 $gBitSmarty->assign( 'themeSettings', $themeSettings );
