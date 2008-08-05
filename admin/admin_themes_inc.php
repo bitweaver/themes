@@ -5,8 +5,8 @@ $themeSettings = array(
 		'note' => 'JSCalendar is a javascript calendar popup that allows you to easily select a date using an easy to use and appealing interface.',
 	),
 	'themes_use_msie_png_hack' => array(
-		'label' => 'MSIE png Hack',
-		'note' => 'Microsoft Internet Explorer versions before version 7 can not display png transparency correctly. When you enable this javascript hack, png icons will be loaded in MSIE just like in other browsers but it will cause an additional strain on the browser. If this option is disabled, MSIE &lt; 7 browsers display matching gif icons. In general this option is not required if you are not planing on using png graphics with transparency on your site.',
+		'label' => 'IE7-js',
+		'note' => 'A Javascript library to make Microsoft Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6.',
 	),
 	'themes_collapsible_modules' => array(
 		'label' => 'Collapsible Modules',
