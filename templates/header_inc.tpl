@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.37 2008/06/20 04:16:40 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.38 2008/08/05 07:24:07 laetzer Exp $ *}
 {strip}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
@@ -24,20 +24,8 @@ plugin *}
 {/foreach}
 {/strip}
 
-{if $gBrowserInfo.browser eq 'ie'}
-	<!-- this wierdness fixes png display and CSS driven dropdown menus in GUESS WHAT BROWSER -->
-	<!--[if lt IE 7]>
-	{if $gBitSystem->isFeatureActive( 'themes_use_msie_png_hack' )}
-		<script type="text/javascript">
-			IE7_PNG_SUFFIX = ".png";
-		</script>
-	{/if}
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-standard-p.js"></script>
-	<![endif]-->
-	<!-- CSS driven dropdown menus are still broken in IE7 -->
-	<!--[if IE 7]>
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-core.js"></script>
-	<script type="text/javascript" src="{$smarty.const.UTIL_PKG_URL}javascript/fixes/ie7/ie7-css2-selectors.js"></script>
+{if $gBrowserInfo.browser eq 'ie' and $gBitSystem->isFeatureActive( 'themes_use_msie_png_hack' )}
+	<!--[if lt IE 8]>
+		{jspack ifile=fixes/ie7/IE8.js}
 	<![endif]-->
 {/if}
-

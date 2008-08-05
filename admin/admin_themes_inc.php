@@ -6,7 +6,7 @@ $themeSettings = array(
 	),
 	'themes_use_msie_png_hack' => array(
 		'label' => 'IE7-js',
-		'note' => 'A Javascript library to make Microsoft Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6.',
+		'note' => 'A Javascript library to make Microsoft Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6. It is also needed for CSS driven dropdown menus.',
 	),
 	'themes_collapsible_modules' => array(
 		'label' => 'Collapsible Modules',
