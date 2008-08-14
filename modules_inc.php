@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.6 2008/02/19 22:14:15 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.7 2008/08/14 04:12:56 bitweaver Exp $
  * @package kernel
  * @subpackage functions
  */
@@ -62,7 +62,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
 						
 						// if the time is right get the cache else get it fresh
-						if( file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
+						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] ) ) {
 							$fp = fopen( $cachefile, "r" );
 							$data = fread( $fp, filesize( $cachefile ));
 							fclose( $fp );
@@ -89,10 +89,12 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
 							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
 						
-							// write to chache file
-							$fp = fopen( $cachefile, "w+" );
-							fwrite( $fp, $data, strlen( $data ));
-							fclose( $fp );
+							if( !empty( $r["cache_time"] ) ) {
+								// write to chache file
+								$fp = fopen( $cachefile, "w+" );
+								fwrite( $fp, $data, strlen( $data ));
+								fclose( $fp );
+							}
 							$r["data"] = $data;
 						}
 
