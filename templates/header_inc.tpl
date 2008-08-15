@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.38 2008/08/05 07:24:07 laetzer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.39 2008/08/15 19:08:17 laetzer Exp $ *}
 {strip}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
@@ -17,7 +17,7 @@ $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/multifile.js', TRUE 
 this variable here will go as soon as we can work out how to load this from the
 plugin *}
 {if $loadMultiFile}
-	{jspack ifile=libs/multifile.js}
+	{jspack ifile=libs/multifile.js defer='defer'}
 {/if}
 {foreach from=$gBitThemes->mRawJsFiles item=jsFile}
 	<script type="text/javascript" src="{$jsFile}"></script>
