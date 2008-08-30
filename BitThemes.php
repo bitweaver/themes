@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.73 2008/07/31 19:32:29 bitweaver Exp $
- * @version  $Revision: 1.73 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.74 2008/08/30 04:35:05 spiderr Exp $
+ * @version  $Revision: 1.74 $
  * @package themes
  */
 
@@ -27,8 +27,8 @@ class BitThemes extends BitBase {
 	// Auxillary Files
 	var $mAuxFiles = array();
 
-	// Raw Javascript Files
-	var $mRawJsFiles = array();
+	// Raw Javascript and Css Files
+	var $mRawFiles = array( 'javascript'=>array(), 'css'=>array() );
 
 	// Display Mode
 	var $mDisplayMode;
@@ -73,7 +73,9 @@ class BitThemes extends BitBase {
 		$this->loadTplFiles( "footer_inc" );
 
 		// let's join the various files
-		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
+		if( $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
+			$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
+		}
 
 		// this is where we could join additional CSS files as well, but that 
 		// cuases problems:
@@ -84,7 +86,9 @@ class BitThemes extends BitBase {
 		// with the full path, but this is likely to cause problems.
 		// - xing - Wednesday Nov 07, 2007   10:51:06 CET
 		$this->loadCss( $this->getLayoutStyleCss(), TRUE, 1 );
-		$this->mStyles['joined_css']  = $this->joinAuxFiles( 'css' );
+		if( $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
+			$this->mStyles['joined_css']  = $this->joinAuxFiles( 'css' );
+		}
 		// this needs to be loaded after the main css file since it should be 
 		// able to override style settings with this
 		$this->mStyles['browser_css'] = $this->getBrowserStyleCss();
@@ -1148,7 +1152,7 @@ class BitThemes extends BitBase {
 					case 'jquery':
 						$joined = FALSE;
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$pLibPath .= 'min/';
+							$pLibPath .= 'full/';
 						} else {
 							$pLibPath .= 'full/';
 						}
@@ -1163,7 +1167,8 @@ class BitThemes extends BitBase {
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
-					$this->loadJavascript( $pLibPath.'/'.$lib, $pPack, $pos++, $joined );
+					$fullLib = ($lib[0] == '/' ? '' : $pLibPath).$lib;
+					$this->loadJavascript( $fullLib, $pPack, $pos++, $joined );
 				}
 			}
 
@@ -1230,9 +1235,10 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure
 	 */
 	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600, $pJoined = TRUE ) {
+		global $gBitSystem;
 		$ret = FALSE;
-		if( !empty( $pJavascriptFile )) {
-			if( $pPack ) {
+		if( !empty( $pJavascriptFile ) ) {
+			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) ) {
 				if( is_file( $pJavascriptFile )) {
 					// get a name for the cache file we're going to store
 					$cachefile = md5( $pJavascriptFile ).'.js';
@@ -1249,10 +1255,13 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			if( $pJoined ) {
+			if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
 				$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
 			} else {
-				array_push( $this->mRawJsFiles, $pJavascriptFile );
+				if( $pos = strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
+					$pJavascriptFile = substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) - 1 );
+				}
+				array_push( $this->mRawFiles['javascript'], $pJavascriptFile );
 				$ret = TRUE;
 			}
 		}
@@ -1267,11 +1276,21 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300 ) {
-		if( $pPack ) {
+	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE ) {
+		global $gBitSystem;
+		if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) ) {
 			$pCssFile = $this->packCss( $pCssFile );
 		}
-		return $this->loadAuxFile( $pCssFile, 'css', $pPosition );
+		if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
+			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
+		} else {
+			if( $pos = strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
+				$pCssFile = substr( $pCssFile, strlen( BIT_ROOT_PATH ) - 1 );
+			}
+			array_push( $this->mRawFiles['css'], $pCssFile );
+			$ret = TRUE;
+		}
+		return $ret;
 	}
 
 	/**

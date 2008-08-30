@@ -32,6 +32,14 @@ $themeSettings = array(
 		'label' => 'Modules require membership',
 		'note' => 'If enabled, modules with group restrictions require the administrator to be member of the group. If disabled, all modules are always visible to administrators.',
 	),
+	'themes_joined_js_css' => array(
+		'label' => 'Joined CSS and JS',
+		'note' => 'If enabled, javascript and CSS files will be concatenated into single files to reduce server requests. Warning: this can negatively affect server relative URLs in those files.',
+	),
+	'themes_packed_js_css' => array(
+		'label' => 'Packed CSS and JS',
+		'note' => 'If enabled, javascript and CSS files will be reduced to their smallest possible size. Warning: this can negatively affect some javascript files.',
+	),
 );
 $gBitSmarty->assign( 'themeSettings', $themeSettings );
 

@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.39 2008/08/15 19:08:17 laetzer Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.40 2008/08/30 04:35:06 spiderr Exp $ *}
 {strip}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all" />
@@ -19,8 +19,11 @@ plugin *}
 {if $loadMultiFile}
 	{jspack ifile=libs/multifile.js defer='defer'}
 {/if}
-{foreach from=$gBitThemes->mRawJsFiles item=jsFile}
+{foreach from=$gBitThemes->mRawFiles.javascript item=jsFile}
 	<script type="text/javascript" src="{$jsFile}"></script>
+{/foreach}
+{foreach from=$gBitThemes->mRawFiles.css item=cssFile}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all" />
 {/foreach}
 {/strip}
 
