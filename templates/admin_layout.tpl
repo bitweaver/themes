@@ -1,111 +1,114 @@
 {strip}
 {formfeedback hash=$feedback}
 
-{form legend="Create Layout for Section"}
-	<input type="hidden" name="page" value="{$page}" />
-	<div class="row">
-		{formlabel label="Create Customized layout for" for="module_package"}
-		{forminput}
-			<select name="module_package" id="module_package" onchange="this.form.submit();">
-				{foreach key=name item=package from=$gBitSystem->mPackages}
-					{if $package.installed and ($package.activatable or $package.tables)}
-						<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
-							{if $name eq 'kernel'}
-								{tr}Site Default{/tr}
-							{else}
-								{tr}{$name|capitalize}{/tr}
+{jstabs}
+	{jstab title="Layouts"}
+		{form legend="Create Layout for Packages and Sections"}
+			<input type="hidden" name="page" value="{$page}" />
+			<div class="row">
+				{formlabel label="Create Customized layout for" for="module_package"}
+				{forminput}
+					<select name="module_package" id="module_package" onchange="this.form.submit();">
+						{foreach key=name item=package from=$gBitSystem->mPackages}
+							{if $package.installed and ($package.activatable or $package.tables)}
+								<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
+									{if $name eq 'kernel'}
+										{tr}Site Default{/tr}
+									{else}
+										{tr}{$name|capitalize}{/tr}
+									{/if}
+								</option>
 							{/if}
-						</option>
+						{/foreach}
+						<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
+					</select>
+		
+					<noscript>
+						{formhelp note="Apply this setting before you customise and assign modules below."}
+					</noscript>
+				{/forminput}
+			</div>
+		
+			{if $cloneLayouts and $module_package != kernel}
+				<div class="row">
+					{formlabel label="Copy existing layout" for="clone_layout"}
+					{forminput}
+						<ul>
+							{foreach from=$cloneLayouts item=clone_layout key=clone_package}
+								{if $clone_package != $module_package}
+									<li><a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;from_layout={$clone_package}&amp;to_layout={$module_package}&amp;module_package={$module_package}">{if $clone_package == kernel}{tr}Site Default{/tr}{else}{tr}{$clone_package|capitalize}{/tr}{/if}</a></li>
+								{/if}
+							{/foreach}
+						</ul>
+						{tr}to {if $module_package == kernel}Site Default{else}{$module_package|capitalize}{/if}{/tr}
+					{/forminput}
+				</div>
+			{/if}
+		
+			<noscript>
+				<div class="row submit">
+					<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
+				</div>
+			</noscript>
+		{/form}
+		
+		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
+			<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
+			<tr>
+				{foreach from=$layoutAreas item=area key=colkey}
+					{if $colkey =='top'}
+						<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+					{elseif $colkey =='bottom'}
+						</tr>
+						<tr>
+							<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+					{else}
+						<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
+					{/if}
+		
+						<table class="data" style="width:100%">
+							<tr>
+								<th>{tr}{$colkey} area{/tr}</th>
+							</tr>
+							{section name=ix loop=$layout.$area}
+								<tr>
+									<td>
+										{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix] condensed=1}
+									</td>
+								</tr>
+							{sectionelse}
+								<tr>
+									<td colspan="3" align="center">
+										{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
+									</td>
+								</tr>
+							{/section}
+						</table>
+					</td>
+		
+					{if $colkey =='top'}
+						</tr>
+						<tr>
 					{/if}
 				{/foreach}
-				<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
-			</select>
+			</tr>
+		</table>
 
-			<noscript>
-				{formhelp note="Apply this setting before you customise and assign modules below."}
-			</noscript>
-		{/forminput}
-	</div>
-
-	{if $cloneLayouts and $module_package != kernel}
-		<div class="row">
-			{formlabel label="Copy existing layout" for="clone_layout"}
-			{forminput}
-				<ul>
-					{foreach from=$cloneLayouts item=clone_layout key=clone_package}
-						{if $clone_package != $module_package}
-							<li><a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;from_layout={$clone_package}&amp;to_layout={$module_package}&amp;module_package={$module_package}">{if $clone_package == kernel}{tr}Site Default{/tr}{else}{tr}{$clone_package|capitalize}{/tr}{/if}</a></li>
-						{/if}
-					{/foreach}
-				</ul>
-				{tr}to {if $module_package == kernel}Site Default{else}{$module_package|capitalize}{/if}{/tr}
-			{/forminput}
-		</div>
-	{/if}
-
-	<noscript>
-		<div class="row submit">
-			<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
-		</div>
-	</noscript>
-{/form}
-
-<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
-	<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
-	<tr>
-		{foreach from=$layoutAreas item=area key=colkey}
-			{if $colkey =='top'}
-				<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
-			{elseif $colkey =='bottom'}
-				</tr>
-				<tr>
-					<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
-			{else}
-				<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
-			{/if}
-
-				<table class="data" style="width:100%">
-					<tr>
-						<th>{tr}{$colkey} area{/tr}</th>
-					</tr>
-					{section name=ix loop=$layout.$area}
-						<tr>
-							<td>
-								{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix] condensed=1}
-							</td>
-						</tr>
-					{sectionelse}
-						<tr>
-							<td colspan="3" align="center">
-								{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
-							</td>
-						</tr>
-					{/section}
-				</table>
-			</td>
-
-			{if $colkey =='top'}
-				</tr>
-				<tr>
-			{/if}
-		{/foreach}
-	</tr>
-</table>
-
-<ul>
-	<li>
-		{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
-		{formhelp note="This will reset the position numbers of all modules using increments of 5."}
-	</li>
-	<li>
-		{smartlink ititle="Configure Layout Options" page=layout_overview}
-		{formhelp note="On this page you can configure all modules in all layouts."}
-	</li>
-</ul>
-
-{jstabs}
-	{jstab title="Assign column module"}
-		{form action=$smarty.server.PHP_SELF legend="Assign column module"}
+		<dl>
+			<dt>
+				{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
+				{formhelp note="This will reset the position numbers of all modules using increments of 5."}
+			</dt>
+			<dt>
+				{smartlink ititle="Configure Layout Details" page=layout_overview}
+				{formhelp note="On this page you can configure all modules in all layouts."}
+			</dt>
+		</dl>		
+	{/jstab}
+	
+	
+	{jstab title="Modules"}
+		{form action=$smarty.server.PHP_SELF legend="Assign modules to columns and areas"}
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="module_package" value="{$module_package}" />
 			<div class="row">
@@ -215,8 +218,8 @@
 		{/form}
 	{/jstab}
 
-	{jstab title="Assign center piece"}
-		{form action=$smarty.server.PHP_SELF legend="Assign center piece"}
+	{jstab title="Center"}
+		{form action=$smarty.server.PHP_SELF legend="Assign content to the center area"}
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="module_package" value="{$module_package}" />
 			<input type="hidden" name="fAssign[layout_area]" value="c" />
@@ -301,19 +304,23 @@
 			</div>
 		{/form}
 	{/jstab}
+	
+	{jstab title="Help"}
+		<h2>{tr}Modules Help{/tr}</h2>
+		{formhelp note="Below you can find information on what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
+		<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
+		{foreach from=$allModulesHelp key=package item=help}
+			<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
+			<div id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
+				{foreach from=$help key=file item=title}
+					{box title=$title}
+						{include file=$file}
+					{/box}
+				{/foreach}
+			</div>
+		{/foreach}
+	{/jstab}
+
 {/jstabs}
 
-<h1>{tr}Modules Help{/tr}</h1>
-{formhelp note="Below you can find information on what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
-<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
-{foreach from=$allModulesHelp key=package item=help}
-	<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
-	<div id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
-		{foreach from=$help key=file item=title}
-			{box title=$title}
-				{include file=$file}
-			{/box}
-		{/foreach}
-	</div>
-{/foreach}
 {/strip}
