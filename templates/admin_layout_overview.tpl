@@ -90,41 +90,7 @@
 		{/foreach}
 
 		{jstab title="Help"}
-			{legend legend="Layout overview help"}
-				<div class="row">
-					{formlabel label="Adjust display" for=""}
-					{forminput}
-						{if !$smarty.request.nocollapse}
-							<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{biticon iname="list-add" iforce=icon_text iexplain="Expand all modules"}</a>
-						{else}
-							<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{biticon iname="list-remove" iforce=icon_text iexplain="Collapse all modules"}</a>
-						{/if}
-						{formhelp note="Toggle the state of <em>all modules</em> (expanded/collapsed). This reloads the page without saving changes made prior."}
-					{/forminput}
-				</div>
-				<div class="row">
-					{formlabel label="Adjust modules" for=""}
-					{forminput}
-						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{biticon iname="emblem-symbolic-link" iforce=icon_text iexplain="Adjust module postitions"}</a>
-						{* smartlink ititle="Adjust modules" ibiticon=icons/emblem-symbolic-link page=$page fixpos=1 *}
-						{formhelp note="Reset the position numbers of <em>all modules</em> using increments of 5."}
-					{/forminput}
-				</div>
-			{/legend}
-			{legend legend="Modules Help"}
-				{formhelp note="List of what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
-				<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
-				{foreach from=$allModulesHelp key=package item=help}
-					<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
-					<div id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
-						{foreach from=$help key=file item=title}
-							{box title=$title}
-								{include file=$file}
-							{/box}
-						{/foreach}
-					</div>
-				{/foreach}
-			{/legend}
+			{include file="bitpackage:themes/admin_layout_help.tpl"}
 		{/jstab}
 
 	{/jstabs}

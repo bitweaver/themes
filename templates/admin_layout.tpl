@@ -93,17 +93,6 @@
 				{/foreach}
 			</tr>
 		</table>
-
-		<dl>
-			<dt>
-				{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
-				{formhelp note="This will reset the position numbers of all modules using increments of 5."}
-			</dt>
-			<dt>
-				{smartlink ititle="Configure Layout Details" page=layout_overview}
-				{formhelp note="On this page you can configure all modules in all layouts."}
-			</dt>
-		</dl>
 	{/jstab}
 
 
@@ -306,20 +295,9 @@
 	{/jstab}
 
 	{jstab title="Help"}
-		<h2>{tr}Modules Help{/tr}</h2>
-		{formhelp note="Below you can find information on what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
-		<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
-		{foreach from=$allModulesHelp key=package item=help}
-			<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
-			<div id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
-				{foreach from=$help key=file item=title}
-					{box title=$title}
-						{include file=$file}
-					{/box}
-				{/foreach}
-			</div>
-		{/foreach}
+		{include file="bitpackage:themes/admin_layout_help.tpl"}
 	{/jstab}
+
 
 {/jstabs}
 
