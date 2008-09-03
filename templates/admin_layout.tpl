@@ -6,7 +6,7 @@
 		{form legend="Create Layout for Packages and Sections"}
 			<input type="hidden" name="page" value="{$page}" />
 			<div class="row">
-				{formlabel label="Create Customized layout for" for="module_package"}
+				{formlabel label="Customized layout" for="module_package"}
 				{forminput}
 					<select name="module_package" id="module_package" onchange="this.form.submit();">
 						{foreach key=name item=package from=$gBitSystem->mPackages}
@@ -22,13 +22,13 @@
 						{/foreach}
 						<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
 					</select>
-		
+
 					<noscript>
 						{formhelp note="Apply this setting before you customise and assign modules below."}
 					</noscript>
 				{/forminput}
 			</div>
-		
+
 			{if $cloneLayouts and $module_package != kernel}
 				<div class="row">
 					{formlabel label="Copy existing layout" for="clone_layout"}
@@ -44,14 +44,14 @@
 					{/forminput}
 				</div>
 			{/if}
-		
+
 			<noscript>
 				<div class="row submit">
 					<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
 				</div>
 			</noscript>
 		{/form}
-		
+
 		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
 			<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
 			<tr>
@@ -65,7 +65,7 @@
 					{else}
 						<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
 					{/if}
-		
+
 						<table class="data" style="width:100%">
 							<tr>
 								<th>{tr}{$colkey} area{/tr}</th>
@@ -85,7 +85,7 @@
 							{/section}
 						</table>
 					</td>
-		
+
 					{if $colkey =='top'}
 						</tr>
 						<tr>
@@ -103,10 +103,10 @@
 				{smartlink ititle="Configure Layout Details" page=layout_overview}
 				{formhelp note="On this page you can configure all modules in all layouts."}
 			</dt>
-		</dl>		
+		</dl>
 	{/jstab}
-	
-	
+
+
 	{jstab title="Modules"}
 		{form action=$smarty.server.PHP_SELF legend="Assign modules to columns and areas"}
 			<input type="hidden" name="page" value="{$page}" />
@@ -304,7 +304,7 @@
 			</div>
 		{/form}
 	{/jstab}
-	
+
 	{jstab title="Help"}
 		<h2>{tr}Modules Help{/tr}</h2>
 		{formhelp note="Below you can find information on what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
