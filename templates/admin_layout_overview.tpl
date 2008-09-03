@@ -1,51 +1,48 @@
 {strip}
+{assign var=tablimit value=10}
+
 {formfeedback hash=$feedback}
 
 {form}
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="nocollapse" value="{$smarty.request.nocollapse}" />
 
+	{foreach name=PkgLayouts from=$layouts item=layout key=module_package}
+		{if $smarty.foreach.PkgLayouts.total >= $tablimit}
+			<dl>
+				<dt>{$smarty.foreach.PkgLayouts.iteration}</dt>
+				{if !$module_package || $module_package == 'kernel'}
+					<dd>{tr}Default{/tr}</dd>
+				{else}
+					<dd>{$module_package|capitalize}</dd>
+				{/if}
+			</dl>
+		{/if}
+	{/foreach}
+
 	{jstabs}
-	
-		{* if $smarty.foreach.PkgLayouts.iteration gt 1}
-			{jstab title=Layouts:}
-				{legend legend=Caption}
-					<dl>
-						{foreach name=PkgLayoutCaption from=$layouts item=layout key=module_package}
-							<dt>{$smarty.foreach.PkgLayoutCaption.iteration}</dt>
-							<dd>{$module_package|capitalize}</dd>
-						{/foreach}
-					</dl>
-				{/legend}
-			{/jstab}
-		{/if *}
-	
 		{foreach name=PkgLayouts from=$layouts item=layout key=module_package}
 
-			{* save layout's name in $PkgLayoutTitle *}
-
-			{if !$module_package || $module_package == 'kernel'}
-				{assign var=PkgLayoutTitle value="Default"}
-			{else}
-				{assign var=PkgLayoutTitle value=$module_package|capitalize}
-			{/if}
-
-			{* save full tab title OR truncated tab title OR number to $TabTitle *}
-			
-			{if $smarty.foreach.PkgLayouts.total lt 5}
-				{assign var=TabTitle value=$PkgLayoutTitle}
-			{elseif $smarty.foreach.PkgLayouts.total gt 4 and $smarty.foreach.PkgLayouts.total lt 8} {* ... *}
-				{assign var=TabTitle value=$PkgLayoutTitle|truncate:7:".":true}
+			{* if there are too many tabs, we only display numbers *}
+			{if $smarty.foreach.PkgLayouts.total lt $tablimit}
+				{if !$module_package || $module_package == 'kernel'}
+					{assign var=TabTitle value="Default"}
+				{else}
+					{assign var=TabTitle value=$module_package|capitalize}
+				{/if}
 			{else}
 				{assign var=TabTitle value="&nbsp;"|cat:$smarty.foreach.PkgLayouts.iteration|cat:"&nbsp;"}
 			{/if}
-			
+
 			{jstab title=$TabTitle}
+
+				<div class="floaticon">
+					{smartlink ititle="Edit this Layout" ibiticon="icons/accessories-text-editor" page=layout module_package=$module_package}
+					{smartlink ititle="Remove this Layout" ibiticon="icons/edit-delete" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
+				</div>
 
 				<h1 id="{$module_package}">
 					{tr}Current Layout of {if $PkgLayoutTitle == 'Default'}Site Default{else}{$PkgLayoutTitle}{/if}{/tr}
-					&nbsp; {smartlink ititle="Edit this Layout" ibiticon="icons/accessories-text-editor" page=layout module_package=$module_package}
-					&nbsp; {smartlink ititle="Remove this Layout" ibiticon="icons/edit-delete" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
 				</h1>
 
 				<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
@@ -131,6 +128,7 @@
 		{/jstab}
 
 	{/jstabs}
+
 	<div class="submit">
 		<input type="submit" name="update_modules" value="{tr}Apply module settings{/tr}" />
 	</div>
