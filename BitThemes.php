@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.74 2008/08/30 04:35:05 spiderr Exp $
- * @version  $Revision: 1.74 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.75 2008/09/04 16:41:46 spiderr Exp $
+ * @version  $Revision: 1.75 $
  * @package themes
  */
 
@@ -1259,7 +1259,7 @@ class BitThemes extends BitBase {
 				$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
 			} else {
 				if( $pos = strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
-					$pJavascriptFile = substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) - 1 );
+					$pJavascriptFile = BIT_ROOT_URL.substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) );
 				}
 				array_push( $this->mRawFiles['javascript'], $pJavascriptFile );
 				$ret = TRUE;
@@ -1285,7 +1285,7 @@ class BitThemes extends BitBase {
 			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
 		} else {
 			if( $pos = strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
-				$pCssFile = substr( $pCssFile, strlen( BIT_ROOT_PATH ) - 1 );
+				$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ) );
 			}
 			array_push( $this->mRawFiles['css'], $pCssFile );
 			$ret = TRUE;
