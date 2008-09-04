@@ -48,4 +48,6 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
+
+$gBitSystem->mOnload[] = 'setupShowHide();';
 ?>
