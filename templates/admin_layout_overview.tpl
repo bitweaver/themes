@@ -42,7 +42,7 @@
 				</div>
 
 				<h1 id="{$module_package}">
-					{tr}Current Layout of {if $PkgLayoutTitle == 'Default'}Site Default{else}{$PkgLayoutTitle}{/if}{/tr}
+					{tr}Current Layout of {if $TabTitle == 'Default'}Site Default{else}{$TabTitle}{/if}{/tr}
 				</h1>
 
 				<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
