@@ -33,16 +33,16 @@
         
 {/legend}
 {legend legend="Modules Help"}
-	{formhelp note="List of what modules do and what parameters they take. If a module is not listed, the module probably doesn't take any special parameters." page="ModuleParameters"}
+	{formhelp note="List of available modules and their parameters. If a module is not listed, it might not take any parameters." page="ModuleParameters"}
 	<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
 	{foreach from=$allModulesHelp key=package item=help}
 		<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
-		<div id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
+		<div class="modulehelp" id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
 			{foreach from=$help key=file item=title}
-				{box title=$title}
-					{include file=$file}
-				{/box}
+				<h3>{$title|capitalize}</h3>
+				{include file=$file}
 			{/foreach}
+			<hr />
 		</div>
 	{/foreach}
 {/legend}
