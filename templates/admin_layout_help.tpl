@@ -19,19 +19,24 @@
 			{/forminput}
 		</div>
 	{else}
-		<dl>
-			<dt>
+		<div class="row">
+			{formlabel label="Module Positions" for=""}
+			{forminput}
 				{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
 				{formhelp note="This will reset the position numbers of all modules using increments of 5."}
-			</dt>
-			<dt>
+			{/forminput}
+		</div>
+
+		<div class="row">
+			{formlabel label="Layout Details" for=""}
+			{forminput}
 				{smartlink ititle="Configure Layout Details" page=layout_overview}
 				{formhelp note="On this page you can configure all modules in all layouts."}
-			</dt>
-		</dl>
+			{/forminput}
+		</div>
 	{/if}
-        
 {/legend}
+
 {legend legend="Modules Help"}
 	{formhelp note="List of available modules and their parameters. If a module is not listed, it might not take any parameters." page="ModuleParameters"}
 	<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
