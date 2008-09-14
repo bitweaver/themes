@@ -1,5 +1,3 @@
-/* @override http://www.viovio.com/themes/base.css */
-
 /* essential and basic css settings */
 body				{background:#fff; margin:0; padding:0;}
 table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -155,8 +153,6 @@ a.external {background:transparent url( icons/external_link.png ) no-repeat left
 .phpbb img			{border:none}
 
 .articles .content div.image	{float:left; padding:0 1em 0 0;}
-
-.image .boxcontent	{text-align:center;}
 
 .attbrowser table	{text-align:center;}
 
