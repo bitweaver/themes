@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.76 2008/09/14 15:10:35 spiderr Exp $
- * @version  $Revision: 1.76 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.77 2008/09/14 17:55:43 squareing Exp $
+ * @version  $Revision: 1.77 $
  * @package themes
  */
 
@@ -1258,7 +1258,7 @@ class BitThemes extends BitBase {
 			if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
 				$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
 			} else {
-				if( $pos = strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
+				if( strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
 					$pJavascriptFile = BIT_ROOT_URL.substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) );
 				}
 				while( !empty( $this->mRawFiles['javascript'][$pPosition] ) ) {
@@ -1287,7 +1287,7 @@ class BitThemes extends BitBase {
 		if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
 			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
 		} else {
-			if( $pos = strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
+			if( strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
 				$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ) );
 			}
 			while( !empty( $this->mRawFiles['css'][$pPosition] ) ) {
