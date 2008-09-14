@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.41 2008/09/04 16:59:12 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.42 2008/09/14 16:08:04 squareing Exp $ *}
 {strip}
 {foreach from=$gBitThemes->mRawFiles.css item=cssFile}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all" />
@@ -13,15 +13,14 @@
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.browser_css}" media="all" />
 {/if}
 
-{* annoyingly this is still required here since the liberty attachments plugin
-is called before gBitThemes is set and can therefore not call loadJavascript.
-if you want to load this from your php file, please use:
-$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/multifile.js', TRUE );
-this variable here will go as soon as we can work out how to load this from the
-plugin *}
+{* This is only kept here for legacy code and will be removed once we've fully
+   weened bitweaver off the old storage plugins. this is required by the old
+   bitstorage plugin. users with regular installs of bitweaver > 2.1 can remove
+   this. *}
 {if $loadMultiFile}
 	{jspack ifile=libs/multifile.js defer='defer'}
 {/if}
+
 {foreach from=$gBitThemes->mRawFiles.javascript item=jsFile}
 	<script type="text/javascript" src="{$jsFile}"></script>
 {/foreach}
