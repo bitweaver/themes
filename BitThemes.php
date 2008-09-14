@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.75 2008/09/04 16:41:46 spiderr Exp $
- * @version  $Revision: 1.75 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.76 2008/09/14 15:10:35 spiderr Exp $
+ * @version  $Revision: 1.76 $
  * @package themes
  */
 
@@ -1261,7 +1261,10 @@ class BitThemes extends BitBase {
 				if( $pos = strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
 					$pJavascriptFile = BIT_ROOT_URL.substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) );
 				}
-				array_push( $this->mRawFiles['javascript'], $pJavascriptFile );
+				while( !empty( $this->mRawFiles['javascript'][$pPosition] ) ) {
+					$pPosition++;
+				}
+				$this->mRawFiles['javascript'][$pPosition] = $pJavascriptFile;
 				$ret = TRUE;
 			}
 		}
@@ -1287,7 +1290,10 @@ class BitThemes extends BitBase {
 			if( $pos = strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
 				$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ) );
 			}
-			array_push( $this->mRawFiles['css'], $pCssFile );
+			while( !empty( $this->mRawFiles['css'][$pPosition] ) ) {
+				$pPosition++;
+			}
+			$this->mRawFiles['css'][$pPosition] = $pCssFile;
 			$ret = TRUE;
 		}
 		return $ret;
