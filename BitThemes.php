@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.78 2008/09/15 17:08:42 squareing Exp $
- * @version  $Revision: 1.78 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.79 2008/09/15 17:19:00 squareing Exp $
+ * @version  $Revision: 1.79 $
  * @package themes
  */
 
@@ -1322,7 +1322,7 @@ class BitThemes extends BitBase {
 		if( !empty( $pCssFile ) && is_readable( $pCssFile )) {
 			$cachefile = md5( $pCssFile ).'.css';
 
-			//if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
+			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
 				$content = file_get_contents( $pCssFile )."\n";
 
 				if( $pPack ) {
@@ -1379,7 +1379,7 @@ class BitThemes extends BitBase {
 					}
 				}
 				$this->mThemeCache->writeCacheFile( $cachefile, $content );
-			//}
+			}
 			$ret = $this->mThemeCache->getCacheFile( $cachefile );
 		}
 		return $ret;
