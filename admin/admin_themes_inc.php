@@ -34,16 +34,16 @@ $themeSettings = array(
 	),
 	'themes_joined_js_css' => array(
 		'label' => 'Joined CSS and JS',
-		'note' => 'If enabled, javascript and CSS files will be concatenated into single files to reduce server requests. Warning: this can negatively affect server relative URLs in those files.',
+		'note' => 'If enabled, javascript and CSS files will be concatenated into single files to reduce server requests. This is useful for webdesigners and developers. Please enable this feature on live sites.',
 	),
 	'themes_packed_js_css' => array(
 		'label' => 'Packed CSS and JS',
-		'note' => 'If enabled, javascript and CSS files will be reduced to their smallest possible size. Warning: this can negatively affect some javascript files.',
+		'note' => 'If enabled, javascript and CSS files will be reduced to their smallest possible size. This is useful for webdesigners and developers. Please enable this feature on live sites.',
 	),
 );
 $gBitSmarty->assign( 'themeSettings', $themeSettings );
 
-if( !empty( $_REQUEST['change_prefs'] ) ) {
+if( !empty( $_REQUEST['change_prefs'] )) {
 	$pref_simple_values = array(
 		"site_biticon_display_style",
 		"site_icon_size",
@@ -56,6 +56,9 @@ if( !empty( $_REQUEST['change_prefs'] ) ) {
 	foreach( array_keys( $themeSettings ) as $toggle ) {
 		simple_set_toggle( $toggle, THEMES_PKG_NAME );
 	}
+
+	// due to the packing / joining options, we need to reload the page here
+	bit_redirect( KERNEL_PKG_URL."admin/index.php?page=themes" );
 }
 
 // set the options biticon takes
