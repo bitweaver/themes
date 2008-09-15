@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.77 2008/09/14 17:55:43 squareing Exp $
- * @version  $Revision: 1.77 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.78 2008/09/15 17:08:42 squareing Exp $
+ * @version  $Revision: 1.78 $
  * @package themes
  */
 
@@ -65,33 +65,22 @@ class BitThemes extends BitBase {
 
 		// load default css files
 		if( empty( $this->mStyles['styleSheet'] )) {
-			$this->mStyles['styleSheet'] = $this->getStyleCss();
+			$this->mStyles['styleSheet'] = $this->getStyleCssFile( NULL, TRUE );
 		}
 
 		// load tpl files that need to be included
 		$this->loadTplFiles( "header_inc" );
 		$this->loadTplFiles( "footer_inc" );
 
-		// let's join the various files
-		if( $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
-			$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
-		}
+		// join javascript files that have been loaded
+		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
 
-		// this is where we could join additional CSS files as well, but that 
-		// cuases problems:
-		// CSS files frequently use relative paths to images and such. These 
-		// are interpreted as relative to where the CSS file is. If we then 
-		// join various CSS files into one and store it somewhere else, all 
-		// these paths will break. We could replace given words in CSS files 
-		// with the full path, but this is likely to cause problems.
-		// - xing - Wednesday Nov 07, 2007   10:51:06 CET
-		$this->loadCss( $this->getLayoutStyleCss(), TRUE, 1 );
-		if( $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
-			$this->mStyles['joined_css']  = $this->joinAuxFiles( 'css' );
-		}
-		// this needs to be loaded after the main css file since it should be 
-		// able to override style settings with this
-		$this->mStyles['browser_css'] = $this->getBrowserStyleCss();
+		// layout is called as the viry first, package css is around pos 300 and theme / browser are called last
+		// css inserted in <pkg>/header_inc.tpl is called before these files since these are inserted last
+		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1 );
+		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998 );
+		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999 );
+		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 
 		// define style url and path
 		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
@@ -133,17 +122,23 @@ class BitThemes extends BitBase {
 	 * @return none
 	 * @access public
 	 */
-	function getStyleCss( $pStyle = NULL ) {
+	function getStyleCssFile( $pStyle = NULL, $pUrl = FALSE ) {
 		global $gBitSystem;
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
 		}
 		$ret = '';
 
+		if( $pUrl ) {
+			$base = $this->getStyleUrl();
+		} else {
+			$base = $this->getStylePath();
+		}
+
 		if( $gBitSystem->getConfig( 'style_variation' ) && is_readable( $this->getStylePath().'alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css' )) {
-			$ret = $this->getStyleUrl().'alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
+			$ret = $base.'alternate/'.$gBitSystem->getConfig( 'style_variation' ).'.css';
 		} elseif( is_readable( $this->getStylePath().$pStyle.'.css' )) {
-			$ret = $this->getStyleUrl().$pStyle.'.css';
+			$ret = $base.$pStyle.'.css';
 		}
 		return $ret;
 	}
@@ -155,15 +150,21 @@ class BitThemes extends BitBase {
 	 * @return path to browser specific css file
 	 * @access public
 	 */
-	function getBrowserStyleCss() {
+	function getBrowserStyleCssFile( $pUrl = FALSE ) {
 		global $gSniffer;
-		$browser_prefix = $this->getStylePath().$this->getStyle().'_'.$gSniffer->property( 'browser' );
-		$browser_url_prefix = $this->getStyleUrl().$this->getStyle().'_'.$gSniffer->property( 'browser' );
+
+		if( $pUrl ) {
+			$base = $this->getStyleUrl();
+		} else {
+			$base = $this->getStylePath();
+		}
+		$subpath = $this->getStyle().'_'.$gSniffer->property( 'browser' );
+
 		// Allow us to split by major version with a fallback for others
-		if( file_exists( $browser_prefix.$gSniffer->property( 'maj_ver' ).'.css' )) {
-			$ret = $browser_url_prefix.$gSniffer->property( 'maj_ver' ).'.css';
-		} elseif( file_exists( $browser_prefix.'.css' )) {
-			$ret = $browser_url_prefix.'.css';
+		if( file_exists( $this->getStylePath().$subpath.$gSniffer->property( 'maj_ver' ).'.css' )) {
+			$ret = $base.$subpath.$gSniffer->property( 'maj_ver' ).'.css';
+		} elseif( file_exists( $this->getStylePath().$subpath.'.css' )) {
+			$ret = $base.$subpath.'.css';
 		}
 		return !empty( $ret ) ? $ret : NULL;
 	}
@@ -175,7 +176,7 @@ class BitThemes extends BitBase {
 	 * @return path to browser specific css file
 	 * @access public
 	 */
-	function getLayoutStyleCss() {
+	function getLayoutCssFile() {
 		global $gBitSystem;
 		if( $gBitSystem->isFeatureActive( 'site_style_layout' )) {
 			$ret = realpath( THEMES_PKG_PATH."layouts/".$gBitSystem->getConfig( 'site_style_layout' ).".css" );
@@ -1237,8 +1238,8 @@ class BitThemes extends BitBase {
 	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600, $pJoined = TRUE ) {
 		global $gBitSystem;
 		$ret = FALSE;
-		if( !empty( $pJavascriptFile ) ) {
-			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) ) {
+		if( !empty( $pJavascriptFile )) {
+			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )) {
 				if( is_file( $pJavascriptFile )) {
 					// get a name for the cache file we're going to store
 					$cachefile = md5( $pJavascriptFile ).'.js';
@@ -1261,10 +1262,12 @@ class BitThemes extends BitBase {
 				if( strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
 					$pJavascriptFile = BIT_ROOT_URL.substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) );
 				}
+
 				while( !empty( $this->mRawFiles['javascript'][$pPosition] ) ) {
 					$pPosition++;
 				}
 				$this->mRawFiles['javascript'][$pPosition] = $pJavascriptFile;
+				ksort( $this->mRawFiles['javascript'] );
 				$ret = TRUE;
 			}
 		}
@@ -1281,20 +1284,28 @@ class BitThemes extends BitBase {
 	 */
 	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE ) {
 		global $gBitSystem;
-		if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) ) {
-			$pCssFile = $this->packCss( $pCssFile );
-		}
-		if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
-			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
-		} else {
-			if( strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
-				$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ) );
+		$ret = FALSE;
+		if( !empty( $pCssFile )) {
+			// only manipulate css file if we're joining or packing the files
+			if(( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )) || ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ))) {
+				$pCssFile = $this->packCss( $pCssFile, ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )));
 			}
-			while( !empty( $this->mRawFiles['css'][$pPosition] ) ) {
-				$pPosition++;
+
+			// join or stuff in mRawFiles
+			if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )) {
+				$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
+			} else {
+				if( strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
+					$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ));
+				}
+
+				while( !empty( $this->mRawFiles['css'][$pPosition] )) {
+					$pPosition++;
+				}
+				$this->mRawFiles['css'][$pPosition] = $pCssFile;
+				ksort( $this->mRawFiles['css'] );
+				$ret = TRUE;
 			}
-			$this->mRawFiles['css'][$pPosition] = $pCssFile;
-			$ret = TRUE;
 		}
 		return $ret;
 	}
@@ -1306,32 +1317,69 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function packCss( $pCssFile ) {
+	function packCss( $pCssFile, $pPack = TRUE ) {
 		$ret = FALSE;
 		if( !empty( $pCssFile ) && is_readable( $pCssFile )) {
 			$cachefile = md5( $pCssFile ).'.css';
 
-			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
+			//if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
 				$content = file_get_contents( $pCssFile )."\n";
-				$pattern = array(
-					"!\n\s*!",                // leading whitespace
-					"!/\*.*\*/!",             // one line comments -- be aware that this might screw with advanced css hacks
-					"!\s*(\{|\}|;|:)[ \t]*!", // all whitespace around { } ; :
-					"![\t ]+!",               // reduce whitespace
-					"!,\s*!s",                // whitespace after ,
-					"!\n+!",                  // excess newlines
-				);
-				$replace = array(
-					"\n",
-					"",
-					"$1",
-					" ",
-					",",
-					"\n",
-				);
-				$content = preg_replace( $pattern, $replace, $content );
+
+				if( $pPack ) {
+					$packer = array(
+						"#\n\s*#s"             => "\n",     // leading whitespace
+						"#[\t ]+#"             => " ",      // reduce whitespace
+						"#,\s*#s"              => ",",      // whitespace after ,
+						"#/\*.*\*/#"           => "",       // one line comments -- be aware that this might screw with advanced css hacks
+						"#[ \t]*([:;])[ \t]*#" => "$1",     // whitespace around : ;
+						"#;\n+#"               => ";",      // newlines after ;
+						"#\s*([\{\}])\s*#"     => "$1",     // whitespace around { }
+						"#\}#"                 => "}\n",    // insert newlines after } for readability
+						"#{([^\}]*){#"         => "{\n$1{", // insert newlines after { when there's a secon { on that line ( e.g.: @media{body{...} )
+						"#.*{\s*\}#"           => '',       // remove empty definitions ( thanks to the ',' regex above, things like h1,h2,h3 {} should all be on one line )
+						"#\n+#"                => "\n",     // excess newlines
+					);
+					$content = preg_replace( array_keys( $packer ), array_values( $packer ), $content );
+				}
+
+				// if we have an @import(), we fetch that file and insert it
+				// @import can have 2 forms:
+				//   - @import url([ '"]path/to/file.css[ '"]);
+				//   - @import ['"]path/to/file.css['"];
+				if( preg_match_all( "#\s*@import([^;]*);#", $content, $imports )) {
+					foreach( $imports[1] as $key => $import ) {
+						$pattern = $replace = NULL;
+
+						// clean up import
+						if( preg_match( "#url\s*\(#", $import )) {
+							$import = preg_replace( "#url\s*\(([^\)]*)\)#", "$1", trim( $import ));
+						}
+						$import = preg_replace( "#[\"']#", "", trim( $import ));
+
+						if( strpos( $import, "http" ) === 0 ) {
+							// url to a different server - don't do anything...
+						} elseif( strpos( $import, "/" ) === 0 ) {
+							// if this is an absolute url, we check if the file exists
+							if( $import = realpath( BIT_ROOT_PATH.$import )) {
+								$pattern = "#".preg_quote( $imports[0][$key], "#" )."#";
+								$replace = file_get_contents( $this->packCss( $import, $pPack ));
+							}
+						} else {
+							// this file is imported relative to the original file
+							if( $import = realpath( dirname( $pCssFile )."/".$import )) {
+								$pattern = "#".preg_quote( $imports[0][$key], "#" )."#";
+								$replace = file_get_contents( $this->packCss( $import, $pPack ));
+							}
+						}
+
+						// if we found a valid import, we will insert it
+						if( !empty( $pattern )) {
+							$content = preg_replace( $pattern, $replace, $content );
+						}
+					}
+				}
 				$this->mThemeCache->writeCacheFile( $cachefile, $content );
-			}
+			//}
 			$ret = $this->mThemeCache->getCacheFile( $cachefile );
 		}
 		return $ret;
@@ -1345,7 +1393,12 @@ class BitThemes extends BitBase {
 	 * @return url to cached file
 	 */
 	function joinAuxFiles( $pType ) {
+		global $gBitSystem;
 		$ret = FALSE;
+
+		if(( $pType == 'js' || $pType == 'css' ) && !$gBitSystem->isFeatureActive( 'themes_joined_js_css' )) {
+			return $ret;
+		}
 
 		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
 			// remove conflicting aux files
@@ -1423,7 +1476,7 @@ class BitThemes extends BitBase {
 				if( !$this->isAuxFile( $pFile, $pType )) {
 					// if the selected position is occupied, we'll try to load it in the next position
 					if( !empty( $this->mAuxFiles[$pType][$pPosition] )) {
-						$this->loadAuxFile( $pFile, $pType, $pPosition + 1 );
+						$this->loadAuxFile( $pFile, $pType, ++$pPosition );
 					} else {
 						$this->mAuxFiles[$pType][$pPosition] = $pFile;
 						return TRUE;
@@ -1508,7 +1561,7 @@ class BitThemes extends BitBase {
 	}
 
 
-	// {{{ =================== old code ====================
+	// {{{ =================== deprecated code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
 	function storeLayout() {
@@ -1519,6 +1572,10 @@ class BitThemes extends BitBase {
 	}
 	function getModuleId($mod_rsrc) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
+	}
+	function getStyleCss( $pStyle = NULL ) {
+		deprecated( 'Please use: BitThemes::getStyleCssFile()' );
+		return $this->getStyleCssFile( $pStyle, TRUE );
 	}
 	// }}}
 }
