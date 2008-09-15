@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.79 2008/09/15 17:19:00 squareing Exp $
- * @version  $Revision: 1.79 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.80 2008/09/15 17:20:46 squareing Exp $
+ * @version  $Revision: 1.80 $
  * @package themes
  */
 
@@ -1335,7 +1335,7 @@ class BitThemes extends BitBase {
 						"#;\n+#"               => ";",      // newlines after ;
 						"#\s*([\{\}])\s*#"     => "$1",     // whitespace around { }
 						"#\}#"                 => "}\n",    // insert newlines after } for readability
-						"#{([^\}]*){#"         => "{\n$1{", // insert newlines after { when there's a secon { on that line ( e.g.: @media{body{...} )
+						"#{([^\}]*){#"         => "{\n$1{", // insert newlines after { when there's a second { on that line ( e.g.: @media{body{...} )
 						"#.*{\s*\}#"           => '',       // remove empty definitions ( thanks to the ',' regex above, things like h1,h2,h3 {} should all be on one line )
 						"#\n+#"                => "\n",     // excess newlines
 					);
