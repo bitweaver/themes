@@ -57,7 +57,8 @@ if( !empty( $_REQUEST['change_prefs'] )) {
 		simple_set_toggle( $toggle, THEMES_PKG_NAME );
 	}
 
-	// due to the packing / joining options, we need to reload the page here
+	// due to the packing / joining options, we will remove the cache and reload the page
+	$gBitThemes->mThemeCache->expungeCache();
 	bit_redirect( KERNEL_PKG_URL."admin/index.php?page=themes" );
 }
 
