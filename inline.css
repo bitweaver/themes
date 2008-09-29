@@ -26,17 +26,7 @@
 .width1p	{width:1%}
 
 .monospace	{font-family:monospace}
-.layouts_table	{width:100%;border-collapse:collapse;cell-spacing:0}
-.layouts_table td	{padding:5px}
 .splitstyle	{border-right:3px solid #000}
-
-.bg_ace	{background:#ace}
-.bg_eca	{background:#eca}
-.bg_aec	{background:#aec}
-.bg_cae	{background:#cae}
-.bg_cea	{background:#cea}
-.bg_eee	{background:#eee}
-.b3-s-fff	{border-bottom:3px solid #fff}
 
 .marginleft20px	{margin-left:20px}
 .marginleft0	{margin-left:0}

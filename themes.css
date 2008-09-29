@@ -5,3 +5,13 @@ div#themeapprove img	{margin:0; padding:0;}
 ul#layoutgala		{list-style:none; margin:0; padding:0;}
 ul#layoutgala li		{list-style:none; float:left; display:inline; margin:0 0 0.5em 0.5em; width:120px; text-align:center}
 ul#layoutgala li a		{height:160px; display:block; line-height:1.2em; padding:0.5em 0;}
+
+.layouts_table	{width:100%;border-collapse:collapse;cell-spacing:0}
+.layouts_table td	{padding:5px}
+.bg_ace	{background:#ace}
+.bg_eca	{background:#eca}
+.bg_aec	{background:#aec}
+.bg_cae	{background:#cae}
+.bg_cea	{background:#cea}
+.bg_eee	{background:#eee}
+.b3-s-fff	{border-bottom:3px solid #fff}
