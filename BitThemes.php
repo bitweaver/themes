@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.80 2008/09/15 17:20:46 squareing Exp $
- * @version  $Revision: 1.80 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.81 2008/09/29 19:56:05 squareing Exp $
+ * @version  $Revision: 1.81 $
  * @package themes
  */
 
@@ -24,11 +24,17 @@ class BitThemes extends BitBase {
 	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
 	var $mAjaxLibs = array();
 
-	// Auxillary Files
-	var $mAuxFiles = array();
+	// Auxiliary Javascript and Css Files
+	var $mAuxFiles = array(
+		'js'  => array(),
+		'css' => array()
+	);
 
 	// Raw Javascript and Css Files
-	var $mRawFiles = array( 'javascript'=>array(), 'css'=>array() );
+	var $mRawFiles = array(
+		'js'  => array(),
+		'css' => array()
+	);
 
 	// Display Mode
 	var $mDisplayMode;
@@ -1256,20 +1262,7 @@ class BitThemes extends BitBase {
 				}
 			}
 
-			if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ) ) {
-				$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition );
-			} else {
-				if( strpos( $pJavascriptFile, BIT_ROOT_PATH ) !== FALSE ) {
-					$pJavascriptFile = BIT_ROOT_URL.substr( $pJavascriptFile, strlen( BIT_ROOT_PATH ) );
-				}
-
-				while( !empty( $this->mRawFiles['javascript'][$pPosition] ) ) {
-					$pPosition++;
-				}
-				$this->mRawFiles['javascript'][$pPosition] = $pJavascriptFile;
-				ksort( $this->mRawFiles['javascript'] );
-				$ret = TRUE;
-			}
+			$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition, ( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )));
 		}
 		return $ret;
 	}
@@ -1291,21 +1284,7 @@ class BitThemes extends BitBase {
 				$pCssFile = $this->packCss( $pCssFile, ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )));
 			}
 
-			// join or stuff in mRawFiles
-			if( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )) {
-				$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition );
-			} else {
-				if( strpos( $pCssFile, BIT_ROOT_PATH ) !== FALSE ) {
-					$pCssFile = BIT_ROOT_URL.substr( $pCssFile, strlen( BIT_ROOT_PATH ));
-				}
-
-				while( !empty( $this->mRawFiles['css'][$pPosition] )) {
-					$pPosition++;
-				}
-				$this->mRawFiles['css'][$pPosition] = $pCssFile;
-				ksort( $this->mRawFiles['css'] );
-				$ret = TRUE;
-			}
+			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition, ( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )));
 		}
 		return $ret;
 	}
@@ -1396,17 +1375,14 @@ class BitThemes extends BitBase {
 		global $gBitSystem;
 		$ret = FALSE;
 
+		// remove conflicting aux files
+		$this->cleanAuxFiles( $pType );
+
 		if(( $pType == 'js' || $pType == 'css' ) && !$gBitSystem->isFeatureActive( 'themes_joined_js_css' )) {
 			return $ret;
 		}
 
 		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
-			// remove conflicting aux files
-			$this->cleanAuxFiles( $pType );
-
-			// sort by key to make use of position numbering
-			ksort( $this->mAuxFiles[$pType] );
-
 			$cachestring = '';
 			$lastmodified = 0;
 			// get a unique cachefile name for this set of javascript files
@@ -1418,7 +1394,7 @@ class BitThemes extends BitBase {
 			}
 			$cachefile = md5( $cachestring ).'.'.$pType;
 
-			if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
+			//if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
 				$contents = '';
 				foreach( $this->mAuxFiles[$pType] as $file ) {
 					// if we have an extension to check against, we'll do that
@@ -1428,7 +1404,7 @@ class BitThemes extends BitBase {
 					}
 				}
 				$this->mThemeCache->writeCacheFile( $cachefile, $contents );
-			}
+			//}
 
 			$ret = $this->mThemeCache->getCacheUrl( $cachefile );
 		}
@@ -1446,6 +1422,24 @@ class BitThemes extends BitBase {
 	 *        future as well
 	 */
 	function cleanAuxFiles( $pType ) {
+		// unload files that are not wanted by users
+		if( !empty( $this->mUnloadFiles[$pType] )) {
+			foreach( $this->mUnloadFiles[$pType] as $file ) {
+				if( !empty( $this->mAuxFiles[$pType] )) {
+					if( $key = array_search( $file, $this->mAuxFiles[$pType] )) {
+						unset( $this->mAuxFiles[$pType][$key] );
+					}
+				}
+
+				if( !empty( $this->mRawFiles[$pType] )) {
+					if( $key = array_search( $file, $this->mRawFiles[$pType] )) {
+						unset( $this->mRawFiles[$pType][$key] );
+					}
+				}
+			}
+		}
+
+		// remove conflicting files
 		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
 			if( $pType = 'js' ) {
 				// prototype is loaded for a reason. we'll remove mochikit
@@ -1458,6 +1452,52 @@ class BitThemes extends BitBase {
 				}
 			}
 		}
+
+		// convert full file path to URL in mRawFiles hash
+		if( !empty( $this->mRawFiles[$pType] )) {
+			foreach( $this->mRawFiles[$pType] as $pos => $file ) {
+				if( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
+					$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * removeAuxFile 
+	 * 
+	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
+	 * @param array $pFile Full path to the file in question
+	 * @access private
+	 * @return void
+	 */
+	function removeAuxFile( $pType, $pFile ) {
+		if( !empty( $pType ) && !empty( $pFile ) && is_file( $pFile )) {
+			$this->mUnloadFiles[$pType][] = $pFile;
+		}
+	}
+
+	/**
+	 * unloadCss 
+	 * 
+	 * @param array $pFile Full path to the file in question
+	 * @access public
+	 * @return void
+	 */
+	function unloadCss( $pFile ) {
+		return $this->removeAuxFile( 'css', $pFile );
+	}
+
+	/**
+	 * unloadJvascript 
+	 * 
+	 * @param array $pFile Full path to the file in question
+	 * @access public
+	 * @return void
+	 */
+	function unloadJvascript( $pFile ) {
+		return $this->removeAuxFile( 'js', $pFile );
 	}
 
 	/**
@@ -1470,15 +1510,24 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1 ) {
+	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE ) {
 		if( !empty( $pFile ) && !empty( $pType )) {
 			if( $pFile = realpath( $pFile )) {
-				if( !$this->isAuxFile( $pFile, $pType )) {
+				if( $pAuxFile ) {
+					$fileHash =& $this->mAuxFiles;
+				} else {
+					$fileHash =& $this->mRawFiles;
+				}
+
+				if( !$this->isAuxFile( $pFile, $pType, $pAuxFile )) {
 					// if the selected position is occupied, we'll try to load it in the next position
-					if( !empty( $this->mAuxFiles[$pType][$pPosition] )) {
-						$this->loadAuxFile( $pFile, $pType, ++$pPosition );
+					if( !empty( $fileHash[$pType][$pPosition] )) {
+						$this->loadAuxFile( $pFile, $pType, ++$pPosition, $pAuxFile );
 					} else {
-						$this->mAuxFiles[$pType][$pPosition] = $pFile;
+						$fileHash[$pType][$pPosition] = $pFile;
+						// ensure that hash is sorted correctly
+						ksort( $fileHash[$pType] );
+
 						return TRUE;
 					}
 				}
@@ -1495,9 +1544,15 @@ class BitThemes extends BitBase {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function isAuxFile( $pFile = NULL, $pType = NULL ) {
-		if( !empty( $pFile ) && !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
-			return( in_array( $pFile, $this->mAuxFiles[$pType] ));
+	function isAuxFile( $pFile = NULL, $pType = NULL, $pAuxFile = TRUE ) {
+		if( $pAuxFile ) {
+			$fileHash =& $this->mAuxFiles;
+		} else {
+			$fileHash =& $this->mRawFiles;
+		}
+
+		if( !empty( $pFile ) && !empty( $pType ) && !empty( $fileHash[$pType] )) {
+			return( in_array( $pFile, $fileHash[$pType] ));
 		}
 	}
 	// }}}
