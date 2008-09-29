@@ -45,21 +45,21 @@
 					{tr}Current Layout of {if $TabTitle == 'Default'}Site Default{else}{$TabTitle}{/if}{/tr}
 				</h1>
 
-				<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
+				<table class="layouts_table">
 					<tr>
 						{cycle values="even,odd" print=0}
 						{foreach from=$layoutAreas item=area key=colkey}
 							{if $colkey =='top'}
-								<td class="{cycle}" colspan="3" style="vertical-align:top;">
+								<td class="{cycle} aligntop" colspan="3">
 							{elseif $colkey =='bottom'}
 								</tr>
 								<tr>
-									<td class="{cycle}" colspan="3" style="vertical-align:top;">
+									<td class="{cycle} aligntop" colspan="3">
 							{else}
-								<td class="{cycle}" style="width:33%; vertical-align:top;">
+								<td class="{cycle} width33p aligntop">
 							{/if}
 
-								<table class="data" style="width:100%">
+								<table class="data width100p>
 									<tr>
 										<th>{tr}{$colkey} area{/tr}</th>
 									</tr>
@@ -71,7 +71,7 @@
 										</tr>
 									{sectionelse}
 										<tr>
-											<td colspan="3" align="center">
+											<td colspan="3" class="aligncenter">
 												{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
 											</td>
 										</tr>

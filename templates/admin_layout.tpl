@@ -52,21 +52,21 @@
 			</noscript>
 		{/form}
 
-		<table style="width:100%" cellpadding="5" cellspacing="0" border="0">
+		<table class="layouts_table">
 			<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
 			<tr>
 				{foreach from=$layoutAreas item=area key=colkey}
 					{if $colkey =='top'}
-						<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+						<td class="{cycle values="even,odd"} aligntop" colspan="3">
 					{elseif $colkey =='bottom'}
 						</tr>
 						<tr>
-							<td class="{cycle values="even,odd"}" colspan="3" style="vertical-align:top;">
+							<td class="{cycle values="even,odd"} aligntop" colspan="3">
 					{else}
-						<td class="{cycle values="even,odd"}" style="width:33%; vertical-align:top;">
+						<td class="{cycle values="even,odd"} width33p aligntop">
 					{/if}
 
-						<table class="data" style="width:100%">
+						<table class="data width100p">
 							<tr>
 								<th>{tr}{$colkey} area{/tr}</th>
 							</tr>
@@ -78,7 +78,7 @@
 								</tr>
 							{sectionelse}
 								<tr>
-									<td colspan="3" align="center">
+									<td colspan="3" class="aligncenter">
 										{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
 									</td>
 								</tr>

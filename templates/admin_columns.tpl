@@ -1,6 +1,5 @@
 {strip}
 
-
 {form}
 {formfeedback hash=$feedback}
 
@@ -8,7 +7,6 @@
 	
 		{jstab title="Columns"}
 			<input type="hidden" name="page" value="{$page}" />
-			{assign var=splitstyle value="border-right:3px solid #000"}
 	    	
 			{legend legend="Visible Columns and Areas"}
 				{formhelp warning="If checked, the column is visible."}
@@ -34,7 +32,7 @@
 						<tr>
 							<th>{tr}Package{/tr}</th>
 							{foreach from=$hideableAreas item=areaname key=area}
-								<th style="width:15%">{tr}{$areaname}{/tr}</th>
+								<th class="width15p">{tr}{$areaname}{/tr}</th>
 							{/foreach}
 						</tr>
 					</thead>
@@ -63,7 +61,7 @@
 						<tr>
 							<th>{tr}Mode{/tr}</th>
 							{foreach from=$hideableAreas item=areaname key=area}
-								<th style="width:15%">{tr}{$areaname}{/tr}</th>
+								<th class="width15p">{tr}{$areaname}{/tr}</th>
 							{/foreach}
 						</tr>
 					</thead>
@@ -111,7 +109,7 @@
 								<td>{$name}</td>
 								{foreach from=$hideableAreas item=areaname key=area name=areas}
 									{foreach from=$displayModes item=modename key=mode name=modes}
-										<td style="{if $smarty.foreach.modes.last && !$smarty.foreach.areas.last}{$splitstyle}{/if}">
+										<td class="{if $smarty.foreach.modes.last && !$smarty.foreach.areas.last}splitstyle{/if}">
 											<input type="checkbox" name="hide[{$package}_{$mode}_hide_{$area}_col]" value="y" {if $gBitSystem->isFeatureActive("`$package`_`$mode`_hide_`$area`_col")}checked="checked"{/if} />
 										</td>
 									{/foreach}

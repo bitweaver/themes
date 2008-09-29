@@ -74,13 +74,13 @@
 				{/legend}
 
 				<ul class="help">
-					<li style="background:#ace; border-bottom:3px solid #fff;">{tr}Header: Found at the top of a website - contains website title and slogan.{/tr}</li>
-					<li style="background:#eca; border-bottom:3px solid #fff;">{tr}Content: The main content bearing section of a website.{/tr}</li>
-					<li style="background:#aec; border-bottom:3px solid #fff;">{tr}Navigation: Usually found on the left hand side - frequently contains links to important pages.{/tr}</li>
-					<li style="background:#cae; border-bottom:3px solid #fff;">{tr}Extra: Sometimes found on the right hand side - frequently contains adidtional information and links.{/tr}</li>
-					<li style="background:#cea; border-bottom:3px solid #fff;">{tr}Footer: Usually found at the bottom of a website - contains copyright information and 'powered by' link.{/tr}</li>
-					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}px: Indicates that the block is set using a defined pixel width.{/tr}</li>
-					<li style="background:#eee; border-bottom:3px solid #fff;">{tr}%: Indicates that the block is set using a percentage, making it fluid in terms of browser window width.{/tr}</li>
+					<li class="bg_ace b3-s-fff">{tr}Header: Found at the top of a website - contains website title and slogan.{/tr}</li>
+					<li class="bg_eca b3-s-fff">{tr}Content: The main content bearing section of a website.{/tr}</li>
+					<li class="bg_aec b3-s-fff">{tr}Navigation: Usually found on the left hand side - frequently contains links to important pages.{/tr}</li>
+					<li class="bg_cae b3-s-fff">{tr}Extra: Sometimes found on the right hand side - frequently contains adidtional information and links.{/tr}</li>
+					<li class="bg_cea b3-s-fff">{tr}Footer: Usually found at the bottom of a website - contains copyright information and 'powered by' link.{/tr}</li>
+					<li class="bg_eee b3-s-fff">{tr}px: Indicates that the block is set using a defined pixel width.{/tr}</li>
+					<li class="bg_eee b3-s-fff">{tr}%: Indicates that the block is set using a percentage, making it fluid in terms of browser window width.{/tr}</li>
 				</ul>
 			{/jstab}
 

@@ -50,4 +50,8 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 }
 
 $gBitSystem->mOnload[] = 'setupShowHide();';
+
+// styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
+$gBitThemes->loadCss(THEMES_PKG_PATH.'inline.css');
+
 ?>

@@ -19,7 +19,7 @@
 
 {strip}
 <h3>
-	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" style="font-family:monospace">[+]</span> {/if}
+	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" class="monospace">[+]</span> {/if}
 		{$modInfo.name}
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout]" value="{$module_package}" />
@@ -32,7 +32,7 @@
 	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}<div id="id-{$modInfo.module_id}" style="display:none;">{/if}
 		<table class="data">
 			<tr>
-				<td style="text-align:right">{tr}Position{/tr}</td>
+				<td class="alignright">{tr}Position{/tr}</td>
 				<td>
 					<input type="text" size="4" name="modules[{$modInfo.module_id}][pos]" value="{$modInfo.pos}" />
 				</td>
@@ -40,26 +40,26 @@
 
 			{if !$gBitThemes->isCustomModule( $modInfo.module_rsrc )}
 				<tr>
-					<td style="text-align:right">{tr}Title{/tr}</td>
+					<td class="alignright">{tr}Title{/tr}</td>
 					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][title]" value="{$modInfo.title|escape}" /></td>
 				</tr>
 				<tr>
-					<td style="text-align:right">{tr}Rows{/tr}</td>
+					<td class="alignright">{tr}Rows{/tr}</td>
 					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][module_rows]" value="{$modInfo.module_rows}" /></td>
 				</tr>
 				<tr>
-					<td style="text-align:right">{tr}Parameters{/tr}</td>
+					<td class="alignright">{tr}Parameters{/tr}</td>
 					<td><input type="text" size="15" name="modules[{$modInfo.module_id}][params]" value="{$modInfo.params}" /></td>
 				</tr>
 			{/if}
 
 			<tr>
-				<td style="text-align:right">{tr}Cache Time{/tr}</td>
+				<td class="alignright">{tr}Cache Time{/tr}</td>
 				<td><input type="text" size="15" name="modules[{$modInfo.module_id}][cache_time]" value="{$modInfo.cache_time}" /></td>
 			</tr>
 
 			<tr>
-				<td style="text-align:right">{tr}Groups{/tr}</td>
+				<td class="alignright">{tr}Groups{/tr}</td>
 				<td>
 					<select multiple="multiple" size="3" name="modules[{$modInfo.module_id}][groups][]">
 						{foreach from=$groups key=groupId item=group}

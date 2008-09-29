@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_custom_modules.tpl,v 1.1 2007/04/02 18:55:01 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_custom_modules.tpl,v 1.2 2008/09/29 11:56:31 laetzer Exp $ *}
 {strip}
 
 {if $smarty.request.preview}
@@ -55,7 +55,7 @@
 		<tr class="{cycle values="odd,even"}">
 			<td>{$customModules[user].name|escape}</td>
 			<td>{$customModules[user].title|escape}</td>
-			<td style="text-align:right">
+			<td class="alignright">
 				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout&amp;module_name=_custom%3Acustom%2F{$customModules[user].name}">{biticon ipackage="icons" iname="mail-attachment" iexplain=assign}</a>
 				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=edit">{biticon ipackage="icons" iname="accessories-text-editor" iexplain=edit}</a>
 				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=remove">{biticon ipackage="icons" iname="edit-delete" iexplain=delete}</a>

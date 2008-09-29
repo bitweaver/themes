@@ -11,12 +11,12 @@
 		</p>
 		<table class="data">
 			<tr>
-				<th style="width:1%;" colspan="2">{tr}Default Icons{/tr}</th>
+				<th class="width1p" colspan="2">{tr}Default Icons{/tr}</th>
 				{if $activeIconList}
-					<th style="width:1%;" colspan="2">{tr}Active Icons{/tr}</th>
+					<th class="width1p" colspan="2">{tr}Active Icons{/tr}</th>
 				{/if}
-				<th style="width:70%;">{tr}Icon name{/tr}</th>
-				<th style="width:29%;">{tr}bitweaver uses{/tr}</th>
+				<th class="width70p;">{tr}Icon name{/tr}</th>
+				<th class="width29p;">{tr}bitweaver uses{/tr}</th>
 			</tr>
 
 			{foreach from=$defaultIconList item=icon}
