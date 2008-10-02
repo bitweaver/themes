@@ -24,9 +24,9 @@
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout]" value="{$module_package}" />
 	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}</a>{/if}
+	<br />
+	{$smarty.capture.shared}
 </h3>
-
-{$smarty.capture.shared}
 
 {if !$condensed}
 	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}<div id="id-{$modInfo.module_id}" style="display:none;">{/if}
