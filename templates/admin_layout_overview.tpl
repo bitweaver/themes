@@ -59,7 +59,7 @@
 								<td class="{cycle} width33p aligntop">
 							{/if}
 
-								<table class="data width100p>
+								<table class="data width100p">
 									<tr>
 										<th>{tr}{$colkey} area{/tr}</th>
 									</tr>
