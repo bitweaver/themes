@@ -1,8 +1,6 @@
 {strip}
 {formfeedback hash=$feedback}
 
-{jstabs}
-	{jstab title="Layouts"}
 		{form legend="Create Layout for Packages and Sections"}
 			<input type="hidden" name="page" value="{$page}" />
 			<div class="row">
@@ -93,9 +91,9 @@
 				{/foreach}
 			</tr>
 		</table>
-	{/jstab}
 
 
+{jstabs}
 	{jstab title="Modules"}
 		{form action=$smarty.server.PHP_SELF legend="Assign modules to columns and areas"}
 			<input type="hidden" name="page" value="{$page}" />
