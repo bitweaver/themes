@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.83 2008/10/06 22:24:18 squareing Exp $
- * @version  $Revision: 1.83 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.84 2008/10/06 23:45:18 squareing Exp $
+ * @version  $Revision: 1.84 $
  * @package themes
  */
 
@@ -1301,7 +1301,7 @@ class BitThemes extends BitBase {
 		if( !empty( $pCssFile ) && is_readable( $pCssFile )) {
 			$cachefile = md5( $pCssFile ).'.css';
 
-			//if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
+			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
 				$content = file_get_contents( $pCssFile )."\n";
 
 				// now that @import has been dealt with, there still might be some url()s in the file.
@@ -1344,7 +1344,7 @@ class BitThemes extends BitBase {
 
 				// css files have been compressed and url()s have been fixed
 				$this->mThemeCache->writeCacheFile( $cachefile, $content );
-			//}
+			}
 			$ret = $this->mThemeCache->getCacheFile( $cachefile );
 		}
 		return $ret;
@@ -1416,7 +1416,7 @@ class BitThemes extends BitBase {
 			}
 			$cachefile = md5( $cachestring ).'.'.$pType;
 
-			//if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
+			if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
 				$contents = '';
 				foreach( $this->mAuxFiles[$pType] as $file ) {
 					// if we have an extension to check against, we'll do that
@@ -1426,7 +1426,7 @@ class BitThemes extends BitBase {
 					}
 				}
 				$this->mThemeCache->writeCacheFile( $cachefile, $contents );
-			//}
+			}
 
 			$ret = $this->mThemeCache->getCacheUrl( $cachefile );
 		}
