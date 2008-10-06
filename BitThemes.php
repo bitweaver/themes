@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.82 2008/10/06 21:52:42 squareing Exp $
- * @version  $Revision: 1.82 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.83 2008/10/06 22:24:18 squareing Exp $
+ * @version  $Revision: 1.83 $
  * @package themes
  */
 
@@ -1301,7 +1301,7 @@ class BitThemes extends BitBase {
 		if( !empty( $pCssFile ) && is_readable( $pCssFile )) {
 			$cachefile = md5( $pCssFile ).'.css';
 
-			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
+			//if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
 				$content = file_get_contents( $pCssFile )."\n";
 
 				// now that @import has been dealt with, there still might be some url()s in the file.
@@ -1327,10 +1327,10 @@ class BitThemes extends BitBase {
 				// now pack the css file if wanted
 				if( $pPack ) {
 					$packer = array(
+//						"#/\*.*\*/#"           => "",       // one line comments -- disabled for now since it causes problems when someone has a multiline comment and closes it with /* */
 						"#\n\s*#s"             => "\n",     // leading whitespace
 						"#[\t ]+#"             => " ",      // reduce whitespace
 						"#,\s*#s"              => ",",      // whitespace after ,
-						"#/\*.*\*/#"           => "",       // one line comments -- be aware that this might screw with advanced css hacks
 						"#[ \t]*([:;])[ \t]*#" => "$1",     // whitespace around : ;
 						"#;\n+#"               => ";",      // newlines after ;
 						"#\s*([\{\}])\s*#"     => "$1",     // whitespace around { }
@@ -1344,7 +1344,7 @@ class BitThemes extends BitBase {
 
 				// css files have been compressed and url()s have been fixed
 				$this->mThemeCache->writeCacheFile( $cachefile, $content );
-			}
+			//}
 			$ret = $this->mThemeCache->getCacheFile( $cachefile );
 		}
 		return $ret;
