@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.81 2008/09/29 19:56:05 squareing Exp $
- * @version  $Revision: 1.81 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.82 2008/10/06 21:52:42 squareing Exp $
+ * @version  $Revision: 1.82 $
  * @package themes
  */
 
@@ -1293,7 +1293,7 @@ class BitThemes extends BitBase {
 	 * simply pack css file by removing excess whitespace and comments
 	 * 
 	 * @param array $pCssFile full path to css file
-	 * @access public
+	 * @access private
 	 * @return TRUE on success, FALSE on failure
 	 */
 	function packCss( $pCssFile, $pPack = TRUE ) {
@@ -1304,6 +1304,27 @@ class BitThemes extends BitBase {
 			if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pCssFile ))) {
 				$content = file_get_contents( $pCssFile )."\n";
 
+				// now that @import has been dealt with, there still might be some url()s in the file.
+				// if we have any url() in the CSS file, we need to fix the path to the file with an absolute URL
+				if( preg_match_all( "#\burl\s*\((.*?)\)#i", $content, $urls )) {
+					foreach( $urls[1] as $key => $url ) {
+						if( $url = $this->relativeToAbsoluteUrl( $url, $pCssFile )) {
+							$content = str_replace( $urls[1][$key], $url, $content );
+						}
+					}
+				}
+
+				// if we have an @import(), we fetch that file and insert it
+				if( preg_match_all( "#@import([^;]*);#", $content, $imports )) {
+					foreach( $imports[1] as $key => $import ) {
+						if( $file = $this->relativeToAbsoluteUrl( $import, $pCssFile, FALSE )) {
+							// since we're packing later on, we don't pack here, otherwise the same sections will be packed multiple times
+							$content = str_replace( $imports[0][$key], file_get_contents( $this->packCss( $file, FALSE )), $content );
+						}
+					}
+				}
+
+				// now pack the css file if wanted
 				if( $pPack ) {
 					$packer = array(
 						"#\n\s*#s"             => "\n",     // leading whitespace
@@ -1321,45 +1342,46 @@ class BitThemes extends BitBase {
 					$content = preg_replace( array_keys( $packer ), array_values( $packer ), $content );
 				}
 
-				// if we have an @import(), we fetch that file and insert it
-				// @import can have 2 forms:
-				//   - @import url([ '"]path/to/file.css[ '"]);
-				//   - @import ['"]path/to/file.css['"];
-				if( preg_match_all( "#\s*@import([^;]*);#", $content, $imports )) {
-					foreach( $imports[1] as $key => $import ) {
-						$pattern = $replace = NULL;
-
-						// clean up import
-						if( preg_match( "#url\s*\(#", $import )) {
-							$import = preg_replace( "#url\s*\(([^\)]*)\)#", "$1", trim( $import ));
-						}
-						$import = preg_replace( "#[\"']#", "", trim( $import ));
-
-						if( strpos( $import, "http" ) === 0 ) {
-							// url to a different server - don't do anything...
-						} elseif( strpos( $import, "/" ) === 0 ) {
-							// if this is an absolute url, we check if the file exists
-							if( $import = realpath( BIT_ROOT_PATH.$import )) {
-								$pattern = "#".preg_quote( $imports[0][$key], "#" )."#";
-								$replace = file_get_contents( $this->packCss( $import, $pPack ));
-							}
-						} else {
-							// this file is imported relative to the original file
-							if( $import = realpath( dirname( $pCssFile )."/".$import )) {
-								$pattern = "#".preg_quote( $imports[0][$key], "#" )."#";
-								$replace = file_get_contents( $this->packCss( $import, $pPack ));
-							}
-						}
-
-						// if we found a valid import, we will insert it
-						if( !empty( $pattern )) {
-							$content = preg_replace( $pattern, $replace, $content );
-						}
-					}
-				}
+				// css files have been compressed and url()s have been fixed
 				$this->mThemeCache->writeCacheFile( $cachefile, $content );
 			}
 			$ret = $this->mThemeCache->getCacheFile( $cachefile );
+		}
+		return $ret;
+	}
+
+	/**
+	 * relativeToAbsoluteUrl convert a relative or absolute URL to an absolute URL or path
+	 * 
+	 * @param string $pUrl url() in the css file
+	 * @param string $pCssFile full path to the css file calling the url()
+	 * @param boolean $pReturnUrl return URL or path to file
+	 * @access private
+	 * @return URL/path on success, FALSE on failure
+	 */
+	function relativeToAbsoluteUrl( $pUrl, $pCssFile, $pReturnUrl = TRUE ) {
+		$ret = FALSE;
+		if( !empty( $pUrl ) && !empty( $pCssFile )) {
+			// clean up url
+			if( preg_match( "#url\s*\(#", $pUrl )) {
+				$pUrl = trim( preg_replace( "#url\s*\(([^\)]*)\)#", "$1", $pUrl ));
+			}
+
+			$pUrl = trim( preg_replace( "#[\"']#", "", $pUrl ));
+
+			if( strpos( $pUrl, "http" ) === 0 ) {
+				// don't do anything
+			} elseif( strpos( $pUrl, "/" ) === 0 ) {
+				// if this is an absolute url, we check if the file exists
+				$ret = substr_replace( $pUrl, BIT_ROOT_PATH, 0, strlen( BIT_ROOT_URL ));
+			} else {
+				// this url is relative to the original file
+				$ret = realpath( dirname( $pCssFile )."/".$pUrl );
+			}
+
+			if( $pReturnUrl ) {
+				$ret = str_replace( BIT_ROOT_PATH, BIT_ROOT_URL, $ret );
+			}
 		}
 		return $ret;
 	}
