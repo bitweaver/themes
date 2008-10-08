@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.84 2008/10/06 23:45:18 squareing Exp $
- * @version  $Revision: 1.84 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.85 2008/10/08 07:02:20 squareing Exp $
+ * @version  $Revision: 1.85 $
  * @package themes
  */
 
@@ -1636,9 +1636,10 @@ class BitThemes extends BitBase {
 				break;
 		}
 	}
+	// }}}
 
 
-	// {{{ =================== deprecated code ====================
+	// {{{ =================== Deprecated code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
 	function storeLayout() {
@@ -1722,4 +1723,6 @@ function themes_content_list( $pContent, $pListHash ) {
 		}
 	}
 }
+
+/* vim: :set fdm=marker : */
 ?>
