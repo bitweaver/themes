@@ -11,7 +11,7 @@
 		{/form}
 	{/if}
 	
-	{if $gBitUser->isAdmin}
+	{if $change_theme neq 'y' and $gBitUser->isAdmin()}
 		{tr}This feature has to be enabled via Admin &gt; User Settings.{/tr}
 	{/if}
 
