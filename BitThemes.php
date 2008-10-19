@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.85 2008/10/08 07:02:20 squareing Exp $
- * @version  $Revision: 1.85 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.86 2008/10/19 08:14:21 squareing Exp $
+ * @version  $Revision: 1.86 $
  * @package themes
  */
 
@@ -1642,15 +1642,27 @@ class BitThemes extends BitBase {
 	// {{{ =================== Deprecated code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
+	/**
+	 * @deprecated deprecated since version 2.0.0
+	 */
 	function storeLayout() {
 		deprecated( 'Please remove this function and use storeModule instead' );
 	}
+	/**
+	 * @deprecated deprecated since version 2.0.0
+	 */
 	function storeModuleParameters($mod_rsrc, $user_id, $params) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 	}
+	/**
+	 * @deprecated deprecated since version 2.0.0
+	 */
 	function getModuleId($mod_rsrc) {
 		deprecated( 'This method does not work as expected due to changes in the layout schema. we have not found a suitable replacement yet.' );
 	}
+	/**
+	 * @deprecated deprecated since version 2.0.0
+	 */
 	function getStyleCss( $pStyle = NULL ) {
 		deprecated( 'Please use: BitThemes::getStyleCssFile()' );
 		return $this->getStyleCssFile( $pStyle, TRUE );
