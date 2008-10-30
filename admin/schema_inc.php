@@ -63,4 +63,11 @@ $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 	array( THEMES_PKG_NAME,'site_bot_bar', 'y' ),
 ));
 
+// Package dependencies
+$gBitInstaller->registerDependencies( THEMES_PKG_NAME, array(
+	'liberty'   => array( 'min' => '2.1.0' ),
+	'users'     => array( 'min' => '2.1.0' ),
+	'kernel'    => array( 'min' => '2.0.0' ),
+	'languages' => array( 'min' => '2.0.0' ),
+));
 ?>
