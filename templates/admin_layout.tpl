@@ -292,11 +292,7 @@
 		{/form}
 	{/jstab}
 
-	{jstab title="Help"}
-		{include file="bitpackage:themes/admin_layout_help.tpl"}
-	{/jstab}
-
-
+	{include file="bitpackage:themes/admin_layout_inc.tpl"}
 {/jstabs}
 
 {/strip}
