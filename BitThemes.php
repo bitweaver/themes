@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.86 2008/10/19 08:14:21 squareing Exp $
- * @version  $Revision: 1.86 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.87 2008/11/02 01:27:12 spiderr Exp $
+ * @version  $Revision: 1.87 $
  * @package themes
  */
 
@@ -1135,7 +1135,7 @@ class BitThemes extends BitBase {
 						$pos = 100;
 						break;
 					case 'jquery':
-						$pLibPath = UTIL_PKG_URL."javascript/libs/jquery/";
+						$pLibPath = UTIL_PKG_PATH."javascript/libs/jquery/";
 						$pos = 100;
 						break;
 					default:
