@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.87 2008/11/02 01:27:12 spiderr Exp $
- * @version  $Revision: 1.87 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.88 2008/11/13 09:39:03 squareing Exp $
+ * @version  $Revision: 1.88 $
  * @package themes
  */
 
@@ -1635,6 +1635,101 @@ class BitThemes extends BitBase {
 				header( 'Content-Type: text/html; charset=utf-8' );
 				break;
 		}
+	}
+
+	/**
+	 * getGraphvizGraphAttributes 
+	 * 
+	 * @param array $pParams Override any of the settings coming out of this function
+	 * @access public
+	 * @return array Hash of default values
+	 */
+	function getGraphvizGraphAttributes( $pParams = array() ) {
+		global $gBitSystem;
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(edge|node)@", $key )) {
+				unset( $pParams[$key] );
+			} else {
+				$pParams[preg_replace( '@^graph@', '', $key )] = $value;
+			}
+		}
+
+		$ret = array(
+			'bgcolor'  => $gBitSystem->getConfig( 'graphviz_graph_bgcolor', 'transparent' ),
+			'color'    => $gBitSystem->getConfig( 'graphviz_node_color', 'black' ),
+			'fontname' => $gBitSystem->getConfig( 'graphviz_graph_fontname', 'Helvetica' ),
+			'fontsize' => $gBitSystem->getConfig( 'graphviz_graph_fontsize', 10 ),
+			'nodesep'  => $gBitSystem->getConfig( 'graphviz_graph_nodesep', '.1' ),
+			'overlap'  => $gBitSystem->getConfig( 'graphviz_graph_overlap', 'scale' ),
+			'rankdir'  => $gBitSystem->getConfig( 'graphviz_graph_rankdir', 'LR' ),
+			'size'     => $gBitSystem->getConfig( 'graphviz_graph_size' ),
+		);
+		return( array_merge( $ret, $pParams ));
+	}
+
+	/**
+	 * getGraphvizNodeAttributes 
+	 * 
+	 * @param array $pParams Override any of the settings coming out of this function
+	 * @access public
+	 * @return array Hash of default values
+	 */
+	function getGraphvizNodeAttributes( $pParams = array() ) {
+		global $gBitSystem;
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(edge|graph)@", $key )) {
+				unset( $pParams[$key] );
+			} else {
+				$pParams[preg_replace( '@^node@', '', $key )] = $value;
+				unset( $pParams[$key] );
+			}
+		}
+
+		$ret = array(
+			'color'     => $gBitSystem->getConfig( 'graphviz_node_color', '#aaaaaa' ),
+			'fillcolor' => $gBitSystem->getConfig( 'graphviz_node_fillcolor', 'white' ),
+			'fontname'  => $gBitSystem->getConfig( 'graphviz_node_fontname', 'Helvetica' ),
+			'fontsize'  => $gBitSystem->getConfig( 'graphviz_node_fontsize', 10 ),
+			'height'    => $gBitSystem->getConfig( 'graphviz_node_height', '.1' ),
+			'overlap'   => $gBitSystem->getConfig( 'graphviz_node_overlap', 'scale' ),
+			'penwidth'  => $gBitSystem->getConfig( 'graphviz_node_penwidth', '1' ),
+			'shape'     => $gBitSystem->getConfig( 'graphviz_node_shape', 'box' ),
+			'style'     => $gBitSystem->getConfig( 'graphviz_node_style', 'rounded,filled' ),
+			'width'     => $gBitSystem->getConfig( 'graphviz_node_width', '.1' ),
+		);
+		return( array_merge( $ret, $pParams ));
+	}
+
+	/**
+	 * getGraphvizEdgeAttributes
+	 * 
+	 * @param array $pParams Override any of the settings coming out of this function
+	 * @access public
+	 * @return array Hash of default values
+	 */
+	function getGraphvizEdgeAttributes( $pParams = array() ) {
+		global $gBitSystem;
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(node|graph)@", $key )) {
+				unset( $pParams[$key] );
+			} else {
+				$pParams[preg_replace( '@^edge@', '', $key )] = $value;
+			}
+		}
+
+		$ret = array(
+			'color'     => $gBitSystem->getConfig( 'graphviz_edge_color', '#888888' ),
+			'dir'       => $gBitSystem->getConfig( 'graphviz_edge_dir' ),
+			'fontcolor' => $gBitSystem->getConfig( 'graphviz_edge_fontcolor', 'black' ),
+			'fontname'  => $gBitSystem->getConfig( 'graphviz_edge_fontname', 'Helvetica' ),
+			'fontsize'  => $gBitSystem->getConfig( 'graphviz_edge_fontsize', 10 ),
+			'label'     => $gBitSystem->getConfig( 'graphviz_edge_label' ),
+			'style'     => $gBitSystem->getConfig( 'graphviz_edge_style', 'solid' ),
+		);
+		return( array_merge( $ret, $pParams ));
 	}
 	// }}}
 
