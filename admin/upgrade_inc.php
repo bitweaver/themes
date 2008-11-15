@@ -39,13 +39,6 @@ array( 'DATADICT' => array(
 			'`rows`' => '`module_rows` I4'
 		),
 	)),
-	/* don't rename since we've done considerable work to schema - see below
-	array( 'RENAMETABLE' => array(
-		'tiki_layouts'         => 'themes_layouts',
-		'tiki_layouts_modules' => 'themes_layouts_modules',
-		'tiki_module_map'      => 'themes_module_map',
-	)),
-	 */
 
 	// create new theme_layouts table
 	array( 'CREATE' => array (
@@ -69,20 +62,24 @@ array( 'DATADICT' => array(
 
 // merge data from old tables into new themes_layouts
 array( 'QUERY' =>
-	array( 'MYSQL' => array(
-		// This is still not properly working in MYSQL. someone with the patience to fix it should. XOXO spiderr
-		"INSERT INTO `".BIT_DB_PREFIX."themes_layouts` ( module_id, title, layout, layout_area, module_rows, module_rsrc, params, cache_time, groups, pos )
-			SELECT themes_layouts_module_id_seq.nextval, tlm.title, tl.layout, tl.layout_position, tlm.module_rows, tmm.module_rsrc, tlm.params, tlm.cache_time, tlm.groups, tl.ord
-			FROM `".BIT_DB_PREFIX."tiki_layouts_modules` tlm, `".BIT_DB_PREFIX."tiki_layouts` tl, `".BIT_DB_PREFIX."tiki_module_map` tmm
-			WHERE tlm.module_id=tl.module_id AND tmm.module_id=tlm.module_id",
-	)),
-	array( 'PGSQL' => array(
-		"INSERT INTO `".BIT_DB_PREFIX."themes_layouts` ( module_id, title, layout, layout_area, module_rows, module_rsrc, params, cache_time, groups, pos )
-			SELECT NEXTVAL('themes_layouts_module_id_seq'), tlm.title, tl.layout, tl.layout_position, tlm.module_rows, tmm.module_rsrc, tlm.params, tlm.cache_time, tlm.groups, tl.ord
-			FROM `".BIT_DB_PREFIX."tiki_layouts_modules` tlm, `".BIT_DB_PREFIX."tiki_layouts` tl, `".BIT_DB_PREFIX."tiki_module_map` tmm
-			WHERE tlm.module_id=tl.module_id AND tmm.module_id=tlm.module_id",
-	)),
+	array(
+		'MYSQL' => array(
+			// This is still not properly working in MYSQL. someone with the patience to fix it should. XOXO spiderr
+			"INSERT INTO `".BIT_DB_PREFIX."themes_layouts` ( module_id, title, layout, layout_area, module_rows, module_rsrc, params, cache_time, groups, pos )
+				SELECT themes_layouts_module_id_seq.nextval, tlm.title, tl.layout, tl.layout_position, tlm.module_rows, tmm.module_rsrc, tlm.params, tlm.cache_time, tlm.groups, tl.ord
+				FROM `".BIT_DB_PREFIX."tiki_layouts_modules` tlm, `".BIT_DB_PREFIX."tiki_layouts` tl, `".BIT_DB_PREFIX."tiki_module_map` tmm
+				WHERE tlm.module_id=tl.module_id AND tmm.module_id=tlm.module_id",
+			),
+		'PGSQL' => array(
+			"INSERT INTO `".BIT_DB_PREFIX."themes_layouts` ( module_id, title, layout, layout_area, module_rows, module_rsrc, params, cache_time, groups, pos )
+				SELECT NEXTVAL('themes_layouts_module_id_seq'), tlm.title, tl.layout, tl.layout_position, tlm.module_rows, tmm.module_rsrc, tlm.params, tlm.cache_time, tlm.groups, tl.ord
+				FROM `".BIT_DB_PREFIX."tiki_layouts_modules` tlm, `".BIT_DB_PREFIX."tiki_layouts` tl, `".BIT_DB_PREFIX."tiki_module_map` tmm
+				WHERE tlm.module_id=tl.module_id AND tmm.module_id=tlm.module_id",
+			),
+		//'SQL92' => ???
+	),
 ),
+
 // we're done - remove old tables
 /*
 array( 'DATADICT' => array(
