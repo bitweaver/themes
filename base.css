@@ -165,6 +165,9 @@ a.external {background:transparent url( icons/external_link.png ) no-repeat left
 .bitboard .desc {font-size: .9em; clear:both;}
 .bitboard .topic {font-size: .9em;}
 
+.ticket ul    {padding-left:0px; list-style: none;}
+.ticket ul li {width:50%; float:left; }
+
 /* multisites */
 #multisites table.data 	{width:99%;border-collapse:collapse}
 #multisites table.data th	{text-align:center;background:#ddd;color:#fff}
