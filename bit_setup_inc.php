@@ -35,7 +35,7 @@ if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE, 40 );
 }
 
-if( !$gBitSystem->getConfig( 'site_disable_fat' )) {
+if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
 }
 
