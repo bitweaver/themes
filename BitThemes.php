@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.88 2008/11/13 09:39:03 squareing Exp $
- * @version  $Revision: 1.88 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.89 2008/12/02 07:31:07 squareing Exp $
+ * @version  $Revision: 1.89 $
  * @package themes
  */
 
@@ -86,6 +86,7 @@ class BitThemes extends BitBase {
 		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1 );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998 );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999 );
+		vd($this->mRawFiles);
 		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 
 		// define style url and path
@@ -392,9 +393,9 @@ class BitThemes extends BitBase {
 		}
 		return $cachedir;
 	}
+
+
 	// }}}
-
-
 	// {{{ =================== Layout ====================
 	/**
 	 * load current layout into mLayout
@@ -666,9 +667,9 @@ class BitThemes extends BitBase {
 		}
 		return $ret;
 	}
+
+
 	// }}}
-
-
 	// {{{ =================== Modules ====================
 	/**
 	 * Verfiy module parameters when storing a new module
@@ -984,9 +985,9 @@ class BitThemes extends BitBase {
 		}
 		return $ret;
 	}
+
+
 	// }}}
-
-
 	// {{{ =================== Custom Modules ====================
 	/**
 	 * verifyCustomModule 
@@ -1086,10 +1087,10 @@ class BitThemes extends BitBase {
 			return( !empty( $result ));
 		}
 	}
+
+
 	// }}}
-
-
-	// {{{ =================== Javascript related Methods ====================
+	// {{{ =================== Javascript and CSS related Methods ====================
 	/**
 	 * Statically callable function to see if browser supports javascript
 	 * determined by cookie set in bitweaver.js
@@ -1108,6 +1109,7 @@ class BitThemes extends BitBase {
 		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_xml'] ));
 	}
 
+	// {{{ Javascript and CSS load methods
 	/**
 	 * Load Ajax libraries
 	 * 
@@ -1229,6 +1231,42 @@ class BitThemes extends BitBase {
 	}
 
 	/**
+	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
+	 * 
+	 * @param array $pFile Full path to the file in question
+	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
+	 * @param numeric $pPosition Specify the position of the javascript file in the load process.
+	 *                           If the selected position is occupied, it will search for the next free position in the hash.
+	 * @access public
+	 * @return TRUE on success, FALSE on failure
+	 */
+	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE ) {
+		if( !empty( $pFile ) && !empty( $pType )) {
+			if( $pFile = realpath( $pFile )) {
+				if( $pAuxFile ) {
+					$fileHash =& $this->mAuxFiles;
+				} else {
+					$fileHash =& $this->mRawFiles;
+				}
+
+				if( !$this->isAuxFile( $pFile, $pType, $pAuxFile )) {
+					// if the selected position is occupied, we'll try to load it in the next position
+					if( !empty( $fileHash[$pType][$pPosition] )) {
+						$this->loadAuxFile( $pFile, $pType, ++$pPosition, $pAuxFile );
+					} else {
+						$fileHash[$pType][$pPosition] = $pFile;
+						// ensure that hash is sorted correctly
+						ksort( $fileHash[$pType] );
+
+						return TRUE;
+					}
+				}
+			}
+		}
+		return FALSE;
+	}
+
+	/**
 	 * Load an addition javascript file
 	 * 
 	 * @param string $pJavascriptFile Full path to javascript file
@@ -1308,7 +1346,7 @@ class BitThemes extends BitBase {
 				// if we have any url() in the CSS file, we need to fix the path to the file with an absolute URL
 				if( preg_match_all( "#\burl\s*\((.*?)\)#i", $content, $urls )) {
 					foreach( $urls[1] as $key => $url ) {
-						if( $url = $this->relativeToAbsoluteUrl( $url, $pCssFile )) {
+						if( $url = $this->relativeToAbsolute( $url, $pCssFile )) {
 							$content = str_replace( $urls[1][$key], $url, $content );
 						}
 					}
@@ -1317,7 +1355,7 @@ class BitThemes extends BitBase {
 				// if we have an @import(), we fetch that file and insert it
 				if( preg_match_all( "#@import([^;]*);#", $content, $imports )) {
 					foreach( $imports[1] as $key => $import ) {
-						if( $file = $this->relativeToAbsoluteUrl( $import, $pCssFile, FALSE )) {
+						if( $file = $this->relativeToAbsolute( $import, $pCssFile, FALSE )) {
 							// since we're packing later on, we don't pack here, otherwise the same sections will be packed multiple times
 							$content = str_replace( $imports[0][$key], file_get_contents( $this->packCss( $file, FALSE )), $content );
 						}
@@ -1351,7 +1389,7 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * relativeToAbsoluteUrl convert a relative or absolute URL to an absolute URL or path
+	 * relativeToAbsolute convert a relative or absolute URL to an absolute URL or path
 	 * 
 	 * @param string $pUrl url() in the css file
 	 * @param string $pCssFile full path to the css file calling the url()
@@ -1359,7 +1397,7 @@ class BitThemes extends BitBase {
 	 * @access private
 	 * @return URL/path on success, FALSE on failure
 	 */
-	function relativeToAbsoluteUrl( $pUrl, $pCssFile, $pReturnUrl = TRUE ) {
+	function relativeToAbsolute( $pUrl, $pCssFile, $pReturnUrl = TRUE ) {
 		$ret = FALSE;
 		if( !empty( $pUrl ) && !empty( $pCssFile )) {
 			// clean up url
@@ -1483,18 +1521,19 @@ class BitThemes extends BitBase {
 				}
 			}
 		}
-
 	}
 
+	// }}}
+	// {{{ Javascript and CSS unload methods
 	/**
-	 * removeAuxFile 
+	 * unloadAuxFile 
 	 * 
 	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
 	 * @param array $pFile Full path to the file in question
 	 * @access private
 	 * @return void
 	 */
-	function removeAuxFile( $pType, $pFile ) {
+	function unloadAuxFile( $pType, $pFile ) {
 		if( !empty( $pType ) && !empty( $pFile ) && is_file( $pFile )) {
 			$this->mUnloadFiles[$pType][] = $pFile;
 		}
@@ -1508,7 +1547,7 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function unloadCss( $pFile ) {
-		return $this->removeAuxFile( 'css', $pFile );
+		return $this->unloadAuxFile( 'css', $pFile );
 	}
 
 	/**
@@ -1519,44 +1558,63 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function unloadJvascript( $pFile ) {
-		return $this->removeAuxFile( 'js', $pFile );
+		return $this->unloadAuxFile( 'js', $pFile );
+	}
+
+	// }}}
+	// {{{ Javascript and CSS override methods
+	/**
+	 * overrideAuxFile Override an aux file
+	 * 
+	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
+	 * @param array $pOriginalFile Path to old file
+	 * @param array $pNewFile Path to new file
+	 * @access private
+	 * @return boolean TRUE on success, FALSE on failure
+	 * @note This can only be used after the original file has been loaded since we're swapping the original one with a new one
+	 */
+	function overrideAuxFile( $pType, $pOriginalFile, $pNewFile ) {
+		$ret = FALSE;
+		if( is_file( $pNewFile )) {
+			if( $key = array_search( $pOriginalFile, $this->mAuxFiles[$pType] )) {
+				$this->mAuxFiles[$pType][$key] = $pNewFile;
+				$ret = TRUE;
+			}
+
+			if( $key = array_search( $pOriginalFile, $this->mRawFiles[$pType] )) {
+				$this->mRawFiles[$pType][$key] = $pNewFile;
+				$ret = TRUE;
+			}
+		}
+		return $ret;
 	}
 
 	/**
-	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
+	 * overrideCssFile 
 	 * 
-	 * @param array $pFile Full path to the file in question
-	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
-	 * @param numeric $pPosition Specify the position of the javascript file in the load process.
-	 *                           If the selected position is occupied, it will search for the next free position in the hash.
+	 * @param array $pOriginalFile Path to old file
+	 * @param array $pNewFile Path to new file
 	 * @access public
-	 * @return TRUE on success, FALSE on failure
+	 * @return boolean TRUE on success, FALSE on failure
+	 * @note See overrideAuxFile note
 	 */
-	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE ) {
-		if( !empty( $pFile ) && !empty( $pType )) {
-			if( $pFile = realpath( $pFile )) {
-				if( $pAuxFile ) {
-					$fileHash =& $this->mAuxFiles;
-				} else {
-					$fileHash =& $this->mRawFiles;
-				}
-
-				if( !$this->isAuxFile( $pFile, $pType, $pAuxFile )) {
-					// if the selected position is occupied, we'll try to load it in the next position
-					if( !empty( $fileHash[$pType][$pPosition] )) {
-						$this->loadAuxFile( $pFile, $pType, ++$pPosition, $pAuxFile );
-					} else {
-						$fileHash[$pType][$pPosition] = $pFile;
-						// ensure that hash is sorted correctly
-						ksort( $fileHash[$pType] );
-
-						return TRUE;
-					}
-				}
-			}
-		}
-		return FALSE;
+	function overrideCssFile( $pOriginalFile, $pNewFile ) {
+		return $this->overrideAuxFile( 'css', $pOriginalFile, $pNewFile );
 	}
+
+	/**
+	 * overrideJsFile 
+	 * 
+	 * @param array $pOriginalFile Path to old file
+	 * @param array $pNewFile Path to new file
+	 * @access public
+	 * @return boolean TRUE on success, FALSE on failure
+	 * @note See overrideAuxFile note
+	 */
+	function overrideJsFile( $pOriginalFile, $pNewFile ) {
+		return $this->overrideAuxFile( 'js', $pOriginalFile, $pNewFile );
+	}
+	// }}}
 
 	/**
 	 * isAuxFile 
@@ -1577,9 +1635,9 @@ class BitThemes extends BitBase {
 			return( in_array( $pFile, $fileHash[$pType] ));
 		}
 	}
+
+
 	// }}}
-
-
 	// {{{ =================== Miscellaneous Stuff ====================
 	/**
 	 * setDisplayMode 
@@ -1731,9 +1789,9 @@ class BitThemes extends BitBase {
 		);
 		return( array_merge( $ret, $pParams ));
 	}
+
+
 	// }}}
-
-
 	// {{{ =================== Deprecated code ====================
 	// deprecated stuff and temporary place holders
 	// 																		--------------- all of these functions will be removed quite soon
