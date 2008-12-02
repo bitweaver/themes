@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.89 2008/12/02 07:31:07 squareing Exp $
- * @version  $Revision: 1.89 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.90 2008/12/02 07:32:44 squareing Exp $
+ * @version  $Revision: 1.90 $
  * @package themes
  */
 
@@ -86,7 +86,6 @@ class BitThemes extends BitBase {
 		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1 );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998 );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999 );
-		vd($this->mRawFiles);
 		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 
 		// define style url and path
