@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.90 2008/12/02 07:32:44 squareing Exp $
- * @version  $Revision: 1.90 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.91 2008/12/02 07:37:29 squareing Exp $
+ * @version  $Revision: 1.91 $
  * @package themes
  */
 
@@ -1589,7 +1589,7 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * overrideCssFile 
+	 * overrideCss
 	 * 
 	 * @param array $pOriginalFile Path to old file
 	 * @param array $pNewFile Path to new file
@@ -1597,12 +1597,12 @@ class BitThemes extends BitBase {
 	 * @return boolean TRUE on success, FALSE on failure
 	 * @note See overrideAuxFile note
 	 */
-	function overrideCssFile( $pOriginalFile, $pNewFile ) {
+	function overrideCss( $pOriginalFile, $pNewFile ) {
 		return $this->overrideAuxFile( 'css', $pOriginalFile, $pNewFile );
 	}
 
 	/**
-	 * overrideJsFile 
+	 * overrideJavascript 
 	 * 
 	 * @param array $pOriginalFile Path to old file
 	 * @param array $pNewFile Path to new file
@@ -1610,7 +1610,7 @@ class BitThemes extends BitBase {
 	 * @return boolean TRUE on success, FALSE on failure
 	 * @note See overrideAuxFile note
 	 */
-	function overrideJsFile( $pOriginalFile, $pNewFile ) {
+	function overrideJavascript( $pOriginalFile, $pNewFile ) {
 		return $this->overrideAuxFile( 'js', $pOriginalFile, $pNewFile );
 	}
 	// }}}
