@@ -44,7 +44,7 @@ if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureA
 }
 
 if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoom.js', FALSE, 80 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoom.js', TRUE, 80 );
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
