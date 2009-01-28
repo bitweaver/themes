@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.92 2008/12/02 21:32:05 wjames5 Exp $
- * @version  $Revision: 1.92 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.93 2009/01/28 10:48:35 squareing Exp $
+ * @version  $Revision: 1.93 $
  * @package themes
  */
 
@@ -377,7 +377,7 @@ class BitThemes extends BitBase {
 		global $gSniffer, $gBitSystem, $gBitLanguage;
 
 		// use bitweaver version as dir in case there has been changes since the last version
-		$version = BIT_MAJOR_VERSION.BIT_MINOR_VERSION.BIT_SUB_VERSION;
+		$version = $gBitSystem->getBitVersion( FALSE );
 
 		// some browsers need special treatment due to different biticon feed.
 		if( $gSniffer->_browser_info['browser'] == 'ie' ) {
