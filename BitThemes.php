@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.93 2009/01/28 10:48:35 squareing Exp $
- * @version  $Revision: 1.93 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.94 2009/02/06 11:55:57 squareing Exp $
+ * @version  $Revision: 1.94 $
  * @package themes
  */
 
@@ -599,6 +599,14 @@ class BitThemes extends BitBase {
 		return $layouts;
 	}
 
+	/**
+	 * cloneLayout 
+	 * 
+	 * @param array $pFromLayout 
+	 * @param array $pToLayout 
+	 * @access public
+	 * @return boolean TRUE
+	 */
 	function cloneLayout( $pFromLayout, $pToLayout ) {
 		global $gBitSystem;
 		$packages   = array_keys( $gBitSystem->mPackages );
