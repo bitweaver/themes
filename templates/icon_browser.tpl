@@ -12,9 +12,7 @@
 		<table class="data">
 			<tr>
 				<th class="width1p" colspan="2">{tr}Default Icons{/tr}</th>
-				{if $activeIconList}
-					<th class="width1p" colspan="2">{tr}Active Icons{/tr}</th>
-				{/if}
+				<th class="width1p" colspan="2">{if $activeIcons}{tr}Active Icons{/tr}{/if}</th>
 				<th class="width70p;">{tr}Icon name{/tr}</th>
 				<th class="width29p;">{tr}bitweaver uses{/tr}</th>
 			</tr>
