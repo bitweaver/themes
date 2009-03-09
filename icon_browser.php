@@ -38,11 +38,18 @@ $iconUsage = array(
 	"dialog-information"       => "Information",
 );
 $gBitSmarty->assign( 'iconUsage', $iconUsage );
-$gBitSmarty->assign( 'defaultIconList', icon_fetcher( THEMES_PKG_PATH."icon_styles/".DEFAULT_ICON_STYLE."/" ));
+$defaultIconList = icon_fetcher( THEMES_PKG_PATH."icon_styles/".DEFAULT_ICON_STYLE."/" );
+$gBitSmarty->assign( 'defaultIcons', $defaultIconList );
 
+$activeIconList = array();
 if( $gBitSystem->isFeatureActive( 'site_icon_style' ) && $gBitSystem->getConfig( 'site_icon_style' ) != DEFAULT_ICON_STYLE ) {
-	$gBitSmarty->assign( 'activeIconList', icon_fetcher( THEMES_PKG_PATH."icon_styles/".$gBitSystem->getConfig( 'site_icon_style' )."/" ));
+	$activeIconList = icon_fetcher( THEMES_PKG_PATH."icon_styles/".$gBitSystem->getConfig( 'site_icon_style' )."/" );
+	$gBitSmarty->assign( 'activeIcons', $activeIconList );
 }
+
+$iconNames = array_merge( array_keys( $activeIconList ), array_keys( $defaultIconList ) );
+asort( $iconNames );
+$gBitSmarty->assign( 'iconNames', $iconNames );
 
 $gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) , array( 'display_mode' => 'display' ));
 
@@ -55,7 +62,7 @@ function icon_fetcher( $pStylePath ) {
 			}
 		}
 	}
-	asort( $ret );
+	ksort( $ret );
 	return $ret;
 }
 ?>

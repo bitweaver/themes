@@ -6,7 +6,7 @@
 
 	<div class="body">
 		<p class="help">
-			These are the icons available in a standard set of icons. Icons from the Tango icon style are displayed here since this is the default style and should be used as refernce. Both sizes <em>large</em> and <em>small</em> are displayed side by side.<br />
+			{tr}These are the icons available in a standard set of icons. Icons from the Tango icon style are displayed here since this is the default style and should be used as refernce. Both sizes <em>large</em> and <em>small</em> are displayed side by side.{/tr}<br />
 			Please view the <a class="external" href="http://tango.freedesktop.org/Tango_Icon_Gallery">Tango icon gallery</a> for the originally designated uses of the icons.
 		</p>
 		<table class="data">
@@ -19,37 +19,38 @@
 				<th class="width29p;">{tr}bitweaver uses{/tr}</th>
 			</tr>
 
-			{foreach from=$defaultIconList item=icon}
+			{foreach from=$iconNames item=name}
 				<tr class="{cycle values="odd,even"}">
 					<td>
+					{if $defaultIcons.$name}
 						{* avoid translation here by not using iexplain *}
-						{biticon istyle=tango ipackage=icons iname="small/$icon"}
-					</td>
-					<td>
-						{biticon istyle=tango ipackage=icons iname="large/$icon"}
-					</td>
-					{if $activeIconList}
-						{if $activeIconList.$icon}
-							<td>
-								{* avoid translation here by not using iexplain *}
-								{biticon ipackage=icons iname="small/$icon"}
-							</td>
-							<td>
-								{biticon ipackage=icons iname="large/$icon"}
-							</td>
-						{else}
-							<td></td>
-							<td></td>
-						{/if}
+						{biticon istyle=tango ipackage=icons iname="small/`$defaultIcons.$name`"}
 					{/if}
-					<td>
-						{$icon}<br />
-						<small>{ldelim}biticon ipackage="icons" iname="{$icon}" iexplain="Icon"{rdelim}</small>
 					</td>
 					<td>
-						{foreach from=$iconUsage key=ucon item=usage}
-							{if $icon == $ucon}{$usage}{/if}
-						{/foreach}
+					{if $defaultIcons.$name}
+						{biticon istyle=tango ipackage=icons iname="large/`$defaultIcons.$name`"}
+					{/if}
+					</td>
+					<td>
+					{if $activeIcons.$name}
+						{* avoid translation here by not using iexplain *}
+						{biticon ipackage=icons iname="small/`$activeIcons.$name`"}
+					{/if}
+					</td>
+					<td>
+					{if $activeIcons.$name}
+						{biticon ipackage=icons iname="large/`$activeIcons.$name`"}
+					{/if}
+					</td>
+					<td>
+						{$name}<br />
+						<small>{ldelim}biticon ipackage="icons" iname="{$name}" iexplain="Icon"{rdelim}</small>
+					</td>
+					<td>
+						{if $iconUsage.$name}
+							{$iconUsage.$name}
+						{/if}
 					</td>
 				</tr>
 			{/foreach}
