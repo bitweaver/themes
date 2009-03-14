@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.94 2009/02/06 11:55:57 squareing Exp $
- * @version  $Revision: 1.94 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.95 2009/03/14 07:27:32 squareing Exp $
+ * @version  $Revision: 1.95 $
  * @package themes
  */
 
@@ -1711,26 +1711,26 @@ class BitThemes extends BitBase {
 	 */
 	function getGraphvizGraphAttributes( $pParams = array() ) {
 		global $gBitSystem;
-		foreach( $pParams as $key => $value ) {
-			// any parameter can be prefixed that they can be passed in all at once
-			if( empty( $value ) || preg_match( "@^(edge|node)@", $key )) {
-				unset( $pParams[$key] );
-			} else {
-				$pParams[preg_replace( '@^graph@', '', $key )] = $value;
-			}
-		}
-
 		$ret = array(
 			'bgcolor'  => $gBitSystem->getConfig( 'graphviz_graph_bgcolor', 'transparent' ),
-			'color'    => $gBitSystem->getConfig( 'graphviz_node_color', 'black' ),
+			'color'    => $gBitSystem->getConfig( 'graphviz_graph_color', '#000000' ),
 			'fontname' => $gBitSystem->getConfig( 'graphviz_graph_fontname', 'Helvetica' ),
 			'fontsize' => $gBitSystem->getConfig( 'graphviz_graph_fontsize', 10 ),
 			'nodesep'  => $gBitSystem->getConfig( 'graphviz_graph_nodesep', '.1' ),
 			'overlap'  => $gBitSystem->getConfig( 'graphviz_graph_overlap', 'scale' ),
 			'rankdir'  => $gBitSystem->getConfig( 'graphviz_graph_rankdir', 'LR' ),
-			'size'     => $gBitSystem->getConfig( 'graphviz_graph_size' ),
+			'size'     => '',
 		);
-		return( array_merge( $ret, $pParams ));
+
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(edge_|node_)@", $key )) {
+				unset( $pParams[$key] );
+			} elseif( isset( $ret[preg_replace( '@^graph_@', '', $key )] )) {
+				$ret[preg_replace( '@^graph_@', '', $key )] = $value;
+			}
+		}
+		return $ret;
 	}
 
 	/**
@@ -1742,16 +1742,6 @@ class BitThemes extends BitBase {
 	 */
 	function getGraphvizNodeAttributes( $pParams = array() ) {
 		global $gBitSystem;
-		foreach( $pParams as $key => $value ) {
-			// any parameter can be prefixed that they can be passed in all at once
-			if( empty( $value ) || preg_match( "@^(edge|graph)@", $key )) {
-				unset( $pParams[$key] );
-			} else {
-				$pParams[preg_replace( '@^node@', '', $key )] = $value;
-				unset( $pParams[$key] );
-			}
-		}
-
 		$ret = array(
 			'color'     => $gBitSystem->getConfig( 'graphviz_node_color', '#aaaaaa' ),
 			'fillcolor' => $gBitSystem->getConfig( 'graphviz_node_fillcolor', 'white' ),
@@ -1764,7 +1754,16 @@ class BitThemes extends BitBase {
 			'style'     => $gBitSystem->getConfig( 'graphviz_node_style', 'rounded,filled' ),
 			'width'     => $gBitSystem->getConfig( 'graphviz_node_width', '.1' ),
 		);
-		return( array_merge( $ret, $pParams ));
+
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(edge_|graph_)@", $key )) {
+				unset( $pParams[$key] );
+			} elseif( isset( $ret[preg_replace( '@^node_@', '', $key )] )) {
+				$ret[preg_replace( '@^node_@', '', $key )] = $value;
+			}
+		}
+		return $ret;
 	}
 
 	/**
@@ -1776,25 +1775,25 @@ class BitThemes extends BitBase {
 	 */
 	function getGraphvizEdgeAttributes( $pParams = array() ) {
 		global $gBitSystem;
-		foreach( $pParams as $key => $value ) {
-			// any parameter can be prefixed that they can be passed in all at once
-			if( empty( $value ) || preg_match( "@^(node|graph)@", $key )) {
-				unset( $pParams[$key] );
-			} else {
-				$pParams[preg_replace( '@^edge@', '', $key )] = $value;
-			}
-		}
-
 		$ret = array(
 			'color'     => $gBitSystem->getConfig( 'graphviz_edge_color', '#888888' ),
-			'dir'       => $gBitSystem->getConfig( 'graphviz_edge_dir' ),
 			'fontcolor' => $gBitSystem->getConfig( 'graphviz_edge_fontcolor', 'black' ),
 			'fontname'  => $gBitSystem->getConfig( 'graphviz_edge_fontname', 'Helvetica' ),
 			'fontsize'  => $gBitSystem->getConfig( 'graphviz_edge_fontsize', 10 ),
-			'label'     => $gBitSystem->getConfig( 'graphviz_edge_label' ),
 			'style'     => $gBitSystem->getConfig( 'graphviz_edge_style', 'solid' ),
+			'dir'       => '',
+			'label'     => '',
 		);
-		return( array_merge( $ret, $pParams ));
+
+		foreach( $pParams as $key => $value ) {
+			// any parameter can be prefixed that they can be passed in all at once
+			if( empty( $value ) || preg_match( "@^(node_|graph_)@", $key )) {
+				unset( $pParams[$key] );
+			} elseif( isset( $ret[preg_replace( '@^edge_@', '', $key )] )) {
+				$ret[preg_replace( '@^edge_@', '', $key )] = $value;
+			}
+		}
+		return $ret;
 	}
 
 
