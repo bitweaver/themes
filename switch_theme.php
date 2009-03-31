@@ -1,6 +1,13 @@
 <?php 
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/switch_theme.php,v 1.6 2009/03/31 06:23:29 lsces Exp $
+ * @package kernel
+ * @subpackage functions
+ */
 
-// Initialization
+/**
+ * Setup
+ */
 require_once( '../bit_setup_inc.php' );
 include_once( KERNEL_PKG_PATH.'BitBase.php' );
 

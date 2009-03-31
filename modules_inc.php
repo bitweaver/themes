@@ -1,10 +1,13 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.8 2008/08/14 04:31:58 bitweaver Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.9 2009/03/31 06:23:29 lsces Exp $
  * @package kernel
  * @subpackage functions
  */
 
+/**
+ * Setup
+ */
 global $gBitSmarty, $gBitSystem, $gBitThemes, $module_column, $gHideModules;
 
 clearstatcache();

@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.95 2009/03/14 07:27:32 squareing Exp $
- * @version  $Revision: 1.95 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.96 2009/03/31 06:23:29 lsces Exp $
+ * @version  $Revision: 1.96 $
  * @package themes
  */
 
@@ -9,6 +9,7 @@ require_once( KERNEL_PKG_PATH.'BitCache.php' );
 /**
  * BitThemes 
  * 
+ * @package themes
  * @uses BitBase
  */
 class BitThemes extends BitBase {
@@ -1279,7 +1280,7 @@ class BitThemes extends BitBase {
 	 * @param string $pJavascriptFile Full path to javascript file
 	 * @param boolean $pPack Set to true if you want to pack the javascript file
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
-	 * @NOTE:
+	 * @note
 	 *  - generic javascript libraries are loaded between 1 and 99
 	 *  - ajax javascript libraries use position numbers between 100 and 599
 	 *  - by default all loaded javascript files are after 600.
@@ -1484,7 +1485,7 @@ class BitThemes extends BitBase {
 	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
 	 * @access private
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
-	 * @note: It is regrettable that we have this method here but our previous 
+	 * @note  It is regrettable that we have this method here but our previous 
 	 *        use of prototype requires this cleanup and might be needed in the 
 	 *        future as well
 	 */

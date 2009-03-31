@@ -1,12 +1,17 @@
 <?php
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.7 2009/03/31 06:23:29 lsces Exp $
+ *
+ * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
+ * All Rights Reserved. See copyright.txt for details and a complete list of authors.
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+ *
+ * @package themes
+ */
 
-// $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.6 2008/06/25 22:21:25 spiderr Exp $
-
-// Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
-// All Rights Reserved. See copyright.txt for details and a complete list of authors.
-// Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
-
-// $Id: edit_css.php,v 1.6 2008/06/25 22:21:25 spiderr Exp $
+/**
+ * Setup
+ */
 include_once( '../bit_setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );

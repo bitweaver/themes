@@ -1,4 +1,13 @@
 <?php
+/**
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules/mod_switch_theme.php,v 1.11 2009/03/31 06:27:27 lsces Exp $
+ * @package kernel
+ * @subpackage modules
+ */
+
+/**
+ * Setup
+ */
 global $gBitThemes;
 $change_theme = $gBitSystem->getConfig('users_themes');
 $gBitSmarty->assign('change_theme', $change_theme);
