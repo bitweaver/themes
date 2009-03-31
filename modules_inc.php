@@ -1,7 +1,7 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.9 2009/03/31 06:23:29 lsces Exp $
- * @package kernel
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.10 2009/03/31 06:30:03 lsces Exp $
+ * @package themes
  * @subpackage functions
  */
 
