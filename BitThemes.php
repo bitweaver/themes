@@ -1,10 +1,12 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.96 2009/03/31 06:23:29 lsces Exp $
- * @version  $Revision: 1.96 $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.97 2009/03/31 08:19:28 lsces Exp $
  * @package themes
  */
 
+/**
+ * Set-up
+ */
 require_once( KERNEL_PKG_PATH.'BitCache.php' );
 /**
  * BitThemes 
