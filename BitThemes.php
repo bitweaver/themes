@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.97 2009/03/31 08:19:28 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.98 2009/05/02 11:38:17 lsces Exp $
  * @package themes
  */
 
@@ -1428,8 +1428,15 @@ class BitThemes extends BitBase {
 			}
 
 			if( $pReturnUrl ) {
+				if (is_windows() ) { 
+					$ret = str_replace( '\\', '/',  $ret );
+					// Put first forward slash back
+					$ret = substr_replace($ret, '\\', 2, 1 );
+			 	}
 				$ret = str_replace( BIT_ROOT_PATH, BIT_ROOT_URL, $ret );
-			}
+			} else if (is_windows() ) {
+				$ret = str_replace(  '/', '\\', $ret );
+			}			
 		}
 		return $ret;
 	}
@@ -1526,7 +1533,12 @@ class BitThemes extends BitBase {
 		// convert full file path to URL in mRawFiles hash
 		if( !empty( $this->mRawFiles[$pType] )) {
 			foreach( $this->mRawFiles[$pType] as $pos => $file ) {
-				if( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
+				if (is_windows() ) { 
+					$file = str_replace( '\\', '/',  $file );
+					// Put first forward slash back
+					$file = substr_replace( $file, '\\', 2, 1 );
+				 }
+				if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
 					$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
 				}
 			}
