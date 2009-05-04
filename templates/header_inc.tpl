@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.44 2008/09/15 17:08:43 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.45 2009/05/04 11:50:39 lsces Exp $ *}
 {strip}
 {foreach from=$gBitThemes->mRawFiles.css item=cssFile}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all" />
@@ -8,8 +8,10 @@
 {/if}
 {/strip}
 
-{if $gBrowserInfo.browser eq 'ie' and $gBitSystem->isFeatureActive( 'themes_use_msie_png_hack' )}
-	<!--[if lt IE 8]>
+{if $gBrowserInfo.browser eq 'ie'}
+	{if $gBrowserInfo.maj_ver eq '6'}
+		{jspack ifile=fixes/ie7/IE6.js}
+	{elseif $gBrowserInfo.maj_ver gt '6'}
 		{jspack ifile=fixes/ie7/IE8.js}
-	<![endif]-->
+	{/if}
 {/if}
