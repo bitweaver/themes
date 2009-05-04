@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.45 2009/05/04 11:50:39 lsces Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/header_inc.tpl,v 1.46 2009/05/04 17:04:55 lsces Exp $ *}
 {strip}
 {foreach from=$gBitThemes->mRawFiles.css item=cssFile}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all" />
@@ -9,9 +9,9 @@
 {/strip}
 
 {if $gBrowserInfo.browser eq 'ie'}
-	{if $gBrowserInfo.maj_ver eq '6'}
+	{if $gBrowserInfo.maj_ver lt '8'}
 		{jspack ifile=fixes/ie7/IE6.js}
-	{elseif $gBrowserInfo.maj_ver gt '6'}
+	{else}
 		{jspack ifile=fixes/ie7/IE8.js}
 	{/if}
 {/if}
