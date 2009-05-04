@@ -128,7 +128,7 @@ ul.hor ul ul	{z-index:1003;}
 #bittopbar,
 ul.hor,
 ul.hor li,
-ul.hor li ul	{background:#fff;}
+ul.hor li ul	{background:#fff; z-index:1004;}
 ul.hor li:hover ul ul, ul.hor li:hover ul ul ul {left:-999em;}
 ul.hor li:hover ul, ul.hor li li:hover ul, ul.hor li li li:hover ul {left:auto;}
 
