@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.98 2009/05/02 11:38:17 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.99 2009/05/04 09:45:42 lsces Exp $
  * @package themes
  */
 
@@ -1432,8 +1432,13 @@ class BitThemes extends BitBase {
 					$ret = str_replace( '\\', '/',  $ret );
 					// Put first forward slash back
 					$ret = substr_replace($ret, '\\', 2, 1 );
-			 	}
-				$ret = str_replace( BIT_ROOT_PATH, BIT_ROOT_URL, $ret );
+					$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
+					// Put first forward slash back
+					$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
+					$ret = str_replace( $winBitRootPath, BIT_ROOT_URL, $ret );
+				} else {
+					$ret = str_replace( BIT_ROOT_PATH, BIT_ROOT_URL, $ret );
+				}
 			} else if (is_windows() ) {
 				$ret = str_replace(  '/', '\\', $ret );
 			}			
@@ -1537,8 +1542,13 @@ class BitThemes extends BitBase {
 					$file = str_replace( '\\', '/',  $file );
 					// Put first forward slash back
 					$file = substr_replace( $file, '\\', 2, 1 );
-				 }
-				if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
+					$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
+					// Put first forward slash back
+					$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
+					if ( strpos( $file, $winBitRootPath ) !== FALSE ) {
+						$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( $winBitRootPath ));
+					}
+				} else if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
 					$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
 				}
 			}
