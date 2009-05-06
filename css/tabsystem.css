@@ -1,0 +1,12 @@
+
+/* tabs */
+.tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
+.tabsystem .tabcontainer ul,
+.tabsystem .tabcontainer li	{margin:0; padding:0; border:0; list-style-type:none; display:inline;}
+.tabsystem .tabcontainer .tab,
+.tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
+.tabsystem .tabpage	{clear:both;}
+h4	{margin:0; padding:0; font-size:1em;}
+
+a.external {background:transparent url( icons/external_link.png ) no-repeat left;  padding-left:12px;}
+

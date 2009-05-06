@@ -1,0 +1,30 @@
+/* original bitweaver css driven dropdown menus - horizontal */
+ul.hor,
+ul.hor li,
+ul.hor ul		{padding:0; margin:0; list-style:none;}
+ul.hor a		{display:block; padding:0 6px;}
+ul.hor li		{width:auto;}
+ul.hor li li,
+ul.hor li ul	{width:13em; display:block; text-align:left;}
+ul.hor .head	{width:auto;}
+ul.hor li		{float:left; position:relative;}
+ul.hor li li a	{margin-left:20px;}
+ul.hor li li .icon	{vertical-align:middle; margin-left:-23px;}
+ul.hor li ul	{position:absolute; left:-999em; border:1px solid;}
+ul.hor li ul ul	{margin:-21px 0 0 13em;}
+/* remove admin icon margin */
+ul.hor li.m-admin li a {margin:0;}
+/* set some background colors for visibility */
+/* thanks to our favourite browser we can't simply inherit the values */
+#bittopbar	{z-index:1000;}
+ul.hor		{z-index:1001;}
+ul.hor ul		{z-index:1002;}
+ul.hor ul ul	{z-index:1003;}
+#bittopbar,
+ul.hor,
+ul.hor li,
+ul.hor li ul	{background:#fff; z-index:1004;}
+ul.hor li:hover ul ul, ul.hor li:hover ul ul ul {left:-999em;}
+ul.hor li:hover ul, ul.hor li li:hover ul, ul.hor li li li:hover ul {left:auto;}
+
+
