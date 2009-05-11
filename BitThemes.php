@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.99 2009/05/04 09:45:42 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.100 2009/05/11 19:55:34 tekimaki_admin Exp $
  * @package themes
  */
 
@@ -86,9 +86,9 @@ class BitThemes extends BitBase {
 
 		// layout is called as the viry first, package css is around pos 300 and theme / browser are called last
 		// css inserted in <pkg>/header_inc.tpl is called before these files since these are inserted last
-		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1 );
-		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998 );
-		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999 );
+		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
+		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
+		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
 		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 
 		// define style url and path
@@ -1320,13 +1320,15 @@ class BitThemes extends BitBase {
 	 * 
 	 * @param array $pCssFile Full path to CSS file 
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
+	 * @param boolean $pJoined Adds the file to the list of files to be concatenated into a single file
+	 * @param boolean $pForce Forces the css file to always be loaded, should only be used by active style
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE ) {
+	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE, $pForce = FALSE ) {
 		global $gBitSystem;
 		$ret = FALSE;
-		if( !empty( $pCssFile )) {
+		if( !empty( $pCssFile ) && ( !$gBitSystem->isFeatureActive( 'themes_disable_pkg_css' ) || $pForce )) {
 			// only manipulate css file if we're joining or packing the files
 			if(( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )) || ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ))) {
 				$pCssFile = $this->packCss( $pCssFile, ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )));

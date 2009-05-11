@@ -40,6 +40,10 @@ $themeSettings = array(
 		'label' => 'Packed CSS and JS',
 		'note' => 'If enabled, javascript and CSS files will be reduced to their smallest possible size. This is useful for webdesigners and developers. Please enable this feature on live sites.',
 	),
+	'themes_disable_pkg_css' => array( 
+		'label' => 'Disable All Package CSS',
+		'note' => 'If checked, all css that is automatically included by packages will be disabled. If you want to include some of the package css it is recommended you copy that css to your theme css file.',
+	),
 );
 $gBitSmarty->assign( 'themeSettings', $themeSettings );
 
