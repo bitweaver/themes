@@ -1,12 +1,16 @@
-
 /* tabs */
-.tabsystem .tabcontainer	{margin:0; padding:0; border:0; clear:both;}
+.tabsystem .tabcontainer             {margin:0; padding:0; border:0; clear:both; z-index:1;}
 .tabsystem .tabcontainer ul,
-.tabsystem .tabcontainer li	{margin:0; padding:0; border:0; list-style-type:none; display:inline;}
+.tabsystem .tabcontainer li          {margin:0; padding:0; border:0; list-style-type:none; display:inline;}
 .tabsystem .tabcontainer .tab,
-.tabsystem .tabcontainer .tab-active	{position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
-.tabsystem .tabpage	{clear:both;}
-h4	{margin:0; padding:0; font-size:1em;}
+.tabsystem .tabcontainer .tab-active {position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
+.tabsystem .tabpage                  {z-index:1; clear:both;}
+h4                                   {margin:0; padding:0; font-size:1em;}
 
-a.external {background:transparent url( icons/external_link.png ) no-repeat left;  padding-left:12px;}
-
+/* some minimalistic styling to make tabs more functional */
+.tabsystem .tabcontainer .tab,
+.tabsystem .tabcontainer .tab-hover,
+.tabsystem .tabcontainer .tab-active {top:3px; margin:0 3px; padding:4px 5px 1px 5px; border:1px solid #999; border-bottom:0;}
+.tabsystem .tabcontainer .tab-hover  {padding:3px 5px 1px 5px; border-top:2px solid #06f;}
+.tabsystem .tabcontainer .tab-active {top:1px; margin:0 0px; color:#000; padding:2px 8px 4px 8px; border-top:2px solid #f60;}
+.tabsystem .tabpage                  {border:1px solid #999; margin:0; padding:5px;}
