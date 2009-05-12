@@ -1,0 +1,38 @@
+/* modules */
+.module       {padding:0.5em; margin:0.5em;}
+.module ul    {margin:0; padding:0; list-style:none;}
+.module ul ul {margin:0 0 0.5em 1.2em;}
+.module ul li {margin:0;}
+.module ol    {margin:0 0 0 1.2em;}
+.module ol li {margin:0;}
+
+/* module help on admin page */
+.modulehelp kbd      {font-family:monospace;}
+.modulehelp dt       {width:27%; float:left; text-align:right; font-weight:bold;}
+.modulehelp dd       {width:70%; margin-left:30%;}
+.modulehelp .example {text-decoration:underline;}
+
+/* priorities */
+.prio1 {background:#dfc !important;}
+.prio2 {background:#efc !important;}
+.prio3 {background:#ffc !important;}
+.prio4 {background:#fec !important;}
+.prio5 {background:#fdc !important;}
+
+/* structure navigation */
+.navigation .left  {float:left;}
+.navigation .right {float:right;}
+
+/* action icons */
+.floaticon      {float:right; text-align:right;}
+.floaticon a    {padding:0 3px;}
+
+span.actionicon {float:right;}
+td.actionicon   {text-align:right;}
+.actionicon a   {padding:0 3px;}
+
+/* miscellaneous */
+table        {border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
+.highlight   {font-weight:bolder;}
+.popup       {width:250px; background:#fff; padding:0.5em; border:1px solid #999;}
+.closebutton {position:absolute; top:2px; right:2px;}

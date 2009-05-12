@@ -1,0 +1,18 @@
+/* forms */
+form                   {margin:0; padding:0;}
+textarea               {width:100%;}
+input                  {}
+select                 {}
+fieldset               {}
+legend                 {font-weight:bold; margin:0 0 1.5em 0;}
+.row                   {margin:0 0 5px 0;}
+.submit                {text-align:center; margin:5px 0;}
+.quicktags             {}
+.formlabel             {float:left; font-weight:bold; width:15em; text-align:right;}
+.forminput             {margin-left:15.5em;}
+.formhelp              {cursor:help; font-size:smaller;}
+.error                 {color:#f30;}
+.warning               {color:#f90;}
+.success               {color:#090;}
+.clear                 {clear:both;}
+.display.confirm .body {width:450px; margin:0 auto;}
