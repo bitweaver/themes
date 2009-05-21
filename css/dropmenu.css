@@ -1,30 +1,17 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.4 2009/05/12 17:57:30 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.5 2009/05/21 14:12:19 spiderr Exp $ */
 /* BEGIN css driven dropdown menus - horizontal */
-
-/* some notes on the changes i made - these can be removed in due course or moved to the skeleton.css file:
- * fixed pixel line-height is needed to move up the nested dropdown by the right amount:
- * ul.dropmenu             {line-height:x;}
- * ul.dropmenu li          {padding:y;}
- * ul.dropmenu li ul li ul {margin-top:((x + y) * -1)}
- *
- * removed color ul.dropmenu a {color} since this should not be set in this file
- * 
- * widened the dropmenu slightly to allow avoid line-breaks where possible
- *
- * - xing - Tuesday May 12, 2009   18:05:16 CEST
- */
 
 /* The top level menu */
 ul.dropmenu,
 ul.dropmenu ul                   {padding:0; margin:0; list-style:none; line-height:18px; z-index:1000;}
-ul.dropmenu a                    {display:block; width:100%;}
+ul.dropmenu a                    {display:block; width:auto;}
 ul.dropmenu a:link,
 ul.dropmenu a:hover              {}
 /* affects all lists in all menus */
 ul.dropmenu li ul                {position:absolute; background:#fff; left:-999em; z-index:1002; border:1px solid #999;}
-ul.dropmenu>li                   {float:left;}
+ul.dropmenu li ul li             {float:none;}
 /* affects all items in all menus */
-ul.dropmenu li                   {text-align:left; padding:2px; width:auto;}
+ul.dropmenu li                   {float:left;text-align:left; padding:2px; width:auto;}
 ul.dropmenu>li>ul li:hover       {background-color:#eee;}
 /* main drop menu items */
 ul.dropmenu>li>ul li             {width:15em; z-index:1001;}
