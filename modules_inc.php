@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.10 2009/03/31 06:30:03 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.11 2009/06/18 06:44:46 lsces Exp $
  * @package themes
  * @subpackage functions
  */
@@ -19,7 +19,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 			for ($i = 0; $i < count( $gBitThemes->mLayout[$column] ); $i++) {
 				$r = &$gBitThemes->mLayout[$column][$i];
 				if( !empty( $r['visible'] )) {
-					list( $package, $template ) = split(  '/', $r['module_rsrc'] );
+					list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
 					// deal with custom modules
 					if( $package == '_custom:custom' ) {
 						global $gBitLanguage;
