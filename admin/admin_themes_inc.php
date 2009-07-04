@@ -4,10 +4,6 @@ $themeSettings = array(
 		'label' => 'Enable JSCalendar',
 		'note' => 'If checked, a calendar popup allows for easily selecting a date using an appealing interface.',
 	),
-	'themes_use_msie_png_hack' => array(
-		'label' => 'IE7-js',
-		'note' => 'A Javascript library to make Microsoft\'s Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE5 and IE6. It is also needed for CSS driven dropdown menus.',
-	),
 	'themes_collapsible_modules' => array(
 		'label' => 'Collapsible modules',
 		'note' => 'This allows users to collapse modules by clicking on their titles. Can be useful if you use many modules.',
@@ -51,6 +47,7 @@ if( !empty( $_REQUEST['change_prefs'] )) {
 	$pref_simple_values = array(
 		"site_biticon_display_style",
 		"site_icon_size",
+		"themes_use_msie_js_fix",
 	);
 
 	foreach( $pref_simple_values as $svitem ) {
@@ -79,4 +76,12 @@ $biticon_sizes = array(
 	'large' => tra( 'Large' ),
 );
 $gBitSmarty->assign( "biticon_sizes", $biticon_sizes );
+
+// These numbers are intentionally off by 1 due to the way IE fixes name their js
+$ieFixOptions = array(
+	'' => tra( 'Off' ),
+	'8' => tra( 'IE7 or older' ),
+	'7' => tra( 'IE6 or older' ),
+);
+$gBitSmarty->assign( "ieFixOptions", $ieFixOptions );
 ?>

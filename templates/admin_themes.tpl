@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_themes.tpl,v 1.3 2007/06/25 07:53:39 squareing Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_themes.tpl,v 1.4 2009/07/04 03:14:23 spiderr Exp $ *}
 {strip}
 {form legend="Theme Settings"}
 	<input type="hidden" name="page" value="{$page}" />
@@ -11,10 +11,18 @@
 	</div>
 
 	<div class="row">
-		{formlabel label="Set default Icon size" for="site_icon_size"}
+		{formlabel label="Default Icon Size" for="site_icon_size"}
 		{forminput}
 			{html_options name="site_icon_size" id="site_icon_size" options=$biticon_sizes selected=$gBitSystem->getConfig('site_icon_size')}
-			{formhelp note="Pick the icon size you wish to use on your site. Please note that if the icon does not exist in the requested size, it will use the small one instead."}
+			{formhelp note="pick the icon size you wish to use on your site. please note that if the icon does not exist in the requested size, it will use the small one instead."}
+		{/forminput}
+	</div>
+
+	<div class="row">
+		{formlabel label="Use IE js fix" for="themes_use_msie_js_fix"}
+		{forminput}
+			{html_options name="themes_use_msie_js_fix" id="themes_use_msie_js_fix" options=$ieFixOptions selected=$gBitSystem->getConfig('themes_use_msie_js_fix')}
+			{formhelp note="A Javascript library to make Microsoft's Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE7 and older. It is also needed for CSS driven dropdown menus. It does cause some delay on every page load."}
 		{/forminput}
 	</div>
 
