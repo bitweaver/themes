@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.100 2009/05/11 19:55:34 tekimaki_admin Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.101 2009/09/15 13:54:56 wjames5 Exp $
  * @package themes
  */
 
@@ -1293,16 +1293,20 @@ class BitThemes extends BitBase {
 		global $gBitSystem;
 		$ret = FALSE;
 		if( !empty( $pJavascriptFile )) {
-			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )) {
+			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) && shell_exec( 'which java' ) ) {
 				if( is_file( $pJavascriptFile )) {
 					// get a name for the cache file we're going to store
 					$cachefile = md5( $pJavascriptFile ).'.js';
 
 					// if the file hasn't been packed and cached yet, we do that now.
 					if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pJavascriptFile ))) {
+						/* DEPRECATED in favor of better yui compressor
 						require_once( UTIL_PKG_PATH.'javascript/class.JavaScriptPacker.php' );
 						$packer = new JavaScriptPacker( file_get_contents( $pJavascriptFile ) );
 						$this->mThemeCache->writeCacheFile( $cachefile, $packer->pack() );
+						*/
+						$cacheData = shell_exec( 'java -jar '.UTIL_PKG_PATH.'yui/yuicompressor-2.4.2.jar --type js '.$pJavascriptFile );
+						$this->mThemeCache->writeCacheFile( $cachefile, $cacheData );
 					}
 
 					// update javascript file with new path
