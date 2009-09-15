@@ -81,8 +81,10 @@ ul.toc ul		{margin-left:1.5em; padding:0;}
 .navbar ul li	{float:left;}
 
 ul.data,
-ul.data li.item			{list-style:none; margin:0; padding:0;}
+ul.data li.item			{list-style:none; margin:0; padding:0;clear:both;}
+ol.data li.item .thumb,
 ul.data li.item .thumb	{float:right;}
+ol.data h1,
 ul.data h1,
 /* this is needed to make floaticons clickable in data listings */
 ul.data h2				{margin-top:0;}
