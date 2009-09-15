@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.8 2008/06/26 09:56:44 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.9 2009/09/15 18:50:42 tylerbello Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -68,16 +68,19 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 	}
 
 	// either add the module to all available layouts or just the active one
+	
+	$fAssign['layout'] = $_REQUEST['module_package'];
+	$gBitThemes->storeModule( $fAssign );
+	unset( $fAssign['store'] );	
 	if( !empty( $fAssign['add_to_all'] )) {
 		foreach( array_keys( $cloneLayouts ) as $pkg ) {
-			$fAssign['layout'] = $pkg;
-			$gBitThemes->storeModule( $fAssign );
-			unset( $fAssign['store'] );
+			if( $pkg != $_REQUEST['module_package'] ){
+				$fAssign['layout'] = $pkg;
+				$gBitThemes->storeModule( $fAssign );vd($fAssign['store']);
+				unset( $fAssign['store'] );
+			}
 		}
-	} else {
-		$fAssign['layout'] = $_REQUEST['module_package'];
-		$gBitThemes->storeModule( $fAssign );
-	}
+	} 
 }
 
 // this will sort the layout selection dropdown
