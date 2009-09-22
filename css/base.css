@@ -49,7 +49,6 @@ form				{margin:0; padding:0;}
 .formhelp			{cursor:help;}
 .closebutton		{position:absolute; top:1px; right:1px;}
 .submit				{text-align:center; padding-bottom:10px;}
-.minifind			{width:400px;}
 .error,
 .warning			{color:#f80;}
 .success			{color:#090;}
