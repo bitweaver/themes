@@ -1,10 +1,10 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.4 2009/03/31 06:23:29 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.5 2009/10/01 13:45:49 wjames5 Exp $
  *
  * Copyright (c) 2008 bitweaver
  * All Rights Reserved. See copyright.txt for details and a complete list of authors.
- * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See license.txt for details.
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE. See http://www.gnu.org/copyleft/lesser.html for details.
  *
  * @package themes
  * @subpackage functions
