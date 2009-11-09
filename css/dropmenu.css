@@ -1,7 +1,8 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.8 2009/11/09 02:16:28 wjames5 Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.9 2009/11/09 02:47:36 wjames5 Exp $ */
 /* BEGIN css driven dropdown menus - horizontal */
 
 /* The top level menu */
+ul.dropmenu						 {height:1em}
 ul.dropmenu,
 ul.dropmenu ul                   {padding:0; margin:0; list-style:none; line-height:18px; z-index:1000;}
 ul.dropmenu a                    {display:block; width:auto; padding:2px 3px;}
