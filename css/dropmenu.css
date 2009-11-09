@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.6 2009/05/24 10:15:28 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.7 2009/11/09 02:06:18 wjames5 Exp $ */
 /* BEGIN css driven dropdown menus - horizontal */
 
 /* The top level menu */
@@ -12,6 +12,7 @@ ul.dropmenu li ul                {position:absolute; background:#fff; left:-999e
 ul.dropmenu li ul li             {float:none;}
 /* affects all items in all menus */
 ul.dropmenu li                   {float:left;text-align:left; width:auto;}
+ul.dropmenu li:hover             {background-position:0 0}
 ul.dropmenu>li>ul li:hover       {background-color:#eee;}
 /* main drop menu items */
 ul.dropmenu>li>ul li             {width:15em; z-index:1001;}
