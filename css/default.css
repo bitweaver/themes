@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/default.css,v 1.3 2009/09/25 19:27:35 dansut Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/default.css,v 1.4 2009/11/09 15:51:10 wjames5 Exp $ */
 /* modules */
 .module       {padding:0.5em; margin:0.5em;}
 .module ul    {margin:0; padding:0; list-style:none;}
@@ -43,3 +43,6 @@ table        {border-collapse:collapse; border-spacing:0; padding:0; margin:0; w
 .navbar ul li       {float:left;}
 .icon,.icon:hover,
 a.icon,a.icon:hover {border:0px;}
+
+/* IE hacks */
+#header		{z-index:5000} /* For IE6; Required to get top menu overlapping all body elements. Relatively harmless for other browsers, YMMV */
