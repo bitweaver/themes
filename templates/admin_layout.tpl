@@ -112,7 +112,16 @@
 				<div class="row">
 					{formlabel label="Module" for="module_rsrc"}
 					{forminput}
-						{html_options name="fAssign[module_rsrc]" id="module_rsrc" options=$allModules selected=`$fAssign.name`}
+						{*html_options name="fAssign[module_rsrc]" id="module_rsrc" options=$allModules selected=`$fAssign.name` *}
+						<select name="fAssign[module_rsrc]" id="module_rsrc" onchange="javascript:BitThemes.viewModuleParamsHelp( this.options[this.selectedIndex].value )">
+						{foreach key=pkg item=modules from=$allModules}
+							<optgroup label="{$pkg}">
+								{foreach key=value item=module from=$modules}
+									<option value="{$value}" {if $fAssign.name eq $value}selected="selected"{/if}>{$module.title}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+						</select>
 						{formhelp note="Extended help can be found at the end of this page."}
 					{/forminput}
 				</div>
@@ -176,6 +185,25 @@
 				{forminput}
 					<input type="text" size="48" name="fAssign[params]" id="params" value="{$fAssign.params|escape}" />
 					{formhelp note="Here you can enter any additional parameters the module might need. Use the http query string form, e.g. foo=123&amp;bar=ABC (optional)"}
+					{foreach key=pkg item=modules from=$allModules}
+						{foreach key=value item=module from=$modules}
+						{if $module.params}
+							<table id="themes_params_help_{$value}" class="themes_params_help" style="display:none">
+								<tr>
+									<th colspan=2 style="text-align:left">Options for {$module.title}</th>
+								</tr>
+								{foreach key=param item=data from=$module.params}
+								{if $data.help}
+									<tr>
+										<td style="font-weight:bold; padding-right:4px">{$param}</td>
+										<td>{$data.help}</td>
+									</tr>
+								{/if}
+								{/foreach}
+							</table>
+						{/if}
+						{/foreach}
+					{/foreach}
 				{/forminput}
 			</div>
 
@@ -225,7 +253,16 @@
 					{if $fEdit && $fAssign.name}
 						<input type="hidden" name="fAssign[module]" value="{$fAssign.module}" id="module" />{$fAssign.module}
 					{else}
-						{html_options name="fAssign[module_rsrc]" id="module" values=$allCenters options=$allCenters selected=`$mod`}
+						{* html_options name="fAssign[module_rsrc]" id="module" values=$allCenters options=$allCenters selected=`$mod` *}
+						<select name="fAssign[module_rsrc]" id="module" {*onchange="javascript:BitThemes.viewModuleParamsHelp( this.options[this.selectedIndex].value )"*}>
+						{foreach key=pkg item=modules from=$allCenters}
+							<optgroup label="{$pkg}">
+								{foreach key=value item=module from=$modules}
+									<option value="{$value}" {if $mod eq $value}selected="selected"{/if}>{$module.title}</option>
+								{/foreach}
+							</optgroup>
+						{/foreach}
+						</select>
 					{/if}
 					{formhelp note="Pick the center bit you want to display when accessing this package."}
 				{/forminput}

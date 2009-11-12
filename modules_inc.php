@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.11 2009/06/18 06:44:46 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.12 2009/11/12 05:09:05 wjames5 Exp $
  * @package themes
  * @subpackage functions
  */
@@ -19,6 +19,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 			for ($i = 0; $i < count( $gBitThemes->mLayout[$column] ); $i++) {
 				$r = &$gBitThemes->mLayout[$column][$i];
 				if( !empty( $r['visible'] )) {
+					// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
 					list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
 					// deal with custom modules
 					if( $package == '_custom:custom' ) {
@@ -55,6 +56,8 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						}
 						unset( $data );
 					} else {
+						$template = array_pop( explode(  '/', $r['module_rsrc'] ) );
+
 						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
 						global $module_rows, $module_params, $module_title, $gBitLanguage;
 						

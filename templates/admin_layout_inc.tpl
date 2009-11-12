@@ -46,8 +46,8 @@
 		{foreach from=$allModulesHelp key=package item=help}
 			<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
 			<div class="modulehelp" id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
-				{foreach from=$help key=file item=title}
-					<h3>{$title|capitalize}</h3>
+				{foreach from=$help key=file item=module}
+					<h3>{$module.title|capitalize}</h3>
 					{include file=$file}
 				{/foreach}
 				<hr />

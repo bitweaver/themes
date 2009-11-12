@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.9 2009/09/15 18:50:42 tylerbello Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.10 2009/11/12 05:09:05 wjames5 Exp $
 
 // Initialization
 require_once( '../../bit_setup_inc.php' );
@@ -130,4 +130,6 @@ $gBitSmarty->assign_by_ref( "groups", $groups );
 
 // we need gBitThemes as well
 $gBitSmarty->assign_by_ref( "gBitThemes", $gBitThemes );
+
+$gBitThemes->loadJavascript( THEMES_PKG_PATH.'scripts/BitThemes.js', TRUE );
 ?>

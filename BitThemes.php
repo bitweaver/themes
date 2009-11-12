@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.101 2009/09/15 13:54:56 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.102 2009/11/12 05:09:05 wjames5 Exp $
  * @package themes
  */
 
@@ -41,6 +41,9 @@ class BitThemes extends BitBase {
 
 	// Display Mode
 	var $mDisplayMode;
+
+	// When all modules are loaded they are loaded here
+	var $mModules = array();
 
 
 	/**
@@ -914,11 +917,15 @@ class BitThemes extends BitBase {
 	 */
 	function getAllModules( $pDir='modules', $pPrefix='mod_' ) {
 		global $gBitSystem;
-		$all_modules = array();
+		// @TODO MODULE UPGRADE
+		// hash for carrying references to modules: 
+		// $this->mModules[$pDir][$pPrefix]
+		// this is ugly but is to smooth the transition until all modules are upgraded to directory and registration structure
+		// it will be unncessary once all packages are caught up
 
 		if(( $modules = $this->getCustomModuleList() ) && $pPrefix == 'mod_' ) {
 			foreach( $modules as $m ) {
-				$all_modules[tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = $m["name"];
+				$this->mModules[$pDir][$pPrefix][tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = $m["name"];
 			}
 		}
 
@@ -930,8 +937,20 @@ class BitThemes extends BitBase {
 					$h = opendir( $loc );
 					if( $h ) {
 						while (($file = readdir($h)) !== false) {
+							// match on legacy module files which require a prefix
 							if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match )) {
-								$all_modules[ucfirst( $key )]['bitpackage:'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
+								$this->mModules[$pDir][$pPrefix][ucfirst( $key )]['bitpackage:'.$key.'/'.$file] = array( 'title' => str_replace( '_', ' ', $match[1] ),
+																														 'template' => $file,
+																														);
+							}
+							// loop over nested directories which contain modern modules
+							// these modules are only accessible from gBitThemes
+							elseif ( !in_array( $file, array('.','..','CVS') ) && @is_dir( $loc.'/'.$file ) ){
+								$conf_file = $loc.'/'.$file.'/config_inc.php';
+								// we expect a configuration file 
+								if( @is_file( $conf_file ) ){
+									require_once( $conf_file );
+								}
 							}
 						}
 						closedir ($h);
@@ -945,7 +964,9 @@ class BitThemes extends BitBase {
 						if( $h ) {
 							while (($file = readdir($h)) !== false) {
 								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match )) {
-									$all_modules[ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = str_replace( '_', ' ', $match[1] );
+									$this->mModules[$pDir][$pPrefix][ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = array( 'title' => str_replace( '_', ' ', $match[1] ),
+																																  'template' => $file, 
+																																);
 								}
 							}
 							closedir ($h);
@@ -954,8 +975,50 @@ class BitThemes extends BitBase {
 				}
 			}
 		}
+		return $this->mModules[$pDir][$pPrefix];
+	}
 
-		return $all_modules;
+	function registerModule( $pMixed ){
+		$pkg = $pMixed['package'];
+		$dir = $pMixed['directory'];
+		$tpl = $pMixed['template'];
+		$legacy_dir = $pMixed['legacy_dir'];
+		$legacy_prefix = $pMixed['legacy_prefix'];
+		$this->mModules[$legacy_dir][$legacy_prefix][ucfirst( $pkg )]['bitpackage:'.$pkg.'/'.$dir.'/'.$tpl] = $pMixed;
+	}
+
+	// utility function for other packages when they upgrade their modules to the new module system
+	// see themes/admin/upgrades/3.0.0.php for an example of usages
+	function upgradeModulesPaths(){
+		$this->getAllModules();
+		$legacy_mods = array();
+		$upgrade_mods = array();
+
+		foreach( $this->mModules['modules']['mod_'] as $pkg => $modules ){
+			foreach( $modules as $modulepath => $module ){
+				$parts =  explode( "/", $modulepath );
+				if( count( $parts ) > 2 ){
+					$upgrade_mods[array_pop( $parts )] = $modulepath;
+				}
+			}
+		}
+
+		$sql1 = "SELECT DISTINCT `module_rsrc` FROM `".BIT_DB_PREFIX."themes_layouts`"; 
+		$legacy_mods = $this->mDb->getArray( $sql1 );
+
+		// fix everything 
+		// transaction will save us if something goes bad
+		$this->mDb->StartTrans();
+
+		foreach( $legacy_mods as $old ){
+			$key =  array_pop( explode( "/", $old['module_rsrc'] ) );
+			if( in_array( $key, array_keys($upgrade_mods) ) && $old['module_rsrc'] != $upgrade_mods[$key]){
+				$storeHash = array( 'module_rsrc' => $upgrade_mods[$key] );
+				$this->mDb->associateUpdate( BIT_DB_PREFIX."themes_layouts", $storeHash, array( 'module_rsrc' => $old['module_rsrc'] ));
+			}
+		}
+
+		$this->mDb->CompleteTrans();
 	}
 
 	/**
