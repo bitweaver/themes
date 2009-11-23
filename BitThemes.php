@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.102 2009/11/12 05:09:05 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.103 2009/11/23 20:35:39 wjames5 Exp $
  * @package themes
  */
 
@@ -1356,7 +1356,7 @@ class BitThemes extends BitBase {
 		global $gBitSystem;
 		$ret = FALSE;
 		if( !empty( $pJavascriptFile )) {
-			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) && shell_exec( 'which java' ) ) {
+			if( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' ) && function_exists( 'shell_exec' ) && shell_exec( 'which java' ) ) {
 				if( is_file( $pJavascriptFile )) {
 					// get a name for the cache file we're going to store
 					$cachefile = md5( $pJavascriptFile ).'.js';
