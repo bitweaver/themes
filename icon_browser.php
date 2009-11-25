@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.6 2009/10/01 14:17:05 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.7 2009/11/25 01:23:04 spiderr Exp $
  *
  * Copyright (c) 2008 bitweaver
  * All Rights Reserved. See below for details and a complete list of authors.
@@ -52,29 +52,38 @@ $iconUsage = array(
 	"dialog-information"       => "Information",
 );
 $gBitSmarty->assign( 'iconUsage', $iconUsage );
-$defaultIconList = icon_fetcher();
-$gBitSmarty->assign( 'defaultIcons', $defaultIconList );
 
-$activeIconList = array();
-if( $gBitSystem->isFeatureActive( 'site_icon_style' ) && $gBitSystem->getConfig( 'site_icon_style' ) != DEFAULT_ICON_STYLE ) {
-	$activeIconList = icon_fetcher( $gBitSystem->getConfig( 'site_icon_style' ));
-	$gBitSmarty->assign( 'activeIcons', $activeIconList );
+$iconList = array();
+$iconNames = array();
+if( !empty( $_REQUEST['icon_style'] ) ) {
+	$iconThemes = array( $_REQUEST['icon_style'] );
+} else {
+	$iconThemes = scandir( THEMES_PKG_PATH."icon_styles/" );
 }
 
-$iconNames = array_merge( $activeIconList, $defaultIconList );
+foreach( $iconThemes as $iconStyle ) {
+	if( $icons = icon_fetcher( $iconStyle ) ) {
+		$iconList[$iconStyle] = $icons;
+		$iconNames = array_merge( $iconNames, $iconList[$iconStyle] );
+	}
+}
+
 asort( $iconNames );
 $gBitSmarty->assign( 'iconNames', $iconNames );
+$gBitSmarty->assign( 'iconList', $iconList );
 
 $gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' ) , array( 'display_mode' => 'display' ));
 
 function icon_fetcher( $pStyle = DEFAULT_ICON_STYLE ) {
 	$ret = array();
-	$stylePath = THEMES_PKG_PATH."icon_styles/".$pStyle;
-	if( is_dir( $stylePath."/large" )) {
-		$handle = opendir( $stylePath."/large" );
-		while( FALSE !== ( $icon = readdir( $handle ))) {
-			if( preg_match( "#\.png$#", $icon ) && !preg_match( "#^process-working\.#", $icon )) {
-				$ret[str_replace( ".png", "", $icon )] = str_replace( ".png", "", $icon );
+	if( strpos( $pStyle, '.' ) !== 0 && $pStyle != 'CVS' ) {
+		$stylePath = THEMES_PKG_PATH."icon_styles/".$pStyle;
+		if( is_dir( $stylePath."/large" )) {
+			$handle = opendir( $stylePath."/large" );
+			while( FALSE !== ( $icon = readdir( $handle ))) {
+				if( preg_match( "#\.png$#", $icon ) && !preg_match( "#^process-working\.#", $icon )) {
+					$ret[str_replace( ".png", "", $icon )] = str_replace( ".png", "", $icon );
+				}
 			}
 		}
 	}

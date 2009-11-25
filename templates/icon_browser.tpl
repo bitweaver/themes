@@ -11,36 +11,37 @@
 		</p>
 		<table class="data">
 			<tr>
-				<th class="width1p" colspan="2">{tr}Default Icons{/tr}</th>
-				<th class="width1p" colspan="2">{if $activeIcons}{tr}Active Icons{/tr}{/if}</th>
+				{foreach from=$iconList item=icons key=iconStyle}
+				<th class="width1p" colspan="3"><a href="{$smarty.request.PHP_SELF}?icon_style={$iconStyle}">{$iconStyle}</a></th>
+				{/foreach}
 				<th class="width70p;">{tr}Icon name{/tr}</th>
 				<th class="width29p;">{tr}bitweaver uses{/tr}</th>
 			</tr>
 
 			{foreach from=$iconNames item=name}
 				<tr class="{cycle values="odd,even"}">
-					<td>
-					{if $defaultIcons.$name}
-						{* avoid translation here by not using iexplain *}
-						{biticon istyle=tango ipackage=icons iname="small/`$defaultIcons.$name`"}
-					{/if}
+					{foreach from=$iconList item=icons key=iconStyle}
+					<td {if $gBitSystem->getConfig( 'site_icon_style' ) == $iconStyle}class="prio1"{elseif $iconStyle == $smarty.const.DEFAULT_ICON_STYLE}class="prio2"{/if}>
+						{if $iconList.$iconStyle.$name}
+							{* avoid translation here by not using iexplain *}
+							{biticon istyle=$iconStyle ipackage=icons iname="small/`$iconList.$iconStyle.$name`"}
+						{/if}
+					</td>
+					<td {if $gBitSystem->getConfig( 'site_icon_style' ) == $iconStyle}class="prio1"{elseif $iconStyle == $smarty.const.DEFAULT_ICON_STYLE}class="prio2"{/if}>
+						{if $iconList.$iconStyle.$name}
+							{* avoid translation here by not using iexplain *}
+							{biticon istyle=$iconStyle ipackage=icons iname="large/`$iconList.$iconStyle.$name`"}
+						{/if}
 					</td>
 					<td>
-					{if $defaultIcons.$name}
-						{biticon istyle=tango ipackage=icons iname="large/`$defaultIcons.$name`"}
-					{/if}
+						{* only show huge size if looking at a particular set *}
+						{if $smarty.request.icon_style && $iconList.$iconStyle.$name}
+							{* avoid translation here by not using iexplain *}
+							{biticon istyle=$iconStyle ipackage=icons iname="huge/`$iconList.$iconStyle.$name`"}
+						{/if}
 					</td>
-					<td>
-					{if $activeIcons.$name}
-						{* avoid translation here by not using iexplain *}
-						{biticon ipackage=icons iname="small/`$activeIcons.$name`"}
-					{/if}
-					</td>
-					<td>
-					{if $activeIcons.$name}
-						{biticon ipackage=icons iname="large/`$activeIcons.$name`"}
-					{/if}
-					</td>
+					{/foreach}
+					
 					<td>
 						{$name}<br />
 						<small>{ldelim}biticon ipackage="icons" iname="{$name}" iexplain="Icon"{rdelim}</small>
