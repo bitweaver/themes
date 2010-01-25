@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.103 2009/11/23 20:35:39 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.104 2010/01/25 15:56:58 dansut Exp $
  * @package themes
  */
 
@@ -925,7 +925,7 @@ class BitThemes extends BitBase {
 
 		if(( $modules = $this->getCustomModuleList() ) && $pPrefix == 'mod_' ) {
 			foreach( $modules as $m ) {
-				$this->mModules[$pDir][$pPrefix][tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = $m["name"];
+				$this->mModules[$pDir][$pPrefix][tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = array( 'title' => $m["name"] );
 			}
 		}
 
