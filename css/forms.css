@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/forms.css,v 1.2 2009/05/12 17:57:30 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/forms.css,v 1.3 2010/01/26 15:51:12 dansut Exp $ */
 /* forms */
 form                   {margin:0; padding:0;}
 textarea               {width:100%;}
@@ -12,6 +12,7 @@ legend                 {font-weight:bold; margin:0 0 1.5em 0;}
 .formlabel             {float:left; font-weight:bold; width:15em; text-align:right;}
 .forminput             {margin-left:15.5em;}
 .formhelp              {cursor:help; font-size:smaller;}
+.formhelp ul           {margin-top:0; margin-bottom:0;}
 .error                 {color:#f30;}
 .warning               {color:#f90;}
 .success               {color:#090;}
