@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.11 2007/11/25 04:51:52 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.12 2010/01/27 20:16:47 dansut Exp $ *}
 {strip}
 {if empty($moduleArea)}
 	{if $moduleParams.layout_area == "l"}
@@ -16,7 +16,7 @@
 	{assign var=area value=$moduleArea}
 {/if}
 
-<div class="module {$modInfo.name|replace:"_":"-"}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
+<div class="module{if !empty($modInfo.classplus)} {$modInfo.classplus}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
 	{if $modInfo.title}
 		<h3>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
