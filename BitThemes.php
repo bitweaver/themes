@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.104 2010/01/25 15:56:58 dansut Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.105 2010/01/28 21:38:12 dansut Exp $
  * @package themes
  */
 
@@ -892,12 +892,15 @@ class BitThemes extends BitBase {
 			foreach( array_keys( $p2DHash ) as $col ) {
 				if( count( $p2DHash[$col] )) {
 					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
-						list( $source, $file ) = split( '/', $p2DHash[$col][$mod]['module_rsrc'] );
-						@list( $rsrc, $package ) = split( ':', $source );
+						list( $rsrc, $specifier ) = explode( ':', $p2DHash[$col][$mod]['module_rsrc'], 2 );
+						$specelems = explode( '/', $specifier );
+						$package = current( $specelems );
+						if( $package == 'temp' ) $package = next( $specelems );
 						// handle special case for custom modules
 						if( !isset( $package )) {
 							$package = $rsrc;
 						}
+						$file = end( $specelems );
 						$file = str_replace( 'mod_', '', $file );
 						$file = str_replace( '.tpl', '', $file );
 						$p2DHash[$col][$mod]['name'] = $package.' &raquo; '.str_replace( '_', ' ', $file );
