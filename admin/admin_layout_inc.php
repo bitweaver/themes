@@ -1,8 +1,8 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.10 2009/11/12 05:09:05 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.11 2010/02/08 21:27:26 wjames5 Exp $
 
 // Initialization
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 
 if( !isset($_REQUEST["groups"] ) ) {
 	$_REQUEST["groups"] = array();

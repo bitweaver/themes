@@ -2,7 +2,7 @@
 //
 // (c) 2006 bitweaver.org - GNU LGPL
 //
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 require_once( KERNEL_PKG_PATH."simple_form_functions_lib.php" );
 
 //$gBitSmarty->assign( 'loadDragDrop', TRUE );

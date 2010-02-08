@@ -1,7 +1,7 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_custom_modules_inc.php,v 1.1 2007/04/02 18:55:01 squareing Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_custom_modules_inc.php,v 1.2 2010/02/08 21:27:26 wjames5 Exp $
 
-require_once( '../../bit_setup_inc.php' );
+require_once( '../../kernel/setup_inc.php' );
 $feedback = array();
 
 if( !empty( $_REQUEST['name'] )) {

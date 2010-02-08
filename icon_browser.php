@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.7 2009/11/25 01:23:04 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.8 2010/02/08 21:27:26 wjames5 Exp $
  *
  * Copyright (c) 2008 bitweaver
  * All Rights Reserved. See below for details and a complete list of authors.
@@ -13,7 +13,7 @@
 /**
  * Setup
  */
-require_once( "../bit_setup_inc.php" );
+require_once( "../kernel/setup_inc.php" );
 
 if( !$gBitUser->isRegistered() ) {
 	$gBitSystem->fatalError( "You need to be registered to view this page." );

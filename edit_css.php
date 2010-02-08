@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.10 2010/01/29 22:30:17 spiderr Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/edit_css.php,v 1.11 2010/02/08 21:27:26 wjames5 Exp $
  *
  * Copyright (c) 2002-2003, Luis Argerich, Garland Foster, Eduardo Polidor, et. al.
  * All Rights Reserved. See below for details and a complete list of authors.
@@ -12,7 +12,7 @@
 /**
  * Setup
  */
-include_once( '../bit_setup_inc.php' );
+include_once( '../kernel/setup_inc.php' );
 include_once( USERS_PKG_PATH.'BitUser.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
 

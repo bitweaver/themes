@@ -1,6 +1,6 @@
 <?php 
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/switch_theme.php,v 1.7 2009/03/31 06:30:03 lsces Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/switch_theme.php,v 1.8 2010/02/08 21:27:26 wjames5 Exp $
  * @package themes
  * @subpackage functions
  */
@@ -8,7 +8,7 @@
 /**
  * Setup
  */
-require_once( '../bit_setup_inc.php' );
+require_once( '../kernel/setup_inc.php' );
 include_once( KERNEL_PKG_PATH.'BitBase.php' );
 
 if (isset($_SERVER['HTTP_REFERER'])) {
