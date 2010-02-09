@@ -49,7 +49,7 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
 
-$gBitSystem->mOnload[] = 'setupShowHide();';
+$gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 
 $gBitThemes->loadCss( THEMES_PKG_PATH.'css/dropmenu.css' );
 // styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
