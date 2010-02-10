@@ -19,7 +19,7 @@
 
 {strip}
 <h3>
-	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" class="monospace">[+]</span> {/if}
+	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:BitBase.flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" class="monospace">[+]</span> {/if}
 		{$modInfo.name}
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout]" value="{$module_package}" />

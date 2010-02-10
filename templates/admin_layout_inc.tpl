@@ -44,7 +44,7 @@
 		{formhelp note="List of available modules and their parameters. If a module is not listed, it might not take any parameters." page="ModuleParameters"}
 		<noscript><div>{smartlink ititle="Expand Help" page=$page expand_all=1}</div></noscript>
 		{foreach from=$allModulesHelp key=package item=help}
-			<h2><a href="javascript:flip('id{$package}')">{$package}</a></h2>
+			<h2><a href="javascript:BitBase.toggleElementDisplay('id{$package}','block')">{$package}</a></h2>
 			<div class="modulehelp" id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
 				{foreach from=$help key=file item=module}
 					<h3>{$module.title|capitalize}</h3>

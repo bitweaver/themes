@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.12 2010/01/27 20:16:47 dansut Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/module.tpl,v 1.13 2010/02/10 19:33:07 spiderr Exp $ *}
 {strip}
 {if empty($moduleArea)}
 	{if $moduleParams.layout_area == "l"}
@@ -29,7 +29,7 @@
 						{biticon ipackage=liberty iname="move_left_right" iexplain="move left right"}</a>
 				</div>
 			{/if}
-			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:toggle('module{$area}{$moduleParams.pos}');">{/if}
+			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:BitBase.toggle('module{$area}{$moduleParams.pos}','block',true);">{/if}
 				{if $modInfo.notra}
 					{$modInfo.title}
 				{else}
