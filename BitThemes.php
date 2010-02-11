@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.105 2010/01/28 21:38:12 dansut Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.106 2010/02/11 09:46:05 squareing Exp $
  * @package themes
  */
 
@@ -1844,6 +1844,7 @@ class BitThemes extends BitBase {
 			'fillcolor' => $gBitSystem->getConfig( 'graphviz_node_fillcolor', 'white' ),
 			'fontname'  => $gBitSystem->getConfig( 'graphviz_node_fontname', 'Helvetica' ),
 			'fontsize'  => $gBitSystem->getConfig( 'graphviz_node_fontsize', 10 ),
+			'fontcolor' => $gBitSystem->getConfig( 'graphviz_node_fontcolor', 'black' ),
 			'height'    => $gBitSystem->getConfig( 'graphviz_node_height', '.1' ),
 			'overlap'   => $gBitSystem->getConfig( 'graphviz_node_overlap', 'scale' ),
 			'penwidth'  => $gBitSystem->getConfig( 'graphviz_node_penwidth', '1' ),
