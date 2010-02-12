@@ -7,10 +7,15 @@ $registerHash = array(
 );
 $gBitSystem->registerPackage( $registerHash );
 
-$gLibertySystem->registerService( LIBERTY_SERVICE_THEMES, THEMES_PKG_NAME, array(
-	'content_display_function' => 'themes_content_display',
-	'content_list_function' => 'themes_content_list',
-) );
+$gLibertySystem->registerService( 
+	LIBERTY_SERVICE_THEMES, 
+	THEMES_PKG_NAME, 
+	array(
+		'content_display_function' => 'themes_content_display',
+		'content_list_function' => 'themes_content_list',
+	),
+	array( 'description' => 'Applied when user themes enabled; See theme pkg administration to enabled.' )
+);
 
 require_once( THEMES_PKG_PATH."BitThemes.php" );
 global $gBitThemes;
