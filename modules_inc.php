@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.12 2009/11/12 05:09:05 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.13 2010/02/12 07:56:58 squareing Exp $
  * @package themes
  * @subpackage functions
  */
@@ -60,15 +60,15 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 
 						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
 						global $module_rows, $module_params, $module_title, $gBitLanguage;
-						
+
 						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
 						if( !is_dir( $cacheDir )) {
 							mkdir_p( $cacheDir );
 						}
-						
+
 						// include tpl name and module id to uniquely identify
 						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
-						
+
 						// if the time is right get the cache else get it fresh
 						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] ) ) {
 							$fp = fopen( $cachefile, "r" );
@@ -77,11 +77,11 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							$r["data"] = $data;
 						} else {
 							$module_params = $r['module_params']; // backwards compatability
-						
+
 							if( !$r['module_rows'] ) {
 								$r['module_rows'] = 10;
 							}
-						
+
 							// if there's no custom title, get one from file name
 							if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
 								$pattern[0] = "/.*\/mod_(.*)\.tpl/";
@@ -90,13 +90,13 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 								$replace[1] = " ";
 								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucfirst( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
 							}
-						
+
 							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
 							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
 							// assign the custom module title
 							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
 							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
-						
+
 							if( !empty( $r["cache_time"] ) ) {
 								// write to chache file
 								$fp = fopen( $cachefile, "w+" );
