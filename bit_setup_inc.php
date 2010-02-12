@@ -14,7 +14,7 @@ $gLibertySystem->registerService(
 		'content_display_function' => 'themes_content_display',
 		'content_list_function' => 'themes_content_list',
 	),
-	array( 'description' => 'Applied when user themes enabled; See theme pkg administration to enabled.' )
+	array( 'description' => 'Applied when user themes are enabled; See theme pkg administration to enable.' )
 );
 
 require_once( THEMES_PKG_PATH."BitThemes.php" );
