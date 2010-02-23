@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.106 2010/02/11 09:46:05 squareing Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.107 2010/02/23 20:42:32 dansut Exp $
  * @package themes
  */
 
@@ -602,6 +602,12 @@ class BitThemes extends BitBase {
 			$layouts[$module['layout']][$module['layout_area']][] = $module;
 		}
 		ksort( $layouts );
+		// Take the default/kernel layout and make sure it is the first item in hash
+		if( ( count( $layouts ) > 1 ) && isset( $layouts['kernel'] ) ) {
+			$kernel_layout = $layouts['kernel'];
+			unset( $layouts['kernel'] );
+			$layouts = array('kernel' => $kernel_layout) + $layouts;
+		}
 		return $layouts;
 	}
 
