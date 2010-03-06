@@ -43,7 +43,7 @@ $gBitSmarty->assign( 'displayModes', $displayModes );
 
 // hide columns in individual packages
 foreach( $gBitSystem->mPackages as $key => $package ) {
-	if( !empty( $package['installed'] ) && ( !empty( $package['activatable'] ) || !empty( $package['tables'] ) ) ) {
+	if( !empty( $package['installed'] ) ) {
 		if( $package['name'] == 'kernel' ) {
 			$package['name'] = tra( 'Site Default' );
 		}
