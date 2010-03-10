@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.107 2010/02/23 20:42:32 dansut Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.108 2010/03/10 00:59:59 wjames5 Exp $
  * @package themes
  */
 
@@ -68,13 +68,7 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function loadStyle() {
-		global $gPreviewStyle, $gBitSystem;
-		// setup our theme style and check if a preview theme has been picked
-		if( !empty( $gPreviewStyle ) ) {
-			deprecated( 'The use of $gPreviewStyle is deprecated. Please use $gBitThemes->setStyle() instead' );
-			$this->setStyle( $gPreviewStyle );
-		}
-
+		global $gBitSystem;
 		// load default css files
 		if( empty( $this->mStyles['styleSheet'] )) {
 			$this->mStyles['styleSheet'] = $this->getStyleCssFile( NULL, TRUE );
