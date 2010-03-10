@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.108 2010/03/10 00:59:59 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.109 2010/03/10 02:29:30 wjames5 Exp $
  * @package themes
  */
 
@@ -60,6 +60,27 @@ class BitThemes extends BitBase {
 
 
 	// {{{ =================== Styles ====================
+	/**
+	 * load up style related information that must be
+	 * loaded before template rendering begins
+	 * 
+	 * @note this is a interim method as we continue sorting 
+	 * out the optimal order of operations for rendering
+	 * pages. there was some conflict between rendering 
+	 * module templates and loading styles, where some
+	 * style information needs to be loaded before the templates
+	 * are rendered, and some such as packing javascript and css
+	 * should happen after
+	 *
+	 * @see BitSystem::preDisplay
+	 */
+	function preLoadStyle(){
+		// define style url and path
+		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
+		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
+	}
+
+
 	/*
 	 * load up all style related information
 	 * populates mStyle and mStyles
@@ -87,10 +108,6 @@ class BitThemes extends BitBase {
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
 		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
-
-		// define style url and path
-		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
-		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
 	}
 
 	/**
