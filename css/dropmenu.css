@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.10 2009/11/10 04:18:31 wjames5 Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/dropmenu.css,v 1.11 2010/03/22 19:15:41 dansut Exp $ */
 /* BEGIN css driven dropdown menus - horizontal */
 
 /* The top level menu */
@@ -26,5 +26,9 @@ ul.dropmenu li:hover ul,
 ul.dropmenu li li:hover ul,
 ul.dropmenu li.iemenuhover ul,
 ul.dropmenu li li.iemenuhover ul {left:auto;}
+/* IE7 fix for sticky menus */
+ul.dropmenu li:hover,
+ul.dropmenu li li:hover,
+ul.dropmenu li li li:hover {position:static;}
 ul.dropmenu .icon                {vertical-align:middle; padding:2px 0.2em 2px 0;}
 /* END css driven drop menus */
