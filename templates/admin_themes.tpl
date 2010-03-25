@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_themes.tpl,v 1.4 2009/07/04 03:14:23 spiderr Exp $ *}
+{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_themes.tpl,v 1.5 2010/03/25 22:50:25 wjames5 Exp $ *}
 {strip}
 {form legend="Theme Settings"}
 	<input type="hidden" name="page" value="{$page}" />
@@ -7,6 +7,14 @@
 		{forminput}
 			{html_options name="site_biticon_display_style" id="site_biticon_display_style" options=$biticon_display_options selected=$gBitSystem->getConfig('site_biticon_display_style')}
 			{formhelp note="Changing this setting will modify the way all action icons are displayed on your site. Icons in menus are not affected."}
+		{/forminput}
+	</div>
+
+	<div class="row">
+		{formlabel label="Default Icon Style" for="default_icon_style"}
+		{forminput}
+			{html_options name="default_icon_style" id="default_icon_style" options=$iconStyles selected=$gBitSystem->getConfig('default_icon_style')}
+			{formhelp note="This is the default icon style set the site will fall back to using if it cant find an icon in the selected icon style set."}
 		{/forminput}
 	</div>
 

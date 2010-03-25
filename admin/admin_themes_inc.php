@@ -48,6 +48,7 @@ if( !empty( $_REQUEST['change_prefs'] )) {
 		"site_biticon_display_style",
 		"site_icon_size",
 		"themes_use_msie_js_fix",
+		"default_icon_style",
 	);
 
 	foreach( $pref_simple_values as $svitem ) {
@@ -70,6 +71,14 @@ $biticon_display_options = array(
 	'icon_text' => tra( 'Icon and Text' )
 );
 $gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
+
+// get the icon styles
+$subDirs = array( 'style_info' );
+$iconStyles = $gBitThemes->getStylesList( THEMES_PKG_PATH."icon_styles/", NULL, $subDirs );
+foreach( $iconStyles as $key=>$style ){
+	$iconStyles[$key] = str_replace( "_", " ", $style['style'] );
+}
+$gBitSmarty->assign_by_ref( "iconStyles", $iconStyles );
 
 $biticon_sizes = array(
 	'small' => tra( 'Small' ),
