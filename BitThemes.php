@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.109 2010/03/10 02:29:30 wjames5 Exp $
+ * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.110 2010/04/07 05:04:02 spiderr Exp $
  * @package themes
  */
 
@@ -1955,7 +1955,9 @@ function themes_content_display( $pContent ) {
 	global $gBitSystem, $gBitSmarty, $gBitThemes, $gBitUser, $gQueryUser;
 
 	// users_themes='u' is for all users content
-	if( $gBitSystem->getConfig( 'users_themes' ) == 'u' ) {
+	if( is_a( $pContent, 'LibertyContent' ) && $pContent->getPreference( 'style' ) ) {
+		$theme = $pContent->getPreference( 'style' );
+	} elseif( $gBitSystem->getConfig( 'users_themes' ) == 'u' ) {
 		if( $gBitSystem->isFeatureActive( 'users_preferences' ) && is_object( $pContent ) && $pContent->isValid() ) {
 			if( $pContent->getField( 'user_id' ) == $gBitUser->mUserId ) {
 				// small optimization to reduce checking when we are looking at our own content, which is frequent
@@ -1967,6 +1969,7 @@ function themes_content_display( $pContent ) {
 			}
 		}
 	}
+
 	if( !empty( $theme ) && $theme != DEFAULT_THEME ) {
 		$gBitThemes->setStyle( $theme );
 		if( !is_object( $gQueryUser ) ) {
