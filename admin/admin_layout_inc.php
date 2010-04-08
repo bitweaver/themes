@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.11 2010/02/08 21:27:26 wjames5 Exp $
+// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_layout_inc.php,v 1.12 2010/04/08 20:29:39 dansut Exp $
 
 // Initialization
 require_once( '../../kernel/setup_inc.php' );
@@ -76,7 +76,7 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 		foreach( array_keys( $cloneLayouts ) as $pkg ) {
 			if( $pkg != $_REQUEST['module_package'] ){
 				$fAssign['layout'] = $pkg;
-				$gBitThemes->storeModule( $fAssign );vd($fAssign['store']);
+				$gBitThemes->storeModule( $fAssign );
 				unset( $fAssign['store'] );
 			}
 		}
