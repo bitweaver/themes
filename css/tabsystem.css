@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/tabsystem.css,v 1.5 2009/05/24 09:41:47 squareing Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/tabsystem.css,v 1.6 2010/04/08 02:43:07 wjames5 Exp $ */
 /* tabs */
 .tabsystem .tabcontainer             {margin:0; padding:0; border:0; clear:both; z-index:1;}
 .tabsystem .tabcontainer ul,
@@ -15,3 +15,9 @@
 .tabsystem .tabcontainer .tab-hover  {padding:3px 5px 1px 5px; border-top:2px solid #06f;}
 .tabsystem .tabcontainer .tab-active {top:1px; margin:0 0px; color:#000; padding:2px 8px 4px 8px; border-top:2px solid #f60; background:#fff;}
 .tabsystem .tabpage                  {border:1px solid #999; margin:0; padding:5px;}
+
+/* styles for 'newlook' edit layouts which float options tabs to the right */
+.servicetabs		{ float:right; width:460px }
+.editcontainer      {margin-right:462px;}
+.editcontainer .tabsystem .tabpage,
+.editcontainer .tabsystem .tabcontainer     {clear:left;}
