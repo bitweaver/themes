@@ -65,7 +65,7 @@ $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 
 // Package Requirements
 $gBitInstaller->registerRequirements( THEMES_PKG_NAME, array(
-	'liberty'   => array( 'min' => '2.1.0' ),
+	'liberty'   => array( 'min' => '2.1.4' ),
 	'users'     => array( 'min' => '2.1.0' ),
 	'kernel'    => array( 'min' => '2.0.0' ),
 	'languages' => array( 'min' => '2.0.0' ),
