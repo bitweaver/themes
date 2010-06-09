@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/css_lib.php,v 1.3 2009/03/31 06:23:29 lsces Exp $
+ * @version $Header$
  * User css Library
  *
  * @package themes

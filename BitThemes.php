@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/BitThemes.php,v 1.110 2010/04/07 05:04:02 spiderr Exp $
+ * @version $Header$
  * @package themes
  */
 

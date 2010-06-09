@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_modules.tpl,v 1.1 2007/04/02 18:55:02 squareing Exp $ *}
+{* $Header$ *}
 {form legend="Global Module Settings"}
 	<input type="hidden" name="page" value="{$page}" />
 	{foreach from=$formModuleFeatures key=feature item=output}

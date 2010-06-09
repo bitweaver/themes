@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_themes.tpl,v 1.5 2010/03/25 22:50:25 wjames5 Exp $ *}
+{* $Header$ *}
 {strip}
 {form legend="Theme Settings"}
 	<input type="hidden" name="page" value="{$page}" />

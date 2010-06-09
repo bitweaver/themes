@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/icon_browser.php,v 1.8 2010/02/08 21:27:26 wjames5 Exp $
+ * @version $Header$
  *
  * Copyright (c) 2008 bitweaver
  * All Rights Reserved. See below for details and a complete list of authors.

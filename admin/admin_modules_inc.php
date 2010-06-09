@@ -1,5 +1,5 @@
 <?php
-// $Header: /cvsroot/bitweaver/_bit_themes/admin/admin_modules_inc.php,v 1.2 2010/02/08 21:27:26 wjames5 Exp $
+// $Header$
 
 require_once( '../../kernel/setup_inc.php' );
 

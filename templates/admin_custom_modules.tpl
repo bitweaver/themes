@@ -1,4 +1,4 @@
-{* $Header: /cvsroot/bitweaver/_bit_themes/templates/admin_custom_modules.tpl,v 1.2 2008/09/29 11:56:31 laetzer Exp $ *}
+{* $Header$ *}
 {strip}
 
 {if $smarty.request.preview}

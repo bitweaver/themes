@@ -1,6 +1,6 @@
 <?php
 /**
- * @version $Header: /cvsroot/bitweaver/_bit_themes/modules_inc.php,v 1.13 2010/02/12 07:56:58 squareing Exp $
+ * @version $Header$
  * @package themes
  * @subpackage functions
  */
