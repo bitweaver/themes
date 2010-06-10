@@ -1,0 +1,3 @@
+[submodule "icon_styles/tango"]
+	path = icon_styles/tango
+	url = git://bitweaver.org/iconstyle_tango.git
