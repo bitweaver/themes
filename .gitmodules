@@ -1,6 +1,6 @@
 [submodule "icon_styles/tango"]
 	path = icon_styles/tango
-	url = git://bitweaver.org/iconstyle_tango.git
+	url = http://github.com/bitweaver/iconstyle_tango.git
 [submodule "styles/basic"]
 	path = styles/basic
-	url = ../style_basic.git
+	url = http://github.com/bitweaver/style_basic.git
