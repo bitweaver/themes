@@ -4,3 +4,6 @@
 [submodule "styles/basic"]
 	path = styles/basic
 	url = ../style_basic.git
+[submodule "styles/blueprint"]
+	path = styles/blueprint
+	url = ../style_blueprint
