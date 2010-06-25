@@ -74,7 +74,7 @@ $gBitSmarty->assign( "biticon_display_options", $biticon_display_options );
 
 // get the icon styles
 $subDirs = array( 'style_info' );
-$iconStyles = $gBitThemes->getStylesList( THEMES_PKG_PATH."icon_styles/", NULL, $subDirs );
+$iconStyles = $gBitThemes->getStylesList( CONFIG_PKG_PATH."styles/icons/", NULL, $subDirs );
 foreach( $iconStyles as $key=>$style ){
 	$iconStyles[$key] = str_replace( "_", " ", $style['style'] );
 }

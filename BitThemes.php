@@ -218,7 +218,7 @@ class BitThemes extends BitBase {
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
 		}
-		return THEMES_PKG_URL.'styles/'.$pStyle.'/';
+		return BIT_ROOT_URL.'config/styles/layouts/'.$pStyle.'/';
 	}
 
 	/**
@@ -232,7 +232,7 @@ class BitThemes extends BitBase {
 		if( empty( $pStyle )) {
 			$pStyle = $this->getStyle();
 		}
-		return THEMES_PKG_PATH.'styles/'.$pStyle.'/';
+		return BIT_ROOT_PATH.'config/styles/layouts/'.$pStyle.'/';
 	}
 
 	/**
@@ -248,7 +248,7 @@ class BitThemes extends BitBase {
 		global $gBitSystem, $gBitUser;
 
 		if( empty( $pDir )) {
-			$pDir = THEMES_PKG_PATH.'styles/';
+			$pDir = BIT_ROOT_PATH.'config/styles/layouts/';
 		}
 		$ret = array();
 
@@ -337,7 +337,7 @@ class BitThemes extends BitBase {
 		}
 
 		if( empty( $pDir )) {
-			$pDir = THEMES_PKG_PATH.'styles/';
+			$pDir = BIT_ROOT_PATH.'config/styles/layouts/';
 		}
 
 		if( !empty( $pNullOption )) {
