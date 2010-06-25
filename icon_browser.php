@@ -58,7 +58,7 @@ $iconNames = array();
 if( !empty( $_REQUEST['icon_style'] ) ) {
 	$iconThemes = array( $_REQUEST['icon_style'] );
 } else {
-	$iconThemes = scandir( THEMES_PKG_PATH."icon_styles/" );
+	$iconThemes = scandir( CONFIG_PKG_PATH."styles/icons/" );
 }
 
 foreach( $iconThemes as $iconStyle ) {
@@ -77,7 +77,7 @@ $gBitSystem->display( 'bitpackage:themes/icon_browser.tpl', tra( 'Icon Listing' 
 function icon_fetcher( $pStyle = DEFAULT_ICON_STYLE ) {
 	$ret = array();
 	if( strpos( $pStyle, '.' ) !== 0 && $pStyle != 'CVS' ) {
-		$stylePath = THEMES_PKG_PATH."icon_styles/".$pStyle;
+		$stylePath = CONFIG_PKG_PATH."styles/icons/".$pStyle;
 		if( is_dir( $stylePath."/large" )) {
 			$handle = opendir( $stylePath."/large" );
 			while( FALSE !== ( $icon = readdir( $handle ))) {
