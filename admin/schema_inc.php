@@ -53,8 +53,8 @@ $gBitInstaller->registerPackageInfo( THEMES_PKG_NAME, array(
 
 //$gBitInstaller->registerSchemaTable( THEMES_PKG_NAME, '', '', TRUE );
 $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
-	array( THEMES_PKG_NAME,'themes_joined_js_css', 'y' ),
-	array( THEMES_PKG_NAME,'themes_packed_js_css', 'y' ),
+//	array( THEMES_PKG_NAME,'themes_joined_js_css', 'y' ),
+//	array( THEMES_PKG_NAME,'themes_packed_js_css', 'y' ),
 	array( THEMES_PKG_NAME,'site_slide_style', DEFAULT_THEME ),
 	array( THEMES_PKG_NAME,'style', DEFAULT_THEME ),
 	array( THEMES_PKG_NAME,'site_style_layout', 'gala_13' ),
