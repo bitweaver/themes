@@ -188,12 +188,12 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 		// violators will be poked with soft cushions by the Cardinal himself!!!
 		$icon_style = !empty( $pParams['istyle'] ) ? $pParams['istyle'] : $gBitSystem->getConfig( 'site_icon_style', DEFAULT_ICON_STYLE );
 
-		if( FALSE !== ( $matchFile = biticon_first_match( BIT_ROOT_PATH."config/styles/icons/$icon_style".$pParams['ipath'], $pParams['iname'] ))) {
-			return biticon_output( $pParams, BIT_ROOT_URL."config/styles/icons/$icon_style".$pParams['ipath'].$matchFile );
+		if( FALSE !== ( $matchFile = biticon_first_match( CONFIG_PKG_PATH."iconsets/$icon_style".$pParams['ipath'], $pParams['iname'] ))) {
+			return biticon_output( $pParams, CONFIG_PKG_URL."iconsets/$icon_style".$pParams['ipath'].$matchFile );
 		}
 
-		if( $icon_style != DEFAULT_ICON_STYLE && FALSE !== ( $matchFile = biticon_first_match( BIT_ROOT_PATH."config/styles/icons/".DEFAULT_ICON_STYLE.$pParams['ipath'], $pParams['iname'] ))) {
-			return biticon_output( $pParams, BIT_ROOT_URL."config/styles/icons/".DEFAULT_ICON_STYLE.$pParams['ipath'].$matchFile );
+		if( $icon_style != DEFAULT_ICON_STYLE && FALSE !== ( $matchFile = biticon_first_match( CONFIG_PKG_PATH."iconsets/".DEFAULT_ICON_STYLE.$pParams['ipath'], $pParams['iname'] ))) {
+			return biticon_output( $pParams, CONFIG_PKG_URL."iconsets/".DEFAULT_ICON_STYLE.$pParams['ipath'].$matchFile );
 		}
 
 		// if that didn't work, we'll try liberty
