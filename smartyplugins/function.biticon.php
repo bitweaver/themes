@@ -181,7 +181,7 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 		return $ret;
 	}
 
-	// first deal with most common scenario: icon themes
+	// first deal with most common scenario: icon style ( a selected iconset from config/iconsets/ )
 	if( $pParams['ipackage'] == 'icons' ) {
 		// get the current icon style
 		// istyle is a private parameter!!! - only used on theme manager page for icon preview!!!
