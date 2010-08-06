@@ -1,8 +1,8 @@
-div#wrapper				{float:left;width:100%}
-div.blocks3  #content	{margin: 0 25% 0 25%;}
-div.blocks2e #content	{margin: 0 25% 0   0;}
-div.blocks2n #content	{margin: 0   0 0 25%;}
-div.blocks1  #content	{margin: 0   0 0   0;}
-div#navigation			{float:left;width:25%;margin-left:-100%}
-div#extra				{float:left;width:25%;margin-left:-25%}
-div#footer				{clear:left;width:100%}
+#wrapper			{float:left;width:100%;}
+.blocks3  #wrapper	{margin: 0 20% 0 20%;width:60%;}
+.blocks2e #wrapper	{margin: 0 20% 0   0;width:80%;}
+.blocks2n #wrapper	{margin: 0   0 0 20%;width:80%;}
+.blocks1  #wrapper	{margin: 0   0 0   0;width:100%;}
+#navigation			{float:left;width:20%;margin-left:-100%}
+#extra				{float:left;width:20%;margin-left:-20%}
+#footer				{clear:left;width:100%}

@@ -1,8 +1,8 @@
-div#wrapper				{float:right;width:100%;margin-right:-33%}
-div.blocks3  #content	{margin-right:33%;}
-div.blocks2e #content	{margin-right:33%;}
-div.blocks2n #content	{margin-right:33%;}
-div.blocks1  #content	{}
-div#navigation			{float:left;width:32.9%}
-div#extra				{float:left;clear:left;width:32.9%}
+div#wrapper				{float:right;width:100%;}
+div.blocks3  #wrapper	{width:75%;}
+div.blocks2e #wrapper	{width:75%;}
+div.blocks2n #wrapper	{width:75%;}
+div.blocks1  #wrapper	{}
+div#navigation			{float:left;width:25%}
+div#extra				{float:left;clear:left;width:25%}
 div#footer				{clear:both;width:100%}

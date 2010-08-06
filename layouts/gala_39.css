@@ -1,4 +1,4 @@
-div#container	{width:900px;margin:0 auto}
-div#navigation	{float:left;width:450px}
-div#extra		{float:right;width:450px}
+div#container	{width:960px;margin:0 auto}
+div#navigation	{float:left;width:480px}
+div#extra		{float:right;width:480px}
 div#footer		{clear:both;width:100%}

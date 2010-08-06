@@ -1,11 +1,10 @@
-div#container				{width:900px;margin:0 auto}
 div#wrapper					{float:left;width:100%}
-div.blocks3  #content		{margin-left: 440px;}
-div.blocks2e #content		{margin-left: 220px;}
-div.blocks2n #content		{margin-left: 220px;}
-div.blocks1  #content		{margin-left:     0;}
-div#navigation				{float:left;width:220px;}
-div.blocks3  #navigation	{margin-left:-680px;}
-div.blocks2n #navigation	{margin-left:-900px;}
-div#extra					{float:left;width:220px;margin-left:-900px}
+div.blocks3  #wrapper		{margin-left: 400px;width:560px;}
+div.blocks2e #wrapper		{margin-left: 200px;width:760px;}
+div.blocks2n #wrapper		{margin-left: 200px;width:760px;}
+div.blocks1  #wrapper		{margin-left:     0;}
+div#navigation				{float:left;width:200px;}
+div.blocks3  #navigation	{margin-left:-760px;}
+div.blocks2n #navigation	{margin-left:-960px;}
+div#extra					{float:left;width:200px;margin-left:-960px}
 div#footer					{clear:left;width:100%}

@@ -1,9 +1,9 @@
-div#container			{width:900px;margin:0 auto}
-div#content				{float:right;width:640px}
-div.blocks3  #content	{width:640px;}
-div.blocks2e #content	{width:640px;}
-div.blocks2n #content	{width:640px;}
-div.blocks1  #content	{width:900px;}
-div#navigation			{float:left;width:260px}
-div#extra				{float:left;clear:left;width:260px}
+div#container			{width:960px;margin:0 auto}
+div#wrapper				{float:right;width:720px}
+div.blocks3  #wrapper	{width:720px;}
+div.blocks2e #wrapper	{width:720px;}
+div.blocks2n #wrapper	{width:720px;}
+div.blocks1  #wrapper	{width:960px;}
+div#navigation			{float:left;width:240px}
+div#extra				{float:left;clear:left;width:240px}
 div#footer				{clear:both;width:100%}
