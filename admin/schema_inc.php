@@ -57,7 +57,7 @@ $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 //	array( THEMES_PKG_NAME,'themes_packed_js_css', 'y' ),
 	array( THEMES_PKG_NAME,'site_slide_style', DEFAULT_THEME ),
 	array( THEMES_PKG_NAME,'style', DEFAULT_THEME ),
-	array( THEMES_PKG_NAME,'site_style_layout', 'gala_13' ),
+	array( THEMES_PKG_NAME,'site_style_layout', 'gala_1' ),
 	array( THEMES_PKG_NAME,'site_icon_style', 'tango' ),
 	array( THEMES_PKG_NAME,'site_top_bar_dropdown', 'y' ),
 	array( THEMES_PKG_NAME,'site_bot_bar', 'y' ),
