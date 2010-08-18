@@ -57,10 +57,14 @@ $gBitInstaller->registerPreferences( THEMES_PKG_NAME, array(
 //	array( THEMES_PKG_NAME,'themes_packed_js_css', 'y' ),
 	array( THEMES_PKG_NAME,'site_slide_style', DEFAULT_THEME ),
 	array( THEMES_PKG_NAME,'style', DEFAULT_THEME ),
-	array( THEMES_PKG_NAME,'site_style_layout', 'gala_13' ),
+	array( THEMES_PKG_NAME,'site_style_layout', 'gala_1' ),
 	array( THEMES_PKG_NAME,'site_icon_style', 'tango' ),
 	array( THEMES_PKG_NAME,'site_top_bar_dropdown', 'y' ),
 	array( THEMES_PKG_NAME,'site_bot_bar', 'y' ),
+	// Disable languages menu by default since it is duplicated in admin menu
+	array( THEMES_PKG_NAME,'menu_languages', 'n' ),
+	// Disable languages menu by default since it is linked from the header
+	array( THEMES_PKG_NAME,'menu_users', 'n' ),
 ));
 
 // Package Requirements

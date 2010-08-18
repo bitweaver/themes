@@ -1,7 +1,7 @@
 div#wrapper				{float:left;width:100%}
-div.blocks3  #content	{margin-right:260px}
-div.blocks2e #content	{}
-div.blocks2n #content	{margin-right:260px}
-div.blocks1  #content	{}
-div#navigation			{float:left;width:260px;margin-left:-260px}
+div.blocks3  #wrapper	{width:75%;margin-right:240px}
+div.blocks2e #wrapper	{width:75%;}
+div.blocks2n #wrapper	{width:75%;margin-right:240px}
+div.blocks1  #wrapper	{}
+div#navigation			{float:left;width:240px;margin-left:-240px}
 div#extra				{clear:left;width:100%}

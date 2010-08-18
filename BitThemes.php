@@ -107,6 +107,10 @@ class BitThemes extends BitBase {
 		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
+		// check for customized CSS file
+		if( file_exists( CONFIG_PKG_PATH.'css/config.css' ) ) {
+			$this->loadCss( CONFIG_PKG_PATH.'css/config.css' );
+		}
 		$this->mStyles['joined_css'] = $this->joinAuxFiles( 'css' );
 	}
 
