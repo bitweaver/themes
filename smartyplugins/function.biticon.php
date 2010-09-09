@@ -83,12 +83,6 @@ function biticon_output( $pParams, $pFile ) {
 				$outstr .=  ' onclick="'.$pParams["onclick"].'"';
 			}
 
-			// insert image width and height
-			list( $width, $height, $type, $attr ) = @getimagesize( BIT_ROOT_PATH.$pFile );
-			if( !empty( $width ) && !empty( $height ) ) {
-				$outstr .= ' width="'.$width.'" height="'.$height.'"';
-			}
-
 			$outstr .= " />";
 
 			if( $gBitSystem->getConfig( 'site_biticon_display_style' ) == 'icon_text' && $pParams['iforce'] != 'icon' || $pParams['iforce'] == 'icon_text' ) {
