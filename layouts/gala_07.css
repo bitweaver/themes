@@ -1,3 +1,4 @@
+div#container			{width:960px;margin:0 auto}
 div#wrapper				{float:left;width:100%}
 div.blocks3  #wrapper	{margin: 0 200px 0 200px;width:560px;}
 div.blocks2e #wrapper	{margin: 0 200px 0     0;width:760px;}
