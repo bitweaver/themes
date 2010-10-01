@@ -62,7 +62,7 @@ return false;
 		<td width="200px" cellpadding="3">{$themeImages[ix]}</td>
 		<td cellpadding="3">
 		{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript"}
-			{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript:popup('preview_image.php?fImg=$customCSSImageURL/$themeImages[ix]')"}
+			{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript:popup('$customCSSImageURL/$themeImages[ix]')"}
 			<a href="{$smarty.const.THEMES_PKG_URL}/edit_css.php?fDeleteImg={$themeImages[ix]}">
 			{biticon ipackage="icons" iname="edit-delete" iexplain=remove onclick="return confirm('Are you sure you want to delete $themeImages[ix]?');"}
 			<img class="icon" src="{$smarty.const.LIBERTY_PKG_URL}icons/delete.gif" title="{tr}Remove{/tr}" alt="{tr}Remove{/tr}" onclick="return confirm('Are you sure you want to delete {$themeImages[ix]}?');"/>
