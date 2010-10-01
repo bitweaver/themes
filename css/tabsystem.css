@@ -1,4 +1,4 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/tabsystem.css,v 1.6 2010/04/08 02:43:07 wjames5 Exp $ */
+/* $Header: /cvsroot/bitweaver/_bit_themes/css/tabsystem.css,v 1.7 2010/08/23 17:23:53 spiderr Exp $ */
 /* tabs */
 .tabsystem .tabcontainer             {margin:0; padding:0; border:0; clear:both; z-index:1;}
 .tabsystem .tabcontainer ul,
@@ -6,7 +6,7 @@
 .tabsystem .tabcontainer .tab,
 .tabsystem .tabcontainer .tab-active {position:relative; display:inline; float:left; z-index:1; white-space:nowrap;}
 .tabsystem .tabcontainer h4          {margin:0; padding:0; font-size:1em;}
-.tabsystem .tabpage                  {z-index:1; clear:both;}
+.tabsystem .tabpage                  {z-index:1; clear:both;overflow:hidden;}
 
 /* some minimalistic styling to make tabs more functional */
 .tabsystem .tabcontainer .tab,
