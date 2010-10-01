@@ -1,6 +1,5 @@
 <?php
 /**
- * @version $Header$
  * @package themes
  */
 
@@ -1258,11 +1257,12 @@ class BitThemes extends BitBase {
 					case 'jquery':
 						$joined = FALSE;
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$pLibPath .= 'full/';
+							$pLibPath .= 'min/';
 						} else {
 							$pLibPath .= 'full/';
 						}
 						$this->loadJavascript( $pLibPath.'jquery.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( $pLibPath.'ui/ui.all.js', FALSE, $pos++, $joined );
 						break;
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
