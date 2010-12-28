@@ -1,4 +1,3 @@
-/* $Header: /cvsroot/bitweaver/_bit_themes/css/default.css,v 1.4 2009/11/09 15:51:10 wjames5 Exp $ */
 /* modules */
 .module       {padding:0.5em; margin:0.5em;}
 .module ul    {margin:0; padding:0; list-style:none;}
@@ -23,6 +22,9 @@
 /* structure navigation */
 .navigation .left  {float:left;}
 .navigation .right {float:right;}
+
+/* pretty image scaling in MSIE */
+img 			{ -ms-interpolation-mode:bicubic; }
 
 /* action icons */
 .floaticon      {float:right; text-align:right;}
