@@ -67,9 +67,9 @@ function smarty_get_bitweaver_resources( $pTplName ) {
 		$ret['package_template'] = constant( strtoupper( $package ).'_PKG_PATH' )."$subdir/$template";
 	} else {
 		if( empty( $gNoForceStyle )) {
-			// look in themes/force/
-			$ret['force']        = THEMES_PKG_PATH."force/$package/$subdir$template";
-			$ret['force_simple'] = THEMES_PKG_PATH."force/$subdir$template";
+			// look in config/themes/force/
+			$ret['force']        = CONFIG_PKG_PATH."themes/force/$package/$subdir$template";
+			$ret['force_simple'] = CONFIG_PKG_PATH."themes/force/$subdir$template";
 		}
 
 		// look in themes/style/<stylename>/
