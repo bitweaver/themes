@@ -635,9 +635,7 @@ class BitThemes extends BitBase {
 	 */
 	function cloneLayout( $pFromLayout, $pToLayout ) {
 		global $gBitSystem;
-		$packages   = array_keys( $gBitSystem->mPackages );
-		$packages[] = 'home';
-		if( !empty( $pFromLayout ) && in_array( $pFromLayout, $packages ) && !empty( $pToLayout ) && in_array( $pToLayout, $packages )) {
+		if( !empty( $pFromLayout ) && !empty( $pToLayout ) ) {
 			// nuke existing layout
 			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pToLayout ));
 			// get requested layout
@@ -845,6 +843,22 @@ class BitThemes extends BitBase {
 			}
 		}
 		return( count( $this->mErrors ) == 0 );
+	}
+
+	/**
+	 * setModulePosition
+	 * 
+	 * @param array $pModuleId 
+	 * @param array $pPos 
+	 * @access public
+	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
+	 */
+	function setModulePosition( $pModuleId, $pPos ) {
+		if( @BitBase::verifyId( $pModuleId )) {
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
+			$result = $this->mDb->query( $query, array( $pPos, $pModuleId ));
+		}
+		return TRUE;
 	}
 
 	/**
