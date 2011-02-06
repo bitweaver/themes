@@ -1,22 +1,20 @@
 {strip}
 {formfeedback hash=$feedback}
 
-		{form legend="Create Layout for Packages and Sections"}
+		{form legend="Create Layout for Packages and Sections" method="get"}
 			<input type="hidden" name="page" value="{$page}" />
 			<div class="row">
 				{formlabel label="Customized layout" for="module_package"}
 				{forminput}
 					<select name="module_package" id="module_package" onchange="this.form.submit();">
-						{foreach key=name item=package from=$gBitSystem->mPackages}
-							{if $package.installed and ($package.activatable or $package.tables)}
-								<option value="{$name}" {if $module_package == $name}selected="selected"{/if}>
-									{if $name eq 'kernel'}
-										{tr}Site Default{/tr}
-									{else}
-										{tr}{$name|capitalize}{/tr}
-									{/if}
-								</option>
-							{/if}
+						{foreach key=layoutName item=layout from=$gBitThemes->getAllLayouts()}
+							<option value="{$layoutName}" {if $module_package == $layoutName}selected="selected"{/if}>
+								{if $layoutName eq 'kernel'}
+									{tr}Site Default{/tr}
+								{else}
+									{tr}{$layoutName|capitalize}{/tr}
+								{/if}
+							</option>
 						{/foreach}
 						<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
 					</select>

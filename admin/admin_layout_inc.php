@@ -84,7 +84,9 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 }
 
 // this will sort the layout selection dropdown
-ksort( $gBitSystem->mPackages );
+$allLayouts = $gBitThemes->getAllLayouts();
+ksort( $allLayouts );
+$gBitSmarty->assign_by_ref( 'allLayouts', $allLayouts );
 $gBitSmarty->assign( 'module_package', $_REQUEST['module_package'] );
 
 $layoutHash = array(
