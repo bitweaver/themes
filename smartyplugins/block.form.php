@@ -98,7 +98,7 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 		$ret = '<form action="'.$url.( !empty( $pParams['ianchor'] ) ? '#'.$pParams['ianchor'] : '' ).'" '.$atts.$onsub.'>';
 		$ret .= isset( $legend ) ? '<fieldset>'.$legend : '<div>';		// adding the div makes it easier to be xhtml compliant
 		$ret .= $pContent;
-		$ret .= '<div class="clear"></div>';							// needed to avoid rendering issues
+//		$ret .= '<div class="clear"></div>';							// needed to avoid rendering issues
 		$ret .= isset( $legend ) ? '</fieldset>' : '</div>';			// close the open tags
 		$ret .= '</form>';
 		return $ret;
