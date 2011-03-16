@@ -51,7 +51,13 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				}
 
 				foreach( $val as $valText ) {
-					$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$valText.'</p>';
+					if( is_array( $valText ) ) {
+						foreach( $valText as $text ) {
+							$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$text.'</p>';
+						}
+					} else {
+						$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$valText.'</p>';
+					}
 				}
 
 			} else {
@@ -59,8 +65,14 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				 * to allow setting of a background color we have to exclude that param when rendering out the html
 				 * otherwise we'll render the color as text. -wjames5
 				 */ 
-				if ( $key != 'color' ){
-					$feedback .= '<p class="'.$key.'">'.$val.'</p>';
+				if ( $key != 'color' ) {
+					if( is_array( $val ) ) {
+						foreach( $val as $text ) {
+							$feedback .= '<p class="'.$key.'">'.$text.'</p>';
+						}
+					} else {
+						$feedback .= '<p class="'.$key.'">'.$val.'</p>';
+					}
 				}
 			}
 		}
@@ -74,4 +86,5 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 	}
 	return $html;
 }
+
 ?>
