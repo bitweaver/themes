@@ -1276,7 +1276,7 @@ class BitThemes extends BitBase {
 							$pLibPath .= 'full/';
 						}
 						$this->loadJavascript( $pLibPath.'jquery.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( $pLibPath.'ui/ui.all.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( $pLibPath.'ui/jquery.ui.all.js', FALSE, $pos++, $joined );
 						break;
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
