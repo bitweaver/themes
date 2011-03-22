@@ -7,12 +7,12 @@
 				{formlabel label="Customized layout" for="module_package"}
 				{forminput}
 					<select name="module_package" id="module_package" onchange="this.form.submit();">
-						{foreach key=layoutName item=layout from=$gBitThemes->getAllLayouts()}
+						{foreach key=layoutName item=layoutDisplay from=$layoutList}
 							<option value="{$layoutName}" {if $module_package == $layoutName}selected="selected"{/if}>
 								{if $layoutName eq 'kernel'}
 									{tr}Site Default{/tr}
 								{else}
-									{tr}{$layoutName|capitalize}{/tr}
+									{tr}{$layoutDisplay|capitalize}{/tr}
 								{/if}
 							</option>
 						{/foreach}
@@ -66,10 +66,10 @@
 							<tr>
 								<th>{tr}{$colkey} area{/tr}</th>
 							</tr>
-							{section name=ix loop=$layout.$area}
+							{section name=ix loop=$editLayout.$area}
 								<tr>
 									<td>
-										{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix] condensed=1}
+										{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$editLayout.$area[ix] condensed=1}
 									</td>
 								</tr>
 							{sectionelse}

@@ -93,9 +93,20 @@ $layoutHash = array(
 	'layout' => $_REQUEST['module_package'],
 	'fallback' => FALSE,
 );
-$layout = $gBitThemes->getLayout( $layoutHash );
-$gBitThemes->generateModuleNames( $layout );
-$gBitSmarty->assign_by_ref( 'layout', $layout );
+$editLayout = $gBitThemes->getLayout( $layoutHash );
+$gBitThemes->generateModuleNames( $editLayout );
+$gBitSmarty->assign( 'editLayout', $editLayout );
+
+$combinedList = array_merge( array_keys( $gBitSystem->mPackages ), array_keys( $allLayouts ) );
+$layoutList = array();
+foreach( $combinedList as $l ) {
+	$layoutList[$l] = $l;
+	if( isset( $allLayouts[$l] ) ) {
+		$layoutList[$l] .= ' *';
+	}
+}
+asort( $layoutList );
+$gBitSmarty->assign( 'layoutList', $layoutList );
 
 if( $gBitSystem->isFeatureActive( 'site_top_column' )) {
 	$layoutAreas['top'] = 't';
