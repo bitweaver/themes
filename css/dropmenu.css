@@ -14,12 +14,14 @@ ul.dropmenu li ul                {position:absolute; background:#fff; left:-999e
 ul.dropmenu li ul li             {float:none;}
 /* affects all items in all menus */
 ul.dropmenu li                   {float:left;text-align:left; width:auto;}
+html[dir='rtl'] ul.dropmenu li   {float:right;text-align:right;}
 ul.dropmenu li:hover             {background-position:0 0}
 ul.dropmenu li ul li:hover       {background-color:#eee;}
 /* main drop menu items */
 ul.dropmenu li ul li             {width:15em; z-index:1001;}
 /* submenu lists */
 ul.dropmenu li ul li ul          {margin:-23px 0 0 14em; z-index:1003; border:1px solid #ccc;}
+html[dir='rtl'] ul.dropmenu li ul li ul {margin:-23px 14em 0 0;}
 ul.dropmenu li:hover ul ul,
 ul.dropmenu li.iemenuhover ul ul {left:-999em;}
 /* submenus */
@@ -27,9 +29,11 @@ ul.dropmenu li:hover ul,
 ul.dropmenu li li:hover ul,
 ul.dropmenu li.iemenuhover ul,
 ul.dropmenu li li.iemenuhover ul {left:auto;}
+html[dir='rtl'] ul.dropmenu li li.iemenuhover ul {right:auto;}
 /* IE7 fix for sticky menus */
 ul.dropmenu li:hover,
 ul.dropmenu li li:hover,
 ul.dropmenu li li li:hover {position:static;}
 ul.dropmenu .icon                {vertical-align:middle; padding:2px 0.2em 2px 0;}
+html[dir='rtl'] ul.dropmenu .icon {vertical-align:middle; padding:2px 0 2px 0.2em;}
 /* END css driven drop menus */

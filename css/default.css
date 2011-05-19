@@ -9,7 +9,9 @@
 /* module help on admin page */
 .modulehelp kbd      {font-family:monospace;}
 .modulehelp dt       {width:27%; float:left; text-align:right; font-weight:bold;}
+html[dir='rtl'] .modulehelp dt {float:right;text-align:left;}
 .modulehelp dd       {width:70%; margin-left:30%;}
+html[dir='rtl'] .modulehelp dd       {margin-right:0; margin-right:30%;}
 .modulehelp .example {text-decoration:underline;}
 
 /* priorities */
@@ -21,17 +23,22 @@
 
 /* structure navigation */
 .navigation .left  {float:left;}
+html[dir='rtl'] .navigation .left  {float:right;}
 .navigation .right {float:right;}
+html[dir='rtl'] .navigation .right {float:left;}
 
 /* pretty image scaling in MSIE */
 img 			{ -ms-interpolation-mode:bicubic; }
 
 /* action icons */
 .floaticon      {float:right; text-align:right;}
+html[dir='rtl'] .floaticon {float:left; text-align:left;}
 .floaticon a    {padding:0 3px;}
 
 span.actionicon {float:right;}
+html[dir='rtl'] span.actionicon {float:left;}
 td.actionicon   {text-align:right;}
+html[dir='rtl'] td.actionicon   {text-align:left;}
 .actionicon a   {padding:0 3px;}
 
 /* miscellaneous */
@@ -39,10 +46,12 @@ table        {border-collapse:collapse; border-spacing:0; padding:0; margin:0; w
 .highlight   {font-weight:bolder;}
 .popup       {width:250px; background:#fff; padding:0.5em; border:1px solid #999;}
 .closebutton {position:absolute; top:2px; right:2px;}
+html[dir='rtl'] .closebutton {top:2px; left:2px;}
 
 /* stuff that was in base.css that the basic, clean, lessneat, & blueprint styles need - for now */
 .navbar ul          {padding:0; margin:0; list-style:none;}
 .navbar ul li       {float:left;}
+html[dir='rtl'] .navbar ul li       {float:right;}
 .icon,.icon:hover,
 a.icon,a.icon:hover {border:0px;}
 

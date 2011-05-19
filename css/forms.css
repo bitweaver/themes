@@ -10,7 +10,9 @@ legend                 {font-weight:bold; margin:0 0 1.5em 0;}
 .submit                {text-align:center; margin:5px 0;}
 .quicktags             {}
 .formlabel             {float:left; font-weight:bold; width:15em; text-align:right;}
+html[dir='rtl'] .formlabel {float:right; text-align:left;}
 .forminput             {margin-left:15.5em;}
+html[dir='rtl'] .forminput {margin-left:0; margin-right:15.5em;}
 .formhelp              {cursor:help; font-size:smaller;}
 .formhelp ul           {margin-top:0; margin-bottom:0;}
 .error                 {color:#f30;}
