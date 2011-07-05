@@ -56,7 +56,8 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 						}
 						unset( $data );
 					} else {
-						$template = array_pop( explode(  '/', $r['module_rsrc'] ) );
+						$explosion = explode( '/', $r['module_rsrc'] );
+						$template = array_pop( $explosion );
 
 						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
 						global $module_rows, $module_params, $module_title, $gBitLanguage;
@@ -92,7 +93,8 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							}
 
 							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
-							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams = $r );
+							$moduleParams = $r;
+							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
 							// assign the custom module title
 							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
 							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
