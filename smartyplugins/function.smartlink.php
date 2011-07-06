@@ -77,7 +77,8 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 	}
 
 	$url_params = NULL;
-	if( !empty( $hash['itra'] ) || $hash['itra'] === FALSE ) {
+	if( isset( $hash['itra'] ) && !empty( $hash['itra'] ) ) {
+		// present and non-zero value
 		$ititle = $hash['ititle'];
 		$iatitle =  empty( $hash['iatitle'] ) ? $ititle : $hash['iatitle'];
 	} else {
