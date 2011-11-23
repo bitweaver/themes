@@ -964,6 +964,7 @@ class BitThemes extends BitBase {
 			foreach( $modules as $m ) {
 				$this->mModules[$pDir][$pPrefix][tra( 'Custom Modules' )]['_custom:custom/'.$m["name"]] = array( 'title' => $m["name"] );
 			}
+			asort( $this->mModules[$pDir][$pPrefix][tra( 'Custom Modules' )] );
 		}
 
 		// iterate through all packages and look for all possible modules
@@ -991,6 +992,9 @@ class BitThemes extends BitBase {
 							}
 						}
 						closedir ($h);
+						if( !empty( $this->mModules[$pDir][$pPrefix][ucfirst( $key )] ) ) {
+							asort( $this->mModules[$pDir][$pPrefix][ucfirst( $key )] );
+						}
 					}
 				}
 				// we scan temp/<pkg>/modules for module files as well for on the fly generated modules (e.g. nexus)
@@ -1007,6 +1011,7 @@ class BitThemes extends BitBase {
 								}
 							}
 							closedir ($h);
+							asort( $this->mModules[$pDir][$pPrefix][ucfirst( $key )] );
 						}
 					}
 				}
