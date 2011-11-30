@@ -201,9 +201,9 @@ function add_link_ticket( $pTplSource ) {
 	global $gBitUser;
 
 	if( is_object( $gBitUser ) && $gBitUser->isRegistered() ) {
-		$from = '#href="(.*PKG_URL.*php)\?(.*)&(.*)"#i';
-		$to = 'href="\\1?\\2&amp;tk={$gBitUser->mTicket}&\\3"';
-		$pTplSource = preg_replace( $from, $to, $pTplSource );
+//		$from = '#href="(.*PKG_URL.*php)\?(.*)&(.*)"#i';
+//		$to = 'href="\\1?\\2&amp;tk={$gBitUser->mTicket}&\\3"';
+//		$pTplSource = preg_replace( $from, $to, $pTplSource );
 		$from = '#<form([^>]*)>#i';
 		// div tag is for stupid XHTML compliance.
 		$to = '<form\\1><div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}" /></div>';
