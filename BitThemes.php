@@ -75,8 +75,12 @@ class BitThemes extends BitBase {
 	 */
 	function preLoadStyle(){
 		// define style url and path
-		define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
-		define( 'THEMES_STYLE_PATH', $this->getStylePath() );
+		if( !defined( 'THEMES_STYLE_URL' ) ) {
+			define( 'THEMES_STYLE_URL', $this->getStyleUrl() );
+		}
+		if( !defined( 'THEMES_STYLE_PATH' ) ) {
+			define( 'THEMES_STYLE_PATH', $this->getStylePath() );
+		}
 	}
 
 
