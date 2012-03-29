@@ -1278,7 +1278,7 @@ class BitThemes extends BitBase {
 						$this->loadJavascript( $pLibPath.'libs/prototype.js', FALSE, $pos++ );
 						break;
 					case 'jquery':
-						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'http' : 'https';
+						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
 
 						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.7.1' );
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.8.18' );
