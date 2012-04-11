@@ -9,7 +9,7 @@ pre					{overflow:auto;}
 .norecords			{font-weight:bold;}
 .popup				{background:#fff; width:250px; border:1px solid #000; line-height:normal;}
 .icon,.icon:hover,
-a.icon,a.icon:hover	{border:0px;}
+a.icon,a.icon:hover	{border:0px;cursor:pointer;}
 .portrait,.avatar	{float:right; padding:0 0 5px 5px;}
 html[dir='rtl'] .portrait,
 html[dir='rtl'] .avatar { float:right; }
@@ -73,6 +73,7 @@ html[dir='rtl'] .closebutton {right:0;left:1px}
 /* annoyances and grievances */
 .module textarea	{width:auto;}
 .comment .content	{overflow:auto;}
+.comment .threaded	{margin:0 0 0 20px;}
 
 /* lists */
 ul,ol,dl		{margin-top:0; margin-bottom:0;}
