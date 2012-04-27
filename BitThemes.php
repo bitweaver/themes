@@ -1239,7 +1239,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function loadAjax( $pAjaxLib, $pLibHash=NULL, $pLibPath=NULL, $pPack = FALSE ) {
-		global $gBitSmarty, $gSniffer;
+		global $gBitSystem, $gBitSmarty, $gSniffer;
 		$ret = FALSE;
 		$joined = TRUE;
 		$ajaxLib = strtolower( $pAjaxLib );
@@ -1278,15 +1278,31 @@ class BitThemes extends BitBase {
 						$this->loadJavascript( $pLibPath.'libs/prototype.js', FALSE, $pos++ );
 						break;
 					case 'jquery':
+						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
+
+						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.7.1' );
+						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.8.18' );
+						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
+						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
+							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
+							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.min.js';
+							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
+						} else {
+							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
+							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.js';
+							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
+						}
+						break;
+					case 'jquerylocal':
 						$joined = FALSE;
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$pLibPath .= 'min/';
+							$this->loadJavascript( $pLibPath.'js/jquery.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( $pLibPath.'js/jquery-ui.custom.min.js', FALSE, $pos++, $joined );
 						} else {
-							$pLibPath .= 'full/';
+							$this->loadJavascript( $pLibPath.'development-bundle/jquery.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( $pLibPath.'development-bundle/ui/jquery-ui.custom.js', FALSE, $pos++, $joined );
 						}
-						$this->loadJavascript( $pLibPath.'jquery.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( $pLibPath.'ui/jquery.ui.all.js', FALSE, $pos++, $joined );
-						break;
+						$this->loadCss( UTIL_PKG_PATH.'javascript/libs/jquery/development-bundle/themes/base/jquery.ui.all.css' );
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;

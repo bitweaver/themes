@@ -47,9 +47,4 @@ html[dir='rtl'] .clearright	{clear:left}
 .splitstyle	{border-right:3px solid #000}
 html[dir='rtl'] .splitstyle	{border-right:0; border-left::3px solid #000}
 
-.marginleft20px	{margin-left:20px}
-.marginleft20px	{margin-left:0;margin-right:20px}
-.marginleft0	{margin-left:0}
-.marginleft0	{margin-right:0}
-
 /* vim: set ts=40: */
