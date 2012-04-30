@@ -97,6 +97,6 @@ function smarty_modifier_displayUrl($pMixed, $lib='') {
 			}
 		}
 	}
-	return LibertyContent::getDisplayUrlFromHash(null,$pMixed);
+	return LibertyContent::getDisplayUrlFromHash( $pMixed );
 }
 ?>
