@@ -51,7 +51,7 @@ class BitThemes extends BitBase {
 	 * @return void
 	 */
 	function BitThemes() {
-		BitBase::BitBase();
+		parent::__construct();
 
 		// start up caching engine
 		$this->mThemeCache = new BitCache( 'themes', TRUE );
