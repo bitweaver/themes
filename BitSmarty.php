@@ -13,7 +13,12 @@
 /**
  * required setup
  */
-if( file_exists( UTIL_PKG_PATH.'smarty/libs/Smarty.class.php' )) {
+if( file_exists( EXTERNAL_LIBS_PATH.'smarty/libs/Smarty.class.php' )) {
+	// set SMARTY_DIR that we have the absolute path
+	define( 'SMARTY_DIR', EXTERNAL_LIBS_PATH.'smarty/libs/' );
+	// If we have smarty in our kernel, use that.
+	$smartyIncFile = SMARTY_DIR . 'Smarty.class.php';
+} elseif( file_exists( UTIL_PKG_PATH.'smarty/libs/Smarty.class.php' )) {
 	// set SMARTY_DIR that we have the absolute path
 	define( 'SMARTY_DIR', UTIL_PKG_PATH.'smarty/libs/' );
 	// If we have smarty in our kernel, use that.
@@ -46,7 +51,7 @@ class PermissionCheck {
 class BitSmarty extends Smarty {
 	/**
 	 * BitSmarty initiation
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -159,8 +164,8 @@ class BitSmarty extends Smarty {
 	}
 
 	/**
-	 * verifyCompileDir 
-	 * 
+	 * verifyCompileDir
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -192,7 +197,7 @@ class BitSmarty extends Smarty {
 
 /**
  * add_link_ticket This will insert a ticket on all template URL's that have GET parameters.
- * 
+ *
  * @param array $pTplSource source of template
  * @access public
  * @return ammended template source

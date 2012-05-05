@@ -10,11 +10,11 @@
 						{foreach key=layoutName item=layoutDisplay from=$layoutList}
 							<option value="{$layoutName}" {if $module_package == $layoutName}selected="selected"{/if}>
 								{if $layoutName eq 'kernel'}
-									{tr}Site Default{/tr}
-								{else}
+										{tr}Site Default{/tr}
+									{else}
 									{tr}{$layoutDisplay|capitalize}{/tr}
-								{/if}
-							</option>
+									{/if}
+								</option>
 						{/foreach}
 						<option value="home" {if $module_package == 'home'}selected="selected"{/if}>{tr}User Homepages{/tr}</option>
 					</select>

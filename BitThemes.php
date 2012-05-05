@@ -8,8 +8,8 @@
  */
 require_once( KERNEL_PKG_PATH.'BitCache.php' );
 /**
- * BitThemes 
- * 
+ * BitThemes
+ *
  * @package themes
  * @uses BitBase
  */
@@ -47,7 +47,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * Initiate class
-	 * 
+	 *
 	 * @return void
 	 */
 	function BitThemes() {
@@ -62,10 +62,10 @@ class BitThemes extends BitBase {
 	/**
 	 * load up style related information that must be
 	 * loaded before template rendering begins
-	 * 
-	 * @note this is a interim method as we continue sorting 
+	 *
+	 * @note this is a interim method as we continue sorting
 	 * out the optimal order of operations for rendering
-	 * pages. there was some conflict between rendering 
+	 * pages. there was some conflict between rendering
 	 * module templates and loading styles, where some
 	 * style information needs to be loaded before the templates
 	 * are rendered, and some such as packing javascript and css
@@ -87,7 +87,7 @@ class BitThemes extends BitBase {
 	/*
 	 * load up all style related information
 	 * populates mStyle and mStyles
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -243,11 +243,11 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getStyles 
-	 * 
-	 * @param array $pDir 
-	 * @param array $pNullOption 
-	 * @param array $bIncludeCustom 
+	 * getStyles
+	 *
+	 * @param array $pDir
+	 * @param array $pNullOption
+	 * @param array $bIncludeCustom
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -273,7 +273,7 @@ class BitThemes extends BitBase {
 			closedir( $h );
 		}
 
-		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {	
+		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {
 			// Include the users custom css if they have created one
 			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
 			$customCSSFile = $customCSSPath.'custom.css';
@@ -291,8 +291,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getStyleLayouts 
-	 * 
+	 * getStyleLayouts
+	 *
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -323,10 +323,10 @@ class BitThemes extends BitBase {
 
 	/**
 	* @param $pSubDirs a subdirectory to scan as well - you can pass in multiple dirs using an array
-	 * 
-	 * @param array $pDir 
-	 * @param array $pNullOption 
-	 * @param array $pSubDirs 
+	 *
+	 * @param array $pDir
+	 * @param array $pNullOption
+	 * @param array $pSubDirs
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -393,7 +393,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * get the icon cache path
-	 * 
+	 *
 	 * @access public
 	 * @return absolute path on where the system should store it's icons
 	 */
@@ -454,8 +454,8 @@ class BitThemes extends BitBase {
 
 	/**
 	 * get the current layout from the database, layouts are fetched in this order in this order until one is successfully loaded: 'layout', 'fallback_layout', ACTIVE_PACKGE, DEFAULT_PACKAGE"
-	 * 
-	 * @param array $pParamHash 
+	 *
+	 * @param array $pParamHash
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -551,7 +551,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * isModuleLoaded will check if a given modules is being used in the currently active layout
-	 * 
+	 *
 	 * @param string $pModuleResource the module resource
 	 * @param string $pArea optionally specify the area the module should be found in
 	 * @access public
@@ -583,7 +583,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * fix postional data in database using increments of 10 to make it easy for inserting new modules
-	 * 
+	 *
 	 * @access public
 	 * @return void
 	 */
@@ -608,7 +608,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * get a brief summary of set layouts
-	 * 
+	 *
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -630,10 +630,10 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * cloneLayout 
-	 * 
-	 * @param array $pFromLayout 
-	 * @param array $pToLayout 
+	 * cloneLayout
+	 *
+	 * @param array $pFromLayout
+	 * @param array $pToLayout
 	 * @access public
 	 * @return boolean TRUE
 	 */
@@ -655,9 +655,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * expungeLayout 
-	 * 
-	 * @param array $pLayout 
+	 * expungeLayout
+	 *
+	 * @param array $pLayout
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -708,8 +708,8 @@ class BitThemes extends BitBase {
 	// {{{ =================== Modules ====================
 	/**
 	 * Verfiy module parameters when storing a new module
-	 * 
-	 * @param array $pHash 
+	 *
+	 * @param array $pHash
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -747,9 +747,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * storeModule 
-	 * 
-	 * @param array $pHash 
+	 * storeModule
+	 *
+	 * @param array $pHash
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -770,9 +770,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getModuleData 
-	 * 
-	 * @param array $pModuleId 
+	 * getModuleData
+	 *
+	 * @param array $pModuleId
 	 * @access public
 	 * @return module details of the requested module id
 	 */
@@ -785,9 +785,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * moduleUp 
-	 * 
-	 * @param array $pModuleId 
+	 * moduleUp
+	 *
+	 * @param array $pModuleId
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -799,9 +799,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * moduleDown 
-	 * 
-	 * @param array $pModuleId 
+	 * moduleDown
+	 *
+	 * @param array $pModuleId
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -814,9 +814,9 @@ class BitThemes extends BitBase {
 
 	/**
 	 * generic function to move module up or down
-	 * 
-	 * @param array $pModuleId 
-	 * @param string $pOrientation 
+	 *
+	 * @param array $pModuleId
+	 * @param string $pOrientation
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -851,9 +851,9 @@ class BitThemes extends BitBase {
 
 	/**
 	 * setModulePosition
-	 * 
-	 * @param array $pModuleId 
-	 * @param array $pPos 
+	 *
+	 * @param array $pModuleId
+	 * @param array $pPos
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -866,10 +866,10 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * moveModuleToArea 
-	 * 
-	 * @param array $pModuleId 
-	 * @param array $pArea 
+	 * moveModuleToArea
+	 *
+	 * @param array $pModuleId
+	 * @param array $pArea
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -886,8 +886,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * unassignModule 
-	 * 
+	 * unassignModule
+	 *
 	 * @param array $pModuleId can be a module id or a resource path. if it is a resource path, all modules with that resource will be removed
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
@@ -908,7 +908,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * if the specified area doesn't make any sense, we just dump it in the left column
-	 * 
+	 *
 	 * @param array $pArea l --> left       r --> right       c --> center       b --> bottom       t --> top
 	 * @access public
 	 * @return valid area
@@ -919,7 +919,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * generates module names on full hash by reference
-	 * 
+	 *
 	 * @param array $p2DHash layout hash
 	 * @access public
 	 * @return void
@@ -949,17 +949,17 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getAllModules 
-	 * 
-	 * @param string $pDir 
-	 * @param string $pPrefix 
+	 * getAllModules
+	 *
+	 * @param string $pDir
+	 * @param string $pPrefix
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function getAllModules( $pDir='modules', $pPrefix='mod_' ) {
 		global $gBitSystem;
 		// @TODO MODULE UPGRADE
-		// hash for carrying references to modules: 
+		// hash for carrying references to modules:
 		// $this->mModules[$pDir][$pPrefix]
 		// this is ugly but is to smooth the transition until all modules are upgraded to directory and registration structure
 		// it will be unncessary once all packages are caught up
@@ -989,7 +989,7 @@ class BitThemes extends BitBase {
 							// these modules are only accessible from gBitThemes
 							elseif ( !in_array( $file, array('.','..','CVS') ) && @is_dir( $loc.'/'.$file ) ){
 								$conf_file = $loc.'/'.$file.'/config_inc.php';
-								// we expect a configuration file 
+								// we expect a configuration file
 								if( @is_file( $conf_file ) ){
 									require_once( $conf_file );
 								}
@@ -1010,7 +1010,7 @@ class BitThemes extends BitBase {
 							while (($file = readdir($h)) !== false) {
 								if ( preg_match( "/^$pPrefix(.*)\.tpl$/", $file, $match )) {
 									$this->mModules[$pDir][$pPrefix][ucfirst( $key )]['bitpackage:temp/'.$key.'/'.$file] = array( 'title' => str_replace( '_', ' ', $match[1] ),
-																																  'template' => $file, 
+																																  'template' => $file,
 																																);
 								}
 							}
@@ -1049,10 +1049,10 @@ class BitThemes extends BitBase {
 			}
 		}
 
-		$sql1 = "SELECT DISTINCT `module_rsrc` FROM `".BIT_DB_PREFIX."themes_layouts`"; 
+		$sql1 = "SELECT DISTINCT `module_rsrc` FROM `".BIT_DB_PREFIX."themes_layouts`";
 		$legacy_mods = $this->mDb->getArray( $sql1 );
 
-		// fix everything 
+		// fix everything
 		// transaction will save us if something goes bad
 		$this->mDb->StartTrans();
 
@@ -1069,8 +1069,8 @@ class BitThemes extends BitBase {
 
 	/**
 	 * get a module-specfic parameters
-	 * 
-	 * @param array $pModuleId 
+	 *
+	 * @param array $pModuleId
 	 * @access public
 	 * @return array or parameters
 	 */
@@ -1087,8 +1087,8 @@ class BitThemes extends BitBase {
 
 	/**
 	 * parse URL-like parameter string
-	 * 
-	 * @param array $pParseString 
+	 *
+	 * @param array $pParseString
 	 * @access public
 	 * @return array or parameters
 	 */
@@ -1109,9 +1109,9 @@ class BitThemes extends BitBase {
 	// }}}
 	// {{{ =================== Custom Modules ====================
 	/**
-	 * verifyCustomModule 
-	 * 
-	 * @param array $pParamHash 
+	 * verifyCustomModule
+	 *
+	 * @param array $pParamHash
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1136,9 +1136,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * storeCustomModule 
-	 * 
-	 * @param array $pParamHash 
+	 * storeCustomModule
+	 *
+	 * @param array $pParamHash
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1152,9 +1152,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getCustomModule 
-	 * 
-	 * @param array $pName 
+	 * getCustomModule
+	 *
+	 * @param array $pName
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1165,8 +1165,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getCustomModuleList 
-	 * 
+	 * getCustomModuleList
+	 *
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1175,9 +1175,9 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * expungeCustomModule 
-	 * 
-	 * @param array $pName 
+	 * expungeCustomModule
+	 *
+	 * @param array $pName
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
@@ -1190,8 +1190,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * isCustomModule 
-	 * 
+	 * isCustomModule
+	 *
 	 * @param array $pMixed either name of module or the rsrc of a module
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
@@ -1231,7 +1231,7 @@ class BitThemes extends BitBase {
 	// {{{ Javascript and CSS load methods
 	/**
 	 * Load Ajax libraries
-	 * 
+	 *
 	 * @param array $pAjaxLib Name of the library we want to use e.g.: prototype or mochikit
 	 * @param array $pLibHash Array of additional libraries we need to load
 	 * @param boolean $pPack Set to true if you want to pack the javascript file
@@ -1324,8 +1324,8 @@ class BitThemes extends BitBase {
 
 	/**
 	 * check to see if a given ajax library is loaded
-	 * 
-	 * @param array $pAjaxLib 
+	 *
+	 * @param array $pAjaxLib
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
@@ -1368,7 +1368,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * loadAuxFile will add a file to the mAuxFiles hash for later processing
-	 * 
+	 *
 	 * @param array $pFile Full path to the file in question
 	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process.
@@ -1404,7 +1404,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * Load an addition javascript file
-	 * 
+	 *
 	 * @param string $pJavascriptFile Full path to javascript file
 	 * @param boolean $pPack Set to true if you want to pack the javascript file
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
@@ -1447,8 +1447,8 @@ class BitThemes extends BitBase {
 
 	/**
 	 * Load an additional CSS file
-	 * 
-	 * @param array $pCssFile Full path to CSS file 
+	 *
+	 * @param array $pCssFile Full path to CSS file
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
 	 * @param boolean $pJoined Adds the file to the list of files to be concatenated into a single file
 	 * @param boolean $pForce Forces the css file to always be loaded, should only be used by active style
@@ -1471,7 +1471,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * simply pack css file by removing excess whitespace and comments
-	 * 
+	 *
 	 * @param array $pCssFile full path to css file
 	 * @access private
 	 * @return TRUE on success, FALSE on failure
@@ -1532,7 +1532,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * relativeToAbsolute convert a relative or absolute URL to an absolute URL or path
-	 * 
+	 *
 	 * @param string $pUrl url() in the css file
 	 * @param string $pCssFile full path to the css file calling the url()
 	 * @param boolean $pReturnUrl return URL or path to file
@@ -1560,7 +1560,7 @@ class BitThemes extends BitBase {
 			}
 
 			if( $pReturnUrl ) {
-				if (is_windows() ) { 
+				if (is_windows() ) {
 					$ret = str_replace( '\\', '/',  $ret );
 					// Put first forward slash back
 					$ret = substr_replace($ret, '\\', 2, 1 );
@@ -1573,14 +1573,14 @@ class BitThemes extends BitBase {
 				}
 			} else if (is_windows() ) {
 				$ret = str_replace(  '/', '\\', $ret );
-			}			
+			}
 		}
 		return $ret;
 	}
 
 	/**
 	 * joinAuxFiles will join all files in mAuxFiles[hash] into one cached file. This helps keep our HTTP requests down to a minimum.
-	 * 
+	 *
 	 * @param string $pType specifies what files to join. typical values include 'js', 'css'
 	 * @access private
 	 * @return url to cached file
@@ -1627,12 +1627,12 @@ class BitThemes extends BitBase {
 
 	/**
 	 * cleanAuxFiles will remove unwanted aux files if conflicting files have been loaded
-	 * 
+	 *
 	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
 	 * @access private
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
-	 * @note  It is regrettable that we have this method here but our previous 
-	 *        use of prototype requires this cleanup and might be needed in the 
+	 * @note  It is regrettable that we have this method here but our previous
+	 *        use of prototype requires this cleanup and might be needed in the
 	 *        future as well
 	 */
 	function cleanAuxFiles( $pType ) {
@@ -1670,7 +1670,7 @@ class BitThemes extends BitBase {
 		// convert full file path to URL in mRawFiles hash
 		if( !empty( $this->mRawFiles[$pType] )) {
 			foreach( $this->mRawFiles[$pType] as $pos => $file ) {
-				if (is_windows() ) { 
+				if (is_windows() ) {
 					$file = str_replace( '\\', '/',  $file );
 					// Put first forward slash back
 					$file = substr_replace( $file, '\\', 2, 1 );
@@ -1690,8 +1690,8 @@ class BitThemes extends BitBase {
 	// }}}
 	// {{{ Javascript and CSS unload methods
 	/**
-	 * unloadAuxFile 
-	 * 
+	 * unloadAuxFile
+	 *
 	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
 	 * @param array $pFile Full path to the file in question
 	 * @access private
@@ -1704,8 +1704,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * unloadCss 
-	 * 
+	 * unloadCss
+	 *
 	 * @param array $pFile Full path to the file in question
 	 * @access public
 	 * @return void
@@ -1715,8 +1715,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * unloadJvascript 
-	 * 
+	 * unloadJvascript
+	 *
 	 * @param array $pFile Full path to the file in question
 	 * @access public
 	 * @return void
@@ -1729,7 +1729,7 @@ class BitThemes extends BitBase {
 	// {{{ Javascript and CSS override methods
 	/**
 	 * overrideAuxFile Override an aux file
-	 * 
+	 *
 	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
 	 * @param array $pOriginalFile Path to old file
 	 * @param array $pNewFile Path to new file
@@ -1755,7 +1755,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * overrideCss
-	 * 
+	 *
 	 * @param array $pOriginalFile Path to old file
 	 * @param array $pNewFile Path to new file
 	 * @access public
@@ -1767,8 +1767,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * overrideJavascript 
-	 * 
+	 * overrideJavascript
+	 *
 	 * @param array $pOriginalFile Path to old file
 	 * @param array $pNewFile Path to new file
 	 * @access public
@@ -1781,8 +1781,8 @@ class BitThemes extends BitBase {
 	// }}}
 
 	/**
-	 * isAuxFile 
-	 * 
+	 * isAuxFile
+	 *
 	 * @param array $pFile Full path to file
 	 * @param string $pType specifies what files to check. typical values include 'js', 'css'
 	 * @access public
@@ -1804,9 +1804,9 @@ class BitThemes extends BitBase {
 	// }}}
 	// {{{ =================== Miscellaneous Stuff ====================
 	/**
-	 * setDisplayMode 
-	 * 
-	 * @param string $pDisplayMode 
+	 * setDisplayMode
+	 *
+	 * @param string $pDisplayMode
 	 * @access public
 	 * @return void
 	 */
@@ -1860,8 +1860,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getGraphvizGraphAttributes 
-	 * 
+	 * getGraphvizGraphAttributes
+	 *
 	 * @param array $pParams Override any of the settings coming out of this function
 	 * @access public
 	 * @return array Hash of default values
@@ -1891,8 +1891,8 @@ class BitThemes extends BitBase {
 	}
 
 	/**
-	 * getGraphvizNodeAttributes 
-	 * 
+	 * getGraphvizNodeAttributes
+	 *
 	 * @param array $pParams Override any of the settings coming out of this function
 	 * @access public
 	 * @return array Hash of default values
@@ -1926,7 +1926,7 @@ class BitThemes extends BitBase {
 
 	/**
 	 * getGraphvizEdgeAttributes
-	 * 
+	 *
 	 * @param array $pParams Override any of the settings coming out of this function
 	 * @access public
 	 * @return array Hash of default values
@@ -1989,8 +1989,8 @@ class BitThemes extends BitBase {
 
 /**
  * load content specific theme picked by user
- * 
- * @param array $pContent 
+ *
+ * @param array $pContent
  * @access public
  * @return void
  */
@@ -2024,10 +2024,10 @@ function themes_content_display( $pContent ) {
 }
 
 /**
- * themes_content_list 
- * 
- * @param array $pContent 
- * @param array $pListHash 
+ * themes_content_list
+ *
+ * @param array $pContent
+ * @param array $pListHash
  * @access public
  * @return void
  */
