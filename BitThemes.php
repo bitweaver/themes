@@ -50,7 +50,7 @@ class BitThemes extends BitBase {
 	 *
 	 * @return void
 	 */
-	function BitThemes() {
+	function __construct() {
 		parent::__construct();
 
 		// start up caching engine
