@@ -55,5 +55,5 @@ html[dir='rtl'] .navbar ul li       {float:right;}
 .icon,.icon:hover,
 a.icon,a.icon:hover {border:0px;}
 
-/* IE hacks */
+/* IE hacks 
 #header		{z-index:5000} /* For IE6; Required to get top menu overlapping all body elements. Relatively harmless for other browsers, YMMV */
