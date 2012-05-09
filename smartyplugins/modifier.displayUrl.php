@@ -18,7 +18,7 @@
  *     If the array contains an element content_type_guid then lib becomes the handler class of the content_type_guid and the array is passed as the parameter to (new <lib>)->getDisplayUrl
  *     If the array contains an element handler_class then lib becomes the handler_class and the array is passed as the parameter to (new <lib>)->getDisplayUrl
  * --
- * If all of the above tests fail then LibertyContent::getDisplayUrl with the argument to the modifier passed as the second argument
+ * If all of the above tests fail then LibertyContent::getDisplayUrlFromHash with the argument to the modifier passed as the second argument
  * Example: {'My Page'|displayUrl}, {'admin'|displayUrl:BitUser}, {$gContent|displayUrl:MyObject}
  * -------------------------------------------------------------
  */
@@ -97,6 +97,6 @@ function smarty_modifier_displayUrl($pMixed, $lib='') {
 			}
 		}
 	}
-	return LibertyContent::getDisplayUrl(null,$pMixed);
+	return LibertyContent::getDisplayUrlFromHash( $pMixed );
 }
 ?>

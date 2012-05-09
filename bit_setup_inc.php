@@ -9,9 +9,9 @@ $gBitSystem->registerPackage( $registerHash );
 
 define( 'DEFAULT_ICON_STYLE', $gBitSystem->getConfig( 'default_icon_style', 'tango' ) );
 
-$gLibertySystem->registerService( 
-	LIBERTY_SERVICE_THEMES, 
-	THEMES_PKG_NAME, 
+$gLibertySystem->registerService(
+	LIBERTY_SERVICE_THEMES,
+	THEMES_PKG_NAME,
 	array(
 		'content_display_function' => 'themes_content_display',
 		'content_list_function' => 'themes_content_list',
