@@ -80,7 +80,8 @@ class BitSmarty extends Smarty {
 		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
 			echo "\n<!-- - - - {$pParams['smarty_include_tpl_file']} - - - -->\n";
 		}
-		$this->includeSiblingPhp( $pParams['smarty_include_tpl_file'], $pParams['smarty_include_vars'] );
+		$modPhpFile = str_replace( '.tpl', '.php', $pParams['smarty_include_tpl_file'] );
+		$this->includeSiblingFile( $modPhpFile, $pParams['smarty_include_vars'] );
 		return parent::_smarty_include( $pParams );
 	}
 
@@ -113,7 +114,8 @@ class BitSmarty extends Smarty {
 		}
 
 		// the PHP sibling file needs to be included here, before the fetch so caching works properly
-		$this->includeSiblingPhp( $pTplFile );
+		$modPhpFile = str_replace( '.tpl', '.php', "$path$subdir/$template" );
+		$this->includeSiblingFile( $modPhpFile );
 		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
 			echo "\n<!-- - - - {$pTplFile} - - - -->\n";
 		}
@@ -124,27 +126,23 @@ class BitSmarty extends Smarty {
 	 * THE method to invoke if you want to be sure a tpl's sibling php file gets included if it exists. This
 	 * should not need to be invoked from anywhere except within this class
 	 *
-	 * @param string $pRsrc resource of the template, should be of the form "bitpackage:<packagename>/<templatename>"
+	 * @param string $pFile file to be included, should be of the form "bitpackage:<packagename>/<templatename>"
 	 * @return TRUE if a sibling php file was included
 	 * @access private
 	 */
-	function includeSiblingPhp( $pRsrc, $pIncludeVars=NULL ) {
+	function includeSiblingFile( $pFile, $pIncludeVars=NULL ) {
 		global $gBitThemes;
 		$ret = FALSE;
-		if( strpos( $pRsrc, ':' )) {
-			list( $resource, $location ) = explode( ':', $pRsrc );
+		if( strpos( $pFile, ':' )) {
+			list( $resource, $location ) = explode( ':', $pFile );
 			if( $resource == 'bitpackage' ) {
-				// @TODO MODULE UPGRADE - we may want to simplify this after all modules have been upgraded
-				// list( $package, $template ) = explode( '/', $location );
-				$package = substr( $location, 0, strpos( $location, '/' ) );
-				$template = substr( $location, strpos( $location, '/' ) + 1 );
-				// print "( $resource, $location )  ( $package, $template )<br/>";
-				$subdir = preg_match( '/mod_/', $template ) ? 'modules' : 'templates';
-				if( preg_match('/mod_/', $template ) || preg_match( '/center_/', $template )) {
+				list( $package, $modFile ) = explode( '/', $location );
+				$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
+				if( preg_match('/mod_/', $modFile ) || preg_match( '/center_/', $modFile ) ) {
 					global $gBitSystem;
 					$path = constant( strtoupper( $package )."_PKG_PATH" );
-					$modPhpFile = str_replace( '.tpl', '.php', "$path$subdir/$template" );
-					if( file_exists( $modPhpFile )) {
+					$includeFile = "$path$subdir/$modFile";
+					if( file_exists( $includeFile )) {
 						global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
 						$moduleParams = array();
 						if( !empty( $pIncludeVars['module_params'] ) ) {
@@ -155,12 +153,27 @@ class BitSmarty extends Smarty {
 							// Module Params were passed in from the template, like kernel/dynamic.tpl
 							$moduleParams = $this->get_template_vars( 'moduleParams' );
 						}
-						include( $modPhpFile );
+						include( $includeFile );
 						$ret = TRUE;
 					}
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * getModuleConfig
+	 *
+	 * @access public
+	 * @return hash of config values set in sibling .cfg file
+	 */
+	function getModuleConfig( $pModuleRsrc ) {
+		global $moduleConfig;
+		$moduleConfig = array();
+		$moduleConfigFile = str_replace( '.tpl', '.cfg', $pModuleRsrc );
+		$this->includeSiblingFile( $moduleConfigFile );
+		return $moduleConfig;
 	}
 
 	/**
