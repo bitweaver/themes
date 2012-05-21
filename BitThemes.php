@@ -460,7 +460,7 @@ class BitThemes extends BitBase {
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
 	function getLayout( $pParamHash = NULL ) {
-		global $gCenterPieces, $gBitUser, $gBitSystem;
+		global $gCenterPieces, $gBitUser, $gBitSystem, $gBitSmarty;
 		$ret = array( 'l' => NULL, 'c' => NULL, 'r' => NULL );
 
 		$layouts =  array();
@@ -534,6 +534,11 @@ class BitThemes extends BitBase {
 				}
 
 				$row['module_params'] = $this->parseString( $row['params'] );
+
+				if( !empty( $pParamHash['load_config'] ) ) {
+					global $moduleParams;
+					$row['config'] = $gBitSmarty->getModuleConfig( $row['module_rsrc'] );
+				}
 
 				if( $row['layout_area'] == CENTER_COLUMN ) {
 					array_push( $gCenterPieces, $row );
@@ -731,7 +736,6 @@ class BitThemes extends BitBase {
 		}
 
 		$pHash['store']['title']         = ( !empty( $pHash['title'] )             ? $pHash['title']         : NULL );
-		$pHash['store']['params']        = ( !empty( $pHash['params'] )            ? $pHash['params']        : NULL );
 		$pHash['store']['layout']        = ( !empty( $pHash['layout'] )            ? $pHash['layout']        : DEFAULT_PACKAGE );
 		$pHash['store']['module_rows']   = ( @is_numeric( $pHash['module_rows'] )  ? $pHash['module_rows']   : NULL );
 		$pHash['store']['cache_time']    = ( @is_numeric( $pHash['cache_time'] )   ? $pHash['cache_time']    : NULL );
@@ -741,6 +745,15 @@ class BitThemes extends BitBase {
 			$pHash['store']['groups'] = implode( ' ', $pHash['groups'] );
 		} else {
 			$pHash['store']['groups'] = NULL;
+		}
+
+		if( !empty( $pHash['config'] ) ) {
+			$pHash['store']['params'] = '';
+			foreach( $pHash['config'] as $paramName=>$paramValue ) {
+				$pHash['store']['params'] .= $paramName.'='.urlencode( $paramValue ).'&';
+			}
+		} else {
+			$pHash['store']['params']        = ( !empty( $pHash['params'] )            ? $pHash['params']        : NULL );
 		}
 
 		return( count( $this->mErrors ) == 0 );
