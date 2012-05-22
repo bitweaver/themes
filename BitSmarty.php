@@ -114,7 +114,7 @@ class BitSmarty extends Smarty {
 		}
 
 		// the PHP sibling file needs to be included here, before the fetch so caching works properly
-		$modPhpFile = str_replace( '.tpl', '.php', "$path$subdir/$template" );
+		$modPhpFile = str_replace( '.tpl', '.php', $pTplFile );
 		$this->includeSiblingFile( $modPhpFile );
 		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
 			echo "\n<!-- - - - {$pTplFile} - - - -->\n";
