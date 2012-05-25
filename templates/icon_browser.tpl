@@ -12,7 +12,7 @@
 		<table class="data">
 			<tr>
 				{foreach from=$iconList item=icons key=iconStyle}
-				<th class="width1p" colspan="3"><a href="{$smarty.request.PHP_SELF}?icon_style={$iconStyle}">{$iconStyle}</a></th>
+				<th class="width1p" colspan="3"><a href="{$smarty.request.SCRIPT_NAME}?icon_style={$iconStyle}">{$iconStyle}</a></th>
 				{/foreach}
 				<th class="width70p;">{tr}Icon name{/tr}</th>
 				<th class="width29p;">{tr}bitweaver uses{/tr}</th>

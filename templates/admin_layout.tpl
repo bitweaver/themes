@@ -93,7 +93,7 @@
 
 {jstabs}
 	{jstab title="Modules"}
-		{form action=$smarty.server.PHP_SELF legend="Assign modules to columns and areas"}
+		{form action=$smarty.server.SCRIPT_NAME legend="Assign modules to columns and areas"}
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="module_package" value="{$module_package}" />
 			<div class="row">

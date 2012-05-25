@@ -22,7 +22,7 @@ function smarty_function_pagination( $params, &$gBitSmarty ) {
         unset( $params['url'] );
     }
     if( empty( $pgnUrl ) ) {
-        $pgnUrl = $_SERVER['PHP_SELF'];
+        $pgnUrl = $_SERVER['SCRIPT_NAME'];
 	}
 
     $gBitSmarty->assign( 'pgnUrl', $pgnUrl );

@@ -73,7 +73,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 			$url = constant( strtoupper( ACTIVE_PACKAGE ).'_PKG_URL' ).$hash['ifile'];
 		}
 	} else {
-		$url = $_SERVER['PHP_SELF'];
+		$url = $_SERVER['SCRIPT_NAME'];
 	}
 
 	$url_params = NULL;

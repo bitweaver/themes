@@ -34,7 +34,7 @@ function smarty_function_alphabar( $params, &$gBitSmarty ) {
 			$url = constant( strtoupper( ACTIVE_PACKAGE ).'_PKG_URL' ).$ifile;
 		}
 	} else {
-		$url = $_SERVER['PHP_SELF'];
+		$url = $_SERVER['SCRIPT_NAME'];
 	}
 
 	$alphabar_params = array( 'ifile', 'ipackage', 'iall' );

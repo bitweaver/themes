@@ -14,7 +14,7 @@
  *           - ipackage    (optional) - package where we should direct the form after submission
  *           - ifile       (optional) - file that is targetted
  *           - ianchor     (optional) - move to anchor after submitting
- *                         if neither are set, $PHP_SELF is used as url
+ *                         if neither are set, SCRIPT_NAME is used as url
  *           - legend      if set, it will generate a fieldset using the input as legend
  * @uses smarty_function_escape_special_chars()
  * @todo somehow make the variable that is contained within $iselect global --> this will allow importing of outside variables not set in $_REQUEST
@@ -89,9 +89,9 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 		}
 
 		if( empty( $url )) {
-			$url = $_SERVER['PHP_SELF'];
+			$url = $_SERVER['SCRIPT_NAME'];
 		} else if( $url == 'https://' . $_SERVER['HTTP_HOST'] ) {
-			$url .= $_SERVER['PHP_SELF'];
+			$url .= $_SERVER['SCRIPT_NAME'];
 		}
 
 		$onsub = ( !empty( $onsubmit ) ? ' onsubmit="'.$onsubmit.'"' : '' );
