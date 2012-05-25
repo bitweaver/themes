@@ -13,7 +13,7 @@
  * Name:     pagination<br>
  * Input:<br>
  *           - <attribute>=<value>  (optional) - pass in any attributes and they will be added to the pagination string<br>
- * Output:   url of the form: $PHP_SELF?attribute1=value1&attribute2=value2
+ * Output:   url of the form: $_SERVER[SCRIPT_NAME]?attribute1=value1&attribute2=value2
  */
 function smarty_function_pagination( $params, &$gBitSmarty ) {
     $pgnUrl = $gBitSmarty->get_template_vars('returnURL');

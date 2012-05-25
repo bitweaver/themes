@@ -13,7 +13,7 @@
  * Name:     pageurl<br>
  * Input:
  *           - <listHash>=<attribute=>value>  (optional) - pass in any attributes and they will be added to the url string<br>
- * Output:   url of the form: $PHP_SELF?attribute1=value1&attribute2=value2
+ * Output:   url of the form: $_SERVER[SCRIPT_NAME]?attribute1=value1&attribute2=value2
 
 /* Build up URL variable string */
 function smarty_function_pageurl( $params, &$gBitSmarty ) {
