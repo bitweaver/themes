@@ -16,10 +16,10 @@
  * Version:  1.0
  * Date:     Aug 10, 2003
  * Purpose:  Adds Google-cache-like highlighting for terms in a
- *           template after its rendered. This can be used 
+ *           template after its rendered. This can be used
  *           easily integrated with the wiki search functionality
  *           to provide highlighted search terms.
- * Install:  Drop into the plugin directory, call 
+ * Install:  Drop into the plugin directory, call
  *           $gBitSmarty->load_filter('output','highlight');
  *           from application.
  * Author:   Greg Hinkle <ghinkl@users.sourceforge.net>
@@ -84,7 +84,7 @@ function smarty_outputfilter_highlight( $source, &$gBitSmarty ) {
 
 			$words = preg_replace( "!\s+!", " ", $words );
 			if( !empty( $words ) ) {
-				$wordArr = array_merge( $wordArr, explode( ' ', $words ) );
+				$wordArr = array_merge( $wordArr, explode( ' ', strip_tags($words) ) );
 			}
 
 			//$wordArr = split( " ", urldecode( $words ) );
@@ -93,7 +93,7 @@ function smarty_outputfilter_highlight( $source, &$gBitSmarty ) {
 			$wordList = tra( "Highlighted words" ).': ';
 			foreach( $wordArr as $word ) {
 				$wordList .= '<span style="font-weight:bold;padding:0 0.3em;color:black;background-color:'.$colorArr[$i].';">'.$word.'</span> ';
-				$highlight = preg_replace( "/(".preg_quote( $word, '/' ).")/si", '<span style="font-weight:bold;color:black;background-color:'.$colorArr[$i++].';">$1</span>', $highlight ); 
+				$highlight = preg_replace( "/(".preg_quote( $word, '/' ).")/si", '<span style="font-weight:bold;color:black;background-color:'.$colorArr[$i++].';">$1</span>', $highlight );
 			}
 
 			krsort( $patterns );
