@@ -13,7 +13,7 @@ require_once( KERNEL_PKG_PATH.'BitCache.php' );
  * @package themes
  * @uses BitBase
  */
-class BitThemes extends BitBase {
+class BitThemes extends BitSingleton {
 	// Array that contains a full description of the current layout
 	var $mLayout = array();
 
