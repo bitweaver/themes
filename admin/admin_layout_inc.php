@@ -12,7 +12,8 @@ if( empty( $_REQUEST['module_package'] ) ) {
 	$_REQUEST['module_package'] = DEFAULT_PACKAGE;
 }
 
-$gBitSmarty->assign_by_ref( 'feedback', $feedback = array() );
+$feedback = array();
+$gBitSmarty->assign_by_ref( 'feedback', $feedback );
 $layoutHash = array(
 	'layout' => $_REQUEST['module_package'],
 	'fallback' => FALSE,
