@@ -4,8 +4,14 @@
 // Initialization
 require_once( '../../kernel/setup_inc.php' );
 
-if( !isset($_REQUEST["groups"] ) ) {
-	$_REQUEST["groups"] = array();
+if( defined( 'ROLE_MODEL' )) {
+	if( !isset($_REQUEST["roles"] ) ) {
+		$_REQUEST["roles"] = array();
+	}
+} else {
+	if( !isset($_REQUEST["groups"] ) ) {
+		$_REQUEST["groups"] = array();
+	}
 }
 
 if( empty( $_REQUEST['module_package'] ) ) {
@@ -64,15 +70,21 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 } elseif( $processForm == 'Center' || $processForm == 'Column' ) {
 	$fAssign = &$_REQUEST['fAssign'];
 
-	if( !empty( $_REQUEST['groups'] ) ) {
-		$fAssign['groups'] = $_REQUEST['groups'];
+	if( defined( 'ROLE_MODEL' )) {
+		if( !empty( $_REQUEST['roles'] ) ) {
+			 $fAssign['roles'] = $_REQUEST['roles'];
+		}
+	} else {
+		if( !empty( $_REQUEST['groups'] ) ) {
+			$fAssign['groups'] = $_REQUEST['groups'];
+		}
 	}
 
 	// either add the module to all available layouts or just the active one
-	
+
 	$fAssign['layout'] = $_REQUEST['module_package'];
 	$gBitThemes->storeModule( $fAssign );
-	unset( $fAssign['store'] );	
+	unset( $fAssign['store'] );
 	if( !empty( $fAssign['add_to_all'] )) {
 		foreach( array_keys( $cloneLayouts ) as $pkg ) {
 			if( $pkg != $_REQUEST['module_package'] ){
@@ -139,9 +151,14 @@ for( $i = 1; $i < 50; $i++ ) {
 }
 
 $gBitSmarty->assign_by_ref( 'orders', $orders );
-$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
-$gBitSmarty->assign_by_ref( "groups", $groups );
 
+if( defined( 'ROLE_MODEL' )) {
+	$roles = $gBitUser->getAllUserRoles( ROOT_USER_ID );
+	$gBitSmarty->assign_by_ref( "roles", $roles );
+} else {
+	$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
+	$gBitSmarty->assign_by_ref( "groups", $groups );
+}
 // we need gBitThemes as well
 $gBitSmarty->assign_by_ref( "gBitThemes", $gBitThemes );
 
