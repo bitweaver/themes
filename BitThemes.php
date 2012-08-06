@@ -501,6 +501,35 @@ class BitThemes extends BitSingleton {
 					break;
 				}
 
+				if ( defined ('ROLE_MODEL') ) {
+				// transform roles to managable array
+				if( empty( $row["roles"] )) {
+					// default is that module is visible at all times
+					$row["visible"] = TRUE;
+					$row["module_roles"] = array();
+				} else {
+					$row['module_roles'] = $this->parseRoles( $row['roles'] );
+
+					if( $gBitUser->isAdmin() ) {
+						if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
+							if( in_array(1, $row['module_roles']) ) {
+								$row['visible'] = TRUE;
+							}
+						}
+						else {
+							$row["visible"] = TRUE;
+						}
+					} else {
+						// Check for the right roles
+						foreach( $row["module_roles"] as $modRoleId ) {
+							if( $gBitUser->isInRole( $modRoleId )) {
+								$row["visible"] = TRUE;
+								break; // no need to continue looping
+							}
+						}
+					}
+				}
+				} else {
 				// transform groups to managable array
 				if( empty( $row["groups"] )) {
 					// default is that module is visible at all times
@@ -527,6 +556,7 @@ class BitThemes extends BitSingleton {
 							}
 						}
 					}
+				}
 				}
 
 				if( empty( $ret[$row['layout_area']] )) {
@@ -621,7 +651,11 @@ class BitThemes extends BitSingleton {
 		$layouts = array();
 		$modules = $this->mDb->getAll( "SELECT tl.* FROM `".BIT_DB_PREFIX."themes_layouts` tl ORDER BY ".$this->mDb->convertSortmode( "pos_asc" ));
 		foreach( $modules as $module ) {
-			$module['module_groups'] = $this->parseGroups( $module['groups'] );
+			if( defined ( 'ROLE_MODEL') ) {
+				$module['module_roles'] = $this->parseRoles( $module['roles'] );
+			} else {
+				$module['module_groups'] = $this->parseGroups( $module['groups'] );
+			}
 			$layouts[$module['layout']][$module['layout_area']][] = $module;
 		}
 		ksort( $layouts );
@@ -648,8 +682,9 @@ class BitThemes extends BitSingleton {
 			// nuke existing layout
 			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pToLayout ));
 			// get requested layout
+			$team = defined('ROLE_MODEL') ? 'roles' : 'groups';
 			$layout = $this->mDb->getAll( "
-				SELECT `title`, `layout_area`, `module_rows`, `module_rsrc`, `params`, `cache_time`, `groups`, `pos`
+				SELECT `title`, `layout_area`, `module_rows`, `module_rsrc`, `params`, `cache_time`, `$team`, `pos`
 				FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pFromLayout ));
 			foreach( $layout as $module ) {
 				$module['layout'] = $pToLayout;
@@ -708,6 +743,39 @@ class BitThemes extends BitSingleton {
 		return $ret;
 	}
 
+	/**
+	 * transform roles string to handy array
+	 *
+	 * @param array $pParseString either space separated list of roles or serialised array
+	 * @access public
+	 * @return array of roles
+	 */
+	function parseRoles( $pParseString ) {
+		$ret = array();
+		// convert role string to hash
+		if( preg_match( '/[A-Za-z]/', $pParseString )) {
+			// old style serialized role names
+			if( $grps = @unserialize( $pParseString )) {
+				foreach( $grps as $grp ) {
+					global $gBitUser;
+					if( !( $roleId = array_search( $grp, $gBitUser->mRoles ))) {
+						if( $gBitUser->isAdmin() ) {
+							$ret[] = $gBitUser->rollExists( $grp, '*' );
+						}
+					}
+
+					if( @$this->verifyId( $roleId )) {
+						$ret[] = $roleId;
+					}
+				}
+			}
+		} else {
+			// new imploded style
+			$ret = explode( ' ', $pParseString );
+		}
+		return $ret;
+	}
+
 
 	// }}}
 	// {{{ =================== Modules ====================
@@ -736,13 +804,18 @@ class BitThemes extends BitSingleton {
 		}
 
 		$pHash['store']['title']         = ( !empty( $pHash['title'] )             ? $pHash['title']         : NULL );
+		$pHash['store']['params']        = ( !empty( $pHash['params'] )            ? $pHash['params']        : NULL );
 		$pHash['store']['layout']        = ( !empty( $pHash['layout'] )            ? $pHash['layout']        : DEFAULT_PACKAGE );
 		$pHash['store']['module_rows']   = ( @is_numeric( $pHash['module_rows'] )  ? $pHash['module_rows']   : NULL );
 		$pHash['store']['cache_time']    = ( @is_numeric( $pHash['cache_time'] )   ? $pHash['cache_time']    : NULL );
 		$pHash['store']['pos']           = ( @is_numeric( $pHash['pos'] )          ? $pHash['pos']           : 1 );
 
-		if( !empty( $pHash['groups'] ) && is_array( $pHash['groups'] )) {
+		if( !empty( $pHash['roles'] ) && is_array( $pHash['roles'] )) {
+			$pHash['store']['roles'] = implode( ' ', $pHash['roles'] );
+		} elseif( !empty( $pHash['groups'] ) && is_array( $pHash['groups'] )) {
 			$pHash['store']['groups'] = implode( ' ', $pHash['groups'] );
+		} elseif (defined('ROLE_MODEL') ) {
+			$pHash['store']['roles'] = NULL;
 		} else {
 			$pHash['store']['groups'] = NULL;
 		}
