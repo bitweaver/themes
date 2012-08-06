@@ -502,61 +502,61 @@ class BitThemes extends BitSingleton {
 				}
 
 				if ( defined ('ROLE_MODEL') ) {
-				// transform roles to managable array
-				if( empty( $row["roles"] )) {
-					// default is that module is visible at all times
-					$row["visible"] = TRUE;
-					$row["module_roles"] = array();
-				} else {
-					$row['module_roles'] = $this->parseRoles( $row['roles'] );
-
-					if( $gBitUser->isAdmin() ) {
-						if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
-							if( in_array(1, $row['module_roles']) ) {
-								$row['visible'] = TRUE;
-							}
-						}
-						else {
-							$row["visible"] = TRUE;
-						}
+					// transform roles to managable array
+					if( empty( $row["roles"] )) {
+						// default is that module is visible at all times
+						$row["visible"] = TRUE;
+						$row["module_roles"] = array();
 					} else {
-						// Check for the right roles
-						foreach( $row["module_roles"] as $modRoleId ) {
-							if( $gBitUser->isInRole( $modRoleId )) {
+						$row['module_roles'] = $this->parseRoles( $row['roles'] );
+
+						if( $gBitUser->isAdmin() ) {
+							if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
+								if( in_array(1, $row['module_roles']) ) {
+									$row['visible'] = TRUE;
+								}
+							}
+							else {
 								$row["visible"] = TRUE;
-								break; // no need to continue looping
+							}
+						} else {
+							// Check for the right roles
+							foreach( $row["module_roles"] as $modRoleId ) {
+								if( $gBitUser->isInRole( $modRoleId )) {
+									$row["visible"] = TRUE;
+									break; // no need to continue looping
+								}
 							}
 						}
 					}
-				}
 				} else {
-				// transform groups to managable array
-				if( empty( $row["groups"] )) {
-					// default is that module is visible at all times
-					$row["visible"] = TRUE;
-					$row["module_groups"] = array();
-				} else {
-					$row['module_groups'] = $this->parseGroups( $row['groups'] );
-
-					if( $gBitUser->isAdmin() ) {
-						if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
-							if( in_array(1, $row['module_groups']) ) {
-								$row['visible'] = TRUE;
-							}
-						}
-						else {
-							$row["visible"] = TRUE;
-						}
+					// transform groups to managable array
+					if( empty( $row["groups"] )) {
+						// default is that module is visible at all times
+						$row["visible"] = TRUE;
+						$row["module_groups"] = array();
 					} else {
-						// Check for the right groups
-						foreach( $row["module_groups"] as $modGroupId ) {
-							if( $gBitUser->isInGroup( $modGroupId )) {
+						$row['module_groups'] = $this->parseGroups( $row['groups'] );
+
+						if( $gBitUser->isAdmin() ) {
+							if ( $gBitSystem->isFeatureActive('site_mods_req_admn_grp') ) {
+								if( in_array(1, $row['module_groups']) ) {
+									$row['visible'] = TRUE;
+								}
+							}
+							else {
 								$row["visible"] = TRUE;
-								break; // no need to continue looping
+							}
+						} else {
+							// Check for the right groups
+							foreach( $row["module_groups"] as $modGroupId ) {
+								if( $gBitUser->isInGroup( $modGroupId )) {
+									$row["visible"] = TRUE;
+									break; // no need to continue looping
+								}
 							}
 						}
 					}
-				}
 				}
 
 				if( empty( $ret[$row['layout_area']] )) {
@@ -712,7 +712,7 @@ class BitThemes extends BitSingleton {
 
 	/**
 	 * transform groups string to handy array
-	 * 
+	 *
 	 * @param array $pParseString either space separated list of groups or serialised array
 	 * @access public
 	 * @return array of groups
