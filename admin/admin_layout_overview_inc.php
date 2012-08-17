@@ -59,6 +59,11 @@ ksort( $allModulesHelp );
 $gBitSmarty->assign_by_ref( 'allModulesHelp', $allModulesHelp );
 
 $gBitSmarty->assign( 'pageName', 'Layout Options' );
-$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
-$gBitSmarty->assign_by_ref( "groups", $groups );
+if( defined( 'ROLE_MODEL' )) {
+	$roles = $gBitUser->getAllUserRoles( ROOT_USER_ID );
+	$gBitSmarty->assign_by_ref( "roles", $roles );
+} else {
+	$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
+	$gBitSmarty->assign_by_ref( "groups", $groups );
+}
 ?>

@@ -26,7 +26,7 @@ $themeSettings = array(
 	),
 	'site_mods_req_admn_grp' => array(
 		'label' => 'Modules require membership',
-		'note' => 'If enabled, modules with group restrictions require the administrator to be member of the group. If disabled, all modules are always visible to administrators.',
+		'note' => 'If enabled, modules with group/role restrictions require the administrator to be member of the group/role. If disabled, all modules are always visible to administrators.',
 	),
 	'themes_joined_js_css' => array(
 		'label' => 'Joined CSS and JS',

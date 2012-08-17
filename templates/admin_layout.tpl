@@ -206,15 +206,27 @@
 			</div>
 
 			<div class="row">
-				{formlabel label="Groups" for="groups"}
-				{forminput}
-					<select multiple="multiple" size="5" name="groups[]" id="groups">
-						{foreach from=$groups key=groupId item=group}
-							<option value="{$groupId}" {if $group.selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
-						{/foreach}
-					</select>
-					{formhelp note="Select the groups of users who can see this module. If you select no group, the module will be visible to all users."}
-				{/forminput}
+				{if $roles }
+					{formlabel label="Roles" for="roles"}
+					{forminput}
+						<select multiple="multiple" size="5" name="roles[]" id="roles">
+							{foreach from=$roles key=roleId item=role}
+								<option value="{$roleId}" {if $role.selected eq 'y'}selected="selected"{/if}>{$role.role_name}</option>
+							{/foreach}
+						</select>
+						{formhelp note="Select the roles of users who can see this module. If you select no role, the module will be visible to all users."}
+					{/forminput}
+				{else}
+					{formlabel label="Groups" for="groups"}
+					{forminput}
+						<select multiple="multiple" size="5" name="groups[]" id="groups">
+							{foreach from=$groups key=groupId item=group}
+								<option value="{$groupId}" {if $group.selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
+							{/foreach}
+						</select>
+						{formhelp note="Select the groups of users who can see this module. If you select no group, the module will be visible to all users."}
+					{/forminput}
+				{/if}
 			</div>
 
 			<div class="row">
@@ -310,15 +322,27 @@
 			</div>
 
 			<div class="row">
-				{formlabel label="Groups" for="c_groups"}
-				{forminput}
-					<select multiple="multiple" size="5" name="groups[]" id="c_groups">
-						{foreach from=$groups key=groupId item=group}
-							<option value="{$groupId}" {if $group.selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
-						{/foreach}
-					</select>
-					{formhelp note="Select the groups of users who can see this module. If you select no group, the module will be visible to all users."}
-				{/forminput}
+				{if $roles }
+					{formlabel label="Roles" for="c_roles"}
+					{forminput}
+						<select multiple="multiple" size="5" name="roles[]" id="c_roles">
+							{foreach from=$roles key=roleId item=role}
+								<option value="{$roleId}" {if $role.selected eq 'y'}selected="selected"{/if}>{$role.role_name}</option>
+							{/foreach}
+						</select>
+						{formhelp note="Select the roles of users who can see this module. If you select no role, the module will be visible to all users."}
+					{/forminput}
+				{else}
+					{formlabel label="Groups" for="c_groups"}
+					{forminput}
+						<select multiple="multiple" size="5" name="groups[]" id="c_groups">
+							{foreach from=$groups key=groupId item=group}
+								<option value="{$groupId}" {if $group.selected eq 'y'}selected="selected"{/if}>{$group.group_name}</option>
+							{/foreach}
+						</select>
+						{formhelp note="Select the groups of users who can see this module. If you select no group, the module will be visible to all users."}
+					{/forminput}
+				{/if}
 			</div>
 
 			<div class="row submit">

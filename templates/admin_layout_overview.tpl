@@ -66,7 +66,11 @@
 									{section name=ix loop=$layout.$area}
 										<tr>
 											<td>
-												{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix]}
+												{if $roles }	
+													{include file="bitpackage:themes/module_config_role_inc.tpl" modInfo=$layout.$area[ix]}
+												{else}
+													{include file="bitpackage:themes/module_config_inc.tpl" modInfo=$layout.$area[ix]}
+												{/if}	
 											</td>
 										</tr>
 									{sectionelse}

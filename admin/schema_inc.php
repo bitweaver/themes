@@ -21,6 +21,7 @@ $tables = array(
 		params C(255),
 		cache_time I8,
 		groups C(255),
+		roles C(255),
 		pos I4 NOTNULL DEFAULT '1'
 	",
 
