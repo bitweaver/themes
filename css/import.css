@@ -1,4 +1,4 @@
 /* import some useful css rules */
-@import url(default.css);
-@import url(forms.css);
-@import url(tabsystem.css);
+@import url('default.css');
+@import url('forms.css');
+@import url('tabsystem.css');
