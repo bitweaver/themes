@@ -7,8 +7,8 @@
  */
 
 /**
- * biticon_first_match 
- * 
+ * biticon_first_match
+ *
  * @param string $pDir Directory in which we want to search for the icon
  * @param array $pFilename Icon name without the extension
  * @access public
@@ -36,7 +36,7 @@ function biticon_first_match( $pDir, $pFilename ) {
 
 /**
  * Turn collected information into an html image
- * 
+ *
  * @param boolean $pParams['url'] set to TRUE if you only want the url and nothing else
  * @param string $pParams['iexplain'] Explanation of what the icon represents
  * @param string $pParams['iforce'] takes following optins: icon, icon_text, text - will override system settings
@@ -101,8 +101,8 @@ function biticon_output( $pParams, $pFile ) {
 }
 
 /**
- * smarty_function_biticon 
- * 
+ * smarty_function_biticon
+ *
  * @param array $pParams['ipath'] subdirectory within icon directory
  * @param array $pParams['iname'] name of the icon without extension
  * @param array $pParams['ipackage'] package the icon should be searched for - if it's part of an icon theme, this should be set to 'icons'
@@ -144,7 +144,11 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 				$pParams['iclass'] = 'quicktag icon';
 			}
 		} else {
-			$pParams['ipath'] .= $gBitSystem->getConfig( 'site_icon_size', 'small' ).'/';
+			if( !empty( $pParams['isize'] )) {
+				$pParams['ipath'] .= $pParams['isize'].'/';
+			} else {
+				$pParams['ipath'] .= $gBitSystem->getConfig( 'site_icon_size', 'small' ).'/';
+			}
 		}
 	}
 
@@ -230,9 +234,9 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 }
 
 /**
- * biticon_cache 
- * 
- * @param array $pParams 
+ * biticon_cache
+ *
+ * @param array $pParams
  * @access public
  * @return cached icon string on sucess, FALSE on failure
  */
@@ -250,9 +254,9 @@ function biticon_read_cache( $pParams ) {
 }
 
 /**
- * biticon_write_cache 
- * 
- * @param array $pParams 
+ * biticon_write_cache
+ *
+ * @param array $pParams
  * @access public
  * @return TRUE on success, FALSE on failure
  */
@@ -270,8 +274,8 @@ function biticon_write_cache( $pParams, $pCacheString ) {
 
 /**
  * will get the path to the cache files based on the stuff in $pParams
- * 
- * @param array $pParams 
+ *
+ * @param array $pParams
  * @access public
  * @return full path to cachefile
  */
