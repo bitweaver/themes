@@ -1302,7 +1302,8 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 */
 	function isJavascriptEnabled() {
-		return( !empty( $_COOKIE['javascript_enabled'] ) && $_COOKIE['javascript_enabled'] == 'y' );
+	//	return( !empty( $_COOKIE['javascript_enabled'] ) && $_COOKIE['javascript_enabled'] == 'y' );
+		return TRUE; // This function is fuckt as cookie is empty for first query. And cookie privacy browsers are perfjects JS enabled
 	}
 
 	/**
