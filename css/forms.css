@@ -10,8 +10,8 @@ legend                 {font-weight:bold; margin:0 0 1.5em 0;}
 .row.submit				{ margin-left:15.5em; }
 .quicktags             {}
 .formlabel             {font-weight:bold;}
-.forminput input[type="checkbox"] {float:left}
-html[dir='rtl'] .forminput input[type="checkbox"] {float:right;}
+/*.forminput input[type="checkbox"] {float:left}
+html[dir='rtl'] .forminput input[type="checkbox"] {float:right;}*/
 .formhelp              {cursor:help; font-size:smaller;}
 .formhelp ul           {margin-top:0; margin-bottom:0;}
 .error                 {color:#f30;}
