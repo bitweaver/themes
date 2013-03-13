@@ -45,6 +45,7 @@ small				{color:#999;}
 .storage			{float:right; clear:both; text-align:center;}
 html[dir='rtl'] .storage {float:left;}
 .clear				{clear:both;}
+.clearnone			{clear:none;}
 
 /*** forms ***/
 html>body textarea	{width:100%;}
