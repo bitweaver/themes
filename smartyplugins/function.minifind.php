@@ -22,6 +22,10 @@ function smarty_function_minifind($params, &$gBitSmarty) {
 		$legend = 'find in entries';
 	}
 
+	if( !empty( $params['find_name'] ) ) {
+		$gBitSmarty->assign( 'find_name', tra( $params['name'] ) );
+	}
+	
 	if( !empty( $params['prompt'] ) ) {
 		$gBitSmarty->assign( 'prompt', tra( $params['prompt'] ) );
 	}
