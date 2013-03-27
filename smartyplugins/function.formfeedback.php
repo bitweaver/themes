@@ -30,22 +30,22 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 
 			$keys = array( 'warning', 'success', 'error', 'important' );
 			if( in_array( $key, $keys )) {
-				if( $key === 'important' ) {
-					$iname = 'emblem-important';
-				} elseif( $key === 'success' ) {
-					$iname = 'dialog-ok';
-				} elseif( $key === 'warning' ) {
-					$iname = 'dialog-warning';
-				} elseif( $key === 'error' ) {
-					$iname = 'dialog-error';
+				switch( $key ) {
+					case 'success':
+						$alertClass = 'alert alert-success';
+						break;
+					case 'warning':
+						$alertClass = 'alert';
+						break;
+					case 'error':
+						$alertClass = 'alert alert-error';
+						break;
+					case 'important':
+					default:
+						$alertClass = 'alert alert-info';
+						break;
 				}
 
-				$biticon = array(
-					'ipackage' => 'icons',
-					'iname'    => $iname,
-					'iexplain' => ucfirst( $key ),
-					'iforce'   => 'icon',
-				);
 				if( !is_array( $val ) ) {
 					$val = array( $val );
 				}
@@ -53,10 +53,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				foreach( $val as $valText ) {
 					if( is_array( $valText ) ) {
 						foreach( $valText as $text ) {
-							$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$text.'</p>';
+							$feedback .= '<div class="'.$alertClass.'">'.$text.'</div>';
 						}
 					} else {
-						$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$valText.'</p>';
+						$feedback .= '<div class="'.$alertClass.'">'.$valText.'</div>';
 					}
 				}
 
@@ -68,10 +68,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				if ( $key != 'color' ) {
 					if( is_array( $val ) ) {
 						foreach( $val as $text ) {
-							$feedback .= '<p class="'.$key.'">'.$text.'</p>';
+							$feedback .= '<div class="'.$key.'">'.$text.'</div>';
 						}
 					} else {
-						$feedback .= '<p class="'.$key.'">'.$val.'</p>';
+						$feedback .= '<div class="'.$key.'">'.$val.'</div>';
 					}
 				}
 			}
@@ -80,7 +80,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 
 	$html = '';
 	if( !empty( $feedback ) ) {
-		$html = '<div class="formfeedback">';
+		$html = '<div class="feedback">';
 		$html .= $feedback;
 		$html .= '</div>';
 	}

@@ -107,7 +107,7 @@ class BitThemes extends BitSingleton {
 
 		// layout is called as the viry first, package css is around pos 300 and theme / browser are called last
 		// css inserted in <pkg>/header_inc.tpl is called before these files since these are inserted last
-		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
+//		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
 		// check for customized CSS file
@@ -1373,11 +1373,21 @@ class BitThemes extends BitSingleton {
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
+							// boostrap needs to load after jquery
+							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.min.js';
+							if( file_exists( $boostrapSrc ) ) {
+								$this->mRawFiles['js'][] = $boostrapSrc;
+							}
 							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.min.js';
 							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						} else {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
+							// boostrap needs to load after jquery
+							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.js';
+							if( file_exists( $boostrapSrc ) ) {
+								$this->mRawFiles['js'][] = $boostrapSrc;
+							}
 							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.js';
 							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						}

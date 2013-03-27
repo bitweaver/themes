@@ -33,10 +33,6 @@ $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 // load some core javascript files
 $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
 
-if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE, 40 );
-}
-
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
 }

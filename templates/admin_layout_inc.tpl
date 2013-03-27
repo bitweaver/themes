@@ -1,7 +1,7 @@
 {jstab title="Actions"}
 	{legend legend="Layout help"}
 		{if $page eq "layout_overview"}
-			<div class="row">
+			<div class="control-group">
 				{formlabel label="Adjust display" for=""}
 				{forminput}
 					{if !$smarty.request.nocollapse}
@@ -12,7 +12,7 @@
 					{formhelp note="Toggle the state of <em>all modules</em> (expanded/collapsed). This reloads the page without saving changes made prior."}
 				{/forminput}
 			</div>
-			<div class="row">
+			<div class="control-group">
 				{formlabel label="Adjust modules" for=""}
 				{forminput}
 					<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{biticon iname="emblem-symbolic-link" iforce=icon_text iexplain="Adjust module postitions"}</a>
@@ -20,7 +20,7 @@
 				{/forminput}
 			</div>
 		{else}
-			<div class="row">
+			<div class="control-group">
 				{formlabel label="Module Positions" for=""}
 				{forminput}
 					{smartlink ititle="Adjust module positions" page=$page fixpos=1 module_package=$module_package}
@@ -28,7 +28,7 @@
 				{/forminput}
 			</div>
 
-			<div class="row">
+			<div class="control-group">
 				{formlabel label="Layout Details" for=""}
 				{forminput}
 					{smartlink ititle="Configure Layout Details" page=layout_overview}

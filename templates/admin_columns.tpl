@@ -11,7 +11,7 @@
 			{legend legend="Visible Columns and Areas"}
 				{formhelp warning="If checked, the column is visible."}
 				{foreach from=$activeColumns key=feature item=output}
-					<div class="row">
+					<div class="control-group">
 						{formlabel label=`$output.label` for=$feature}
 						{forminput}
 							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -132,7 +132,7 @@
 		
 	{/jstabs}
 	
-	<div class="row submit">
+	<div class="control-group submit">
 		<input type="submit" name="reset_columns" value="{tr}Reset column settings{/tr}" />
 		<input type="submit" name="column_control" value="{tr}Save settings{/tr}" />
 	</div>

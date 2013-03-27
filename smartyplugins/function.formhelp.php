@@ -155,7 +155,7 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 					$html .= '</a>';
 					$html .= '</span>';
 				} else {
-					$html .= '<div class="formhelp" '.$atts.'>'.$content.'</div>';
+					$html .= '<span class="help-block" '.$atts.'>'.$content.'</span>';
 				}
 			}
 

@@ -1,125 +1,180 @@
-/* essential and basic css settings */
-body				{background:#fff; margin:0; padding:0;}
-table				{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
-table tfoot td		{font-weight:700;text-align:center}
+i, .icon,.icon:hover,
+a.icon,a.icon:hover	{cursor:pointer;}
+a.icon	{padding:3px;}
+
+.floaticon	{float:right;}
+html[dir='rtl'] .floaticon 	{ float:left }
+span.actionicon	{float:right;}
+html[dir='rtl'] span.actionicon 	{float:left}
+td.actionicon	{text-align:right;}
+html[dir='rtl'] td.actionicon	{text-align:left;}
+.actionicon a,
+.floaticon a	{padding:0 3px;}
+
+.data	{ width:100%; }
+
+.aligncenter	{text-align:center}
+.alignright	{text-align:right}
+html[dir='rtl'] .alignright	{text-align:left}
+.aligntop, aligntop *	{vertical-align:top}
+.alignmiddle	{vertical-align:middle}
+
+
+.floatright	{float:right}
+html[dir='rtl'] .floatright	{float:left}
+.floatleft	{float:left}
+html[dir='rtl'] .floatleft	{float:right}
+
+.clear	{clear:both;}
+.clearright	{clear:right}
+html[dir='rtl'] .clearright	{clear:left}
+.cursordefault	{cursor:default}
+
+.width100p	{width:100%}
+.width99p	{width:99%}
+.width95p	{width:95%}
+.width90p	{width:90%}
+.width85p	{width:85%}
+.width80p	{width:80%}
+.width75p	{width:75%}
+.width70p	{width:70%}
+.width66p	{width:66%}
+.width65p	{width:65%}
+.width60p	{width:60%}
+.width55p	{width:55%}
+.width50p	{width:50%}
+.width49p	{width:49%}
+.width48p	{width:48%}
+.width45p	{width:45%}
+.width40p	{width:40%}
+.width35p	{width:35%}
+.width33p	{width:33%}
+.width30p	{width:30%}
+.width29p	{width:29%}
+.width25p	{width:25%}
+.width20p	{width:20%}
+.width15p	{width:15%}
+.width10p	{width:10%}
+.width5p	{width:5%}
+.width2p	{width:2%}
+.width1p	{width:1%}
+
+.monospace	{font-family:monospace}
+
+/* essential and basic css settings *-/
+body	{background:#fff; margin:0; padding:0;}
+table	{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
+table tfoot td	{font-weight:700;text-align:center}
 table.dBug_array	{width:auto; border: 1px solid black; border-spacing:1px;}
 pre,pre *,code,code *,.code	{font-family:monospace !important; font-size:1.1em;}
-pre					{overflow:auto;}
-#footer				{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
-.norecords			{font-weight:bold;}
-.popup				{background:#fff; width:250px; border:1px solid #000; line-height:normal;}
-.icon,.icon:hover,
-a.icon,a.icon:hover	{border:0px;cursor:pointer;}
+pre	{overflow:auto;}
+#footer	{font:10px verdana,sans-serif; color:#999; text-align:center; clear:both;}
+.norecords	{font-weight:bold;}
+.popup	{background:#fff; width:250px; border:1px solid #000; line-height:normal;}
 .portrait,.avatar	{float:right; padding:0 0 5px 5px;}
 html[dir='rtl'] .portrait,
 html[dir='rtl'] .avatar { float:right; }
-.menu .head			{display:block; white-space:nowrap;}
-.menu .item			{display:block;}
-.active a.head 				{font-weight:bolder}
-.active a.head:visited		{font-weight:bolder}
-.highlight			{font-weight:bolder;}
-a.create			{font-style:italic}
-a.skip				{position:absolute; top:0; left:-999em;}
+.menu .head	{display:block; white-space:nowrap;}
+.menu .item	{display:block;}
+.active a.head 	{font-weight:bolder}
+.active a.head:visited	{font-weight:bolder}
+.highlight	{font-weight:bolder;}
+a.create	{font-style:italic}
+a.skip	{position:absolute; top:0; left:-999em;}
 a.skip:active,
-a.skip:focus		{}
-a img				{border:0;}
-.quicktag			{margin:1px;}
-.selected			{font-weight:bolder}
-.floaticon			{float:right;}
-html[dir='rtl'] .floaticon { float:left }
-span.actionicon		{float:right;}
-html[dir='rtl'] span.actionicon {float:left}
-td.actionicon		{text-align:right;}
-html[dir='rtl'] td.actionicon {text-align:left;}
-.actionicon a,
-.floaticon a		{padding:0 3px;}
+a.skip:focus	{}
+a img	{border:0;}
+.quicktag	{margin:1px;}
+.selected	{font-weight:bolder}
 .navbar,
 .comment,
-.footer				{clear:both;}
+.footer	{clear:both;}
 .date,
 .footer,
 .pagination,
-small				{color:#999;}
-.panelsubmitrow		{text-align:center;}
-.pagination			{text-align:center;}
-.storage			{float:right; clear:both; text-align:center;}
+small	{color:#999;}
+.panelsubmitrow	{text-align:center;}
+.pagination	{text-align:center;}
+.storage	{float:right; clear:both; text-align:center;}
 html[dir='rtl'] .storage {float:left;}
-.clear				{clear:both;}
 
-/*** forms ***/
+/*** forms ***-/
 html>body textarea	{width:100%;}
-form				{margin:0; padding:0;}
-/*.row				{clear:both;}*/
-.formlabel			{float:left; width:14em; text-align:right;}
+form	{margin:0; padding:0;}
+/*.row	{clear:both;}*-/
+.formlabel	{float:left; width:14em; text-align:right;}
 html[dir='rtl'] .formlabel {float:right; text-align:right;}
-.forminput			{margin-left:14.5em;}
+.forminput	{margin-left:14.5em;}
 html[dir='rtl'] .forminput {margin-left:0; margin-right:14.5em;}
-.formhelp			{cursor:help;}
-.closebutton		{position:absolute; top:1px; right:1px;}
+.formhelp	{cursor:help;}
+.closebutton	{position:absolute; top:1px; right:1px;}
 html[dir='rtl'] .closebutton {right:0;left:1px}
-.submit				{text-align:center; padding-bottom:10px;}
+.submit	{text-align:center; padding-bottom:10px;}
 .error,
-.warning			{color:#f80;}
-.success			{color:#090;}
+.warning	{color:#f80;}
+.success	{color:#090;}
 .display.confirm .body {width:450px; margin:0 auto;}
 
-/* priorities */
+/* priorities *-/
 .prio1	{background:#dfc !important;}
 .prio2	{background:#efc !important;}
 .prio3	{background:#ffc !important;}
 .prio4	{background:#fec !important;}
 .prio5	{background:#fdc !important;}
 
-/* annoyances and grievances */
+/* annoyances and grievances *-/
 .module textarea	{width:auto;}
 .comment .content	{overflow:auto;}
 .comment .threaded	{margin:0 0 0 20px;}
 
-/* lists */
-ul,ol,dl		{margin-top:0; margin-bottom:0;}
+/* lists *-/
+ul,ol,dl	{margin-top:0; margin-bottom:0;}
 .module ol,
 .module ul,
-.menu ul		{margin:0; padding:0}
+.menu ul	{margin:0; padding:0}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
-ul.toc li		{list-style:none;}
-ul.toc ul		{margin-left:1.5em; padding:0;}
+ul.toc li	{list-style:none;}
+ul.toc ul	{margin-left:1.5em; padding:0;}
 html[dir='rtl'] ul.toc uli {margin-right:1.5em;}
-.navbar			{height:2em;}
-.navbar ul		{padding:0; margin:0; list-style:none;}
+.navbar	{height:2em;}
+.navbar ul	{padding:0; margin:0; list-style:none;}
 .navbar ul li	{float:left;}
 html[dir='rtl'] .navbar ul li	{float:right;}
 
 ul.data,
-ul.data li.item			{list-style:none; margin:0; padding:0;clear:both;}
+ul.data li.item	{list-style:none; margin:0; padding:0;clear:both;}
 ol.data li.item .thumb,
 ul.data li.item .thumb	{float:right;}
 html[dir='rtl'] ul.data li.item .thumb	{float:left;}
 ol.data h1,
 ul.data h1,
-/* this is needed to make floaticons clickable in data listings */
-ul.data h2				{margin-top:0;}
+/* this is needed to make floaticons clickable in data listings *-/
+ul.data h2	{margin-top:0;}
 li.error,li.success,
-li.note,li.warning		{list-style:none;}
-ul.toc li				{list-style:none;}
-li.treenode				{list-style:none; clear:both; border-top:1px solid #999;}
-ul.tree					{margin:0;padding-left:20px;}
+li.note,li.warning	{list-style:none;}
+ul.toc li	{list-style:none;}
+li.treenode	{list-style:none; clear:both; border-top:1px solid #999;}
+ul.tree	{margin:0;padding-left:20px;}
 html[dir='rtl'] ul.tree	{padding-left:0;padding-right:20px;}
 
-/* structures */
-.structurebar			{clear:both;}
-.structurebar .path		{display:block;}
-.gallerybar .path		{display:block;}
-.navigation span		{display:block; width:50%; float:left;}
+/* structures *-/
+.structurebar	{clear:both;}
+.structurebar .path	{display:block;}
+.gallerybar .path	{display:block;}
+.navigation span	{display:block; width:50%; float:left;}
 html[dir='rtl'] .navigation span {float:right;}
-.navigation .right		{text-align:right;}
-html[dir='rtl'] .navigation .right		{text-align:left;}
+.navigation .right	{text-align:right;}
+html[dir='rtl'] .navigation .right	{text-align:left;}
 
-/* multi file upload */
+/* multi file upload *-/
 #fileslist span	{display:block;}
 #upload_div file {display:block;}
 
-/* differences */
+/* differences *-/
 del {background-color:#fcc;}
 ins {background-color:#cfc;}
+*/
+
+/* vim: set ts=40: */
