@@ -61,6 +61,18 @@ html[dir='rtl'] .clearright	{clear:left}
 
 .monospace	{font-family:monospace}
 
+.module ol,
+.module ul	{margin:0; padding:0}
+.module ol li	{margin:0 0 0 3em; padding:0;}
+.module ul li,
+.menu li,
+ul.toc li	{list-style:none;}
+ul.toc li .numbering	{margin-left:-1em;}
+ul.toc ul	{margin-left:1em; padding:0 0 5px 0;}
+html[dir='rtl'] ul.toc ul	{margin-right:1em;}
+
+.boxcontent>ul.toc>li	{font-weight:bold;}
+
 /* essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
 table	{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
@@ -129,15 +141,6 @@ html[dir='rtl'] .closebutton {right:0;left:1px}
 
 /* lists *-/
 ul,ol,dl	{margin-top:0; margin-bottom:0;}
-.module ol,
-.module ul,
-.menu ul	{margin:0; padding:0}
-.module ol li	{margin:0 0 0 3em; padding:0;}
-.module ul li,
-.menu li,
-ul.toc li	{list-style:none;}
-ul.toc ul	{margin-left:1.5em; padding:0;}
-html[dir='rtl'] ul.toc uli {margin-right:1.5em;}
 .navbar	{height:2em;}
 .navbar ul	{padding:0; margin:0; list-style:none;}
 .navbar ul li	{float:left;}
