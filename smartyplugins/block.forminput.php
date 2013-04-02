@@ -27,7 +27,7 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	}
 
 	if( $content ) {
-		$ret = '<div class="forminput'.$class.'" '.$id.' >'.$content.'</div>';
+		$ret = '<div class="controls '.$class.'" '.$id.' >'.$content.'</div>';
 		return $ret;
 	}
 }
