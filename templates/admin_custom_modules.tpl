@@ -57,8 +57,8 @@
 			<td>{$customModules[user].title|escape}</td>
 			<td class="alignright">
 				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout&amp;module_name=_custom%3Acustom%2F{$customModules[user].name}">{biticon ipackage="icons" iname="mail-attachment" iexplain=assign}</a>
-				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=edit">{biticon ipackage="icons" iname="accessories-text-editor" iexplain=edit}</a>
-				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=remove">{biticon ipackage="icons" iname="edit-delete" iexplain=delete}</a>
+				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=edit">{booticon iname="icon-edit" ipackage="icons" iexplain=edit}</a>
+				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=remove">{booticon iname="icon-trash" ipackage="icons" iexplain=delete}</a>
 			</td>
 		</tr>
 	{sectionelse}

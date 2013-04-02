@@ -42,6 +42,11 @@ function smarty_function_booticon( $pParams, $pFile ) {
 		}
 		$outstr .= '"></i>';
 
+		if( !empty( $pParams['ilocation'] ) ) {
+			if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {
+				$outstr .= $pParams['iexplain'];
+			}
+		}
 		if( isset( $pParams["href"] ) ) {
 			$outstr .= '</a>';
 		}
