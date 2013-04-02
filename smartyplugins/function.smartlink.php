@@ -107,7 +107,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 		if( $sort_asc == $isort_mode ) {
 			$sorticon = array(
 				'ipackage' => 'icons',
-				'iname' => 'view-sort-ascending',
+				'iname' => 'icon-sort-up',
 				'iexplain' => 'ascending',
 				'iforce' => 'icon',
 			);
@@ -115,7 +115,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 		} elseif( $sort_desc == $isort_mode ) {
 			$sorticon = array(
 				'ipackage' => 'icons',
-				'iname' => 'view-sort-descending',
+				'iname' => 'icon-sort-down',
 				'iexplain' => 'descending',
 				'iforce' => 'icon',
 			);
@@ -162,6 +162,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 	$url_params = preg_replace('/"/', '%22', $url_params);
 
 	require_once $gBitSmarty->_get_plugin_filepath( 'function','biticon' );
+	require_once $gBitSmarty->_get_plugin_filepath( 'function','booticon' );
 
 	if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
 		$ret = $url.$url_params;
@@ -169,7 +170,19 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 		$ret = '<a '.$atitle.' '.( !empty( $params['ionclick'] ) ? 'onclick="'.$params['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $params['ianchor'] ) ? '#'.$params['ianchor'] : '' ).'">';
 
 		// if we want to display an icon instead of text, do that
-		if( isset( $hash['ibiticon'] ) ) {
+		if( isset( $hash['booticon'] ) ) {
+			if( !empty( $tmp[2] )) {
+				$tmp[1] .= "/".$tmp[2];
+			}
+			$booticon = array(
+				'iname' => $hash['booticon'],
+				'iexplain' => $hash['ititle'], // use untranslated ititle - booticon has a tra()
+			);
+			if( !empty( $hash['iforce'] ) ) {
+				$booticon['iforce'] = $hash['iforce'];
+			}
+			$ret .= smarty_function_booticon( $booticon, $gBitSmarty );
+		} elseif( isset( $hash['ibiticon'] ) ) {
 			$tmp = explode( '/', $hash['ibiticon'] );
 			if( !empty( $tmp[2] )) {
 				$tmp[1] .= "/".$tmp[2];
@@ -188,7 +201,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 		}
 
 		if( isset( $sorticon ) ) {
-			$ret .= '&nbsp;'.smarty_function_biticon( $sorticon, $gBitSmarty );
+			$ret .= '&nbsp;'.smarty_function_booticon( $sorticon, $gBitSmarty );
 		}
 		$ret .= '</a>';
 	}

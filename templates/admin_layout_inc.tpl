@@ -15,7 +15,7 @@
 			<div class="control-group">
 				{formlabel label="Adjust modules" for=""}
 				{forminput}
-					<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{biticon iname="emblem-symbolic-link" iforce=icon_text iexplain="Adjust module postitions"}</a>
+					<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{booticon iname="icon-circle-arrow-right"   iforce=icon_text iexplain="Adjust module postitions"}</a>
 					{formhelp note="Reset the position numbers of <em>all modules</em> using increments of 5."}
 				{/forminput}
 			</div>

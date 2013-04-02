@@ -1,5 +1,5 @@
 {capture name=shared}
-	{smartlink ititle="Up" ibiticon="icons/go-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
+	{smartlink ititle="Up" booticon="icon-cloud-upload" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
 	{smartlink ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
 	{if $colkey eq 'left' or $colkey eq 'right'}
 		{if $colkey == 'left'}
@@ -12,9 +12,9 @@
 		{smartlink ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" iexplain="`$move`" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
 	{/if}
 	{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
-		{smartlink ititle="Edit" ibiticon="icons/accessories-text-editor" iforce=icon iexplain="Edit" page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
+		{smartlink ititle="Edit" booticon="icon-edit" iforce=icon iexplain="Edit" page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
 	{/if}
-	{smartlink ititle="Unassign" ibiticon="icons/edit-delete" iforce=icon iexplain="Delete" ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id }
+	{smartlink ititle="Unassign" booticon="icon-trash" iforce=icon iexplain="Delete" ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id }
 {/capture}
 
 {strip}
