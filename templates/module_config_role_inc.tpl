@@ -1,6 +1,6 @@
 {capture name=shared}
 	{smartlink ititle="Up" booticon="icon-cloud-upload" iforce="icon" page=$page move_module=up module_package=$module_package module_id=`$modInfo.module_id`}
-	{smartlink ititle="Down" ibiticon="icons/go-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
+	{smartlink ititle="Down" booticon="icon-cloud-download" iforce="icon" page=$page move_module=down module_package=$module_package module_id=`$modInfo.module_id`}
 	{if $colkey eq 'left' or $colkey eq 'right'}
 		{if $colkey == 'left'}
 			{assign var=icon value=next}

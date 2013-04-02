@@ -61,8 +61,8 @@ return false;
 	<tr bgcolor="{cycle values="#eeeeee,#dddddd"}">
 		<td width="200px" cellpadding="3">{$themeImages[ix]}</td>
 		<td cellpadding="3">
-		{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript"}
-			{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript:popup('$customCSSImageURL/$themeImages[ix]')"}
+		{booticon iname="icon-folder-open"  ipackage="icons"  iexplain=preview onclick="javascript"}
+			{booticon iname="icon-folder-open"  ipackage="icons"  iexplain=preview onclick="javascript:popup('$customCSSImageURL/$themeImages[ix]')"}
 			<a href="{$smarty.const.THEMES_PKG_URL}/edit_css.php?fDeleteImg={$themeImages[ix]}">
 			{booticon iname="icon-trash" ipackage="icons" iexplain=remove onclick="return confirm('Are you sure you want to delete $themeImages[ix]?');"}
 			<img class="icon" src="{$smarty.const.LIBERTY_PKG_URL}icons/delete.gif" title="{tr}Remove{/tr}" alt="{tr}Remove{/tr}" onclick="return confirm('Are you sure you want to delete {$themeImages[ix]}?');"/>

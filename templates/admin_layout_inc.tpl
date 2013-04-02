@@ -5,9 +5,9 @@
 				{formlabel label="Adjust display" for=""}
 				{forminput}
 					{if !$smarty.request.nocollapse}
-						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{biticon iname="list-add" iforce=icon_text iexplain="Expand all modules"}</a>
+						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{booticon iname="icon-plus-sign"   iforce=icon_text iexplain="Expand all modules"}</a>
 					{else}
-						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{biticon iname="list-remove" iforce=icon_text iexplain="Collapse all modules"}</a>
+						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{booticon iname="icon-minus-sign"   iforce=icon_text iexplain="Collapse all modules"}</a>
 					{/if}
 					{formhelp note="Toggle the state of <em>all modules</em> (expanded/collapsed). This reloads the page without saving changes made prior."}
 				{/forminput}
