@@ -28,12 +28,12 @@ return false;
 	</div>
 	<div style="">
 		<span>  
-			<input type="submit" name="fSaveCSS" value="Save"> 
-			<input type="submit" name="fCancelCSS" value="Cancel">
+			<input type="submit" class="btn" name="fSaveCSS" value="Save"> 
+			<input type="submit" class="btn" name="fCancelCSS" value="Cancel">
 		</span>
 		<span style="float: right">
 			
-				<input type="submit" name="fResetCSS" value="Reset CSS" onclick="return confirmform('Are you sure you want to reset your CSS back to the defaults? Any changes you have made will be lost.');">
+				<input type="submit" class="btn" name="fResetCSS" value="Reset CSS" onclick="return confirmform('Are you sure you want to reset your CSS back to the defaults? Any changes you have made will be lost.');">
 				to the
 				<select name="resetStyle">
 				{section name=ix loop=$styles}
@@ -76,7 +76,7 @@ return false;
 <form enctype="multipart/form-data" method="post" action="{$smarty.const.THEMES_PKG_URL}edit_css.php"
 <input type="hidden" name="MAX_FILE_SIZE" value="1024000">
 Upload Image: <input type="file" name="fImgUpload"> <br /> <br/>
-<input type="submit" value="Upload Image" name="fUpload">
+<input type="submit" class="btn" value="Upload Image" name="fUpload">
 </form>
 </div>
 

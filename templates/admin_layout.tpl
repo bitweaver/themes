@@ -43,7 +43,7 @@
 
 			<noscript>
 				<div class="control-group submit">
-					<input type="submit" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
+					<input type="submit" class="btn" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
 				</div>
 			</noscript>
 		{/form}
@@ -238,7 +238,7 @@
 			</div>
 
 			<div class="control-group submit">
-				<input type="submit" name="ColumnTabSubmit" value="{tr}Assign{/tr}" />
+				<input type="submit" class="btn" name="ColumnTabSubmit" value="{tr}Assign{/tr}" />
 			</div>
 		{/form}
 	{/jstab}
@@ -346,7 +346,7 @@
 			</div>
 
 			<div class="control-group submit">
-				<input type="submit" name="CenterTabSubmit" value="{tr}Assign{/tr}" />
+				<input type="submit" class="btn" name="CenterTabSubmit" value="{tr}Assign{/tr}" />
 			</div>
 		{/form}
 	{/jstab}

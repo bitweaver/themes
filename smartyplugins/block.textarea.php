@@ -18,7 +18,7 @@ function smarty_block_textarea( $pParams, $pContent, &$gBitSmarty ) {
 	global $gBitSystem, $gContent, $gLibertySystem;
 	$attributes = '';
 	$style = '';
-	$class = '';
+	$class = 'width95p ';
 	if (((!empty($gLibertySystem->mPlugins['bithtml']) && $gLibertySystem->mPlugins['bithtml']['is_active'] == 'y') ||
 		(!empty($gLibertySystem->mPlugins['tikiwiki']) && $gLibertySystem->mPlugins['tikiwiki']['is_active'] == 'y' &&
 		$gBitSystem->isFeatureActive( 'content_force_allow_html' )))
