@@ -20,6 +20,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 .alignmiddle	{vertical-align:middle}
 
 
+.inline	{ display:inline; }
+
 .floatright	{float:right}
 html[dir='rtl'] .floatright	{float:left}
 .floatleft	{float:left}
@@ -73,7 +75,7 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
 .boxcontent>ul.toc>li	{font-weight:bold;}
 
-/* essential and basic css settings *-/
+/* LEGACY essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
 table	{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
 table tfoot td	{font-weight:700;text-align:center}

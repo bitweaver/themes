@@ -1,7 +1,6 @@
 <?php
 /**
- * @version $Header$
- * @package kernel
+ * @package themes
  * @subpackage functions
  */
 
@@ -12,7 +11,6 @@ global $gBitUser, $gBitSystem, $gBitSmarty;
 
 // Global menu
 //	$gBitSystem->registerAppMenu( 'global', NULL, NULL, 'bitpackage:kernel/menu_global.tpl' );
-
 
 // Application menu
 uasort( $gBitSystem->mAppMenu, "mAppMenu_sort" );
