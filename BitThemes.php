@@ -99,14 +99,14 @@ class BitThemes extends BitSingleton {
 		}
 
 		// load tpl files that need to be included
-		$this->loadTplFiles( "header_inc" );
+		$this->loadTplFiles( "html_head_inc" );
 		$this->loadTplFiles( "footer_inc" );
 
 		// join javascript files that have been loaded
 		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
 
 		// layout is called as the viry first, package css is around pos 300 and theme / browser are called last
-		// css inserted in <pkg>/header_inc.tpl is called before these files since these are inserted last
+		// css inserted in <pkg>/html_head_inc.tpl is called before these files since these are inserted last
 //		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
@@ -1436,7 +1436,7 @@ class BitThemes extends BitSingleton {
 	}
 
 	/**
-	 * scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
+	 * scan packages for <pkg>/templates/html_head_inc.tpl or footer_inc.tpl files
 	 *
 	 * @param string $pFilename Name of template file we want to scan for and collect
 	 * @access private
