@@ -9,7 +9,7 @@
  * smarty_function_required
  */
 function smarty_function_required( $pParams, &$gBitSmarty ) {
-	require_once $gBitSmarty->_get_plugin_filepath('function','biticon');
+	$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 	$biticon = array(
 		'ipackage' => 'icons',
 		'iname'    => 'emblem-important',

@@ -97,7 +97,7 @@ if( $gBitThemes->mLayout && empty( $gHideModules )) {
 							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
 							// assign the custom module title
 							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
-							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
+//							$data = $gBitSmarty->fetch( $r['module_rsrc'] );
 
 							if( !empty( $r["cache_time"] ) ) {
 								// write to chache file
