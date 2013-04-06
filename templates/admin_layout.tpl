@@ -110,7 +110,7 @@
 				<div class="control-group">
 					{formlabel label="Module" for="module_rsrc"}
 					{forminput}
-						{*html_options name="fAssign[module_rsrc]" id="module_rsrc" options=$allModules selected=`$fAssign.name` *}
+						{*html_options name="fAssign[module_rsrc]" id="module_rsrc" options=$allModules selected=$fAssign.name *}
 						<select name="fAssign[module_rsrc]" id="module_rsrc" onchange="javascript:BitThemes.viewModuleParamsHelp( this.options[this.selectedIndex].value )">
 						{foreach key=pkg item=modules from=$allModules}
 							<optgroup label="{$pkg}">
@@ -263,7 +263,7 @@
 					{if $fEdit && $fAssign.name}
 						<input type="hidden" name="fAssign[module]" value="{$fAssign.module}" id="module" />{$fAssign.module}
 					{else}
-						{* html_options name="fAssign[module_rsrc]" id="module" values=$allCenters options=$allCenters selected=`$mod` *}
+						{* html_options name="fAssign[module_rsrc]" id="module" values=$allCenters options=$allCenters selected=$mod *}
 						<select name="fAssign[module_rsrc]" id="module" {*onchange="javascript:BitThemes.viewModuleParamsHelp( this.options[this.selectedIndex].value )"*}>
 						{foreach key=pkg item=modules from=$allCenters}
 							<optgroup label="{$pkg}">
