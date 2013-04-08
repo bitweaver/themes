@@ -15,14 +15,16 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 
 	protected function fetch ( $pTplName, &$pTplSource, &$pTplTime ) {
 		$resources = $this->getTplLocations( $pTplName );
-		foreach( $resources as $resource ) {
+
+		foreach( $resources as $location => $resource ) {
 			if( file_exists( $resource )) {
 				$pTplSource = file_get_contents( $resource );
 				$pTplTime = filemtime( $resource );
+				return;
 			}
 		}
 	}
-
+/*
     protected function fetchTimestamp( $pTplName ) {
 		$ret = FALSE;
 		foreach( $this->getTplLocations( $pTplName ) as $resource ) {
@@ -32,7 +34,7 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 		}
 		return $ret;
 	}
-
+*/
 	private function getTplLocations( $pTplName ) {
 		global $gBitThemes, $gNoForceStyle;
 
@@ -72,4 +74,3 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 	}
 }
 
-?>
