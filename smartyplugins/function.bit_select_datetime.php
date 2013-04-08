@@ -70,8 +70,8 @@ function smarty_function_bit_select_datetime( $pParams, &$gBitSmarty ) {
 		$html_result = $html_result . "    });\n";
 		$html_result = $html_result . "</script>\n";
 	} else {
-		require_once $gBitSmarty->_get_plugin_filepath( 'function', 'html_select_date' );
-		require_once $gBitSmarty->_get_plugin_filepath( 'function', 'html_select_time' );
+		$gBitSmarty->loadPlugin( 'smarty_modifier_html_select_date' );
+		$gBitSmarty->loadPlugin( 'smarty_modifier_html_select_time' );
 
 		// we use html_select_date and html_select_time to pick a date, which generate a number of select fields.
 		//On every change a hidden field will be updated via javascript.

@@ -9,7 +9,7 @@
  * required setup
  */
 global $gBitSmarty;
-require_once $gBitSmarty->_get_plugin_filepath('shared','make_timestamp');
+$gBitSmarty->loadPlugin('smarty_modifier_make_timestamp');
 
 /**
  * Smarty plugin

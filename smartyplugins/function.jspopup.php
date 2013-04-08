@@ -59,7 +59,7 @@ function smarty_function_jspopup( $pParams, &$gBitSmarty ) {
 	}
 
 	if( !empty( $pParams['ibiticon'] ) ) {
-		require_once $gBitSmarty->_get_plugin_filepath( 'function','biticon' );
+		$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 
 		$tmp = explode( '/', $pParams['ibiticon'] );
 		$ibiticon = array(

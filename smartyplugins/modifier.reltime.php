@@ -13,7 +13,7 @@ function smarty_modifier_reltime( $pTimeStamp, $pMode = 'long', $pFallback = 'bi
 
 	// if this feature is not desired, we simply don't use it.
 	if( !$gBitSystem->isFeatureActive( 'site_display_reltime' ) ) {
-		require_once $gBitSmarty->_get_plugin_filepath( 'modifier', $pFallback );
+		$gBitSmarty->loadPlugin( "smarty_modifier_$pFallback" );
 		$pFallback = "smarty_modifier_$pFallback";
 		return $pFallback( $pTimeStamp );
 	}
@@ -88,7 +88,7 @@ function smarty_modifier_reltime( $pTimeStamp, $pMode = 'long', $pFallback = 'bi
 		}
 	} else {
 		// anything longer than a week
-		require_once $gBitSmarty->_get_plugin_filepath( 'modifier', $pFallback );
+		$gBitSmarty->loadPlugin( "smarty_modifier_$pFallback" );
 		$pFallback = "smarty_modifier_$pFallback";
 		return $pFallback( $pTimeStamp );
 	}

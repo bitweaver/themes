@@ -3,19 +3,20 @@
  * Smarty plugin
  * @package Smarty
  * @subpackage plugins
- * @link http://www.bitweaver.org/wiki/block_textarea block_textarea
+ * @link http://www.bitweaver.org/wiki/function_textarea function_textarea
  */
 
 /** 
  * Smarty plugin 
  * ------------------------------------------------------------- 
- * File: block.textarea.php 
- * Type: block 
+ * File: function.textarea.php 
+ * Type: function 
  * Name: textarea 
  * ------------------------------------------------------------- 
  */ 
-function smarty_block_textarea( $pParams, $pContent, &$gBitSmarty ) {
+function smarty_function_textarea( $pParams, &$gBitSmarty ) {
 	global $gBitSystem, $gContent, $gLibertySystem;
+
 	$attributes = '';
 	$style = '';
 	$class = 'width95p ';
@@ -77,7 +78,7 @@ function smarty_block_textarea( $pParams, $pContent, &$gBitSmarty ) {
 		$style .= (empty($style) ? '' : ';').'height:'.$pParams['rows'].'em;';
 	}
 	$gBitSmarty->assign('textarea_attributes', $attributes);
-	$gBitSmarty->assign('textarea_data', $pContent);
+	$gBitSmarty->assign('textarea_data', $pParams['edit']);
 	if (!empty($style)) {
 		$gBitSmarty->assign('textarea_style', 'style="'.$style.'"');
 	}

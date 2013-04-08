@@ -26,7 +26,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 	$color = isset( $hash['color'] )?$hash['color']:"000000";
 	foreach( $hash as $key => $val ) {
 		if( $val ) {
-			require_once $gBitSmarty->_get_plugin_filepath( 'function', 'biticon' );
+			$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 
 			$keys = array( 'warning', 'success', 'error', 'important' );
 			if( in_array( $key, $keys )) {
