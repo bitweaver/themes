@@ -454,6 +454,10 @@ class BitThemes extends BitSingleton {
 		}
 	}
 
+	function hasColumnModules( $pColumn ) {
+		return count( $this->mLayout[$pColumn] );
+	}
+
 	function displayLayoutColumn( $pColumn ) {
 		global $gBitSmarty;
 		if( !empty( $this->mLayout[$pColumn] ) ) {
