@@ -46,9 +46,9 @@
 		{foreach from=$allModulesHelp key=package item=help}
 			<h2><a href="javascript:BitBase.toggleElementDisplay('id{$package}','block')">{$package}</a></h2>
 			<div class="modulehelp" id="id{$package}" {if !$smarty.request.expand_all}style="display:none;"{/if}>
-				{foreach from=$help key=file item=module}
+				{foreach from=$help key=helpFile item=module}
 					<h3>{$module.title|capitalize}</h3>
-					{include file=$file}
+					{include file=$helpFile}
 				{/foreach}
 				<hr />
 			</div>
