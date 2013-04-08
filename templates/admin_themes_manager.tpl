@@ -20,7 +20,7 @@
 				{legend legend="Pick Site Style"}
 					<ul class="data">
 						{foreach from=$stylesList item=s}
-							<li class="{cycle values='odd,even"} item">
+							<li class="control-group item">
 								<h2 {if $style eq $s.style}class="highlight"{/if}>
 									{if $style eq $s.style}
 										{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Style"}&nbsp;
@@ -62,9 +62,9 @@
 					<ul id="layoutgala">
 						{foreach from=$styleLayouts key=key item=layout}
 							<li class="{cycle values="even,odd"}">
-								<a {if $gBitSystem->getConfig('site_style_layout') == $key}class="highlight" {/if}href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
+								<a {if $gBitSystem->getConfig(site_style_layout) == $key}class="highlight" {/if}href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style_layout={$key}">
 									{if $layout.gif}<img src="{$smarty.const.THEMES_PKG_URL}layouts/{$layout.gif}" alt="{tr}Layout{/tr}: {$key}" title="{tr}Layout{/tr}: {$key}"/><br />{/if}
-									{if $gBitSystem->getConfig('site_style_layout') == $key}{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Style Layout"}{/if}
+									{if $gBitSystem->getConfig(site_style_layout) == $key}{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Style Layout"}{/if}
 									{$key|replace:"_":" "}
 									{if $layout.txt}<br />{include file="`$smarty.const.THEMES_PKG_PATH`layouts/`$layout.txt`"}{/if}
 								</a>
@@ -78,7 +78,7 @@
 					<li class="bg_eca b3-s-fff">{tr}Content: The main content bearing section of a website.{/tr}</li>
 					<li class="bg_aec b3-s-fff">{tr}Navigation: Usually found on the left hand side - frequently contains links to important pages.{/tr}</li>
 					<li class="bg_cae b3-s-fff">{tr}Extra: Sometimes found on the right hand side - frequently contains adidtional information and links.{/tr}</li>
-					<li class="bg_cea b3-s-fff">{tr}Footer: Usually found at the bottom of a website - contains copyright information and 'powered by' link.{/tr}</li>
+					<li class="bg_cea b3-s-fff">{tr}Footer: Usually found at the bottom of a website - contains copyright information and powered by link.{/tr}</li>
 					<li class="bg_eee b3-s-fff">{tr}px: Indicates that the block is set using a defined pixel width.{/tr}</li>
 					<li class="bg_eee b3-s-fff">{tr}%: Indicates that the block is set using a percentage, making it fluid in terms of browser window width.{/tr}</li>
 				</ul>
@@ -95,9 +95,9 @@
 
 					<ul class="data">
 						{foreach from=$iconStyles item=s}
-							<li class="{cycle values='odd,even"} item">
+							<li class="control-group item">
 								<h2 {if $style eq $s.style}class="highlight"{/if}>
-									{if $gBitSystem->getConfig('site_icon_style') eq $s.style}
+									{if $gBitSystem->getConfig(site_icon_style) eq $s.style}
 										{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Style"}&nbsp;
 									{/if}
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_icon_style={$s.style}">{$s.style|replace:"_":" "}</a>
