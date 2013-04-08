@@ -24,7 +24,7 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 			}
 		}
 	}
-/*
+
     protected function fetchTimestamp( $pTplName ) {
 		$ret = FALSE;
 		foreach( $this->getTplLocations( $pTplName ) as $resource ) {
@@ -34,7 +34,7 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 		}
 		return $ret;
 	}
-*/
+
 	private function getTplLocations( $pTplName ) {
 		global $gBitThemes, $gNoForceStyle;
 
