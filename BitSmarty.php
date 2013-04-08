@@ -123,13 +123,13 @@ bt(); die;
 		}
 	}
 
-/*
-	function fetch( $pTplFile, $pCacheId = NULL, $pCompileId = NULL, $pDisplay = FALSE ) {
+
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false) {
 		global $gBitSystem;
-		if( strpos( $pTplFile, ':' )) {
-			list( $resource, $location ) = explode( ':', $pTplFile );
+		if( strpos( $template, ':' )) {
+			list( $resource, $location ) = explode( ':', $template);
 			if( $resource == 'bitpackage' ) {
-				list( $package, $template ) = explode( '/', $location );
+				list( $package, $tpl ) = explode( '/', $location );
 				// exclude temp, as it contains nexus menus
 				if( !$gBitSystem->isPackageActive( $package ) && $package != 'temp' ) {
 					return '';
@@ -138,14 +138,14 @@ bt(); die;
 		}
 
 		// the PHP sibling file needs to be included here, before the fetch so caching works properly
-		$modPhpFile = str_replace( '.tpl', '.php', $pTplFile );
+		$modPhpFile = str_replace( '.tpl', '.php', $template);
 		$this->includeSiblingFile( $modPhpFile );
 		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
-			echo "\n<!-- - - - {$pTplFile} - - - -->\n";
+			echo "\n<!-- - - - {$template} - - - -->\n";
 		}
-		return parent::fetch( $pTplFile, $pCacheId, $pCompileId, $pDisplay );
+		return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
 	}
-*/
+
 	/**
 	 * THE method to invoke if you want to be sure a tpl's sibling php file gets included if it exists. This
 	 * should not need to be invoked from anywhere except within this class
