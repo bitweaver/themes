@@ -1,6 +1,6 @@
 i, .icon,.icon:hover,
 a.icon,a.icon:hover	{cursor:pointer;}
-a.icon	{padding:3px;}
+.floaticon a,a.icon,img.icon	{padding:0 5px 0 0;}
 
 .floaticon	{float:right;}
 html[dir='rtl'] .floaticon 	{ float:left }
@@ -9,9 +9,7 @@ html[dir='rtl'] span.actionicon 	{float:left}
 td.actionicon	{text-align:right;}
 html[dir='rtl'] td.actionicon	{text-align:left;}
 .actionicon a,
-.floaticon a	{padding:0 3px;}
 
-.data	{ width:100%; }
 
 .aligncenter	{text-align:center}
 .alignright	{text-align:right}
@@ -78,6 +76,11 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 .header	{margin-bottom:10px;}
 .date,
 small	{color:#999; font-size:85%}
+
+.data	{ width:100%; }
+ul.data	{list-style:none; margin:0; padding:0;clear:both;}
+ul.data li.item	{ border-bottom:1px solid #eee; padding-bottom:20px; margin-bottom:20px; }
+ul.data li.item:last-child	{ border-bottom:none; }
 
 /* LEGACY essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
@@ -152,8 +155,6 @@ ul,ol,dl	{margin-top:0; margin-bottom:0;}
 .navbar ul li	{float:left;}
 html[dir='rtl'] .navbar ul li	{float:right;}
 
-ul.data,
-ul.data li.item	{list-style:none; margin:0; padding:0;clear:both;}
 ol.data li.item .thumb,
 ul.data li.item .thumb	{float:right;}
 html[dir='rtl'] ul.data li.item .thumb	{float:left;}
