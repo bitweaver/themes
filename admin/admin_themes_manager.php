@@ -33,7 +33,7 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 }
 
 if( !empty( $_REQUEST["save_layout"] ) ) {
-	foreach( array( 'layout-footer', 'layout-maincontent', 'layout-footer' ) as $key ) {
+	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
 		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
 	}
 }
