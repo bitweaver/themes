@@ -74,7 +74,7 @@
 						{/forminput}
 					</div>
 					<div class="control-group">
-						{formlabel label="Header Layout"}
+						{formlabel label="Footer Layout"}
 						{forminput}
 						<select name="layout-footer">
 							<option value="">{tr}Fixed Width{/tr}</option>
