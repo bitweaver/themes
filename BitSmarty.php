@@ -94,38 +94,9 @@ class BitSmarty extends SmartyBC {
 		$this->plugins_dir = array_merge( array( $dir ), $this->plugins_dir );
 	}
 
-	/**
-	 * override some smarty functions to bend them to our will
-	 */
-	function _smarty_include( $pParams ) {
-bt(); die;
-		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
-			echo "\n<!-- - - - {$pParams['smarty_include_tpl_file']} - - - -->\n";
-		}
-		$modPhpFile = str_replace( '.tpl', '.php', $pParams['smarty_include_tpl_file'] );
-		$this->includeSiblingFile( $modPhpFile, $pParams['smarty_include_vars'] );
-		return parent::_smarty_include( $pParams );
-	}
-
-	function _compile_resource( $pResourceName, $pCompilePath ) {
-bt(); die;
-		// this is used when auto-storing untranslated master strings
-		$this->mCompileRsrc = $pResourceName;
-		return parent::_compile_resource( $pResourceName, $pCompilePath );
-	}
-
-	function _fetch_resource_info( &$pParams ) {
-bt(); die;
-		if( empty( $pParams['resource_name'] )) {
-			return FALSE;
-		} else {
-			return parent::_fetch_resource_info( $pParams );
-		}
-	}
-
-
     public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false) {
 		global $gBitSystem;
+
 		if( strpos( $template, ':' )) {
 			list( $resource, $location ) = explode( ':', $template);
 			if( $resource == 'bitpackage' ) {
@@ -137,54 +108,8 @@ bt(); die;
 			}
 		}
 
-		// the PHP sibling file needs to be included here, before the fetch so caching works properly
-		$modPhpFile = str_replace( '.tpl', '.php', $template);
-		$this->includeSiblingFile( $modPhpFile );
-		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
-			echo "\n<!-- - - - {$template} - - - -->\n";
-		}
 		return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
 	}
-
-	/**
-	 * THE method to invoke if you want to be sure a tpl's sibling php file gets included if it exists. This
-	 * should not need to be invoked from anywhere except within this class
-	 *
-	 * @param string $pFile file to be included, should be of the form "bitpackage:<packagename>/<templatename>"
-	 * @return TRUE if a sibling php file was included
-	 * @access private
-	 */
-	function includeSiblingFile( $pFile, $pIncludeVars=NULL ) {
-		global $gBitThemes;
-		$ret = FALSE;
-		if( strpos( $pFile, ':' )) {
-			list( $resource, $location ) = explode( ':', $pFile );
-			if( $resource == 'bitpackage' ) {
-				list( $package, $modFile ) = explode( '/', $location );
-				$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
-				if( preg_match('/mod_/', $modFile ) || preg_match( '/center_/', $modFile ) ) {
-					global $gBitSystem;
-					$path = constant( strtoupper( $package )."_PKG_PATH" );
-					$includeFile = "$path$subdir/$modFile";
-					if( file_exists( $includeFile )) {
-						global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
-						$moduleParams = array();
-						if( !empty( $pIncludeVars['module_params'] ) ) {
-							// module_params were passed through via the {include},
-							// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
-							$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
-						} else {
-							// Module Params were passed in from the template, like kernel/dynamic.tpl
-							$moduleParams = $this->get_template_vars( 'moduleParams' );
-						}
-						include( $includeFile );
-						$ret = TRUE;
-					}
-				}
-			}
-		}
-	}
-
 
 	/**
 	 * getModuleConfig
