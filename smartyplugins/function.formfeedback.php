@@ -28,7 +28,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 		if( $val ) {
 			$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 
-			$keys = array( 'warning', 'success', 'error', 'important' );
+			$keys = array( 'warning', 'success', 'error', 'important', 'note' );
 			if( in_array( $key, $keys )) {
 				switch( $key ) {
 					case 'success':
@@ -40,6 +40,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 					case 'error':
 						$alertClass = 'alert alert-error';
 						break;
+					case 'note':
 					case 'important':
 					default:
 						$alertClass = 'alert alert-info';

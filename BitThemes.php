@@ -1209,7 +1209,9 @@ class BitThemes extends BitSingleton {
 								}
 							}
 							closedir ($h);
-							asort( $this->mModules[$pDir][$pPrefix][ucfirst( $key )] );
+							if( !empty( $this->mModules[$pDir][$pPrefix][ucfirst($key)] ) ) {
+								asort( $this->mModules[$pDir][$pPrefix][ucfirst($key)] );
+							}
 						}
 					}
 				}

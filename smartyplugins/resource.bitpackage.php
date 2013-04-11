@@ -33,14 +33,32 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 	 * @access private
 	 */
     public function populate(Smarty_Template_Source $source, Smarty_Internal_Template $_template=null) {
-	//function includeSiblingFile( $pFile, $pIncludeVars=NULL ) {
 		global $gBitThemes;
 		$ret = FALSE;
 
-		if( strpos( $source->name, '/' )) {
-			list( $package, $modFile ) = explode( '/', $source->name );
-			$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
-			if( preg_match('/mod_/', $modFile ) || preg_match( '/center_/', $modFile ) ) {
+		if( $siblingPhpFile = static::getSiblingPhpFile( $source->name ) ) {
+			global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
+			$moduleParams = array();
+			if( !empty( $_template->tpl_vars['module_params'] ) ) {
+				// module_params were passed through via the {include},
+				// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
+				$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
+			} elseif( !empty( $_template->tpl_vars['moduleParams'] ) ) {
+				// Module Params were passed in from the template, like kernel/dynamic.tpl
+				$moduleParams = $_template->tpl_vars['moduleParams']->value;
+			}
+			include( $siblingPhpFile );
+		}
+
+		parent::populate( $source, $_template );
+	}
+
+	public static function getSiblingPhpFile( $pTplName ) {
+		$ret = NULL;
+		if( preg_match('/mod_/', $pTplName ) || preg_match( '/center_/', $pTplName ) ) {
+			if( strpos( $pTplName, '/' )) {
+				list( $package, $modFile ) = explode( '/', $pTplName );
+				$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
 				global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
 				// the PHP sibling file needs to be included here, before the fetch so caching works properly
 				$modFile = str_replace( '.tpl', '.php', $modFile );
@@ -49,23 +67,11 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 				$includeFile = "$path$subdir/$modFile";
 
 				if( file_exists( $includeFile )) {
-					global $gBitSystem, $moduleParams;
-					$moduleParams = array();
-					if( !empty( $_template->tpl_vars['module_params'] ) ) {
-						// module_params were passed through via the {include},
-						// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
-						$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
-					} elseif( !empty( $_template->tpl_vars['moduleParams'] ) ) {
-						// Module Params were passed in from the template, like kernel/dynamic.tpl
-						$moduleParams = $_template->tpl_vars['moduleParams']->value;
-					}
-					include( $includeFile );
-					$ret = TRUE;
+					$ret = $includeFile;
 				}
 			}
 		}
-
-		parent::populate( $source, $_template );
+		return $ret;
 	}
 
 
