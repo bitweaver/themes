@@ -8,18 +8,19 @@
 /**
  * smarty_function_displaycomment
  */
-function smarty_function_displaycomment($params) {
-	global $gBitSmarty;
+function smarty_function_displaycomment( $pParams, &$pSmarty ) {
 
-	if (!empty($params['comment'])) {
-		$comment = $params['comment'];
-		$gBitSmarty->assign('comment', $comment);
-		if (empty($params['template'])) {
-			$gBitSmarty->display('bitpackage:liberty/display_comment.tpl');
+	if (!empty($pParams['comment'])) {
+		$comment = $pParams['comment'];
+		$pSmarty->assign('comment', $comment);
+		if (empty($pParams['template'])) {
+			$ret = $pSmarty->fetch('bitpackage:liberty/display_comment.tpl');
 		} else {
-			$gBitSmarty->display($params['template']);
+			$ret = $pSmarty->fetch($pParams['template']);
 		}
 	}
+
+	return $ret;
 }
 
 ?>
