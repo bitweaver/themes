@@ -1,6 +1,6 @@
 {strip}
 <li class="dropdown-submenu favorite">
-	<a href="#" onclick="return(false);" tabindex="-1" class="sub-menu-root">{tr}{$smarty.const.THEMES_PKG_DIR|capitalize}{/tr}</a>
+{if $packageMenuTitle}<a href="#" onclick="return(false);" tabindex="-1" class="sub-menu-root">{tr}{$smarty.const.THEMES_PKG_DIR|capitalize}{/tr}</a>{/if}
 	<ul class="dropdown-menu sub-menu">
 		<li><a class="item" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php">{tr}Change Site Theme{/tr}</a></li>
 		<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=columns" >{tr}Column Settings{/tr}</a></li>
