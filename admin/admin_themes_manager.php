@@ -32,12 +32,6 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 	}
 }
 
-if( !empty( $_REQUEST["save_layout"] ) ) {
-	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
-		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
-	}
-}
-
 // Get list of available styles
 $styles = $gBitThemes->getStyles( NULL, TRUE );
 $gBitSmarty->assign_by_ref( "styles", $styles );

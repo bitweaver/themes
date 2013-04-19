@@ -4,7 +4,51 @@
 {formfeedback hash=$feedback}
 
 	{jstabs}
-	
+		{jstab title="Theme Layout"}
+			{form}
+			<p class="help">
+				{tr}Here you can pick the layout of the site style. this will basically rearrange the positions of the three columns.
+				<br />Please note that not all styles support this method of layout selection. Themes that support the style layout selection have a note of it in the description.
+				<br />For more information on the layouts and how to tweak them, please visit the <a class="external" href="http://www.bitweaver.org/wiki/ThemeLayouts">ThemeLayouts</a>{/tr}
+			</p>
+
+			{legend legend="Theme Layout"}
+				<div class="control-group">
+					{formlabel label="Header Layout"}
+					{forminput}
+					<select name="layout-header">
+						<option value="">{tr}Fixed Width{/tr}</option>
+						<option value="-fluid" {if $gBitSystem->getConfig('layout-header')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
+					</select>
+					{/forminput}
+				</div>
+				<div class="control-group">
+					{formlabel label="Main Content Section Layout"}
+					{forminput}
+					<select name="layout-maincontent">
+						<option value="">{tr}Fixed Width{/tr}</option>
+						<option value="-fluid" {if $gBitSystem->getConfig('layout-maincontent')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
+					</select>
+					{/forminput}
+				</div>
+				<div class="control-group">
+					{formlabel label="Footer Layout"}
+					{forminput}
+					<select name="layout-footer">
+						<option value="">{tr}Fixed Width{/tr}</option>
+						<option value="-fluid" {if $gBitSystem->getConfig('layout-footer')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
+					</select>
+					{/forminput}
+				</div>
+				<div class="control-group submit">
+					{forminput}
+						<input type="submit" class="btn" name="save_layout" value="{tr}Save Layout{/tr}"/>
+					{/forminput}
+				</div>
+			{/legend}
+			{/form}
+		{/jstab}
+
 		{jstab title="Columns"}
 			<input type="hidden" name="page" value="{$page}" />
 	    	

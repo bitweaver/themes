@@ -22,6 +22,13 @@ $activeColumns = array(
 );
 $gBitSmarty->assign( 'activeColumns', $activeColumns );
 
+// Module layouts
+if( !empty( $_REQUEST["save_layout"] ) ) {
+	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
+		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
+	}
+}
+
 // Areas
 $hideableAreas = array(
 	'top'    => 'Top',
