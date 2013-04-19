@@ -13,21 +13,25 @@
  */
 function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	// defaults
-	$class = "";
-	$id = "";
+	$attr = "";
+	$class = 'controls';
 
 	extract( $params );
 
 	if( !empty( $class ) ){
-		$class = ' '.trim( $class );
+		$class .= ' '.trim( $class );
 	}
 
 	if( !empty( $id ) ){
-		$id = 'id="'.trim( $id ).'"';
+		$attr .= 'id="'.trim( $id ).'"';
+	}
+
+	if( !empty( $style ) ){
+		$attr .= 'style="'.trim( $style ).'"';
 	}
 
 	if( $content ) {
-		$ret = '<div class="controls '.$class.'" '.$id.' >'.$content.'</div>';
+		$ret = '<div class="'.$class.'" '.$attr.' >'.$content.'</div>';
 		return $ret;
 	}
 }
