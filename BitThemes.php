@@ -534,7 +534,7 @@ class BitThemes extends BitSingleton {
 								$replace[0] = "$1";
 								$pattern[1] = "/_/";
 								$replace[1] = " ";
-								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucfirst( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
+								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucwords( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
 							}
 
 							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
