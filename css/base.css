@@ -82,6 +82,8 @@ ul.data	{list-style:none; margin:0; padding:0;clear:both;}
 ul.data li.item	{ border-bottom:1px solid #eee; padding-bottom:20px; margin-bottom:20px; }
 ul.data li.item:last-child	{ border-bottom:none; }
 
+table tbody	{vertical-align:top;}
+
 /* LEGACY essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
 table	{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
