@@ -28,7 +28,7 @@
 
 {if !$condensed}
 	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}<div id="id-{$modInfo.module_id}" style="display:none;">{/if}
-		<table class="data">
+		<table class="table data">
 			<tr>
 				<td class="alignright">{tr}Position{/tr}</td>
 				<td>

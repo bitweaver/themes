@@ -63,7 +63,7 @@
 
 
 <form action="{$smarty.const.THEMES_PKG_URL}theme_control.php" method="post">
-<table class="data">
+<table class="table data">
 <tr>
 <th>&nbsp;</th>
 <th><a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}category{/tr}</a></th>

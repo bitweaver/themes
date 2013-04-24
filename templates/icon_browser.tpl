@@ -9,7 +9,7 @@
 			{tr}These are the icons available in a standard set of icons. Icons from the Tango icon style are displayed here since this is the default style and should be used as refernce. Both sizes <em>large</em> and <em>small</em> are displayed side by side.{/tr}<br />
 			Please view the <a class="external" href="http://tango.freedesktop.org/Tango_Icon_Gallery">Tango icon gallery</a> for the originally designated uses of the icons.
 		</p>
-		<table class="data">
+		<table class="table data">
 			<tr>
 				{foreach from=$iconList item=icons key=iconStyle}
 				<th class="width1p" colspan="3"><a href="{$smarty.request.SCRIPT_NAME}?icon_style={$iconStyle}">{$iconStyle}</a></th>
