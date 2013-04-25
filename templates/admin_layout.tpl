@@ -62,7 +62,7 @@
 						<td class="{cycle values="even,odd"} width33p aligntop">
 					{/if}
 
-						<table class="data width100p">
+						<table class="table data width100p">
 							<tr>
 								<th>{tr}{$colkey} area{/tr}</th>
 							</tr>
@@ -230,11 +230,10 @@
 			</div>
 
 			<div class="control-group">
-				{formlabel label="Add to all Layouts" for="add_to_all"}
-				{forminput}
-					<input type="checkbox" value="y" id="add_to_all" name="fAssign[add_to_all]" />
+				<label class="checkbox">
+					<input type="checkbox" value="y" id="add_to_all" name="fAssign[add_to_all]" />Add to all Layouts
 					{formhelp note="If you check this, the module will be added to all custom layouts."}
-				{/forminput}
+				</label>
 			</div>
 
 			<div class="control-group submit">

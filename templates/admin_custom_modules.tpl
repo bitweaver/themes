@@ -43,7 +43,7 @@
 	</div>
 {/form}
 
-<table class="data">
+<table class="table data">
 	<caption>{tr}Custom Modules{/tr}</caption>
 	<tr>
 		<th>{tr}Name{/tr}</th>

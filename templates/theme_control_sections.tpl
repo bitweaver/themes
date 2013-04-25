@@ -49,7 +49,7 @@
 
 <h2>{tr}Assigned sections{/tr}</h2>
 <form action="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php" method="post">
-<table class="data">
+<table class="table data">
 <tr>
 <th>&nbsp;</th>
 <th><a href="{$smarty.const.THEMES_PKG_URL}theme_control_sections.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'section_desc'}section_asc{else}section_desc{/if}">{tr}section{/tr}</a></th>
