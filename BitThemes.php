@@ -51,12 +51,10 @@ class BitThemes extends BitSingleton {
 	 * @return void
 	 */
 	function __construct() {
-		global $gBitSmarty;
 		parent::__construct();
 
 		// start up caching engine
 		$this->mThemeCache = new BitCache( 'themes', TRUE );
-		$gBitSmarty->verifyCompileDir();
 	}
 
 
@@ -144,7 +142,7 @@ class BitThemes extends BitSingleton {
 	function setStyle( $pStyle ) {
 		global $gBitSmarty;
 		$this->mStyle = $pStyle;
-		$gBitSmarty->assign( 'style', $pStyle );
+		$gBitSmarty->verifyCompileDir();
 	}
 
 	/**
