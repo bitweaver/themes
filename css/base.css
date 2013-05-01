@@ -20,7 +20,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 .alignmiddle	{vertical-align:middle}
 
 
-.inline	{ display:inline; }
+.inline	{display:inline;}
+.inline-block	{display:inline-block;}
 
 .floatright	{float:right}
 html[dir='rtl'] .floatright	{float:left}
