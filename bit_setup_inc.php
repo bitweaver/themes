@@ -22,7 +22,10 @@ $gLibertySystem->registerService(
 require_once( THEMES_PKG_PATH."BitThemes.php" );
 
 BitThemes::loadSingleton();
-global $gBitThemes;
+global $gBitThemes, $gBitSmarty;
+
+$gBitSmarty->verifyCompileDir();
+
 
 // setStyle first, in case package decides it wants to reset the style in it's own <package>/bit_setup_inc.php
 if( !$gBitThemes->getStyle() ) {

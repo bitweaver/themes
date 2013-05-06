@@ -54,10 +54,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				foreach( $val as $valText ) {
 					if( is_array( $valText ) ) {
 						foreach( $valText as $text ) {
-							$feedback .= '<div class="'.$alertClass.'">'.$text.'</div>';
+							$feedback .= '<span class="inline-block '.$alertClass.'">'.$text.'</span>';
 						}
 					} else {
-						$feedback .= '<div class="'.$alertClass.'">'.$valText.'</div>';
+						$feedback .= '<span class="inline-block '.$alertClass.'">'.$valText.'</span>';
 					}
 				}
 
@@ -69,10 +69,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				if ( $key != 'color' ) {
 					if( is_array( $val ) ) {
 						foreach( $val as $text ) {
-							$feedback .= '<div class="'.$key.'">'.$text.'</div>';
+							$feedback .= '<span class="'.$key.'">'.$text.'</span>';
 						}
 					} else {
-						$feedback .= '<div class="'.$key.'">'.$val.'</div>';
+						$feedback .= '<span class="'.$key.'">'.$val.'</span>';
 					}
 				}
 			}
@@ -81,9 +81,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 
 	$html = '';
 	if( !empty( $feedback ) ) {
-		$html = '<div class="feedback">';
 		$html .= $feedback;
-		$html .= '</div>';
 	}
 	return $html;
 }

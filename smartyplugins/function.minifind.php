@@ -27,7 +27,7 @@ function smarty_function_minifind($params, &$gBitSmarty) {
 	}
 	
 	if( !empty( $params['prompt'] ) ) {
-		$gBitSmarty->assign( 'prompt', tra( $params['prompt'] ) );
+		$gBitSmarty->assign( 'prompt', tra( $params['prompt'] ).'...' );
 	}
 	
 	$gBitSmarty->assign( 'legend',$legend );

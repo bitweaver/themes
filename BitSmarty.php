@@ -107,7 +107,6 @@ class BitSmarty extends SmartyBC {
 				}
 			}
 		}
-
 		return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
 	}
 
@@ -132,14 +131,14 @@ class BitSmarty extends SmartyBC {
 	 * @return void
 	 */
 	function verifyCompileDir() {
-		global $gBitSystem, $gBitLanguage, $bitdomain;
+		global $gBitThemes, $gBitLanguage, $bitdomain;
 		if( !defined( "TEMP_PKG_PATH" )) {
 			$temp = BIT_ROOT_PATH . "temp/";
 		} else {
 			$temp = TEMP_PKG_PATH;
 		}
 
-		$endPath = $bitdomain.'/'.$gBitSystem->getConfig('style').'/'.$gBitLanguage->mLanguage;
+		$endPath = $bitdomain.'/'.$gBitThemes->getStyle().'/'.$gBitLanguage->mLanguage;
 
 		// Compile directory
 		$compDir = $temp . "templates_c/$endPath";
