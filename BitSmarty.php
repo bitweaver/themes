@@ -14,25 +14,7 @@
  * required setup
  */
 
-require_once( dirname( __FILE__ ).'/smarty/libs/SmartyBC.class.php' ); $smartyClass = 'SmartyBC';
-/*
-if( file_exists( EXTERNAL_LIBS_PATH.'smarty/libs/Smarty.class.php' )) {
-	   // set SMARTY_DIR that we have the absolute path
-	   define( 'SMARTY_DIR', EXTERNAL_LIBS_PATH.'smarty/libs/' );
-	   // If we have smarty in our kernel, use that.
-	   $smartyIncFile = SMARTY_DIR . 'Smarty.class.php';
-} elseif( file_exists( dirname( dirname( __FILE__ ) ).'/util/smarty/libs/Smarty.class.php' )) {
-	   // set SMARTY_DIR that we have the absolute path
-	   define( 'SMARTY_DIR',  dirname( dirname( __FILE__ ) ).'/util/smarty/libs/' );
-	   // If we have smarty in our kernel, use that.
-	   $smartyIncFile = SMARTY_DIR . 'Smarty.class.php';
-} else {
-	   // assume it is in php's global include_path
-	   // don't set SMARTY_DIR if we are not using the bw copy
-	   $smartyIncFile = 'Smarty.class.php';
-}
-require_once( $smartyIncFile );
-*/
+require_once( dirname( __FILE__ ).'/smarty/libs/SmartyBC.class.php' );
 
 
 /**
