@@ -21,6 +21,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 .aligntop, aligntop *	{vertical-align:top}
 .alignmiddle	{vertical-align:middle}
 
+.nopadding	{padding:0;}
+.nomargin	{margin:0;}
 
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
