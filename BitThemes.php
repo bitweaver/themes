@@ -1371,7 +1371,7 @@ class BitThemes extends BitSingleton {
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.8.18' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
+							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.min.js';
 							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
