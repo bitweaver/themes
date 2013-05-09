@@ -41,7 +41,7 @@
     </select>
   </td>
   <td>
-    <input type="submit" name="assigcat" value="{tr}assign{/tr}" />
+    <input type="submit" class="btn" name="assigcat" value="{tr}assign{/tr}" />
   </td>
 </tr>
 </table>
@@ -54,7 +54,7 @@
    <td>
      <input type="text" name="find" value="{$find|escape}" />
    </td><td>
-     <input type="submit" value="{tr}find{/tr}" name="search" />
+     <input type="submit" class="btn" value="{tr}find{/tr}" name="search" />
      <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
    </td>
 </tr>
@@ -63,7 +63,7 @@
 
 
 <form action="{$smarty.const.THEMES_PKG_URL}theme_control.php" method="post">
-<table class="data">
+<table class="table data">
 <tr>
 <th>&nbsp;</th>
 <th><a href="{$smarty.const.THEMES_PKG_URL}theme_control.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'name_desc'}name_asc{else}name_desc{/if}">{tr}category{/tr}</a></th>
@@ -79,7 +79,7 @@
 {sectionelse}
 <tr class="norecords"><td colspan="3">{tr}No records found{/tr}</td></tr>
 {/section}
-<tr><td colspan="3"><input type="submit" name="delete" value="{tr}Delete{/tr}" /></td></tr>
+<tr><td colspan="3"><input type="submit" class="btn" name="delete" value="{tr}Delete{/tr}" /></td></tr>
 </table>
 </form>
 

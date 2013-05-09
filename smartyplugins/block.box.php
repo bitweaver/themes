@@ -18,7 +18,10 @@
  * @uses smarty_function_escape_special_chars()
  * @todo somehow make the variable that is contained within $iselect global --> this will allow importing of outside variables not set in $_REQUEST
  */
-function smarty_block_box($params, $content, &$gBitSmarty) {
+function smarty_block_box($params, $pContent, &$gBitSmarty) {
+	if( empty( $pContent )) {
+		return '';
+	}
 	$atts = '';
 	foreach( $params as $key => $val ) {
 		switch( $key ) {
@@ -38,7 +41,7 @@ function smarty_block_box($params, $content, &$gBitSmarty) {
 				break;
 		}
 	}
-	$gBitSmarty->assign( 'content',$content );
+	$gBitSmarty->assign( 'content',$pContent );
 	$gBitSmarty->assign( 'atts',$atts );
 	return $gBitSmarty->fetch( 'bitpackage:kernel/box.tpl' );
 }

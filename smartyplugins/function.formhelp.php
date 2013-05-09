@@ -124,8 +124,8 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 			// using the overlib popup system
 			if( !empty( $content ) ) {
 				if( $gBitSystem->isFeatureActive('site_help_popup') ) {
-					require_once $gBitSmarty->_get_plugin_filepath('function','popup');
-					require_once $gBitSmarty->_get_plugin_filepath('function','biticon');
+					$gBitSmarty->loadPlugin( 'smarty_modifier_popup' );
+					$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 
 					$gBitSmarty->assign( 'title',tra('Extended Help') );
 
@@ -155,7 +155,7 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 					$html .= '</a>';
 					$html .= '</span>';
 				} else {
-					$html .= '<div class="formhelp" '.$atts.'>'.$content.'</div>';
+					$html .= '<span class="help-block" '.$atts.'>'.$content.'</span>';
 				}
 			}
 

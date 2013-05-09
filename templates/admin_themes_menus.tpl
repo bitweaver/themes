@@ -11,8 +11,8 @@
 		
 			{form legend="Menu Settings"}
 				{foreach from=$formMenuSettings key=feature item=output}
-					<div class="row">
-						{formlabel label=`$output.label` for=$feature}
+					<div class="control-group">
+						{formlabel label=$output.label for=$feature}
 						{forminput}
 							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
 							{formhelp hash=$output}
@@ -20,7 +20,7 @@
 					</div>
 				{/foreach}
         	
-				<div class="row">
+				<div class="control-group">
 					{formlabel label="Menu Title" for="site_menu_title"}
 					{forminput}
 						<input size="40" type="text" name="site_menu_title" id="site_menu_title" value="{$gBitSystem->getConfig('site_menu_title')|escape}" />
@@ -28,8 +28,8 @@
 					{/forminput}
 				</div>
 
-				<div class="row submit">
-					<input type="submit" name="menu_settings" value="{tr}Change preferences{/tr}" />
+				<div class="control-group submit">
+					<input type="submit" class="btn" name="menu_settings" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/form}
 		{/jstab}
@@ -38,16 +38,16 @@
 			{if $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
 				{form legend="Menu Javascript Settings"}
 					{foreach from=$formMenuJsSettings key=feature item=output}
-						<div class="row">
-							{formlabel label=`$output.label` for=$feature}
+						<div class="control-group">
+							{formlabel label=$output.label for=$feature}
 							{forminput}
 								{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
 								{formhelp hash=$output}
 							{/forminput}
 						</div>
 					{/foreach}
-					<div class="row submit">
-						<input type="submit" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
+					<div class="control-group submit">
+						<input type="submit" class="btn" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
 					</div>
 				{/form}
 			{else}
@@ -72,8 +72,8 @@
 					<tfoot>
 						<tr>
 							<td colspan="3">
-								<div class="row submit">
-									<input type="submit" name="update_menus" value="{tr}Update Menus{/tr}" />
+								<div class="control-group submit">
+									<input type="submit" class="btn" name="update_menus" value="{tr}Update Menus{/tr}" />
 								</div>
 							</td>
 						</tr>

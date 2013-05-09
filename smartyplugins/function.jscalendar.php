@@ -23,8 +23,8 @@
 function smarty_function_jscalendar($params, &$gBitSmarty) {
 	global $gBitSystem;
 	if( $gBitSystem->isFeatureActive( 'site_use_jscalendar' ) ) {
-		//require_once $gBitSmarty->_get_plugin_filepath('shared', 'make_timestamp');
-		//require_once $gBitSmarty->_get_plugin_filepath('function', 'html_options');
+		//$gBitSmarty->loadPlugin( 'smarty_modifier_make_timestamp' );
+		//$gBitSmarty->loadPlugin( 'smarty_modifier_html_options' );
 
 		// Default values
 		$inputField   = '';      // ID of the input field

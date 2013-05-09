@@ -26,26 +26,27 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 	$color = isset( $hash['color'] )?$hash['color']:"000000";
 	foreach( $hash as $key => $val ) {
 		if( $val ) {
-			require_once $gBitSmarty->_get_plugin_filepath( 'function', 'biticon' );
+			$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
 
-			$keys = array( 'warning', 'success', 'error', 'important' );
+			$keys = array( 'warning', 'success', 'error', 'important', 'note' );
 			if( in_array( $key, $keys )) {
-				if( $key === 'important' ) {
-					$iname = 'emblem-important';
-				} elseif( $key === 'success' ) {
-					$iname = 'dialog-ok';
-				} elseif( $key === 'warning' ) {
-					$iname = 'dialog-warning';
-				} elseif( $key === 'error' ) {
-					$iname = 'dialog-error';
+				switch( $key ) {
+					case 'success':
+						$alertClass = 'alert alert-success';
+						break;
+					case 'warning':
+						$alertClass = 'alert';
+						break;
+					case 'error':
+						$alertClass = 'alert alert-error';
+						break;
+					case 'note':
+					case 'important':
+					default:
+						$alertClass = 'alert alert-info';
+						break;
 				}
 
-				$biticon = array(
-					'ipackage' => 'icons',
-					'iname'    => $iname,
-					'iexplain' => ucfirst( $key ),
-					'iforce'   => 'icon',
-				);
 				if( !is_array( $val ) ) {
 					$val = array( $val );
 				}
@@ -53,10 +54,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				foreach( $val as $valText ) {
 					if( is_array( $valText ) ) {
 						foreach( $valText as $text ) {
-							$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$text.'</p>';
+							$feedback .= '<span class="inline-block '.$alertClass.'">'.$text.'</span>';
 						}
 					} else {
-						$feedback .= '<p id="fat'.rand( 0, 10000 ).'" class="fade-'.$color.' '.$key.'">'.smarty_function_biticon( $biticon, $gBitSmarty ).' '.$valText.'</p>';
+						$feedback .= '<span class="inline-block '.$alertClass.'">'.$valText.'</span>';
 					}
 				}
 
@@ -68,10 +69,10 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 				if ( $key != 'color' ) {
 					if( is_array( $val ) ) {
 						foreach( $val as $text ) {
-							$feedback .= '<p class="'.$key.'">'.$text.'</p>';
+							$feedback .= '<span class="'.$key.'">'.$text.'</span>';
 						}
 					} else {
-						$feedback .= '<p class="'.$key.'">'.$val.'</p>';
+						$feedback .= '<span class="'.$key.'">'.$val.'</span>';
 					}
 				}
 			}
@@ -80,9 +81,7 @@ function smarty_function_formfeedback( $params, &$gBitSmarty ) {
 
 	$html = '';
 	if( !empty( $feedback ) ) {
-		$html = '<div class="formfeedback">';
 		$html .= $feedback;
-		$html .= '</div>';
 	}
 	return $html;
 }

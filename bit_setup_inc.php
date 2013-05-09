@@ -22,7 +22,10 @@ $gLibertySystem->registerService(
 require_once( THEMES_PKG_PATH."BitThemes.php" );
 
 BitThemes::loadSingleton();
-global $gBitThemes;
+global $gBitThemes, $gBitSmarty;
+
+$gBitSmarty->verifyCompileDir();
+
 
 // setStyle first, in case package decides it wants to reset the style in it's own <package>/bit_setup_inc.php
 if( !$gBitThemes->getStyle() ) {
@@ -32,10 +35,6 @@ $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
 // load some core javascript files
 $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
-
-if( !$gBitSystem->isFeatureActive( 'site_disable_jstabs' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/tabpane.js', TRUE, 40 );
-}
 
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
@@ -57,3 +56,4 @@ $gBitThemes->loadCss( THEMES_PKG_PATH.'css/dropmenu.css' );
 // styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
 $gBitThemes->loadCss( THEMES_PKG_PATH.'css/inline.css' );
 
+$gBitThemes->loadAjax( 'jquery' );

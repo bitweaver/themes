@@ -16,9 +16,9 @@
 	{assign var=area value=$moduleArea}
 {/if}
 
-<div class="module{if !empty($modInfo.classplus)} {$modInfo.classplus}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
+<div class="well module{if !empty($modInfo.classplus)} {$modInfo.classplus}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
 	{if $modInfo.title}
-		<h3>
+		<h4>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
 				<div class="control">
 					<a title="{tr}Move module up{/tr}" href="{$smarty.const.THEMES_PKG_URL}module_controls_inc.php?move=up&module_id={$module_id}">
@@ -36,7 +36,7 @@
 					{tr}{$modInfo.title}{/tr}
 				{/if}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}</a>{/if}
-		</h3>
+		</h4>
 	{/if}
 	<div class="boxcontent"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state|default:block};" id="module{$area}{$moduleParams.pos}"{/if}>
 		{$modInfo.data}

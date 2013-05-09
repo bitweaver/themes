@@ -13,8 +13,6 @@
  *
  * Note: currently only supports custom modules generated in themes package, 
  * could support any module with more work
- * moduleinc mirrors process in modules_inc.php except $r is replaced with $pParams
- * see modules_inc.php to expand support to other modules 
  *
  * @param array $pParams 
  * @param string $pParams['module_rsrc'] the full name of the template, example: _custom:custom/my_custom_module 

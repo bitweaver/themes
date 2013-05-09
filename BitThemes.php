@@ -99,15 +99,15 @@ class BitThemes extends BitSingleton {
 		}
 
 		// load tpl files that need to be included
-		$this->loadTplFiles( "header_inc" );
+		$this->loadTplFiles( "html_head_inc" );
 		$this->loadTplFiles( "footer_inc" );
 
 		// join javascript files that have been loaded
 		$this->mStyles['joined_javascript'] = $this->joinAuxFiles( 'js' );
 
 		// layout is called as the viry first, package css is around pos 300 and theme / browser are called last
-		// css inserted in <pkg>/header_inc.tpl is called before these files since these are inserted last
-		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
+		// css inserted in <pkg>/html_head_inc.tpl is called before these files since these are inserted last
+//		$this->loadCss( $this->getLayoutCssFile(),       TRUE, 1,	TRUE, TRUE );
 		$this->loadCss( $this->getStyleCssFile(),        TRUE, 998,	TRUE, TRUE );
 		$this->loadCss( $this->getBrowserStyleCssFile(), TRUE, 999,	TRUE, TRUE );
 		// check for customized CSS file
@@ -142,7 +142,7 @@ class BitThemes extends BitSingleton {
 	function setStyle( $pStyle ) {
 		global $gBitSmarty;
 		$this->mStyle = $pStyle;
-		$gBitSmarty->assign( 'style', $pStyle );
+		$gBitSmarty->verifyCompileDir();
 	}
 
 	/**
@@ -447,6 +447,112 @@ class BitThemes extends BitSingleton {
 					$gBitSystem->isFeatureActive( "{$gBitSystem->mActivePackage}_{$this->mDisplayMode}_hide_{$area}_col" )
 				) {
 					unset( $this->mLayout[$layout] );
+				}
+			}
+		}
+	}
+
+	function hasColumnModules( $pColumn ) {
+		return count( $this->mLayout[$pColumn] );
+	}
+
+	function displayLayoutColumn( $pColumn ) {
+		global $gBitSmarty;
+		if( !empty( $this->mLayout[$pColumn] ) ) {
+			for ($i = 0; $i < count( $this->mLayout[$pColumn] ); $i++) {
+				$r = &$this->mLayout[$pColumn][$i];
+				if( !empty( $r['visible'] )) {
+					// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
+					list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
+					// deal with custom modules
+					if( $package == '_custom:custom' ) {
+						global $gBitLanguage;
+
+						// We're gonna run our own cache mechanism for user_modules
+						// the cache is here to avoid calls to consumming queries,
+						// each module is different for each language because of the strings
+						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
+						if( !is_dir( $cacheDir )) {
+							mkdir_p( $cacheDir );
+						}
+						$cachefile = $cacheDir.'_custom.'.$gBitLanguage->mLanguage.'.'.$template.'.tpl.cache';
+
+						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
+							$fp = fopen( $cachefile, "r" );
+							$data = fread( $fp, filesize( $cachefile ));
+							fclose( $fp );
+							$r["data"] = $data;
+						} else {
+							if( $moduleParams = $this->getCustomModule( $template )) {
+								$moduleParams = array_merge( $r, $moduleParams );
+								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+								$gBitSmarty->display( 'bitpackage:themes/custom_module.tpl' );
+
+								if( !empty( $r["cache_time"] ) ) {
+									// write to chache file
+									$fp = fopen( $cachefile, "w+" );
+									fwrite( $fp, $data, strlen( $data ));
+									fclose( $fp );
+								}
+								$r["data"] = $data;
+							}
+						}
+						unset( $data );
+					} else {
+						$explosion = explode( '/', $r['module_rsrc'] );
+						$template = array_pop( $explosion );
+
+						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
+						global $module_rows, $module_params, $module_title, $gBitLanguage;
+
+						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
+						if( !is_dir( $cacheDir )) {
+							mkdir_p( $cacheDir );
+						}
+
+						// include tpl name and module id to uniquely identify
+						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
+
+						// if the time is right get the cache else get it fresh
+						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] ) ) {
+							$fp = fopen( $cachefile, "r" );
+							$data = fread( $fp, filesize( $cachefile ));
+							fclose( $fp );
+							$r["data"] = $data;
+						} else {
+							$module_params = $r['module_params']; // backwards compatability
+
+							if( !$r['module_rows'] ) {
+								$r['module_rows'] = 10;
+							}
+
+							// if there's no custom title, get one from file name
+							if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
+								$pattern[0] = "/.*\/mod_(.*)\.tpl/";
+								$replace[0] = "$1";
+								$pattern[1] = "/_/";
+								$replace[1] = " ";
+								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucwords( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
+							}
+
+							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
+							$moduleParams = $r;
+							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+							// assign the custom module title
+							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
+							$gBitSmarty->display( $r['module_rsrc'] );
+
+							if( !empty( $r["cache_time"] ) ) {
+								// write to chache file
+								$fp = fopen( $cachefile, "w+" );
+								fwrite( $fp, $data, strlen( $data ));
+								fclose( $fp );
+							}
+							$r["data"] = $data;
+						}
+
+						unset( $moduleParams );
+					}
 				}
 			}
 		}
@@ -1101,7 +1207,9 @@ class BitThemes extends BitSingleton {
 								}
 							}
 							closedir ($h);
-							asort( $this->mModules[$pDir][$pPrefix][ucfirst( $key )] );
+							if( !empty( $this->mModules[$pDir][$pPrefix][ucfirst($key)] ) ) {
+								asort( $this->mModules[$pDir][$pPrefix][ucfirst($key)] );
+							}
 						}
 					}
 				}
@@ -1373,11 +1481,21 @@ class BitThemes extends BitSingleton {
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
+							// boostrap needs to load after jquery
+							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.min.js';
+							if( file_exists( $boostrapSrc ) ) {
+								$this->mRawFiles['js'][] = $boostrapSrc;
+							}
 							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.min.js';
 							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						} else {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
+							// boostrap needs to load after jquery
+							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.js';
+							if( file_exists( $boostrapSrc ) ) {
+								$this->mRawFiles['js'][] = $boostrapSrc;
+							}
 							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.js';
 							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						}
@@ -1426,7 +1544,7 @@ class BitThemes extends BitSingleton {
 	}
 
 	/**
-	 * scan packages for <pkg>/templates/header_inc.tpl or footer_inc.tpl files
+	 * scan packages for <pkg>/templates/html_head_inc.tpl or footer_inc.tpl files
 	 *
 	 * @param string $pFilename Name of template file we want to scan for and collect
 	 * @access private

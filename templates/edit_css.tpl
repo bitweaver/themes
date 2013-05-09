@@ -28,12 +28,12 @@ return false;
 	</div>
 	<div style="">
 		<span>  
-			<input type="submit" name="fSaveCSS" value="Save"> 
-			<input type="submit" name="fCancelCSS" value="Cancel">
+			<input type="submit" class="btn" name="fSaveCSS" value="Save"> 
+			<input type="submit" class="btn" name="fCancelCSS" value="Cancel">
 		</span>
 		<span style="float: right">
 			
-				<input type="submit" name="fResetCSS" value="Reset CSS" onclick="return confirmform('Are you sure you want to reset your CSS back to the defaults? Any changes you have made will be lost.');">
+				<input type="submit" class="btn" name="fResetCSS" value="Reset CSS" onclick="return confirmform('Are you sure you want to reset your CSS back to the defaults? Any changes you have made will be lost.');">
 				to the
 				<select name="resetStyle">
 				{section name=ix loop=$styles}
@@ -61,10 +61,10 @@ return false;
 	<tr bgcolor="{cycle values="#eeeeee,#dddddd"}">
 		<td width="200px" cellpadding="3">{$themeImages[ix]}</td>
 		<td cellpadding="3">
-		{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript"}
-			{biticon ipackage="icons" iname="document-open" iexplain=preview onclick="javascript:popup('$customCSSImageURL/$themeImages[ix]')"}
+		{booticon iname="icon-folder-open"  ipackage="icons"  iexplain=preview onclick="javascript"}
+			{booticon iname="icon-folder-open"  ipackage="icons"  iexplain=preview onclick="javascript:popup('$customCSSImageURL/$themeImages[ix]')"}
 			<a href="{$smarty.const.THEMES_PKG_URL}/edit_css.php?fDeleteImg={$themeImages[ix]}">
-			{biticon ipackage="icons" iname="edit-delete" iexplain=remove onclick="return confirm('Are you sure you want to delete $themeImages[ix]?');"}
+			{booticon iname="icon-trash" ipackage="icons" iexplain=remove onclick="return confirm('Are you sure you want to delete $themeImages[ix]?');"}
 			<img class="icon" src="{$smarty.const.LIBERTY_PKG_URL}icons/delete.gif" title="{tr}Remove{/tr}" alt="{tr}Remove{/tr}" onclick="return confirm('Are you sure you want to delete {$themeImages[ix]}?');"/>
 			</a>
 			</input>
@@ -76,7 +76,7 @@ return false;
 <form enctype="multipart/form-data" method="post" action="{$smarty.const.THEMES_PKG_URL}edit_css.php"
 <input type="hidden" name="MAX_FILE_SIZE" value="1024000">
 Upload Image: <input type="file" name="fImgUpload"> <br /> <br/>
-<input type="submit" value="Upload Image" name="fUpload">
+<input type="submit" class="btn" value="Upload Image" name="fUpload">
 </form>
 </div>
 

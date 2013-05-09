@@ -2,7 +2,7 @@
 /* BEGIN css driven dropdown menus - horizontal */
 
 /* The top level menu */
-ul.dropmenu						 {height:1.5em;}
+ul.dropmenu						 {}
 ul.dropmenu,
 ul.dropmenu ul                   {padding:0; margin:0; list-style:none; line-height:18px; z-index:1000;}
 ul.dropmenu a                    {display:block; width:auto; padding:2px 3px;}

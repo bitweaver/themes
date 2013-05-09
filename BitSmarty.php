@@ -13,23 +13,9 @@
 /**
  * required setup
  */
-if( file_exists( EXTERNAL_LIBS_PATH.'smarty/libs/Smarty.class.php' )) {
-	// set SMARTY_DIR that we have the absolute path
-	define( 'SMARTY_DIR', EXTERNAL_LIBS_PATH.'smarty/libs/' );
-	// If we have smarty in our kernel, use that.
-	$smartyIncFile = SMARTY_DIR . 'Smarty.class.php';
-} elseif( file_exists( UTIL_PKG_PATH.'smarty/libs/Smarty.class.php' )) {
-	// set SMARTY_DIR that we have the absolute path
-	define( 'SMARTY_DIR', UTIL_PKG_PATH.'smarty/libs/' );
-	// If we have smarty in our kernel, use that.
-	$smartyIncFile = SMARTY_DIR . 'Smarty.class.php';
-} else {
-	// assume it is in php's global include_path
-	// don't set SMARTY_DIR if we are not using the bw copy
-	$smartyIncFile = 'Smarty.class.php';
-}
 
-require_once( $smartyIncFile );
+require_once( dirname( __FILE__ ).'/smarty/libs/SmartyBC.class.php' );
+
 
 /**
  * PermissionCheck
@@ -48,119 +34,63 @@ class PermissionCheck {
  *
  * @package kernel
  */
-class BitSmarty extends Smarty {
+class BitSmarty extends SmartyBC {
+
+	protected $mCompileRsrc;
+
 	/**
 	 * BitSmarty initiation
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function BitSmarty() {
+	function __construct() {
 		global $smarty_force_compile, $smarty_debugging;
-		Smarty::Smarty();
+		parent::__construct();
 		$this->mCompileRsrc = NULL;
 		$this->config_dir = "configs/";
-		// $this->caching = FALSE;
-		$this->force_compile = $smarty_force_compile;
+		// $this->caching = TRUE;
+		$this->force_compile = //$smarty_force_compile;
 		$this->debugging = isset($smarty_debugging) && $smarty_debugging;
 		$this->assign( 'app_name', 'bitweaver' );
-		$this->plugins_dir = array_merge( array( THEMES_PKG_PATH . "smartyplugins" ), $this->plugins_dir );
+		$this->addPluginsDir( THEMES_PKG_PATH . "smartyplugins" );
 		$this->register_prefilter( "add_link_ticket" );
+		$this->error_reporting = E_ALL & ~E_NOTICE;
 
 		global $permCheck;
 		$permCheck = new PermissionCheck();
-		$this->register_object( 'perm', $permCheck, array(), TRUE, array( 'autoComplete' ));
+// SMARTY3	$this->register_object( 'perm', $permCheck, array(), TRUE, array( 'autoComplete' ));
 		$this->assign_by_ref( 'perm', $permCheck );
 	}
 
-	/**
-	 * override some smarty functions to bend them to our will
-	 */
-	function _smarty_include( $pParams ) {
-		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
-			echo "\n<!-- - - - {$pParams['smarty_include_tpl_file']} - - - -->\n";
-		}
-		$modPhpFile = str_replace( '.tpl', '.php', $pParams['smarty_include_tpl_file'] );
-		$this->includeSiblingFile( $modPhpFile, $pParams['smarty_include_vars'] );
-		return parent::_smarty_include( $pParams );
-	}
-
-	function _compile_resource( $pResourceName, $pCompilePath ) {
-		// this is used when auto-storing untranslated master strings
-		$this->mCompileRsrc = $pResourceName;
-		return parent::_compile_resource( $pResourceName, $pCompilePath );
-	}
-
-	function _fetch_resource_info( &$pParams ) {
-		if( empty( $pParams['resource_name'] )) {
-			return FALSE;
-		} else {
-			return parent::_fetch_resource_info( $pParams );
-		}
-	}
-
-	function fetch( $pTplFile, $pCacheId = NULL, $pCompileId = NULL, $pDisplay = FALSE ) {
+	function scanPackagePluginDirs() {
 		global $gBitSystem;
-		$this->verifyCompileDir();
-		if( strpos( $pTplFile, ':' )) {
-			list( $resource, $location ) = explode( ':', $pTplFile );
+		foreach( $gBitSystem->mPackages as &$packageHash ) {
+			if( $packageHash['dir'] != THEMES_PKG_DIR && file_exists( $packageHash['path'].'smartyplugins' ) ) {
+				$this->addPluginsDir( $packageHash['path'].'smartyplugins' );
+			}
+		}
+	}
+
+	function addPluginsDir( $dir ) {
+		$this->plugins_dir = array_merge( array( $dir ), $this->plugins_dir );
+	}
+
+    public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false) {
+		global $gBitSystem;
+
+		if( strpos( $template, ':' )) {
+			list( $resource, $location ) = explode( ':', $template);
 			if( $resource == 'bitpackage' ) {
-				list( $package, $template ) = explode( '/', $location );
+				list( $package, $tpl ) = explode( '/', $location );
 				// exclude temp, as it contains nexus menus
 				if( !$gBitSystem->isPackageActive( $package ) && $package != 'temp' ) {
 					return '';
 				}
 			}
 		}
-
-		// the PHP sibling file needs to be included here, before the fetch so caching works properly
-		$modPhpFile = str_replace( '.tpl', '.php', $pTplFile );
-		$this->includeSiblingFile( $modPhpFile );
-		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
-			echo "\n<!-- - - - {$pTplFile} - - - -->\n";
-		}
-		return parent::fetch( $pTplFile, $pCacheId, $pCompileId, $pDisplay );
+		return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
 	}
-
-	/**
-	 * THE method to invoke if you want to be sure a tpl's sibling php file gets included if it exists. This
-	 * should not need to be invoked from anywhere except within this class
-	 *
-	 * @param string $pFile file to be included, should be of the form "bitpackage:<packagename>/<templatename>"
-	 * @return TRUE if a sibling php file was included
-	 * @access private
-	 */
-	function includeSiblingFile( $pFile, $pIncludeVars=NULL ) {
-		global $gBitThemes;
-		$ret = FALSE;
-		if( strpos( $pFile, ':' )) {
-			list( $resource, $location ) = explode( ':', $pFile );
-			if( $resource == 'bitpackage' ) {
-				list( $package, $modFile ) = explode( '/', $location );
-				$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
-				if( preg_match('/mod_/', $modFile ) || preg_match( '/center_/', $modFile ) ) {
-					global $gBitSystem;
-					$path = constant( strtoupper( $package )."_PKG_PATH" );
-					$includeFile = "$path$subdir/$modFile";
-					if( file_exists( $includeFile )) {
-						global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
-						$moduleParams = array();
-						if( !empty( $pIncludeVars['module_params'] ) ) {
-							// module_params were passed through via the {include},
-							// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
-							$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
-						} else {
-							// Module Params were passed in from the template, like kernel/dynamic.tpl
-							$moduleParams = $this->get_template_vars( 'moduleParams' );
-						}
-						include( $includeFile );
-						$ret = TRUE;
-					}
-				}
-			}
-		}
-	}
-
 
 	/**
 	 * getModuleConfig
@@ -183,28 +113,28 @@ class BitSmarty extends Smarty {
 	 * @return void
 	 */
 	function verifyCompileDir() {
-		global $gBitSystem, $gBitLanguage, $bitdomain, $gBitThemes;
+		global $gBitThemes, $gBitLanguage, $bitdomain;
 		if( !defined( "TEMP_PKG_PATH" )) {
 			$temp = BIT_ROOT_PATH . "temp/";
 		} else {
 			$temp = TEMP_PKG_PATH;
 		}
-		$style = $gBitThemes->getStyle();
-		$endPath = "$bitdomain/$style/".$gBitLanguage->mLanguage;
+
+		$endPath = $bitdomain.'/'.$gBitThemes->getStyle().'/'.$gBitLanguage->mLanguage;
 
 		// Compile directory
 		$compDir = $temp . "templates_c/$endPath";
 		$compDir = str_replace( '//', '/', $compDir );
 		$compDir = clean_file_path( $compDir );
 		mkdir_p( $compDir );
-		$this->compile_dir = $compDir;
+		$this->setCompileDir( $compDir );
 
 		// Cache directory
 		$cacheDir = $temp . "cache/$endPath";
 		$cacheDir = str_replace( '//', '/', $cacheDir );
 		$cacheDir = clean_file_path( $cacheDir );
 		mkdir_p( $cacheDir );
-		$this->cache_dir = $cacheDir;
+		$this->setCacheDir( $cacheDir );
 	}
 }
 

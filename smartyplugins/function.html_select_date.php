@@ -30,11 +30,11 @@
  * @param Smarty
  * @return string
  */
-function smarty_function_html_select_date($params, &$gBitSmarty)
+function smarty_function_html_select_date($params, &$pSmarty)
 {
     global $gBitSystem;
-    require_once $gBitSmarty->_get_plugin_filepath('shared','make_timestamp');
-    require_once $gBitSmarty->_get_plugin_filepath('function','html_options');
+    $pSmarty->loadPlugin( 'smarty_modifier_make_timestamp' );
+    $pSmarty->loadPlugin( 'smarty_modifier_html_options' );
     /* Default values. */
     $prefix          = "Date_";
     $start_year      = strftime("%Y");
@@ -148,7 +148,7 @@ function smarty_function_html_select_date($params, &$gBitSmarty)
                                                             'values'     => $month_values,
                                                             'selected'   => $month_values[$time[1]-1],
                                                             'print_result' => false),
-                                                      $gBitSmarty);
+                                                      $pSmarty);
         
         $month_result .= '</select>';
     }
@@ -180,7 +180,7 @@ function smarty_function_html_select_date($params, &$gBitSmarty)
                                                           'values'     => $day_values,
                                                           'selected'   => $time[2],
                                                           'print_result' => false),
-                                                    $gBitSmarty);
+                                                    $pSmarty);
         $day_result .= '</select>';
     }
 
@@ -220,7 +220,7 @@ function smarty_function_html_select_date($params, &$gBitSmarty)
                                                                'values' => $years,
                                                                'selected'   => $time[0],
                                                                'print_result' => false),
-                                                         $gBitSmarty);
+                                                         $pSmarty);
             $year_result .= '</select>';
         }
     }

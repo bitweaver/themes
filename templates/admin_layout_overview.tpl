@@ -37,8 +37,8 @@
 			{jstab title=$TabTitle}
 
 				<div class="floaticon">
-					{smartlink ititle="Edit this Layout" ibiticon="icons/accessories-text-editor" page=layout module_package=$module_package}
-					{smartlink ititle="Remove this Layout" ibiticon="icons/edit-delete" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
+					{smartlink ititle="Edit this Layout" booticon="icon-edit" page=layout module_package=$module_package}
+					{smartlink ititle="Remove this Layout" booticon="icon-trash" page=$page remove_layout=$module_package ionclick="return confirm('{tr}Are you sure you want to remove this layout? This can not be undone.{/tr}')"}
 				</div>
 
 				<h1 id="{$module_package}">
@@ -59,7 +59,7 @@
 								<td class="{cycle} width33p aligntop">
 							{/if}
 
-								<table class="data width100p">
+								<table class="table data width100p">
 									<tr>
 										<th>{tr}{$colkey} area{/tr}</th>
 									</tr>
@@ -98,7 +98,7 @@
 	{/jstabs}
 
 	<div class="submit">
-		<input type="submit" name="update_modules" value="{tr}Apply module settings{/tr}" />
+		<input type="submit" class="btn" name="update_modules" value="{tr}Apply module settings{/tr}" />
 	</div>
 {/form}
 

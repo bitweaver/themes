@@ -15,7 +15,7 @@
 </div>
 
 <form id="objform" action="{$smarty.const.THEMES_PKG_URL}theme_control_objects.php" method="post">
-<!--<input type="submit" name="settype" value="{tr}set{/tr}" />-->
+<!--<input type="submit" class="btn" name="settype" value="{tr}set{/tr}" />-->
 <table class="panel">
 <tr>
   <th>{tr}Section{/tr}</th>
@@ -52,7 +52,7 @@
     </select>
   </td>
   <td>
-    <input type="submit" name="assign" value="{tr}assign{/tr}" />
+    <input type="submit" class="btn" name="assign" value="{tr}assign{/tr}" />
   </td>
 </tr>
 </table>
@@ -64,7 +64,7 @@
    <td>
    <form method="get" action="{$smarty.const.THEMES_PKG_URL}theme_control_objects.php">
      <input type="text" name="find" value="{$find|escape}" />
-     <input type="submit" value="{tr}find{/tr}" name="search" />
+     <input type="submit" class="btn" value="{tr}find{/tr}" name="search" />
      <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
    </form>
    </td>
@@ -74,7 +74,7 @@
 <input type="hidden" name="type" value="{$type|escape}" />
 
 
-<table class="data">
+<table class="table data">
 <tr>
 <th>&nbsp;</th>
 <th><a href="{$smarty.const.THEMES_PKG_URL}theme_control_objects.php?offset={$offset}&amp;sort_mode={if $sort_mode eq 'type_desc'}type_asc{else}type_desc{/if}">{tr}type{/tr}</a></th>
@@ -94,7 +94,7 @@
 {sectionelse}
 <tr class="norecords"><td colspan="3">{tr}No records found{/tr}</td></tr>
 {/section}
-<tr><td colspan="3"><input type="submit" name="delete" value="{tr}Delete{/tr}" /></td></tr>
+<tr><td colspan="3"><input type="submit" class="btn" name="delete" value="{tr}Delete{/tr}" /></td></tr>
 </table>
 </form>
 

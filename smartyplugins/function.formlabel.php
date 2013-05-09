@@ -16,6 +16,7 @@
  */
 function smarty_function_formlabel( $params,&$gBitSmarty ) {
 	$atts = '';
+	$class = 'control-label';
 	foreach($params as $key => $val) {
 		switch( $key ) {
 			case 'label':
@@ -23,6 +24,8 @@ function smarty_function_formlabel( $params,&$gBitSmarty ) {
 				break;
 			case 'mandatory':
 				$mandatory = true;
+			case 'class':
+				$class .= ' '.$val;
 			default:
 				if( $val ) {
 					$atts .= ' '.$key.'="'.$val.'"';
@@ -30,23 +33,20 @@ function smarty_function_formlabel( $params,&$gBitSmarty ) {
 				break;
 		}			
 	}
-	$html = '<div class="formlabel';
+	$html = '<label class="'.$class.'" ';
 	if (isset($mandatory) && $mandatory) {
 		$html .= ' formmandatory';
 	}
-	$html .= '">';
 	if( $atts != '' ) {
-		$html .= '<label'.$atts.'>';
+		$html .= $atts;
 	}
+	$html .= '>';
 	if( empty( $params['no_translate'] ) ) {
 		$html .= tra( $name );
 	} else {
 		$html .= $name;
 	}
-	if( $atts != '' ) {
-		$html .= '</label>';
-	}
-	$html .= '</div>';
+	$html .= '</label>';
 	return $html;
 }
 ?>

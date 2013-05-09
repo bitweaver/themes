@@ -13,7 +13,7 @@
 	{formfeedback hash=$feedback}
 	<input type="hidden" name="page" value="{$page}" />
 
-	<div class="row">
+	<div class="control-group">
 		{formlabel label="Name" for="name"}
 		{forminput}
 			<input type="text" name="name" id="name" value="{$module.name|escape}" />
@@ -21,7 +21,7 @@
 		{/forminput}
 	</div>
 
-	<div class="row">
+	<div class="control-group">
 		{formlabel label="Title" for="title"}
 		{forminput}
 			<input type="text" name="title" id="title" value="{$module.title|escape}" />
@@ -29,7 +29,7 @@
 		{/forminput}
 	</div>
 
-	<div class="row">
+	<div class="control-group">
 		{formlabel label="Data" for="usermoduledata"}
 		{forminput}
 			<textarea id="usermoduledata" name="data" rows="10" cols="50">{$module.data|escape}</textarea>
@@ -37,13 +37,13 @@
 		{/forminput}
 	</div>
 
-	<div class="row submit">
-		<input type="submit" name="preview" value="{tr}Preview{/tr}" />
-		<input type="submit" name="save" value="{tr}Save{/tr}" />
+	<div class="control-group submit">
+		<input type="submit" class="btn" name="preview" value="{tr}Preview{/tr}" />
+		<input type="submit" class="btn" name="save" value="{tr}Save{/tr}" />
 	</div>
 {/form}
 
-<table class="data">
+<table class="table data">
 	<caption>{tr}Custom Modules{/tr}</caption>
 	<tr>
 		<th>{tr}Name{/tr}</th>
@@ -56,9 +56,9 @@
 			<td>{$customModules[user].name|escape}</td>
 			<td>{$customModules[user].title|escape}</td>
 			<td class="alignright">
-				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout&amp;module_name=_custom%3Acustom%2F{$customModules[user].name}">{biticon ipackage="icons" iname="mail-attachment" iexplain=assign}</a>
-				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=edit">{biticon ipackage="icons" iname="accessories-text-editor" iexplain=edit}</a>
-				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=remove">{biticon ipackage="icons" iname="edit-delete" iexplain=delete}</a>
+				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout&amp;module_name=_custom%3Acustom%2F{$customModules[user].name}">{booticon iname="icon-paperclip"  ipackage="icons"  iexplain=assign}</a>
+				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=edit">{booticon iname="icon-edit" ipackage="icons" iexplain=edit}</a>
+				<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules&amp;name={$customModules[user].name}&amp;action=remove">{booticon iname="icon-trash" ipackage="icons" iexplain=delete}</a>
 			</td>
 		</tr>
 	{sectionelse}
