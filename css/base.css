@@ -74,12 +74,12 @@ html[dir='rtl'] .clearright	{clear:left}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
-ul.toc li	{list-style:none;}
+ul.toc li	{list-style:none;font-weight:normal;font-size:10pt;}
 ul.toc li .numbering	{margin-left:-1em;}
 ul.toc ul	{margin-left:1em; padding:0 0 5px 0;}
 html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
-.boxcontent>ul.toc>li	{font-weight:bold;}
+.boxcontent > ul.toc > li	{font-weight:bold;font-size:130%}
 
 .header	{margin-bottom:10px;}
 .date,

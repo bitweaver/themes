@@ -125,7 +125,7 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 			if( !empty( $content ) ) {
 				if( $gBitSystem->isFeatureActive('site_help_popup') ) {
 					$gBitSmarty->loadPlugin( 'smarty_modifier_popup' );
-					$gBitSmarty->loadPlugin( 'smarty_modifier_biticon' );
+					$gBitSmarty->loadPlugin( 'smarty_function_biticon' );
 
 					$gBitSmarty->assign( 'title',tra('Extended Help') );
 
