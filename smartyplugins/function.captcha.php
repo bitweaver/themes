@@ -5,6 +5,8 @@
  * @subpackage plugins
  */
 
+require_once( USERS_PKG_PATH.'classes/solvemedialib.php' );
+
 /**
  * smarty_function_captcha
  */
