@@ -47,8 +47,9 @@
 				</div>
 			</noscript>
 		{/form}
-
-		<table class="layouts_table">
+<div class="row">
+	<div class="span7">
+		<table class="width100p">
 			<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
 			<tr>
 				{foreach from=$layoutAreas item=area key=colkey}
@@ -89,11 +90,11 @@
 				{/foreach}
 			</tr>
 		</table>
-
-
+	</div>
+	<div class="span5">
 {jstabs}
 	{jstab title="Modules"}
-		{form action=$smarty.server.SCRIPT_NAME legend="Assign modules to columns and areas"}
+		{form action=$smarty.server.SCRIPT_NAME legend="Assign modules to areas"}
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="module_package" value="{$module_package}" />
 			<div class="control-group">
@@ -352,5 +353,7 @@
 
 	{include file="bitpackage:themes/admin_layout_inc.tpl"}
 {/jstabs}
+	</div>
+</div>
 
 {/strip}

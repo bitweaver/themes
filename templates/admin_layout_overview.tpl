@@ -45,7 +45,7 @@
 					{tr}Current Layout of {if $TabTitle == 'Default'}Site Default{else}{$TabTitle}{/if}{/tr}
 				</h1>
 
-				<table class="layouts_table">
+				<table class="width100p">
 					<tr>
 						{cycle values="even,odd" print=0}
 						{foreach from=$layoutAreas item=area key=colkey}

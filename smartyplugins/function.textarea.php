@@ -25,7 +25,7 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 		$gBitSystem->isFeatureActive( 'content_force_allow_html' )))
 		&& empty( $pParams['nowysiwyg'] )
 		) {
-		$class = 'wysiwyg';
+		$class .= 'wysiwyg';
 	}
 	if (empty($pParams['rows'])) {
 		$pParams['rows'] = (empty($_COOKIE['rows']) ? $gBitSystem->getConfig('liberty_textarea_height', 20) : $_COOKIE['rows']);
