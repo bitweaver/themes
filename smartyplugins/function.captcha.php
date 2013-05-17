@@ -5,6 +5,7 @@
  * @subpackage plugins
  */
 
+require_once( USERS_PKG_PATH.'classes/recaptchalib.php' );
 require_once( USERS_PKG_PATH.'classes/solvemedialib.php' );
 
 /**
