@@ -16,7 +16,9 @@ function smarty_function_captcha( $pParams, &$gBitSmarty ) {
 	if( !empty( $pParams['force'] ) || empty( $_SESSION['captcha_verified'] ) && !$gBitUser->hasPermission( 'p_users_bypass_captcha' ) ) {
 		$pParams['size'] = !empty( $pParams['size'] ) ? $pParams['size'] : '5';
 		$pParams['variant'] = !empty( $pParams['variant'] ) ? $pParams['variant'] : 'condensed';
-
+		if( !empty( $pParams['errors'] ) ) {
+			$gBitSmarty->assign( 'errors', $pParams['errors'] );
+		}
 		if( $gBitSystem->isFeatureActive( 'liberty_use_captcha_freecap' ) ) {
 			$pParams['source'] = UTIL_PKG_URL."freecap/freecap.php";
 		} else {
