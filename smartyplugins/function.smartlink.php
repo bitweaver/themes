@@ -164,7 +164,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 	if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
 		$ret = $url.$url_params;
 	} else {
-		$ret = '<a '.$atitle.' '.( !empty( $params['ionclick'] ) ? 'onclick="'.$params['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $params['ianchor'] ) ? '#'.$params['ianchor'] : '' ).'">';
+		$ret = '<a class="icon" '.$atitle.' '.( !empty( $params['ionclick'] ) ? 'onclick="'.$params['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $params['ianchor'] ) ? '#'.$params['ianchor'] : '' ).'">';
 
 		// if we want to display an icon instead of text, do that
 		if( isset( $hash['booticon'] ) ) {
