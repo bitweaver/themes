@@ -107,6 +107,45 @@ class BitSmarty extends SmartyBC {
 	}
 
 	/**
+	 * THE method to invoke if you want to be sure a tpl's sibling php file gets included if it exists. This
+	 * should not need to be invoked from anywhere except within this class
+	 *
+	 * @param string $pFile file to be included, should be of the form "bitpackage:<packagename>/<templatename>"
+	 * @return TRUE if a sibling php file was included
+	 * @access private
+	 */
+	function includeSiblingFile( $pFile, $pIncludeVars=NULL ) {
+		global $gBitThemes;
+		$ret = FALSE;
+		if( strpos( $pFile, ':' )) {
+			list( $resource, $location ) = explode( ':', $pFile );
+			if( $resource == 'bitpackage' ) {
+				list( $package, $modFile ) = explode( '/', $location );
+				$subdir = preg_match( '/mod_/', $modFile ) ? 'modules' : 'templates';
+				if( preg_match('/mod_/', $modFile ) || preg_match( '/center_/', $modFile ) ) {
+					global $gBitSystem;
+					$path = constant( strtoupper( $package )."_PKG_PATH" );
+					$includeFile = "$path$subdir/$modFile";
+					if( file_exists( $includeFile )) {
+						global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
+						$moduleParams = array();
+						if( !empty( $pIncludeVars['module_params'] ) ) {
+							// module_params were passed through via the {include},
+							// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
+							$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
+						} else {
+							// Module Params were passed in from the template, like kernel/dynamic.tpl
+							$moduleParams = $this->get_template_vars( 'moduleParams' );
+						}
+						include( $includeFile );
+						$ret = TRUE;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * verifyCompileDir
 	 *
 	 * @access public
