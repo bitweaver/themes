@@ -76,7 +76,7 @@ function biticon_output( $pParams, $pFile ) {
 			if( !isset( $pParams["iclass"] ) ) {
 				$outstr .= ' class="icon"';
 			} else {
-				$outstr .=  ' class="'.$pParams["iclass"].'"';
+				$outstr .= ' class="'.$pParams["iclass"].'"';
 			}
 
 			if( isset( $pParams["onclick"] ) ) {
