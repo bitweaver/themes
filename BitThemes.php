@@ -1049,10 +1049,18 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function setModulePosition( $pModuleId, $pPos ) {
+	function setModulePosition( $pModuleId, $pPos, $pCol=NULL ) {
 		if( @BitBase::verifyId( $pModuleId )) {
-			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET `pos`=? WHERE `module_id`=?";
-			$result = $this->mDb->query( $query, array( $pPos, $pModuleId ));
+			$bindVars = array();
+			$updateSql = '';
+			if( !empty( $pCol ) ) {
+				$updateSql .= ' `layout_area`=?, ';
+				$bindVars[] = $pCol;
+			}
+			$bindVars[] = $pPos;
+			$bindVars[] = $pModuleId;
+			$query = "UPDATE `".BIT_DB_PREFIX."themes_layouts` SET ".$updateSql." `pos`=? WHERE `module_id`=?";
+			$result = $this->mDb->query( $query, $bindVars );
 		}
 		return TRUE;
 	}
