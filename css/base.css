@@ -81,6 +81,8 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
 .boxcontent > ul.toc > li	{font-weight:bold;font-size:130%}
 
+.bold	{font-weight:bold;}
+
 .header	{margin-bottom:10px;}
 .date,
 small,.small	{color:#666666; font-size:85%}
