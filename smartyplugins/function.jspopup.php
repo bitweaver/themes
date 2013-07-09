@@ -86,9 +86,9 @@ function smarty_function_jspopup( $pParams, &$gBitSmarty ) {
 	}
 
 	if( !empty( $pParams['type'] ) && $pParams['type'] == 'fullscreen' ) {
-		$js = 'popUpWin(\''.$pParams['href'].'\',\'fullScreen\');';
+		$js = 'BitBase.popUpWin(\''.$pParams['href'].'\',\'fullScreen\');';
 	} else {
-		$js = 'popUpWin(\''.$pParams['href'].'\',\'standard\','.( !empty( $pParams['width'] ) ? $pParams['width'] : 600 ).','.( !empty( $pParams['height'] ) ? $pParams['height'] : 400 ).');';
+		$js = 'BitBase.popUpWin(\''.$pParams['href'].'\',\'standard\','.( !empty( $pParams['width'] ) ? $pParams['width'] : 600 ).','.( !empty( $pParams['height'] ) ? $pParams['height'] : 400 ).');';
 	}
 
 	// deprecated slated for removal - onkeypress causes focus problems with browsers - if this is an ada issue get in touch -wjames5.
