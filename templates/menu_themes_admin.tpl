@@ -6,7 +6,7 @@
 	<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout" >{tr}Module Layouts{/tr}</a></li>
 	<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=layout_overview" >{tr}Module{/tr}</a></li>
 	<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=themes" >{tr}Theme{/tr}</a></li>
-	<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modul class="dropdown-menu sub-menu"es">{tr}Custom Modules{/tr}</a></li>
+	<li><a class="item" href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page=custom_modules">{tr}Custom Modules{/tr}</a></li>
 	<li><a class="item" href="{$smarty.const.THEMES_PKG_URL}admin/menus.php">{tr}Top Menu{/tr}</a></li>
 	<li><a class="item" href="{$smarty.const.THEMES_PKG_URL}icon_browser.php">{tr}Icon Browser{/tr}</a></li>
 </ul>
