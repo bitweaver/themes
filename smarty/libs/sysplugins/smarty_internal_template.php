@@ -283,6 +283,11 @@ class Smarty_Internal_Template extends Smarty_Internal_TemplateBase {
                 $tpl->tpl_vars[$_key] = new Smarty_variable($_val);
             }
         }
+
+		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
+			echo "\n<!-- - - - {$template} - - - -->\n";
+		}
+
         return $tpl->fetch(null, null, null, null, false, false, true);
     }
 

@@ -89,6 +89,11 @@ class BitSmarty extends SmartyBC {
 				}
 			}
 		}
+
+		if( defined( 'TEMPLATE_DEBUG' ) && TEMPLATE_DEBUG == TRUE ) {
+			echo "\n<!-- - - - {$template} - - - -->\n";
+		}
+
 		return parent::fetch($template, $cache_id, $compile_id, $parent, $display, $merge_tpl_vars, $no_output_filter);
 	}
 
