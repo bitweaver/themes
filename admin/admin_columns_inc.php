@@ -22,13 +22,6 @@ $activeColumns = array(
 );
 $gBitSmarty->assign( 'activeColumns', $activeColumns );
 
-// Module layouts
-if( !empty( $_REQUEST["save_layout"] ) ) {
-	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
-		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
-	}
-}
-
 // Areas
 $hideableAreas = array(
 	'top'    => 'Top',
@@ -65,6 +58,10 @@ if( !empty( $_REQUEST['reset_columns'] )) {
 	$gBitSystem->storeConfigMatch( "#_hide_(top|right|bottom|left)_col$#" );
 	$feedback['success'] = tra( "All custom column settings have been reset." );
 } elseif( !empty( $_REQUEST['column_control'] )) {
+
+	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
+		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
+	}
 	foreach( array_keys( $activeColumns ) as $item ) {
 		simple_set_toggle( $item, THEMES_PKG_NAME );
 	}

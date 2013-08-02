@@ -5,7 +5,6 @@
 
 	{jstabs}
 		{jstab title="Theme Layout"}
-			{form}
 			<p class="help">
 				{tr}Here you can pick the layout of the site style. this will basically rearrange the positions of the three columns.
 				<br />Please note that not all styles support this method of layout selection. Themes that support the style layout selection have a note of it in the description.
@@ -40,13 +39,7 @@
 					</select>
 					{/forminput}
 				</div>
-				<div class="control-group submit">
-					{forminput}
-						<input type="submit" class="btn" name="save_layout" value="{tr}Save Layout{/tr}"/>
-					{/forminput}
-				</div>
 			{/legend}
-			{/form}
 		{/jstab}
 
 		{jstab title="Columns"}
