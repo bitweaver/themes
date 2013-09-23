@@ -36,17 +36,17 @@ function smarty_function_booticon( $pParams, $pFile ) {
 			$outstr .= '>';
 		}
 
-		$outstr .= '<i class="'.$pParams['iname'];
+		$outstr .= '<div class="'.$pParams['iname'];
 		if( isset( $pParams["iclass"] ) ) {
 			$outstr .=  ' '.$pParams["iclass"].'';
 		}
 		$outstr .= '"';
-		
+
 		if( isset( $pParams["id"] ) ) {
 			$outstr .=  ' id="'.$pParams['id'].'"';
 		}
 
-		$outstr .= '></i>';
+		$outstr .= '></div>';
 
 		if( !empty( $pParams['ilocation'] ) ) {
 			if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {

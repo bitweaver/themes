@@ -1490,7 +1490,7 @@ class BitThemes extends BitSingleton {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.min.js';
+							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.min.js';
 							if( file_exists( $boostrapSrc ) ) {
 								$this->mRawFiles['js'][] = $boostrapSrc;
 							}
@@ -1500,7 +1500,7 @@ class BitThemes extends BitSingleton {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.js';
+							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.js';
 							if( file_exists( $boostrapSrc ) ) {
 								$this->mRawFiles['js'][] = $boostrapSrc;
 							}
