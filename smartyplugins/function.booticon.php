@@ -37,6 +37,9 @@ function smarty_function_booticon( $pParams, $pFile ) {
 		}
 
 		$outstr .= '<i class="'.$pParams['iname'];
+		if( isset( $pParams["class"] ) ) {
+			$outstr .=  ' '.$pParams["class"].'';
+		}
 		if( isset( $pParams["iclass"] ) ) {
 			$outstr .=  ' '.$pParams["iclass"].'';
 		}
