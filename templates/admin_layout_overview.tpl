@@ -7,34 +7,17 @@
 	<input type="hidden" name="page" value="{$page}" />
 	<input type="hidden" name="nocollapse" value="{$smarty.request.nocollapse}" />
 
-	{foreach name=PkgLayouts from=$layouts item=layout key=module_package}
-		{if $smarty.foreach.PkgLayouts.total >= $tablimit}
-			<dl>
-				<dt>{$smarty.foreach.PkgLayouts.iteration}</dt>
-				{if !$module_package || $module_package == 'kernel'}
-					<dd>{tr}Default{/tr}</dd>
-				{else}
-					<dd>{$module_package|capitalize}</dd>
-				{/if}
-			</dl>
-		{/if}
-	{/foreach}
-
 	{jstabs}
 		{foreach name=PkgLayouts from=$layouts item=layout key=module_package}
 
-			{* if there are too many tabs, we only display numbers *}
-			{if $smarty.foreach.PkgLayouts.total lt $tablimit}
-				{if !$module_package || $module_package == 'kernel'}
-					{assign var=TabTitle value="Default"}
-				{else}
-					{assign var=TabTitle value=$module_package|capitalize}
-				{/if}
+			{if !$module_package || $module_package == 'kernel'}
+				{assign var=tabTitle value="Default"|tra}
 			{else}
-				{assign var=TabTitle value="&nbsp;"|cat:$smarty.foreach.PkgLayouts.iteration|cat:"&nbsp;"}
+				{assign var=tabTitle value=$module_package|capitalize}
 			{/if}
 
-			{jstab title=$TabTitle}
+
+			{jstab title=$tabTitle}
 
 				<div class="floaticon">
 					{smartlink ititle="Edit this Layout" booticon="icon-edit" page=layout module_package=$module_package}
@@ -42,7 +25,7 @@
 				</div>
 
 				<h1 id="{$module_package}">
-					{tr}Current Layout of {if $TabTitle == 'Default'}Site Default{else}{$TabTitle}{/if}{/tr}
+					{tr}Current Layout{/tr} <strong>{$tabTitle}</strong>
 				</h1>
 
 				<table class="width100p">
