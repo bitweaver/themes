@@ -1487,7 +1487,7 @@ class BitThemes extends BitSingleton {
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.9.2' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
+							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
 							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.min.js';
