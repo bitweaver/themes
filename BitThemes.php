@@ -57,6 +57,9 @@ class BitThemes extends BitSingleton {
 		$this->mThemeCache = new BitCache( 'themes', TRUE );
 	}
 
+	public static function isCacheable() {
+		return false;
+	}
 
 	// {{{ =================== Styles ====================
 	/**
