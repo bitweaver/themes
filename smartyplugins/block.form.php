@@ -27,7 +27,7 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 			$pParams['method'] = 'post';
 		}
 		$atts = '';
-		if( isset( $pParams['secure'] ) && $pParams['secure'] ) {
+		if( $gBitSystem->isLive() && isset( $pParams['secure'] ) && $pParams['secure'] ) {
 			// This is NEEDED to enforce HTTPS secure logins!
 			$url = 'https://' . $_SERVER['HTTP_HOST'];
 		} else {
