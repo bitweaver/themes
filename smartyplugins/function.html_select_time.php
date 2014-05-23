@@ -22,8 +22,8 @@
 function smarty_function_html_select_time($params, &$gBitSmarty)
 {
     global $gBitSystem;
-    $gBitSmarty->loadPlugin( 'smarty_modifier_make_timestamp' );
-    $gBitSmarty->loadPlugin( 'smarty_modifier_html_options' );
+    $gBitSmarty->loadPlugin( 'smarty_shared_make_timestamp' );
+    $gBitSmarty->loadPlugin( 'smarty_shared_html_options' );
     /* Default values. */
     $prefix             = "Time_";
     $time               = time();
