@@ -48,7 +48,7 @@
 			</noscript>
 		{/form}
 <div class="row">
-	<div class="span7">
+	<div class="col-md-7">
 		<table class="width100p">
 			<caption>{tr}Current Layout of '{if !$module_package || $module_package=='kernel'}Site Default{else}{$module_package|capitalize}{/if}'{/tr}</caption>
 			<tr>
@@ -91,7 +91,7 @@
 			</tr>
 		</table>
 	</div>
-	<div class="span5">
+	<div class="col-md-5">
 {jstabs}
 	{jstab title="Modules"}
 		{form action=$smarty.server.SCRIPT_NAME legend="Assign modules to areas"}
