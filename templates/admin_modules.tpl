@@ -12,6 +12,6 @@
 	{/foreach}
 
 	<div class="control-group submit">
-		<input type="submit" class="btn" name="module_settings" value="{tr}Change preferences{/tr}" />
+		<input type="submit" class="btn btn-default" name="module_settings" value="{tr}Change preferences{/tr}" />
 	</div>
 {/form}

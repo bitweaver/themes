@@ -38,8 +38,8 @@
 	</div>
 
 	<div class="control-group submit">
-		<input type="submit" class="btn" name="preview" value="{tr}Preview{/tr}" />
-		<input type="submit" class="btn" name="save" value="{tr}Save{/tr}" />
+		<input type="submit" class="btn btn-default" name="preview" value="{tr}Preview{/tr}" />
+		<input type="submit" class="btn btn-default" name="save" value="{tr}Save{/tr}" />
 	</div>
 {/form}
 

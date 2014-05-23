@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="control-group submit">
-					<input type="submit" class="btn" name="menu_settings" value="{tr}Change preferences{/tr}" />
+					<input type="submit" class="btn btn-default" name="menu_settings" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/form}
 		{/jstab}
@@ -47,7 +47,7 @@
 						</div>
 					{/foreach}
 					<div class="control-group submit">
-						<input type="submit" class="btn" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
+						<input type="submit" class="btn btn-default" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
 					</div>
 				{/form}
 			{else}
@@ -73,7 +73,7 @@
 						<tr>
 							<td colspan="3">
 								<div class="control-group submit">
-									<input type="submit" class="btn" name="update_menus" value="{tr}Update Menus{/tr}" />
+									<input type="submit" class="btn btn-default" name="update_menus" value="{tr}Update Menus{/tr}" />
 								</div>
 							</td>
 						</tr>

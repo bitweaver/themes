@@ -170,8 +170,8 @@
 	{/jstabs}
 	
 	<div class="control-group submit">
-		<input type="submit" class="btn" name="reset_columns" value="{tr}Reset column settings{/tr}" />
-		<input type="submit" class="btn" name="column_control" value="{tr}Save settings{/tr}" />
+		<input type="submit" class="btn btn-default" name="reset_columns" value="{tr}Reset column settings{/tr}" />
+		<input type="submit" class="btn btn-default" name="column_control" value="{tr}Save settings{/tr}" />
 	</div>
 
 {/form}

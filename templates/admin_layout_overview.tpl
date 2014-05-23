@@ -81,7 +81,7 @@
 	{/jstabs}
 
 	<div class="submit">
-		<input type="submit" class="btn" name="update_modules" value="{tr}Apply module settings{/tr}" />
+		<input type="submit" class="btn btn-default" name="update_modules" value="{tr}Apply module settings{/tr}" />
 	</div>
 {/form}
 
