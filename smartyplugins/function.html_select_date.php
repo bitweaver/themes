@@ -33,7 +33,7 @@
 function smarty_function_html_select_date($params, &$pSmarty)
 {
     global $gBitSystem;
-    $pSmarty->loadPlugin( 'smarty_modifier_make_timestamp' );
+    $pSmarty->loadPlugin( 'smarty_shared_make_timestamp' );
     $pSmarty->loadPlugin( 'smarty_modifier_html_options' );
     /* Default values. */
     $prefix          = "Date_";
