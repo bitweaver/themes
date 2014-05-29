@@ -55,7 +55,7 @@ class BitSmarty extends SmartyBC {
 		$this->assign( 'app_name', 'bitweaver' );
 		$this->addPluginsDir( THEMES_PKG_PATH . "smartyplugins" );
 		$this->register_prefilter( "add_link_ticket" );
-		$this->error_reporting = E_ALL & ~E_NOTICE;
+		$this->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT;
 
 		global $permCheck;
 		$permCheck = new PermissionCheck();
