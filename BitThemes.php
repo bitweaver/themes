@@ -465,6 +465,7 @@ class BitThemes extends BitSingleton {
 			for ($i = 0; $i < count( $this->mLayout[$pColumn] ); $i++) {
 				$r = &$this->mLayout[$pColumn][$i];
 				if( !empty( $r['visible'] )) {
+					if( $pColumn == 'l' || $pColumn == 'r' ) { print '<div class="col-md-12 col-sm-6 col-xs-12">'; }
 					// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
 					list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
 					// deal with custom modules
@@ -556,6 +557,7 @@ class BitThemes extends BitSingleton {
 
 						unset( $moduleParams );
 					}
+					if( $pColumn == 'l' || $pColumn == 'r' ) { print '</div>'; }
 				}
 			}
 		}
