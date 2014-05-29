@@ -85,7 +85,7 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
 .bold	{font-weight:bold;}
 
-.header	{margin-bottom:10px;}
+header.container.mainheader	{margin-top:20px;}
 .date,
 small,.small	{color:#666666; font-size:85%}
 .sitenotice	{text-align:center;font-weight:bold;padding-bottom:10px;}
