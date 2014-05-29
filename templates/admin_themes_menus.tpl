@@ -79,7 +79,7 @@
 						</tr>
 					</tfoot>
 					<tbody>
-						{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
+						{foreach from=$gBitSystem->mAppMenu.bar key=pkgName item=menu}
 							{forminput}
 								<tr>
 									<td title="{tr}Visible?{/tr}">
