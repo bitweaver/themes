@@ -24,6 +24,7 @@ html[dir='rtl'] .alignright	{text-align:left}
 .nopadding	{padding:0;}
 .nomargin	{margin:0;}
 .margin-auto	{margin-left:auto;margin-right:auto;}
+.overflow-hidden	{overflow:hidden;}
 
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}

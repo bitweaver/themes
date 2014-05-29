@@ -2227,7 +2227,7 @@ function themes_feedback_to_html( $params ) {
 						$alertClass = 'alert alert-success';
 						break;
 					case 'warning':
-						$alertClass = 'alert';
+						$alertClass = 'alert alert-warning';
 						break;
 					case 'error':
 						$alertClass = 'alert alert-error';
