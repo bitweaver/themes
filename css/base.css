@@ -72,7 +72,7 @@ html[dir='rtl'] .clearright	{clear:left}
 .monospace	{font-family:monospace}
 
 .module ol,
-.module ul	{margin:0; padding:0}
+.module ul	{margin:0 0 0 -1em; padding:0}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
