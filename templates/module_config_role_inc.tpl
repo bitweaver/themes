@@ -18,7 +18,7 @@
 {/capture}
 
 {strip}
-<h3>
+<strong>
 	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}<a href="javascript:BitBase.flipWithSign('id-{$modInfo.module_id}');"><span id="flipperid-{$modInfo.module_id}" class="monospace">[+]</span> {/if}
 		{$modInfo.name}
 		<input type="hidden" name="modules[{$modInfo.module_id}][layout_area]" value="{$area}" />
@@ -26,7 +26,7 @@
 	{if !$smarty.request.nocollapse && !$condensed && $gBitThemes->isJavascriptEnabled()}</a>{/if}
 	<br />
 	{$smarty.capture.shared}
-</h3>
+</strong>
 
 {if !$condensed}
 	{if !$smarty.request.nocollapse && $gBitThemes->isJavascriptEnabled()}<div id="id-{$modInfo.module_id}" style="display:none;">{/if}
