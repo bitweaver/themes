@@ -3,7 +3,7 @@
 
 		{form legend="Create Layout for Packages and Sections" method="get"}
 			<input type="hidden" name="page" value="{$page}" />
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Customized layout" for="module_package"}
 				{forminput}
 					<select name="module_package" id="module_package" onchange="this.form.submit();">
@@ -26,7 +26,7 @@
 			</div>
 
 			{if $cloneLayouts and $module_package != kernel}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label="Copy existing layout" for="clone_layout"}
 					{forminput}
 						<ul>
@@ -42,7 +42,7 @@
 			{/if}
 
 			<noscript>
-				<div class="control-group submit">
+				<div class="form-group submit">
 					<input type="submit" class="btn btn-default" name="fSubmitCustomize" value="{tr}Customize{/tr}" />
 				</div>
 			</noscript>
@@ -97,7 +97,7 @@
 		{form action=$smarty.server.SCRIPT_NAME legend="Assign modules to areas"}
 			<input type="hidden" name="page" value="{$page}" />
 			<input type="hidden" name="module_package" value="{$module_package}" />
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Package"}
 				{forminput}
 					<span class="highlight">{tr}{if !$module_package || $module_package eq 'kernel'}Site Default{else}{$module_package|capitalize}{/if}{/tr}</span>
@@ -108,7 +108,7 @@
 			{if $fEdit && $fAssign.name}
 				<input type="hidden" name="assign_name" value="{$fAssign.name}" />
 			{else}
-				<div class="control-group">
+				<div class="form-group">
 					{formlabel label="Module" for="module_rsrc"}
 					{forminput}
 						{*html_options name="fAssign[module_rsrc]" id="module_rsrc" options=$allModules selected=$fAssign.name *}
@@ -126,7 +126,7 @@
 				</div>
 			{/if}
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Position" for="layout_area"}
 				{forminput}
 					<select name="fAssign[layout_area]" id="layout_area">
@@ -143,7 +143,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Title" for="title"}
 				{forminput}
 					<input type="text" size="48" name="fAssign[title]" id="title" value="{$fAssign.title|escape}" />
@@ -151,7 +151,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Order" for="pos"}
 				{forminput}
 					<select name="fAssign[pos]" id="pos">
@@ -163,7 +163,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Cache Time" for="cache_time"}
 				{forminput}
 					<input type="text" size="5" name="fAssign[cache_time]" id="cache_time" value="{$fAssign.cache_time|escape}" /> seconds
@@ -171,7 +171,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Rows" for="module_rows"}
 				{forminput}
 					<input type="text" size="5" name="fAssign[module_rows]" id="module_rows" value="{$fAssign.module_rows|escape}" />
@@ -179,7 +179,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Parameters" for="params"}
 				{forminput}
 					<input type="text" size="48" name="fAssign[params]" id="params" value="{$fAssign.params|escape}" />
@@ -206,7 +206,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{if $roles }
 					{formlabel label="Roles" for="roles"}
 					{forminput}
@@ -230,14 +230,14 @@
 				{/if}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				<label class="checkbox">
 					<input type="checkbox" value="y" id="add_to_all" name="fAssign[add_to_all]" />Add to all Layouts
 					{formhelp note="If you check this, the module will be added to all custom layouts."}
 				</label>
 			</div>
 
-			<div class="control-group submit">
+			<div class="form-group submit">
 				<input type="submit" class="btn btn-default" name="ColumnTabSubmit" value="{tr}Assign{/tr}" />
 			</div>
 		{/form}
@@ -249,7 +249,7 @@
 			<input type="hidden" name="module_package" value="{$module_package}" />
 			<input type="hidden" name="fAssign[layout_area]" value="c" />
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Package"}
 				{forminput}
 					<span class="highlight">{tr}{if !$module_package || $module_package eq 'kernel'}Site Default{else}{$module_package|capitalize}{/if}{/tr}</span>
@@ -257,7 +257,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Center Piece" for="module"}
 				{forminput}
 					{if $fEdit && $fAssign.name}
@@ -278,14 +278,14 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Position"}
 				{forminput}
 					{tr}Center{/tr}
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Order" for="c_ord"}
 				{forminput}
 					<select name="fAssign[pos]" id="c_ord">
@@ -297,7 +297,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Cache Time" for="c_cache_time"}
 				{forminput}
 					<input type="text" name="fAssign[cache_time]" id="c_cache_time" size="5" value="{$fAssign.cache_time|escape}" /> seconds
@@ -305,7 +305,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Rows" for="c_rows"}
 				{forminput}
 					<input type="text" size="5" name="fAssign[module_rows]" id="c_rows" value="{$fAssign.module_rows|escape}" />
@@ -313,7 +313,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{formlabel label="Parameters" for="c_params"}
 				{forminput}
 					<input type="text" size="48" name="fAssign[params]" id="c_params" value="{$fAssign.params|escape}" />
@@ -321,7 +321,7 @@
 				{/forminput}
 			</div>
 
-			<div class="control-group">
+			<div class="form-group">
 				{if $roles }
 					{formlabel label="Roles" for="c_roles"}
 					{forminput}
@@ -345,7 +345,7 @@
 				{/if}
 			</div>
 
-			<div class="control-group submit">
+			<div class="form-group submit">
 				<input type="submit" class="btn btn-default" name="CenterTabSubmit" value="{tr}Assign{/tr}" />
 			</div>
 		{/form}

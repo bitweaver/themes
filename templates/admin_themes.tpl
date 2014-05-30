@@ -2,7 +2,7 @@
 {strip}
 {form legend="Theme Settings"}
 	<input type="hidden" name="page" value="{$page}" />
-	<div class="control-group">
+	<div class="form-group">
 		{formlabel label="Display action links as" for="site_biticon_display_style"}
 		{forminput}
 			{html_options name="site_biticon_display_style" id="site_biticon_display_style" options=$biticon_display_options selected=$gBitSystem->getConfig('site_biticon_display_style')}
@@ -10,7 +10,7 @@
 		{/forminput}
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		{formlabel label="Default Icon Style" for="default_icon_style"}
 		{forminput}
 			{html_options name="default_icon_style" id="default_icon_style" options=$iconStyles selected=$gBitSystem->getConfig('default_icon_style')}
@@ -18,7 +18,7 @@
 		{/forminput}
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		{formlabel label="Default Icon Size" for="site_icon_size"}
 		{forminput}
 			{html_options name="site_icon_size" id="site_icon_size" options=$biticon_sizes selected=$gBitSystem->getConfig('site_icon_size')}
@@ -26,7 +26,7 @@
 		{/forminput}
 	</div>
 
-	<div class="control-group">
+	<div class="form-group">
 		{formlabel label="Use IE js fix" for="themes_use_msie_js_fix"}
 		{forminput}
 			{html_options name="themes_use_msie_js_fix" id="themes_use_msie_js_fix" options=$ieFixOptions selected=$gBitSystem->getConfig('themes_use_msie_js_fix')}
@@ -35,7 +35,7 @@
 	</div>
 
 	{foreach from=$themeSettings key=feature item=output}
-		<div class="control-group">
+		<div class="form-group">
 			{formlabel label=$output.label for=$feature}
 			{forminput}
 				{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -44,7 +44,7 @@
 		</div>
 	{/foreach}
 
-	<div class="control-group submit">
+	<div class="form-group submit">
 		<input type="submit" class="btn btn-default" name="change_prefs" value="{tr}Apply Settings{/tr}" />
 	</div>
 {/form}
