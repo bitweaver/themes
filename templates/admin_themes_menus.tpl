@@ -11,7 +11,7 @@
 		
 			{form legend="Menu Settings"}
 				{foreach from=$formMenuSettings key=feature item=output}
-					<div class="control-group">
+					<div class="control-group column-group gutters">
 						{formlabel label=$output.label for=$feature}
 						{forminput}
 							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -20,7 +20,7 @@
 					</div>
 				{/foreach}
         	
-				<div class="control-group">
+				<div class="control-group column-group gutters">
 					{formlabel label="Menu Title" for="site_menu_title"}
 					{forminput}
 						<input size="40" type="text" name="site_menu_title" id="site_menu_title" value="{$gBitSystem->getConfig('site_menu_title')|escape}" />
@@ -29,7 +29,7 @@
 				</div>
 
 				<div class="control-group submit">
-					<input type="submit" class="btn" name="menu_settings" value="{tr}Change preferences{/tr}" />
+					<input type="submit" class="ink-button" name="menu_settings" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/form}
 		{/jstab}
@@ -38,7 +38,7 @@
 			{if $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
 				{form legend="Menu Javascript Settings"}
 					{foreach from=$formMenuJsSettings key=feature item=output}
-						<div class="control-group">
+						<div class="control-group column-group gutters">
 							{formlabel label=$output.label for=$feature}
 							{forminput}
 								{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -47,7 +47,7 @@
 						</div>
 					{/foreach}
 					<div class="control-group submit">
-						<input type="submit" class="btn" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
+						<input type="submit" class="ink-button" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
 					</div>
 				{/form}
 			{else}
@@ -73,7 +73,7 @@
 						<tr>
 							<td colspan="3">
 								<div class="control-group submit">
-									<input type="submit" class="btn" name="update_menus" value="{tr}Update Menus{/tr}" />
+									<input type="submit" class="ink-button" name="update_menus" value="{tr}Update Menus{/tr}" />
 								</div>
 							</td>
 						</tr>

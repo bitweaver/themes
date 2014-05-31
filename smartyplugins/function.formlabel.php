@@ -16,7 +16,7 @@
  */
 function smarty_function_formlabel( $params,&$gBitSmarty ) {
 	$atts = '';
-	$class = 'control-label';
+	$class = 'large-10 content-right';
 	foreach($params as $key => $val) {
 		switch( $key ) {
 			case 'label':
@@ -31,11 +31,11 @@ function smarty_function_formlabel( $params,&$gBitSmarty ) {
 					$atts .= ' '.$key.'="'.$val.'"';
 				}
 				break;
-		}			
+		}
 	}
 	$html = '<label class="'.$class.'" ';
 	if (isset($mandatory) && $mandatory) {
-		$html .= ' formmandatory';
+		$html .= ' required';
 	}
 	if( $atts != '' ) {
 		$html .= $atts;

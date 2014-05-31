@@ -59,7 +59,7 @@ if( !empty( $_REQUEST['reset_columns'] )) {
 	$feedback['success'] = tra( "All custom column settings have been reset." );
 } elseif( !empty( $_REQUEST['column_control'] )) {
 
-	foreach( array( 'layout-header', 'layout-maincontent', 'layout-footer' ) as $key ) {
+	foreach( array( 'layout-header', 'layout-body', 'layout-footer' ) as $key ) {
 		$gBitSystem->storeConfig( $key, $_REQUEST[$key] );
 	}
 	foreach( array_keys( $activeColumns ) as $item ) {

@@ -13,7 +13,7 @@
 	{formfeedback hash=$feedback}
 	<input type="hidden" name="page" value="{$page}" />
 
-	<div class="control-group">
+	<div class="control-group column-group gutters">
 		{formlabel label="Name" for="name"}
 		{forminput}
 			<input type="text" name="name" id="name" value="{$module.name|escape}" />
@@ -21,7 +21,7 @@
 		{/forminput}
 	</div>
 
-	<div class="control-group">
+	<div class="control-group column-group gutters">
 		{formlabel label="Title" for="title"}
 		{forminput}
 			<input type="text" name="title" id="title" value="{$module.title|escape}" />
@@ -29,7 +29,7 @@
 		{/forminput}
 	</div>
 
-	<div class="control-group">
+	<div class="control-group column-group gutters">
 		{formlabel label="Data" for="usermoduledata"}
 		{forminput}
 			<textarea id="usermoduledata" name="data" rows="10" cols="50">{$module.data|escape}</textarea>
@@ -38,8 +38,8 @@
 	</div>
 
 	<div class="control-group submit">
-		<input type="submit" class="btn" name="preview" value="{tr}Preview{/tr}" />
-		<input type="submit" class="btn" name="save" value="{tr}Save{/tr}" />
+		<input type="submit" class="ink-button" name="preview" value="{tr}Preview{/tr}" />
+		<input type="submit" class="ink-button" name="save" value="{tr}Save{/tr}" />
 	</div>
 {/form}
 

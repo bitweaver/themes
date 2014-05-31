@@ -16,7 +16,7 @@
 	{assign var=area value=$moduleArea}
 {/if}
 
-<div class="well module{if !empty($modInfo.classplus)} {$modInfo.classplus}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
+<div class="large-100 module{if !empty($modInfo.classplus)} {$modInfo.classplus}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
 	{if $modInfo.title}
 		<h4>
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}

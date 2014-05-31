@@ -45,7 +45,7 @@
 					{tr}Current Layout of {if $TabTitle == 'Default'}Site Default{else}{$TabTitle}{/if}{/tr}
 				</h1>
 
-				<table class="width100p">
+				<table class="large-100">
 					<tr>
 						{cycle values="even,odd" print=0}
 						{foreach from=$layoutAreas item=area key=colkey}
@@ -56,7 +56,7 @@
 								<tr>
 									<td class="{cycle} aligntop" colspan="3">
 							{else}
-								<td class="{cycle} width33p aligntop">
+								<td class="{cycle} large-33 aligntop">
 							{/if}
 
 								<table class="table data width100p">
@@ -75,7 +75,7 @@
 										</tr>
 									{sectionelse}
 										<tr>
-											<td colspan="3" class="aligncenter">
+											<td colspan="3" class="content-center">
 												{if $colkey eq 'center'}{tr}Default{/tr}{else}{tr}None{/tr}{/if}
 											</td>
 										</tr>
@@ -98,7 +98,7 @@
 	{/jstabs}
 
 	<div class="submit">
-		<input type="submit" class="btn" name="update_modules" value="{tr}Apply module settings{/tr}" />
+		<input type="submit" class="ink-button" name="update_modules" value="{tr}Apply module settings{/tr}" />
 	</div>
 {/form}
 
