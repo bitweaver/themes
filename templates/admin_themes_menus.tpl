@@ -11,7 +11,7 @@
 		
 			{form legend="Menu Settings"}
 				{foreach from=$formMenuSettings key=feature item=output}
-					<div class="control-group column-group gutters">
+					<div class="form-group">
 						{formlabel label=$output.label for=$feature}
 						{forminput}
 							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -20,7 +20,7 @@
 					</div>
 				{/foreach}
         	
-				<div class="control-group column-group gutters">
+				<div class="form-group">
 					{formlabel label="Menu Title" for="site_menu_title"}
 					{forminput}
 						<input size="40" type="text" name="site_menu_title" id="site_menu_title" value="{$gBitSystem->getConfig('site_menu_title')|escape}" />
@@ -28,8 +28,8 @@
 					{/forminput}
 				</div>
 
-				<div class="control-group submit">
-					<input type="submit" class="ink-button" name="menu_settings" value="{tr}Change preferences{/tr}" />
+				<div class="form-group submit">
+					<input type="submit" class="btn btn-default" name="menu_settings" value="{tr}Change preferences{/tr}" />
 				</div>
 			{/form}
 		{/jstab}
@@ -38,7 +38,7 @@
 			{if $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )}
 				{form legend="Menu Javascript Settings"}
 					{foreach from=$formMenuJsSettings key=feature item=output}
-						<div class="control-group column-group gutters">
+						<div class="form-group">
 							{formlabel label=$output.label for=$feature}
 							{forminput}
 								{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -46,8 +46,8 @@
 							{/forminput}
 						</div>
 					{/foreach}
-					<div class="control-group submit">
-						<input type="submit" class="ink-button" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
+					<div class="form-group submit">
+						<input type="submit" class="btn btn-default" name="menu_js_settings" value="{tr}Change preferences{/tr}" />
 					</div>
 				{/form}
 			{else}
@@ -72,14 +72,14 @@
 					<tfoot>
 						<tr>
 							<td colspan="3">
-								<div class="control-group submit">
-									<input type="submit" class="ink-button" name="update_menus" value="{tr}Update Menus{/tr}" />
+								<div class="form-group submit">
+									<input type="submit" class="btn btn-default" name="update_menus" value="{tr}Update Menus{/tr}" />
 								</div>
 							</td>
 						</tr>
 					</tfoot>
 					<tbody>
-						{foreach from=$gBitSystem->mAppMenu key=pkgName item=menu}
+						{foreach from=$gBitSystem->mAppMenu.bar key=pkgName item=menu}
 							{forminput}
 								<tr>
 									<td title="{tr}Visible?{/tr}">

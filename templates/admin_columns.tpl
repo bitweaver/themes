@@ -12,7 +12,7 @@
 			</p>
 
 			{legend legend="Theme Layout"}
-				<div class="control-group column-group gutters">
+				<div class="form-group">
 					{formlabel label="Header Layout"}
 					{forminput}
 					<select name="layout-header">
@@ -21,16 +21,16 @@
 					</select>
 					{/forminput}
 				</div>
-				<div class="control-group column-group gutters">
-					{formlabel label="Body Layout"}
+				<div class="form-group">
+					{formlabel label="Main Content Section Layout"}
 					{forminput}
-					<select name="layout-body">
+					<select name="layout-maincontent">
 						<option value="">{tr}Fixed Width{/tr}</option>
-						<option value="-fluid" {if $gBitSystem->getConfig('layout-body')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
+						<option value="-fluid" {if $gBitSystem->getConfig('layout-maincontent')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
 					</select>
 					{/forminput}
 				</div>
-				<div class="control-group column-group gutters">
+				<div class="form-group">
 					{formlabel label="Footer Layout"}
 					{forminput}
 					<select name="layout-footer">
@@ -48,7 +48,7 @@
 			{legend legend="Visible Columns and Areas"}
 				{formhelp warning="If checked, the column is visible."}
 				{foreach from=$activeColumns key=feature item=output}
-					<div class="control-group column-group gutters">
+					<div class="form-group">
 						{formlabel label=$output.label for=$feature}
 						{forminput}
 							{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
@@ -169,9 +169,9 @@
 		
 	{/jstabs}
 	
-	<div class="control-group submit">
-		<input type="submit" class="ink-button" name="reset_columns" value="{tr}Reset column settings{/tr}" />
-		<input type="submit" class="ink-button" name="column_control" value="{tr}Save settings{/tr}" />
+	<div class="form-group submit">
+		<input type="submit" class="btn btn-default" name="reset_columns" value="{tr}Reset column settings{/tr}" />
+		<input type="submit" class="btn btn-default" name="column_control" value="{tr}Save settings{/tr}" />
 	</div>
 
 {/form}

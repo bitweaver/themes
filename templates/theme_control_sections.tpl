@@ -41,7 +41,7 @@
     </select>
   </td>
   <td>
-    <input type="submit" class="ink-button" name="assign" value="{tr}assign{/tr}" />
+    <input type="submit" class="btn btn-default" name="assign" value="{tr}assign{/tr}" />
   </td>
 </tr>
 </table>
@@ -67,7 +67,7 @@
 {sectionelse}
 <tr class="norecords"><td colspan="3">{tr}No records found{/tr}</td></tr>
 {/section}
-<tr><td colspan="3"><input type="submit" class="ink-button" name="delete" value="{tr}Delete{/tr}" /></td></tr>
+<tr><td colspan="3"><input type="submit" class="btn btn-default" name="delete" value="{tr}Delete{/tr}" /></td></tr>
 </table>
 </form>
 

@@ -59,7 +59,7 @@ if( !empty( $_REQUEST['menu_js_settings'] ) ) {
 }
 
 if( !empty( $_REQUEST['update_menus'] ) ) {
-	foreach( array_keys( $gBitSystem->mAppMenu ) as $menuPackage ) {
+	foreach( array_keys( $gBitSystem->mAppMenu['bar'] ) as $menuPackage ) {
 		if( empty( $_REQUEST["menu_$menuPackage"] ) ) {
 			// the package menu is off - store it off
 			$gBitSystem->storeConfig( "menu_$menuPackage", 'n', THEMES_PKG_NAME );

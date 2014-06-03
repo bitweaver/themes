@@ -24,6 +24,7 @@ html[dir='rtl'] .alignright	{text-align:left}
 .nopadding	{padding:0;}
 .nomargin	{margin:0;}
 .margin-auto	{margin-left:auto;margin-right:auto;}
+.overflow-hidden	{overflow:hidden;}
 
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
@@ -71,7 +72,7 @@ html[dir='rtl'] .clearright	{clear:left}
 .monospace	{font-family:monospace}
 
 .module ol,
-.module ul	{margin:0; padding:0}
+.module ul	{margin:0 0 0 -1em; padding:0}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
@@ -84,7 +85,9 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
 .bold	{font-weight:bold;}
 
-.header	{margin-bottom:10px;}
+header.container.mainheader	{margin-top:20px;}
+section.maincontent.container-fluid	{padding-left:0;padding-right:0}
+
 .date,
 small,.small	{color:#666666; font-size:85%}
 .sitenotice	{text-align:center;font-weight:bold;padding-bottom:10px;}

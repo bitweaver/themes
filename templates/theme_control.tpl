@@ -41,7 +41,7 @@
     </select>
   </td>
   <td>
-    <input type="submit" class="ink-button" name="assigcat" value="{tr}assign{/tr}" />
+    <input type="submit" class="btn btn-default" name="assigcat" value="{tr}assign{/tr}" />
   </td>
 </tr>
 </table>
@@ -54,7 +54,7 @@
    <td>
      <input type="text" name="find" value="{$find|escape}" />
    </td><td>
-     <input type="submit" class="ink-button" value="{tr}find{/tr}" name="search" />
+     <input type="submit" class="btn btn-default" value="{tr}find{/tr}" name="search" />
      <input type="hidden" name="sort_mode" value="{$sort_mode|escape}" />
    </td>
 </tr>
@@ -79,7 +79,7 @@
 {sectionelse}
 <tr class="norecords"><td colspan="3">{tr}No records found{/tr}</td></tr>
 {/section}
-<tr><td colspan="3"><input type="submit" class="ink-button" name="delete" value="{tr}Delete{/tr}" /></td></tr>
+<tr><td colspan="3"><input type="submit" class="btn btn-default" name="delete" value="{tr}Delete{/tr}" /></td></tr>
 </table>
 </form>
 

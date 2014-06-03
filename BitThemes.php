@@ -57,6 +57,9 @@ class BitThemes extends BitSingleton {
 		$this->mThemeCache = new BitCache( 'themes', TRUE );
 	}
 
+	public static function isCacheableClass() {
+		return false;
+	}
 
 	// {{{ =================== Styles ====================
 	/**
@@ -457,36 +460,92 @@ class BitThemes extends BitSingleton {
 	}
 
 	function displayLayoutColumn( $pColumn ) {
-		global $gBitSmarty;
+		global $gBitSmarty, $gBitSystem;
 		if( !empty( $this->mLayout[$pColumn] ) ) {
 			for ($i = 0; $i < count( $this->mLayout[$pColumn] ); $i++) {
 				$r = &$this->mLayout[$pColumn][$i];
 				if( !empty( $r['visible'] )) {
-					// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
-					list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
-					// deal with custom modules
-					if( $package == '_custom:custom' ) {
-						global $gBitLanguage;
+					if( $pColumn == 'l' || $pColumn == 'r' ) { print '<div class="col-xs-12">'; }
+					try {
+						// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
+						list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
+						// deal with custom modules
+						if( $package == '_custom:custom' ) {
+							global $gBitLanguage;
 
-						// We're gonna run our own cache mechanism for user_modules
-						// the cache is here to avoid calls to consumming queries,
-						// each module is different for each language because of the strings
-						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
-						if( !is_dir( $cacheDir )) {
-							mkdir_p( $cacheDir );
-						}
-						$cachefile = $cacheDir.'_custom.'.$gBitLanguage->mLanguage.'.'.$template.'.tpl.cache';
+							// We're gonna run our own cache mechanism for user_modules
+							// the cache is here to avoid calls to consumming queries,
+							// each module is different for each language because of the strings
+							$cacheDir = TEMP_PKG_PATH.'modules/cache/';
+							if( !is_dir( $cacheDir )) {
+								mkdir_p( $cacheDir );
+							}
+							$cachefile = $cacheDir.'_custom.'.$gBitLanguage->mLanguage.'.'.$template.'.tpl.cache';
 
-						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
-							$fp = fopen( $cachefile, "r" );
-							$data = fread( $fp, filesize( $cachefile ));
-							fclose( $fp );
-							$r["data"] = $data;
+							if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] )) {
+								$fp = fopen( $cachefile, "r" );
+								$data = fread( $fp, filesize( $cachefile ));
+								fclose( $fp );
+								$r["data"] = $data;
+							} else {
+								if( $moduleParams = $this->getCustomModule( $template )) {
+									$moduleParams = array_merge( $r, $moduleParams );
+									$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+									$gBitSmarty->display( 'bitpackage:themes/custom_module.tpl' );
+
+									if( !empty( $r["cache_time"] ) ) {
+										// write to chache file
+										$fp = fopen( $cachefile, "w+" );
+										fwrite( $fp, $data, strlen( $data ));
+										fclose( $fp );
+									}
+									$r["data"] = $data;
+								}
+							}
+							unset( $data );
 						} else {
-							if( $moduleParams = $this->getCustomModule( $template )) {
-								$moduleParams = array_merge( $r, $moduleParams );
+							$explosion = explode( '/', $r['module_rsrc'] );
+							$template = array_pop( $explosion );
+
+							// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
+							global $module_rows, $module_params, $module_title, $gBitLanguage;
+
+							$cacheDir = TEMP_PKG_PATH.'modules/cache/';
+							if( !is_dir( $cacheDir )) {
+								mkdir_p( $cacheDir );
+							}
+
+							// include tpl name and module id to uniquely identify
+							$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
+
+							// if the time is right get the cache else get it fresh
+							if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] ) ) {
+								$fp = fopen( $cachefile, "r" );
+								$data = fread( $fp, filesize( $cachefile ));
+								fclose( $fp );
+								$r["data"] = $data;
+							} else {
+								$module_params = $r['module_params']; // backwards compatability
+
+								if( !$r['module_rows'] ) {
+									$r['module_rows'] = 10;
+								}
+
+								// if there's no custom title, get one from file name
+								if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
+									$pattern[0] = "/.*\/mod_(.*)\.tpl/";
+									$replace[0] = "$1";
+									$pattern[1] = "/_/";
+									$replace[1] = " ";
+									$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucwords( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
+								}
+
+								// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
+								$moduleParams = $r;
 								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
-								$gBitSmarty->display( 'bitpackage:themes/custom_module.tpl' );
+								// assign the custom module title
+								$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
+								$gBitSmarty->display( $r['module_rsrc'] );
 
 								if( !empty( $r["cache_time"] ) ) {
 									// write to chache file
@@ -496,63 +555,13 @@ class BitThemes extends BitSingleton {
 								}
 								$r["data"] = $data;
 							}
+
+							unset( $moduleParams );
 						}
-						unset( $data );
-					} else {
-						$explosion = explode( '/', $r['module_rsrc'] );
-						$template = array_pop( $explosion );
-
-						// using $module_rows, $module_params and $module_title is deprecated. please use $moduleParams hash instead
-						global $module_rows, $module_params, $module_title, $gBitLanguage;
-
-						$cacheDir = TEMP_PKG_PATH.'modules/cache/';
-						if( !is_dir( $cacheDir )) {
-							mkdir_p( $cacheDir );
-						}
-
-						// include tpl name and module id to uniquely identify
-						$cachefile = $cacheDir.'_module_'.$r['module_id'].'.'.$gBitLanguage->mLanguage.'.'.$template.'.cache';
-
-						// if the time is right get the cache else get it fresh
-						if( !empty( $r["cache_time"] ) && file_exists( $cachefile ) && filesize( $cachefile ) && !(( $gBitSystem->getUTCTime() - filemtime( $cachefile )) > $r["cache_time"] ) ) {
-							$fp = fopen( $cachefile, "r" );
-							$data = fread( $fp, filesize( $cachefile ));
-							fclose( $fp );
-							$r["data"] = $data;
-						} else {
-							$module_params = $r['module_params']; // backwards compatability
-
-							if( !$r['module_rows'] ) {
-								$r['module_rows'] = 10;
-							}
-
-							// if there's no custom title, get one from file name
-							if( !$r['title'] = ( isset( $r['title'] ) ? tra( $r['title'] ) : NULL )) {
-								$pattern[0] = "/.*\/mod_(.*)\.tpl/";
-								$replace[0] = "$1";
-								$pattern[1] = "/_/";
-								$replace[1] = " ";
-								$r['title'] = ( !empty( $r['title'] ) ? tra( $r['title'] ) : tra( ucwords( preg_replace( $pattern, $replace, $r['module_rsrc'] ))));
-							}
-
-							// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
-							$moduleParams = $r;
-							$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
-							// assign the custom module title
-							$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
-							$gBitSmarty->display( $r['module_rsrc'] );
-
-							if( !empty( $r["cache_time"] ) ) {
-								// write to chache file
-								$fp = fopen( $cachefile, "w+" );
-								fwrite( $fp, $data, strlen( $data ));
-								fclose( $fp );
-							}
-							$r["data"] = $data;
-						}
-
-						unset( $moduleParams );
+					} catch( Exception $e ) {
+						print( '<div class="alert alert-warning">'.$e->getMessage() ).'</div>';
 					}
+					if( $pColumn == 'l' || $pColumn == 'r' ) { print '</div>'; }
 				}
 			}
 		}
@@ -1487,7 +1496,7 @@ class BitThemes extends BitSingleton {
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.9.2' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
+							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
 							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.min.js';
@@ -2210,6 +2219,78 @@ class BitThemes extends BitSingleton {
 		return $this->getStyleCssFile( $pStyle, TRUE );
 	}
 	// }}}
+}
+
+function themes_feedback_to_html( $params ) {
+
+	detoxify( $params );
+	if( !empty( $params['hash'] ) ) {
+		$hash = &$params['hash'];
+	} else {
+		// maybe params were passed in separately
+		$hash = &$params;
+	}
+	$feedback = '';
+	$i = 0;
+	$color = isset( $hash['color'] )?$hash['color']:"000000";
+	foreach( $hash as $key => $val ) {
+		if( $val ) {
+			$keys = array( 'warning', 'success', 'error', 'important', 'note' );
+			if( in_array( $key, $keys )) {
+				switch( $key ) {
+					case 'success':
+						$alertClass = 'alert alert-success';
+						break;
+					case 'warning':
+						$alertClass = 'alert alert-warning';
+						break;
+					case 'error':
+						$alertClass = 'alert alert-danger';
+						break;
+					case 'note':
+					case 'important':
+					default:
+						$alertClass = 'alert alert-info';
+						break;
+				}
+
+				if( !is_array( $val ) ) {
+					$val = array( $val );
+				}
+
+				foreach( $val as $valText ) {
+					if( is_array( $valText ) ) {
+						foreach( $valText as $text ) {
+							$feedback .= '<span class="inline-block '.$alertClass.'">'.$text.'</span>';
+						}
+					} else {
+						$feedback .= '<span class="inline-block '.$alertClass.'">'.$valText.'</span>';
+					}
+				}
+
+			} else {
+				/* unfortunately this plugin was written a little strictly and so it expects all params to be display text
+				 * to allow setting of a background color we have to exclude that param when rendering out the html
+				 * otherwise we'll render the color as text. -wjames5
+				 */ 
+				if ( $key != 'color' ) {
+					if( is_array( $val ) ) {
+						foreach( $val as $text ) {
+							$feedback .= '<span class="'.$key.'">'.$text.'</span>';
+						}
+					} else {
+						$feedback .= '<span class="'.$key.'">'.$val.'</span>';
+					}
+				}
+			}
+		}
+	}
+
+	$html = '';
+	if( !empty( $feedback ) ) {
+		$html .= $feedback;
+	}
+	return $html;
 }
 
 /**
