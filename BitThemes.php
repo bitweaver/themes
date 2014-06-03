@@ -1512,13 +1512,22 @@ class BitThemes extends BitSingleton {
 					case 'jquerylocal':
 						$joined = FALSE;
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$this->loadJavascript( $pLibPath.'js/jquery.min.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( $pLibPath.'js/jquery-ui.custom.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/bootstrap.min.js', FALSE, $pos++, $joined );
+//							$this->loadJavascript( CONFIG_PKG_PATH.'ink/js/autoload.js', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'css/pepper-grinder/jquery-ui-1.10.3.custom.min.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/ink.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						} else {
-							$this->loadJavascript( $pLibPath.'development-bundle/jquery.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( $pLibPath.'development-bundle/ui/jquery-ui.custom.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/bootstrap.js', FALSE, $pos++, $joined );
+//							$this->loadJavascript( CONFIG_PKG_PATH.'ink/js/autoload.js', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'css/pepper-grinder/jquery-ui-1.10.3.custom.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/ink.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						}
-						$this->loadCss( UTIL_PKG_PATH.'javascript/libs/jquery/development-bundle/themes/base/jquery.ui.all.css' );
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;

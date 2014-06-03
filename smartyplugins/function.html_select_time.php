@@ -17,13 +17,10 @@
  * @param array
  * @param Smarty
  * @return string
- * @uses smarty_make_timestamp()
  */
 function smarty_function_html_select_time($params, &$gBitSmarty)
 {
     global $gBitSystem;
-    $gBitSmarty->loadPlugin( 'smarty_modifier_make_timestamp' );
-    $gBitSmarty->loadPlugin( 'smarty_modifier_html_options' );
     /* Default values. */
     $prefix             = "Time_";
     $time               = time();
@@ -47,7 +44,6 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
 
     extract($params);
 
-    $time = smarty_make_timestamp($time);
 	$date = new BitDate(0);
 	// sets the offset for the user - necessary because BitDate is a bitwack
 	$offset = $date->get_display_offset();
@@ -99,7 +95,7 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
             $html_result .= ' ' . $all_extra;
         }
         $html_result .= '>'."\n";
-        
+
         $html_result .= smarty_function_html_options(array('output'          => $minutes,
                                                            'values'          => $minutes,
                                                            'selected'      => $selected,
@@ -119,7 +115,7 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
         } else {
             $html_result .= '"' . $prefix . 'Second"';
         }
-        
+
         if (null !== $second_extra){
             $html_result .= ' ' . $second_extra;
         }
@@ -127,7 +123,7 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
             $html_result .= ' ' . $all_extra;
         }
         $html_result .= '>'."\n";
-        
+
         $html_result .= smarty_function_html_options(array('output'          => $seconds,
                                                            'values'          => $seconds,
                                                            'selected'      => $selected,
@@ -144,7 +140,7 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
         } else {
             $html_result .= '"' . $prefix . 'Meridian"';
         }
-        
+
         if (null !== $meridian_extra){
             $html_result .= ' ' . $meridian_extra;
         }
@@ -152,7 +148,7 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
             $html_result .= ' ' . $all_extra;
         }
         $html_result .= '>'."\n";
-        
+
         $html_result .= smarty_function_html_options(array('output'          => array('AM', 'PM'),
                                                            'values'          => array('am', 'pm'),
                                                            'selected'      => $selected,
@@ -165,9 +161,9 @@ function smarty_function_html_select_time($params, &$gBitSmarty)
 	// Enforce LTR direction of time entry regardless of overall directionality.
 	// -    print $html_result;
 	// +    print '<span dir="ltr">'.$html_result.'</span>';
-	
+
     $html_result = '<span dir="ltr">' . $html_result . '</span>';
-    
+
     return $html_result;
 }
 

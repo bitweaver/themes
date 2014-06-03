@@ -14,7 +14,7 @@
  * required setup
  */
 
-require_once( dirname( __FILE__ ).'/smarty/libs/SmartyBC.class.php' );
+require_once( '/srv/website/externals/smarty/libs/SmartyBC.class.php' );
 
 
 /**
