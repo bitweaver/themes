@@ -3,7 +3,6 @@ a.icon,a.icon:hover	{cursor:pointer;text-decoration:none;}
 .floaticon a,a.icon,img.icon	{padding:0 5px 0 0; font-size:11pt;}
 
 .floaticon	{float:right; text-align:right;}
-.floaticon i	{font-size:18px; padding:3px; }
 .floaticon form.minifind	{margin:10px 0 20px}
 html[dir='rtl'] .floaticon 	{ float:left }
 span.actionicon	{float:right;}
@@ -29,9 +28,9 @@ html[dir='rtl'] .alignright	{text-align:left}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
 
-.floatright	{float:right}
+.right, .floatright	{float:right}
 html[dir='rtl'] .floatright	{float:left}
-.floatleft	{float:left}
+.left, .floatleft	{float:left}
 html[dir='rtl'] .floatleft	{float:right}
 
 .clear	{clear:both;}
@@ -124,6 +123,33 @@ ul.data li.item:last-child	{ border-bottom:none; }
 }
 .alpha60white	{ color:black; }
 .alpha60black	{ color:white; }
+
+.thumbnails, .unstyled {
+  margin-left: -20px;
+  list-style: none;
+  *zoom: 1;
+}
+
+.thumbnails:before,
+.thumbnails:after {
+  display: table;
+  line-height: 0;
+  content: "";
+}
+
+.thumbnails:after {
+  clear: both;
+}
+
+.row-fluid .thumbnails {
+  margin-left: 0;
+}
+
+.thumbnails > li {
+  float: left;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
 
 /* LEGACY essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
