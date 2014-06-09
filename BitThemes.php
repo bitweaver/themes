@@ -1523,18 +1523,18 @@ class BitThemes extends BitSingleton {
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
 							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.min.js', FALSE, $pos++, $joined );
 							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.min.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/bootstrap.min.js', FALSE, $pos++, $joined );
-//							$this->loadJavascript( CONFIG_PKG_PATH.'ink/js/autoload.js', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'css/pepper-grinder/jquery-ui-1.10.3.custom.min.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/ink.css', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
 //							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						} else {
 							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.js', FALSE, $pos++, $joined );
 							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/bootstrap.js', FALSE, $pos++, $joined );
-//							$this->loadJavascript( CONFIG_PKG_PATH.'ink/js/autoload.js', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'css/pepper-grinder/jquery-ui-1.10.3.custom.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/ink.css', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
 //							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						}
 					case 'yui':
