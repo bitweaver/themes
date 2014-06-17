@@ -544,7 +544,6 @@ class BitThemes extends BitSingleton {
 								$moduleParams = $r;
 								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
 								// assign the custom module title
-								$gBitSmarty->assign_by_ref( 'moduleTitle', $r['title'] );
 								$gBitSmarty->display( $r['module_rsrc'] );
 
 								if( !empty( $r["cache_time"] ) ) {

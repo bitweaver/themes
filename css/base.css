@@ -72,7 +72,7 @@ html[dir='rtl'] .clearright	{clear:left}
 .monospace	{font-family:monospace}
 
 .module ol,
-.module ul	{margin:0 0 0 -1em; padding:0}
+.module ul	{margin:0 0 0 0; padding:0}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
@@ -85,8 +85,8 @@ html[dir='rtl'] ul.toc ul	{margin-right:1em;}
 
 .bold	{font-weight:bold;}
 
-header.container.mainheader	{margin-top:20px;}
-section.maincontent.container-fluid	{padding-left:0;padding-right:0}
+header.container.page-header	{margin-top:20px;}
+section.page-content.container-fluid	{padding-left:0;padding-right:0}
 
 .date,
 small,.small	{color:#666666; font-size:85%}
@@ -94,7 +94,7 @@ small,.small	{color:#666666; font-size:85%}
 
 .data	{ width:100%; }
 ul.data	{list-style:none; margin:0; padding:0;clear:both;}
-ul.data li.item	{ border-bottom:1px solid #eee; padding-bottom:20px; margin-bottom:20px; }
+ul.data li.item	{ border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:10px; }
 ul.data li.item:last-child	{ border-bottom:none; }
 
 .error	{color:#C30;}

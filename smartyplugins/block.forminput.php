@@ -14,7 +14,7 @@
 function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	// defaults
 	$attr = "";
-	$class = 'controls';
+	$class = '';
 
 	extract( $params );
 
