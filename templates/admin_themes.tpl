@@ -27,20 +27,20 @@
 	</div>
 
 	<div class="form-group">
-		{formlabel label="Use IE js fix" for="themes_use_msie_js_fix"}
+		{formlabel label="jQuery Hosting" for="themes_jquery_hosting"}
 		{forminput}
-			{html_options name="themes_use_msie_js_fix" id="themes_use_msie_js_fix" options=$ieFixOptions selected=$gBitSystem->getConfig('themes_use_msie_js_fix')}
+			{html_options name="themes_jquery_hosting" id="themes_jquery_hosting" options=$jqueryOptions selected=$gBitSystem->getConfig('themes_jquery_hosting','jquery')}
 			{formhelp note="A Javascript library to make Microsoft's Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE7 and older. It is also needed for CSS driven dropdown menus. It does cause some delay on every page load."}
 		{/forminput}
 	</div>
 
 	{foreach from=$themeSettings key=feature item=output}
 		<div class="form-group">
-			{formlabel label=$output.label for=$feature}
-			{forminput}
-				{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) labels=false id=$feature}
-				{formhelp note=$output.note page=$output.page}
+			{forminput class="checkbox"}
+				{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) label=$output.label id=$feature}
+				{$output.label}
 			{/forminput}
+			{formhelp note=$output.note page=$output.page}
 		</div>
 	{/foreach}
 

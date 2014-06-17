@@ -1466,7 +1466,7 @@ class BitThemes extends BitSingleton {
 						$pLibPath = UTIL_PKG_PATH."javascript/libs/yui/";
 						$pos = 100;
 						break;
-					case 'jquery':
+					case 'jquerylocal':
 						$pLibPath = UTIL_PKG_PATH."javascript/libs/jquery/";
 						$pos = 100;
 						break;
@@ -1480,62 +1480,34 @@ class BitThemes extends BitSingleton {
 			if( !$this->isAjaxLib( $ajaxLib )) {
 				// load core javascript files for ajax libraries
 				switch( $ajaxLib ) {
-					case 'mochikit':
-						$this->loadJavascript( $pLibPath.'Base.js', FALSE, $pos++ );
-						$this->loadJavascript( $pLibPath.'Async.js', FALSE, $pos++ );
-						$this->loadJavascript( UTIL_PKG_PATH.'javascript/MochiKitBitAjax.js', FALSE, 150 );
-						break;
-					case 'prototype':
-						$this->loadJavascript( $pLibPath.'libs/prototype.js', FALSE, $pos++ );
-						break;
 					case 'jquery':
 						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
-
 						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.10.1' );
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.9.2' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
-						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
-							$this->mRawFiles['js'][] = $jquerySrc;
-							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.min.js';
-							if( file_exists( $boostrapSrc ) ) {
-								$this->mRawFiles['js'][] = $boostrapSrc;
-							}
-							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.min.js';
-							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
-						} else {
-							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
-							$this->mRawFiles['js'][] = $jquerySrc;
-							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.js';
-							if( file_exists( $boostrapSrc ) ) {
-								$this->mRawFiles['js'][] = $boostrapSrc;
-							}
-							$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui.js';
-							$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
+						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
+						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
+						$this->mRawFiles['js'][] = $jquerySrc;
+						// boostrap needs to load after jquery
+						$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap'.$jqueryMin.'.js';
+						if( file_exists( $boostrapSrc ) ) {
+							$this->mRawFiles['js'][] = $boostrapSrc;
 						}
+						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
+						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
+
 						$gBitSmarty->assign( 'jquerySrc', $jquerySrc );
 						break;
 					case 'jquerylocal':
 						$joined = FALSE;
-						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.min.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.min.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
-							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
-							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
+						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
+						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 //							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
 //							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
-						} else {
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
-							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
-							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
-						}
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;

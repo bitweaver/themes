@@ -14,7 +14,7 @@
  * required setup
  */
 
-require_once( '/srv/website/externals/smarty/libs/SmartyBC.class.php' );
+require_once( CONFIG_PKG_PATH.'externals/smarty/libs/SmartyBC.class.php' );
 
 
 /**

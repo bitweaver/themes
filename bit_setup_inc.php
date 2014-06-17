@@ -35,7 +35,7 @@ $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
 // load some core javascript files
 $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
-$gBitThemes->loadAjax( 'jquerylocal' );
+$gBitThemes->loadAjax( $gBitSystem->getConfig( 'themes_jquery_hosting', 'jquery' ) );
 
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );

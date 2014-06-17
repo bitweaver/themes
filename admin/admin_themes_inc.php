@@ -47,7 +47,7 @@ if( !empty( $_REQUEST['change_prefs'] )) {
 	$pref_simple_values = array(
 		"site_biticon_display_style",
 		"site_icon_size",
-		"themes_use_msie_js_fix",
+		"themes_jquery_hosting",
 		"default_icon_style",
 	);
 
@@ -87,10 +87,10 @@ $biticon_sizes = array(
 $gBitSmarty->assign( "biticon_sizes", $biticon_sizes );
 
 // These numbers are intentionally off by 1 due to the way IE fixes name their js
-$ieFixOptions = array(
-	'' => tra( 'Off' ),
-	'8' => tra( 'IE7 or older' ),
-	'7' => tra( 'IE6 or older' ),
+$jqueryOptions = array(
+	'jquery' => tra( 'Google Hosted' ),
+	'jquerylocal' => tra( 'Local' ),
 );
-$gBitSmarty->assign( "ieFixOptions", $ieFixOptions );
+$gBitSmarty->assign( 'jqueryOptions', $jqueryOptions );
+
 ?>
