@@ -1488,10 +1488,10 @@ class BitThemes extends BitSingleton {
 						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
-						// boostrap needs to load after jquery
-						$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap'.$jqueryMin.'.js';
-						if( file_exists( $boostrapSrc ) ) {
-							$this->mRawFiles['js'][] = $boostrapSrc;
+						// bootstrap needs to load after jquery
+						$bootstrapSrc = THEMES_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js';
+						if( file_exists( $bootstrapSrc ) ) {
+							$this->mRawFiles['js'][] = $bootstrapSrc;
 						}
 						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
 						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
@@ -1503,7 +1503,7 @@ class BitThemes extends BitSingleton {
 						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( THEMES_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
 						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 //							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
