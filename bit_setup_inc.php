@@ -35,6 +35,7 @@ $gBitSmarty->assign_by_ref( 'gBitThemes', $gBitThemes );
 
 // load some core javascript files
 $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
+$gBitThemes->loadAjax( 'jquerylocal' );
 
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
 	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
@@ -52,8 +53,9 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 
 $gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 
-$gBitThemes->loadCss( THEMES_PKG_PATH.'css/dropmenu.css' );
+//$gBitThemes->loadCss( THEMES_PKG_PATH.'css/dropmenu.css' );
 // styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
-$gBitThemes->loadCss( THEMES_PKG_PATH.'css/inline.css' );
+//$gBitThemes->loadCss( THEMES_PKG_PATH.'css/inline.css' );
 
-$gBitThemes->loadAjax( 'jquery' );
+$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/jquery.innerfade.js', FALSE, 700, FALSE );
+$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/overlib.js', FALSE, 701, FALSE );

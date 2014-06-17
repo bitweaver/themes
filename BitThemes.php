@@ -1498,7 +1498,7 @@ class BitThemes extends BitSingleton {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.min.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.min.js';
+							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.min.js';
 							if( file_exists( $boostrapSrc ) ) {
 								$this->mRawFiles['js'][] = $boostrapSrc;
 							}
@@ -1508,7 +1508,7 @@ class BitThemes extends BitSingleton {
 							$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery.js';
 							$this->mRawFiles['js'][] = $jquerySrc;
 							// boostrap needs to load after jquery
-							$boostrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap.js';
+							$boostrapSrc = CONFIG_PKG_PATH.'js/bootstrap.js';
 							if( file_exists( $boostrapSrc ) ) {
 								$this->mRawFiles['js'][] = $boostrapSrc;
 							}
@@ -1520,13 +1520,22 @@ class BitThemes extends BitSingleton {
 					case 'jquerylocal':
 						$joined = FALSE;
 						if( defined( 'IS_LIVE' ) && IS_LIVE ) {
-							$this->loadJavascript( $pLibPath.'js/jquery.min.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( $pLibPath.'js/jquery-ui.custom.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.min.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						} else {
-							$this->loadJavascript( $pLibPath.'development-bundle/jquery.js', FALSE, $pos++, $joined );
-							$this->loadJavascript( $pLibPath.'development-bundle/ui/jquery-ui.custom.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom.js', FALSE, $pos++, $joined );
+							$this->loadJavascript( CONFIG_PKG_PATH.'bootstrap/js/bootstrap.min.js', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
+							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
+//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						}
-						$this->loadCss( UTIL_PKG_PATH.'javascript/libs/jquery/development-bundle/themes/base/jquery.ui.all.css' );
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;
