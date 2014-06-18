@@ -16,7 +16,7 @@
 {/if}
 
 <div class="panel panel-default module{if !empty($modInfo.class)} {$modInfo.class}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
-	{if $moduleParams.title}
+	{if empty($modInfo.notitle)}
 		<div class="panel-heading">
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
 				<div class="control">
@@ -30,9 +30,9 @@
 			{/if}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}<a href="javascript:BitBase.toggle('module{$area}{$moduleParams.pos}','block',true);">{/if}
 				{if $modInfo.notra}
-					{$moduleParams.title}
+					{$modInfo.title|default:$moduleParams.title}
 				{else}
-					{tr}{$moduleParams.title}{/tr}
+					{tr}{$modInfo.title|default:$moduleParams.title}{/tr}
 				{/if}
 			{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )}</a>{/if}
 		</div>
