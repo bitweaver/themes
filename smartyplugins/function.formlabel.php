@@ -16,7 +16,7 @@
  */
 function smarty_function_formlabel( $params,&$gBitSmarty ) {
 	$atts = '';
-	$class = 'large-10 content-right';
+	$class = 'control-label';
 	foreach($params as $key => $val) {
 		switch( $key ) {
 			case 'label':
