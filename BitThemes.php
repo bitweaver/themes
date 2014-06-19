@@ -1479,17 +1479,17 @@ class BitThemes extends BitSingleton {
 
 			if( !$this->isAjaxLib( $ajaxLib )) {
 				// load core javascript files for ajax libraries
+				$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
+				$bootstrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap'.$jqueryMin.'.js';
 				switch( $ajaxLib ) {
 					case 'jquery':
 						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
 						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.10.1' );
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.9.2' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
-						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
 						// bootstrap needs to load after jquery
-						$bootstrapSrc = THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js';
 						if( file_exists( $bootstrapSrc ) ) {
 							$this->mRawFiles['js'][] = $bootstrapSrc;
 						}
@@ -1500,14 +1500,10 @@ class BitThemes extends BitSingleton {
 						break;
 					case 'jquerylocal':
 						$joined = FALSE;
-						$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap.css', FALSE, $pos++, $joined );
-						$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-icons.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'bootstrap/css/colourstrap-themes.css', FALSE, $pos++, $joined );
-//							$this->loadCss( CONFIG_PKG_PATH.'ink/css/colourstrap-icons.css', FALSE, $pos++, $joined );
+						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined );
+						break;
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;
