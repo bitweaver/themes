@@ -101,6 +101,10 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 		$ret .= isset( $legend ) ? '</fieldset>' : '';			// close the open tags
 		$ret .= '</form>';
 		return $ret;
+	} else {
+		global $gSmartyFormHorizontal;
+		// global var other plugin functions will pick up to add proper col-XX-YY styling for horizontal forms
+		$gSmartyFormHorizontal = ( !empty( $pParams['class'] ) && strpos( $pParams['class'], 'form-horizontal' ) !== FALSE );
 	}
 }
 ?>

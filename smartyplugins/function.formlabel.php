@@ -15,8 +15,12 @@
  *		  - mandatory (optional) - add a class formmandatory in the div
  */
 function smarty_function_formlabel( $params,&$gBitSmarty ) {
+	global $gSmartyFormHorizontal;
 	$atts = '';
 	$class = 'control-label';
+	if( $gSmartyFormHorizontal ) {
+		$class .= ' col-sm-4';
+	}
 	foreach($params as $key => $val) {
 		switch( $key ) {
 			case 'label':
