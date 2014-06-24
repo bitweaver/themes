@@ -23,7 +23,7 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 
 	if( !empty( $params['class'] ) ){
 		$class .= ' '.trim( $params['class'] );
-		if( $gSmartyFormHorizontal && strpos( $params['class'], 'submit' ) !== FALSE ) {
+		if( $gSmartyFormHorizontal && (strpos( $params['class'], 'submit' ) !== FALSE || strpos( $params['class'], 'offset' ) !== FALSE) ) {
 			$class .= ' col-sm-offset-4';
 		}
 	}
