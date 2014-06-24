@@ -40,6 +40,9 @@ function smarty_function_booticon( $pParams, $pFile ) {
 		if( isset( $pParams["iclass"] ) ) {
 			$outstr .=  ' '.$pParams["iclass"].'';
 		}
+		if( isset( $pParams["class"] ) ) {
+			$outstr .=  ' '.$pParams["class"].'';
+		}
 		$outstr .= '"';
 
 		if( isset( $pParams["id"] ) ) {
@@ -50,12 +53,13 @@ function smarty_function_booticon( $pParams, $pFile ) {
 			$outstr .= ' title="'.htmlentities( $pParams['iexplain'] ).'"';
 		}
 
-		$outstr .= '></div>';
 		foreach( array_keys( $pParams ) as $key ) {
 			if( strpos( $key, 'on' ) === 0 ) {
 				$outstr .=  ' '.$key.'='.$pParams[$key].'';
 			}
 		}
+
+		$outstr .= '></div>';
 
 		if( !empty( $pParams['ilocation'] ) ) {
 			if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {
