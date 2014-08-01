@@ -76,12 +76,37 @@ ul	{padding-left:15px;}
 .module ol li	{margin:0 0 0 3em; padding:0;}
 .module ul li,
 .menu li,
-ul.toc li	{list-style:none;font-weight:normal;font-size:10pt;}
-ul.toc li .numbering	{margin-left:-1em;}
-ul.toc ul	{margin-left:1em; padding:0 0 5px 0;}
-html[dir='rtl'] ul.toc ul	{margin-right:1em;}
+ol.structure-toc	{ counter-reset: item; padding-left:0px; }
+ol.structure-toc>li	{ display: block }
+ol.structure-toc>li:before 	{ content: counters(item, ".") " "; counter-increment: item }
+ol.structure-toc li	{font-weight:normal;font-size:10pt;margin-left:15px;}
+ol.structure-toc li .numbering	{margin-left:-1em;}
+ol.strucutre-toc ol	{margin-left:1em; padding:0 0 5px 0;}
+html[dir='rtl'] ol.structure-toc ol	{margin-right:1em;}
+.boxcontent > ol.structure-toc > li	{font-weight:bold;font-size:130%}
+/* this is just as example, implement your own CSS to match the aciSortable init options */
+.edit.structure ol.structure-toc li	{padding-top:5px; padding-bottom:5px;}
+.aciSortablePlaceholder {
+    height:4px;
+    line-height:4px;
+}
 
-.boxcontent > ul.toc > li	{font-weight:bold;font-size:130%}
+.aciSortablePlaceholder div {
+    height:4px;
+    background-color:black;
+    width:100px;
+}
+
+.structure-sort-helper {
+    position:absolute;
+    max-width:300px;
+    background-color:#ccc;
+    border:1px solid #000;
+    padding:4px;
+    color:#000;
+    /* uncomment below to offset from the mouse cursor */
+    /*margin:20px 0 0 20px;*/
+}
 
 .bold	{font-weight:bold;}
 
