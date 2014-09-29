@@ -1489,12 +1489,12 @@ class BitThemes extends BitSingleton {
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
 						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
+						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
+						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						// bootstrap needs to load after jquery
 						if( file_exists( $bootstrapSrc ) ) {
 							$this->mRawFiles['js'][] = $bootstrapSrc;
 						}
-						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
-						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 
 						$gBitSmarty->assign( 'jquerySrc', $jquerySrc );
 						break;
