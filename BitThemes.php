@@ -584,7 +584,7 @@ class BitThemes extends BitSingleton {
 		if( !empty( $pParamHash['fallback_layout'] )) {
 			$layouts[] = $pParamHash['fallback_layout'];
 		}
-		if( defined( 'ACTIVE_PACKGE' ) ) {
+		if( defined( 'ACTIVE_PACKAGE') ) {
 			$layouts[] = ACTIVE_PACKAGE;
 		}
 		$layouts[] = DEFAULT_PACKAGE;
