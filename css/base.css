@@ -20,7 +20,9 @@ html[dir='rtl'] .alignright	{text-align:left}
 .aligntop, aligntop *	{vertical-align:top}
 .alignmiddle	{vertical-align:middle}
 
+.no-padding,
 .nopadding	{padding:0;}
+.no-margin,
 .nomargin	{margin:0;}
 .margin-auto	{margin-left:auto;margin-right:auto;}
 .overflow-hidden	{overflow:hidden;}
@@ -28,9 +30,9 @@ html[dir='rtl'] .alignright	{text-align:left}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
 
-.right, .floatright	{float:right}
+.floatright	{float:right}
 html[dir='rtl'] .floatright	{float:left}
-.left, .floatleft	{float:left}
+.floatleft	{float:left}
 html[dir='rtl'] .floatleft	{float:right}
 
 .clear	{clear:both;}
