@@ -33,11 +33,7 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 		} else {
 			$url = '';
 		}
-		// We need an onsubmit handler in safari to show all tabs again so uploads in hidden tabs work
 		$onsubmit = '';
-		if( $gSniffer->_browser_info['browser'] == 'sf' ) {
-			$onsubmit .= "disposeAllTabs();";
-		}
 
 		// services can add something to onsubmit
 		if( $gBitSmarty->get_template_vars( 'serviceOnsubmit' ) ) {

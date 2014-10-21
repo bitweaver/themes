@@ -19,7 +19,7 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 
 	$attributes = '';
 	$style = '';
-	$class = 'width95p ';
+	$class = 'form-control ';
 	if (((!empty($gLibertySystem->mPlugins['bithtml']) && $gLibertySystem->mPlugins['bithtml']['is_active'] == 'y') ||
 		(!empty($gLibertySystem->mPlugins['tikiwiki']) && $gLibertySystem->mPlugins['tikiwiki']['is_active'] == 'y' &&
 		$gBitSystem->isFeatureActive( 'content_force_allow_html' )))
