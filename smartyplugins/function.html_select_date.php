@@ -34,7 +34,7 @@ function smarty_function_html_select_date($params, &$pSmarty)
 {
     global $gBitSystem;
     $pSmarty->loadPlugin( 'smarty_shared_make_timestamp' );
-    $pSmarty->loadPlugin( 'smarty_modifier_html_options' );
+    $pSmarty->loadPlugin( 'smarty_function_html_options' );
     /* Default values. */
     $prefix          = "Date_";
     $start_year      = strftime("%Y");
@@ -74,37 +74,36 @@ function smarty_function_html_select_date($params, &$pSmarty)
     $field_separator = "\n";
 	$time = time();
 
-
     extract($params);
-  	// If $time is not in format yyyy-mm-dd
-  	if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $time)) {
-  		// then $time is empty or unix timestamp or mysql timestamp
-  		// strftime to make yyyy-mm-dd
+	// If $time is not in format yyyy-mm-dd
+	if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $time)) {
+		// then $time is empty or unix timestamp or mysql timestamp
+		// strftime to make yyyy-mm-dd
 	  	// Just in case the offset moves us into another day.
 		$date = new BitDate(0);
 		// sets the offset for the user - necessary because BitDate is a bitwack
 		$offset = $date->get_display_offset();
 		$time = $date->getDisplayDateFromUTC( $time );
-  		$time = $gBitSystem->mServerTimestamp->strftime('%Y-%m-%d', $time, TRUE);
-  	}
-  	// Now split this in pieces, which later can be used to set the select
-  	$time = explode("-", $time);
+		$time = $gBitSystem->mServerTimestamp->strftime('%Y-%m-%d', $time, TRUE);
+	}
+	// Now split this in pieces, which later can be used to set the select
+	$time = explode("-", $time);
 
-  	// make syntax "+N" or "-N" work with start_year and end_year
-  	if (preg_match('!^(\+|\-)\s*(\d+)$!', $end_year, $match)) {
-  		if ($match[1] == '+') {
-  			$end_year = strftime('%Y') + $match[2];
-  		} else {
-  			$end_year = strftime('%Y') - $match[2];
-  		}
-  	}
-  	if (preg_match('!^(\+|\-)\s*(\d+)$!', $start_year, $match)) {
-  		if ($match[1] == '+') {
-  			$start_year = strftime('%Y') + $match[2];
-  		} else {
-  			$start_year = strftime('%Y') - $match[2];
-  		}
-  	}
+	// make syntax "+N" or "-N" work with start_year and end_year
+	if (preg_match('!^(\+|\-)\s*(\d+)$!', $end_year, $match)) {
+		if ($match[1] == '+') {
+			$end_year = strftime('%Y') + $match[2];
+		} else {
+			$end_year = strftime('%Y') - $match[2];
+		}
+	}
+	if (preg_match('!^(\+|\-)\s*(\d+)$!', $start_year, $match)) {
+		if ($match[1] == '+') {
+			$start_year = strftime('%Y') + $match[2];
+		} else {
+			$start_year = strftime('%Y') - $match[2];
+		}
+	}
 
     $field_order = strtoupper($field_order);
 

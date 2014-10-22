@@ -24,9 +24,9 @@
 				<div class="form-group">
 					{formlabel label="Main Content Section Layout"}
 					{forminput}
-					<select name="layout-maincontent">
+					<select name="layout-body">
 						<option value="">{tr}Fixed Width{/tr}</option>
-						<option value="-fluid" {if $gBitSystem->getConfig('layout-maincontent')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
+						<option value="-fluid" {if $gBitSystem->getConfig('layout-body')}selected="selected"{/if}>{tr}Fluid Full Width{/tr}</option>
 					</select>
 					{/forminput}
 				</div>
