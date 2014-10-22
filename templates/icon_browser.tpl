@@ -6,8 +6,12 @@
 
 	<div class="body">
 		<p class="help">
-			{tr}These are the icons available in a standard set of icons. Icons from the Tango icon style are displayed here since this is the default style and should be used as refernce. Both sizes <em>large</em> and <em>small</em> are displayed side by side.{/tr}<br />
-			Please view the <a class="external" href="http://tango.freedesktop.org/Tango_Icon_Gallery">Tango icon gallery</a> for the originally designated uses of the icons.
+			{tr}Very much work in progress, but getting there ... need to update the ross reference with current icon names rather than the desktop standard Tango ones!{/tr}<br />
+			Source of Fontawesome <a class="external" href="http://fortawesome.github.io/Font-Awesome/">on GitHub</a> for the monochrome icons.<br />
+			The font-awesome-to-png python script is used to create an image set for easier handling with the array display.<br />
+			<a class="external" href="http://www.famfamfam.com/lab/icons/silk/">Original source of the silk icon set</a> for full colour icons.<br />
+			This is enhanced by the <a class="external" href="http://www.fatcow.com/free-icons">FatCow extended icon set</a> which also provides 32x32 versions of the silk library<br />
+			See the <a href="/wiki/colourstrap">Colourstrap information page</a> for more data on replacing Bootstraps monochrome icons with traditional colour ones.
 		</p>
 		<table class="table data">
 			<tr>
