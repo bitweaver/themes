@@ -584,7 +584,9 @@ class BitThemes extends BitSingleton {
 		if( !empty( $pParamHash['fallback_layout'] )) {
 			$layouts[] = $pParamHash['fallback_layout'];
 		}
-		$layouts[] = ACTIVE_PACKAGE;
+		if( defined( 'ACTIVE_PACKAGE') ) {
+			$layouts[] = ACTIVE_PACKAGE;
+		}
 		$layouts[] = DEFAULT_PACKAGE;
 
 		foreach( $layouts AS $l ) {
@@ -1489,12 +1491,12 @@ class BitThemes extends BitSingleton {
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'base' );
 						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
+						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
+						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						// bootstrap needs to load after jquery
 						if( file_exists( $bootstrapSrc ) ) {
 							$this->mRawFiles['js'][] = $bootstrapSrc;
 						}
-						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
-						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 
 						$gBitSmarty->assign( 'jquerySrc', $jquerySrc );
 						break;
