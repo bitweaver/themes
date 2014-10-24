@@ -40,7 +40,7 @@ html[dir='rtl'] .floatleft	{float:right}
 html[dir='rtl'] .clearright	{clear:left}
 .cursordefault	{cursor:default}
 
-.widthauto	{width:auto;}
+.width-auto	{width:auto;}
 .width100p	{width:100%}
 .width99p	{width:99%}
 .width95p	{width:95%}
