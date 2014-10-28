@@ -18,9 +18,12 @@ function smarty_block_legend($params, $content, &$gBitSmarty) {
 		$attributes = '';
 		$attributes .= !empty( $params['class'] ) ? ' class="'.$params['class'].'" ' : '' ;
 		$attributes .= !empty( $params['id'] ) ? ' id="'.$params['id'].'" ' : '' ;
-		$ret = '<fieldset '.$attributes.'><legend>'.tra( $params['legend'] ).'</legend>';
+		$ret = '<fieldset '.$attributes.'>';
+		if( !empty( $params['legend'] ) ) {
+			$ret .= '<legend>'.tra( $params['legend'] ).'</legend>';
+		}
 		$ret .= $content;
-		$ret .= '<div class="clear"></div></fieldset>';
+		$ret .= '</fieldset>';
 		return $ret;
 	}
 }
