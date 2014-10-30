@@ -19,7 +19,8 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 
 if (isset($_GET['theme']) && $gBitSystem->getConfig('users_themes') == 'y'){
 	$new_theme = $_GET['theme'];
-	if(isset($user) && $gBitSystem->getConfig('users_preferences') == 'y' ) {  
+
+	if(isset($gBitUser) && $gBitSystem->getConfig('users_preferences') == 'y' ) {  
 		$gBitUser->storePreference('theme',$new_theme);
 		setcookie('bit-theme', '', time()-3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
 	} else {
