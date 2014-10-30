@@ -1504,7 +1504,9 @@ class BitThemes extends BitSingleton {
 						$joined = FALSE;
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined );
+						$this->loadJavascript( THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadCss( CONFIG_PKG_PATH.'css/colourstrap.css', FALSE, $pos++, $joined );
+						$this->loadCss( CONFIG_PKG_PATH.'css/colourstrap-icons.css', FALSE, $pos++, $joined );
 						break;
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
