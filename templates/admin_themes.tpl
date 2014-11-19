@@ -36,11 +36,11 @@
 
 	{foreach from=$themeSettings key=feature item=output}
 		<div class="form-group">
-			{forminput class="checkbox"}
+			{forminput label="checkbox"}
 				{html_checkboxes name="$feature" values="y" checked=$gBitSystem->getConfig($feature) label=$output.label id=$feature}
 				{$output.label}
+				{formhelp note=$output.note page=$output.page}
 			{/forminput}
-			{formhelp note=$output.note page=$output.page}
 		</div>
 	{/foreach}
 

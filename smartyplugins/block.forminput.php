@@ -28,6 +28,15 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 		}
 	}
 
+	$labelStart = '';
+	$labelEnd = '';
+
+	if( !empty( $params['label'] ) ){
+		$class .= trim( $params['label'] );
+		$labelStart = '<label>';
+		$labelEnd = '</label>';
+	}
+
 	if( !empty( $params['id'] ) ){
 		$attr .= 'id="'.trim( $params['id'] ).'" ';
 	}
@@ -37,8 +46,7 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	}
 
 	if( $content ) {
-		$ret = '<div class="'.$class.'" '.$attr.' >'.$content.'</div>';
-		return $ret;
+		return '<div class="'.$class.'" '.$attr.' >'.$labelStart.$content.$labelEnd.'</div>';
 	}
 }
 ?>
