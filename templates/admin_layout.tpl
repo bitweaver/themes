@@ -231,10 +231,10 @@
 			</div>
 
 			<div class="form-group">
-				<label class="checkbox">
+				{forminput label="checkbox"}
 					<input type="checkbox" value="y" id="add_to_all" name="fAssign[add_to_all]" />Add to all Layouts
 					{formhelp note="If you check this, the module will be added to all custom layouts."}
-				</label>
+				{/forminput}
 			</div>
 
 			<div class="form-group submit">

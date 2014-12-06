@@ -20,6 +20,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 .aligntop, aligntop *	{vertical-align:top}
 .alignmiddle	{vertical-align:middle}
 
+.highlight	{background-color:#fcf8e3;}
+
 .no-padding,
 .nopadding	{padding:0;}
 .no-margin,
@@ -128,6 +130,8 @@ ul.data li.item:last-child	{ border-bottom:none; }
 .warning	{color:#f80;}
 .success	{color:#090;}
 
+.outer-glow	{box-shadow: 0px 0px 5px gray;}
+
 .alpha60black {
     /* Fallback for web browsers that doesn't support RGBa */
     background: rgb(0, 0, 0) transparent;
@@ -196,7 +200,6 @@ html[dir='rtl'] .avatar { float:right; }
 .menu .item	{display:block;}
 .active a.head 	{font-weight:bolder}
 .active a.head:visited	{font-weight:bolder}
-.highlight	{font-weight:bolder;}
 a.create	{font-style:italic}
 a.skip	{position:absolute; top:0; left:-999em;}
 a.skip:active,
