@@ -32,7 +32,10 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	$labelEnd = '';
 
 	if( !empty( $params['label'] ) ){
-		$class .= trim( $params['label'] );
+		if( $gSmartyFormHorizontal ) {
+			$class .= ' col-sm-offset-4';
+		}
+		$class .= ' '.trim( $params['label'] );
 		$labelStart = '<label>';
 		$labelEnd = '</label>';
 	}
