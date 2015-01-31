@@ -183,6 +183,38 @@ ul.data li.item:last-child	{ border-bottom:none; }
   margin-left: 20px;
 }
 
+.bit-columns {
+-webkit-column-count: 3;
+-webkit-column-gap: 10px;
+-webkit-column-fill: auto;
+-moz-column-count: 3;
+-moz-column-gap: 10px;
+-moz-column-fill: auto;
+column-count: 3;
+column-gap: 15px;
+column-fill: auto;
+}
+
+.bit-column-cell {
+display: inline-block;
+-webkit-column-break-inside: avoid;
+-moz-column-break-inside: avoid;
+column-break-inside: avoid;
+width: 100%;
+-webkit-transition: all .2s ease;
+-moz-transition: all .2s ease;
+-o-transition: all .2s ease;
+transition: all .2s ease;
+}
+
+@media (min-width: 960px) {
+#columns { -webkit-column-count: 4; -moz-column-count: 4; column-count: 4; }
+}
+
+@media (min-width: 1100px) {
+#columns { -webkit-column-count: 5; -moz-column-count: 5; column-count: 5; }
+}
+
 /* LEGACY essential and basic css settings *-/
 body	{background:#fff; margin:0; padding:0;}
 table	{border-collapse:collapse; border-spacing:0; padding:0; margin:0; width:100%;}
