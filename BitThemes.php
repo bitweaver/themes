@@ -1461,15 +1461,15 @@ class BitThemes extends BitSingleton {
 			if( empty( $pLibPath )) {
 				switch( $ajaxLib ) {
 					case 'mochikit':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
+						$pLibPath = UTIL_PKG_PATH."javascript/MochiKit/";
 						$pos = 100;
 						break;
 					case 'yui':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/yui/";
+						$pLibPath = UTIL_PKG_PATH."javascript/yui/";
 						$pos = 100;
 						break;
 					case 'jquerylocal':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/jquery/";
+						$pLibPath = UTIL_PKG_PATH."javascript/jquery/";
 						$pos = 100;
 						break;
 					default:
