@@ -32,6 +32,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
 
+.strong	{font-weight:bold}
+
 .floatright	{float:right}
 html[dir='rtl'] .floatright	{float:left}
 .floatleft	{float:left}
