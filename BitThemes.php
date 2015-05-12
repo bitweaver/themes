@@ -566,10 +566,10 @@ class BitThemes extends BitSingleton {
 					} catch( Exception $e ) {
 						print( '<div class="alert alert-warning">'.$e->getMessage() ).'</div>';
 					}
-					if( !empty( $ret ) && ($pColumn == 'l' || $pColumn == 'r') ) { 
-						$ret = '<div class="panel-group col-xs-12">'.$ret.'</div>';
-					}
 				}
+			}
+			if( !empty( $ret ) && ($pColumn == 'l' || $pColumn == 'r') ) { 
+				$ret = '<div class="panel-group col-xs-12">'.$ret.'</div>';
 			}
 		}
 		return $ret;
