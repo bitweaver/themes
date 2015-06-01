@@ -2,7 +2,7 @@ i[onlick], .icon,.icon:hover,
 a.icon,a.icon:hover	{cursor:pointer;text-decoration:none;}
 .floaticon a,a.icon,img.icon	{padding:0 5px 0 0; font-size:11pt;}
 
-.floaticon	{float:right; text-align:right;}
+.floaticon	{text-align:right;}
 .floaticon form.minifind	{margin:10px 0 20px}
 html[dir='rtl'] .floaticon 	{ float:left }
 span.actionicon	{float:right;}
