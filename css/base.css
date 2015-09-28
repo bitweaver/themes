@@ -2,7 +2,7 @@ i[onlick], .icon,.icon:hover,
 a.icon,a.icon:hover	{cursor:pointer;text-decoration:none;}
 .floaticon a,a.icon,img.icon	{padding:0 5px 0 0; font-size:11pt;}
 
-.floaticon	{float:right; text-align:right;}
+.floaticon	{float:right; text-align:right;z-index:9999;}
 .floaticon form.minifind	{margin:10px 0 20px}
 html[dir='rtl'] .floaticon 	{ float:left }
 span.actionicon	{float:right;}
@@ -83,7 +83,7 @@ ul	{padding-left:15px;}
 ol.structure-toc	{ counter-reset: item; padding-left:0px; }
 ol.structure-toc>li	{ display: block }
 ol.structure-toc>li:before 	{ content: counters(item, ".") " "; counter-increment: item }
-ol.structure-toc li	{font-weight:normal;font-size:10pt;margin-left:15px;}
+ol.structure-toc li	{font-weight:normal;font-size:10pt;margin-left:15px;padding:5px 0 5px 0;}
 ol.structure-toc li .numbering	{margin-left:-1em;}
 ol.strucutre-toc ol	{margin-left:1em; padding:0 0 5px 0;}
 html[dir='rtl'] ol.structure-toc ol	{margin-right:1em;}
@@ -94,6 +94,13 @@ html[dir='rtl'] ol.structure-toc ol	{margin-right:1em;}
     height:4px;
     line-height:4px;
 }
+
+@media (min-width: 768px) { 
+.maketoc	{ width:33% }
+	}
+@media (max-width:767px) {
+.maketoc	{ width:100% }
+	}
 
 .aciSortablePlaceholder div {
     height:4px;
