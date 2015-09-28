@@ -62,6 +62,12 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 		case 'style':
 			$style .= $_key;
 			break;
+		case 'formatguid':
+			$pSmarty->assign('formatGuid', $_value);
+			break;
+		case 'langcode':
+			$pSmarty->assign('langCode', $_value);
+			break;
 		case 'gContent':
 			// Trick out gContent
 			$oldContent = $gContent;
@@ -85,6 +91,15 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 	}
 	$pSmarty->assign('textarea_class', 'class="'.$class.'"');
 	$ret = $pSmarty->fetch("bitpackage:liberty/edit_textarea.tpl");
+
+	if( is_object( $gContent ) ) {
+		if( $formatGuid = $gContent->getField( 'format_guid' ) ) {
+			$pSmarty->assign('formatGuid', $formatGuid);
+		}
+		if( $langCode = $gContent->getField( 'lang_code' ) ) {
+			$pSmarty->assign( 'langCode', $langCode );
+		}
+	}
 
 	// Restore gContent
 	if (isset($oldContent)) {

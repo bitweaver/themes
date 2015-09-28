@@ -460,12 +460,18 @@ class BitThemes extends BitSingleton {
 	}
 
 	function displayLayoutColumn( $pColumn ) {
+		if( $colHtml = $this->fetchLayoutColumn( $pColumn ) ) {
+			print $colHtml;
+		}
+	}
+
+	function fetchLayoutColumn( $pColumn ) {
 		global $gBitSmarty, $gBitSystem;
+		$ret = '';
 		if( !empty( $this->mLayout[$pColumn] ) ) {
 			for ($i = 0; $i < count( $this->mLayout[$pColumn] ); $i++) {
 				$r = &$this->mLayout[$pColumn][$i];
 				if( !empty( $r['visible'] )) {
-					if( $pColumn == 'l' || $pColumn == 'r' ) { print '<div class="panel-group col-xs-12">'; }
 					try {
 						// @TODO MODULE UPGRADE under new module organization this is not reliable as tpls are in sub dir in modules/ change this when upgrade is complete
 						list( $package, $template ) = explode(  '/', $r['module_rsrc'] );
@@ -491,7 +497,7 @@ class BitThemes extends BitSingleton {
 								if( $moduleParams = $this->getCustomModule( $template )) {
 									$moduleParams = array_merge( $r, $moduleParams );
 									$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
-									$gBitSmarty->display( 'bitpackage:themes/custom_module.tpl' );
+									$ret .= $gBitSmarty->fetch( 'bitpackage:themes/custom_module.tpl' );
 
 									if( !empty( $r["cache_time"] ) ) {
 										// write to chache file
@@ -544,7 +550,7 @@ class BitThemes extends BitSingleton {
 								$moduleParams = $r;
 								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
 								// assign the custom module title
-								$gBitSmarty->display( $r['module_rsrc'] );
+								$ret .= $gBitSmarty->fetch( $r['module_rsrc'] );
 
 								if( !empty( $r["cache_time"] ) ) {
 									// write to chache file
@@ -560,10 +566,13 @@ class BitThemes extends BitSingleton {
 					} catch( Exception $e ) {
 						print( '<div class="alert alert-warning">'.$e->getMessage() ).'</div>';
 					}
-					if( $pColumn == 'l' || $pColumn == 'r' ) { print '</div>'; }
 				}
 			}
+			if( !empty( $ret ) && ($pColumn == 'l' || $pColumn == 'r') ) { 
+				$ret = '<div class="panel-group col-xs-12">'.$ret.'</div>';
+			}
 		}
+		return $ret;
 	}
 
 	/**
@@ -1461,15 +1470,15 @@ class BitThemes extends BitSingleton {
 			if( empty( $pLibPath )) {
 				switch( $ajaxLib ) {
 					case 'mochikit':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/MochiKit/";
+						$pLibPath = UTIL_PKG_PATH."javascript/MochiKit/";
 						$pos = 100;
 						break;
 					case 'yui':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/yui/";
+						$pLibPath = UTIL_PKG_PATH."javascript/yui/";
 						$pos = 100;
 						break;
 					case 'jquerylocal':
-						$pLibPath = UTIL_PKG_PATH."javascript/libs/jquery/";
+						$pLibPath = UTIL_PKG_PATH."javascript/jquery/";
 						$pos = 100;
 						break;
 					default:

@@ -38,11 +38,11 @@ $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
 $gBitThemes->loadAjax( $gBitSystem->getConfig( 'themes_jquery_hosting', 'jquery' ) );
 
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fat.js', TRUE, 50 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fat.js', TRUE, 50 );
 }
 
 if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/libs/fsmenu.js', TRUE, 60 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fsmenu.js', TRUE, 60 );
 }
 
 if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {

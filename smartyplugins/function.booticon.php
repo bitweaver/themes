@@ -55,7 +55,7 @@ function smarty_function_booticon( $pParams, $pFile ) {
 
 		foreach( array_keys( $pParams ) as $key ) {
 			if( strpos( $key, 'on' ) === 0 ) {
-				$outstr .=  ' '.$key.'='.$pParams[$key].'';
+				$outstr .=  ' '.$key.'="'.$pParams[$key].'"';
 			}
 		}
 
