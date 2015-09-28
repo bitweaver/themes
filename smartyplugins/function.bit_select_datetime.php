@@ -1,13 +1,15 @@
 <?php
 /**
  * Smarty plugin
+ * 
+ * 
+ * 
  * @package Smarty
  * @subpackage plugins
- *  @version $Id$
- * @author hiran  
  */
 
-/**** smarty_function_bit_select_datetime
+/**
+ *  smarty_function_bit_select_datetime
  *
  *	NOTE: This code looks good but needs intensive testing, especially with different date/time formats.
  *

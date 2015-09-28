@@ -1,17 +1,20 @@
 <?php
 /**
- * Smarty plugin
- * @package Smarty
- * @subpackage plugins
- */
-
-/**
- * Smarty plugin
- * -------------------------------------------------------------
+ * Smarty plugin modifier duration
+ *
  * Type:     modifier
  * Name:     duration
  * Purpose:  formats a duration from seconds
- * -------------------------------------------------------------
+ *
+ * @package Smarty
+ * @subpackage plugins
+ */
+ 
+/**
+ * Function body.
+ *
+ * @param string $string Number of seconds
+ * @return string in format days,hours,minutes,seconds
  */
 function smarty_modifier_duration($string)
 {

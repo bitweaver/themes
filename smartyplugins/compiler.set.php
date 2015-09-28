@@ -1,9 +1,5 @@
 <?php
 /**
- * @version $Header$
- * @package kernel
- * @subpackage plugins
- * 
  * Smarty {set} compiler function plugin
  *
  * File:     compiler.set.php
@@ -19,13 +15,16 @@
  * @copyright Copyright 2006 by Muzzarelli Davide
  * @author Davide Muzzarelli <info@dav-muz.net>
  *
- * @param array parameters "var": variable. "value": value to assign. "if": assign the value only if this test is true (tests avaiables: 'empty', '!empty', 'is_null', '!is_null', 'isset', '!isset', 'is_void').
- * @param Smarty_Compiler object
- * @return void|string
+ * @package kernel
+ * @subpackage plugins
  */
  
 /**
  * Set Compiler Function
+ * 
+ * @param array parameters "var": variable. "value": value to assign. "if": assign the value only if this test is true (tests avaiables: 'empty', '!empty', 'is_null', '!is_null', 'isset', '!isset', 'is_void').
+ * @param Smarty_Compiler object
+ * @return void|string
  */ 
 function smarty_compiler_set($params, &$smarty) {
 	// Extract if "value" parameter contain an array
