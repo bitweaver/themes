@@ -29,6 +29,7 @@ html[dir='rtl'] .alignright	{text-align:left}
 .margin-auto	{margin-left:auto;margin-right:auto;}
 .overflow-hidden	{overflow:hidden;}
 
+.display-none	{display:none;}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
 .table-cell	{display:table-cell;}
@@ -76,6 +77,8 @@ html[dir='rtl'] .clearright	{clear:left}
 .width1p	{width:1%}
 
 .monospace	{font-family:monospace}
+
+.link	{cursor:pointer;     color: #428bca; text-decoration: none; } /* bootstrap default */
 
 ul	{padding-left:15px;}
 .module ol,
