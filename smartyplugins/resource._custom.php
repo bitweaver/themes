@@ -32,7 +32,7 @@ class Smarty_Resource__Custom extends Smarty_Resource_Custom {
 		} else {
 			global $moduleParams;
 			if( $moduleParams = $gBitThemes->getCustomModule( $template )) {
-				$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+				$gBitSmarty->assignByRef( 'moduleParams', $moduleParams );
 				$pTplSource = $gBitSmarty->fetch( 'bitpackage:themes/custom_module.tpl' );
 				// write to chache file
 				$fp = fopen( $cacheFile, "w+" );

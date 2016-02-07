@@ -39,7 +39,7 @@ function group_replace_url_hander($matched) {
  * Date:     April 14, 2008
  * Purpose:
  * Install:  Drop into the plugin directory, call 
- *           $gBitSmarty->load_filter('output','groupslayout');
+ *           $gBitSmarty->loadFilter('output','groupslayout');
  *           from application.
  * Author:   Nick Palmer <nick@slugardy.net> based on highlight filter by
  *           Greg Hinkle <ghinkl@users.sourceforge.net>

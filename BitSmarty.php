@@ -14,7 +14,7 @@
  * required setup
  */
 
-require_once( CONFIG_PKG_PATH.'externals/smarty/libs/SmartyBC.class.php' );
+require_once( EXTERNAL_LIBS_PATH.'smarty/libs/Smarty.class.php' );
 
 
 /**
@@ -34,7 +34,7 @@ class PermissionCheck {
  *
  * @package kernel
  */
-class BitSmarty extends SmartyBC {
+class BitSmarty extends Smarty {
 
 	protected $mCompileRsrc;
 
@@ -54,13 +54,13 @@ class BitSmarty extends SmartyBC {
 		$this->debugging = isset($smarty_debugging) && $smarty_debugging;
 		$this->assign( 'app_name', 'bitweaver' );
 		$this->addPluginsDir( THEMES_PKG_PATH . "smartyplugins" );
-		$this->register_prefilter( "add_link_ticket" );
+		$this->registerFilter('pre', "add_link_ticket" );
 		$this->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT;
-
+		
 		global $permCheck;
 		$permCheck = new PermissionCheck();
 // SMARTY3	$this->register_object( 'perm', $permCheck, array(), TRUE, array( 'autoComplete' ));
-		$this->assign_by_ref( 'perm', $permCheck );
+		$this->assignByRef( 'perm', $permCheck );
 	}
 
 	function scanPackagePluginDirs() {
@@ -140,7 +140,7 @@ class BitSmarty extends SmartyBC {
 							$moduleParams['module_params'] = $gBitThemes->parseString( $pIncludeVars['module_params'] );
 						} else {
 							// Module Params were passed in from the template, like kernel/dynamic.tpl
-							$moduleParams = $this->get_template_vars( 'moduleParams' );
+							$moduleParams = $this->getTemplateVars( 'moduleParams' );
 						}
 						include( $includeFile );
 						$ret = TRUE;

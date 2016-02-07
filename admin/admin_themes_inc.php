@@ -78,7 +78,7 @@ $iconStyles = $gBitThemes->getStylesList( CONFIG_PKG_PATH."styles/icons/", NULL,
 foreach( $iconStyles as $key=>$style ){
 	$iconStyles[$key] = str_replace( "_", " ", $style['style'] );
 }
-$gBitSmarty->assign_by_ref( "iconStyles", $iconStyles );
+$gBitSmarty->assignByRef( "iconStyles", $iconStyles );
 
 $biticon_sizes = array(
 	'small' => tra( 'Small' ),

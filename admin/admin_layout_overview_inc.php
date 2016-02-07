@@ -45,25 +45,25 @@ $layoutAreas['right']  = 'r';
 if( $gBitSystem->isFeatureActive( 'site_bottom_column' )) {
 	$layoutAreas['bottom'] = 'b';
 }
-$gBitSmarty->assign_by_ref( 'layoutAreas', $layoutAreas );
+$gBitSmarty->assignByRef( 'layoutAreas', $layoutAreas );
 
 $layouts = $gBitThemes->getAllLayouts();
 foreach( $layouts as $package => $layout ) {
 	$gBitThemes->generateModuleNames( $layout );
 	$layouts[$package] = $layout;
 }
-$gBitSmarty->assign_by_ref( 'layouts', $layouts );
+$gBitSmarty->assignByRef( 'layouts', $layouts );
 
 $allModulesHelp = $gBitThemes->getAllModules( 'modules', 'help_mod_' );
 ksort( $allModulesHelp );
-$gBitSmarty->assign_by_ref( 'allModulesHelp', $allModulesHelp );
+$gBitSmarty->assignByRef( 'allModulesHelp', $allModulesHelp );
 
 $gBitSmarty->assign( 'pageName', 'Layout Options' );
 if( defined( 'ROLE_MODEL' )) {
 	$roles = $gBitUser->getAllUserRoles( ROOT_USER_ID );
-	$gBitSmarty->assign_by_ref( "roles", $roles );
+	$gBitSmarty->assignByRef( "roles", $roles );
 } else {
 	$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
-	$gBitSmarty->assign_by_ref( "groups", $groups );
+	$gBitSmarty->assignByRef( "groups", $groups );
 }
 ?>

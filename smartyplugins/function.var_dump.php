@@ -24,7 +24,7 @@ function smarty_function_var_dump($params, &$gBitSmarty)
   $v = $params['var'];
   if (strlen($v) != 0)
   {
-    $tmp = $gBitSmarty->get_template_vars();
+    $tmp = $gBitSmarty->getTemplateVars();
     if (is_array($tmp) && isset($tmp[$v]))
       $debugger->msg("Smarty var_dump(".$v.') = '.print_r($tmp[$v], true));
     else

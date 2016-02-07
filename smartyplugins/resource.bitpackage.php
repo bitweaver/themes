@@ -81,9 +81,9 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 		foreach( $locations as $resource ) {
 			if( file_exists( $resource )) {
 				$ret = filemtime( $resource );
+				break;
 			}
 		}
-
 		return $ret;
 	}
 

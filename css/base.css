@@ -1,6 +1,6 @@
 i[onlick], .icon,.icon:hover,
 a.icon,a.icon:hover	{cursor:pointer;text-decoration:none;}
-.floaticon a,a.icon,img.icon	{padding:0 5px 0 0; font-size:11pt;}
+.floaticon a,.icon,img.icon	{padding:0 0 0 5px; font-size:11pt;}
 
 .floaticon	{float:right; text-align:right;z-index:9999;}
 .floaticon form.minifind	{margin:10px 0 20px}
@@ -29,6 +29,7 @@ html[dir='rtl'] .alignright	{text-align:left}
 .margin-auto	{margin-left:auto;margin-right:auto;}
 .overflow-hidden	{overflow:hidden;}
 
+.display-none	{display:none;}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
 .table-cell	{display:table-cell;}
@@ -76,6 +77,8 @@ html[dir='rtl'] .clearright	{clear:left}
 .width1p	{width:1%}
 
 .monospace	{font-family:monospace}
+
+.link	{cursor:pointer;     color: #428bca; text-decoration: none; } /* bootstrap default */
 
 ul	{padding-left:15px;}
 .module ol,

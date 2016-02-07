@@ -19,7 +19,7 @@ if( empty( $_REQUEST['module_package'] ) ) {
 }
 
 $feedback = array();
-$gBitSmarty->assign_by_ref( 'feedback', $feedback );
+$gBitSmarty->assignByRef( 'feedback', $feedback );
 $layoutHash = array(
 	'layout' => $_REQUEST['module_package'],
 	'fallback' => FALSE,
@@ -99,7 +99,7 @@ if( isset( $_REQUEST['module_id'] ) && !empty( $_REQUEST['move_module'] )) {
 // this will sort the layout selection dropdown
 $allLayouts = $gBitThemes->getAllLayouts();
 ksort( $allLayouts );
-$gBitSmarty->assign_by_ref( 'allLayouts', $allLayouts );
+$gBitSmarty->assignByRef( 'allLayouts', $allLayouts );
 $gBitSmarty->assign( 'module_package', $_REQUEST['module_package'] );
 
 $layoutHash = array(
@@ -130,19 +130,19 @@ $layoutAreas['right']  = 'r';
 if( $gBitSystem->isFeatureActive( 'site_bottom_column' )) {
 	$layoutAreas['bottom'] = 'b';
 }
-$gBitSmarty->assign_by_ref( 'layoutAreas', $layoutAreas );
+$gBitSmarty->assignByRef( 'layoutAreas', $layoutAreas );
 
 $allModules = $gBitThemes->getAllModules();
 ksort( $allModules );
-$gBitSmarty->assign_by_ref( 'allModules', $allModules );
+$gBitSmarty->assignByRef( 'allModules', $allModules );
 
 $allModulesHelp = $gBitThemes->getAllModules( 'modules', 'help_mod_' );
 ksort( $allModulesHelp );
-$gBitSmarty->assign_by_ref( 'allModulesHelp', $allModulesHelp );
+$gBitSmarty->assignByRef( 'allModulesHelp', $allModulesHelp );
 
 $allCenters = $gBitThemes->getAllModules( 'templates', 'center_' );
 ksort( $allCenters );
-$gBitSmarty->assign_by_ref( 'allCenters', $allCenters );
+$gBitSmarty->assignByRef( 'allCenters', $allCenters );
 
 $orders = array();
 
@@ -150,17 +150,17 @@ for( $i = 1; $i < 50; $i++ ) {
 	$orders[] = $i;
 }
 
-$gBitSmarty->assign_by_ref( 'orders', $orders );
+$gBitSmarty->assignByRef( 'orders', $orders );
 
 if( defined( 'ROLE_MODEL' )) {
 	$roles = $gBitUser->getAllUserRoles( ROOT_USER_ID );
-	$gBitSmarty->assign_by_ref( "roles", $roles );
+	$gBitSmarty->assignByRef( "roles", $roles );
 } else {
 	$groups = $gBitUser->getAllUserGroups( ROOT_USER_ID );
-	$gBitSmarty->assign_by_ref( "groups", $groups );
+	$gBitSmarty->assignByRef( "groups", $groups );
 }
 // we need gBitThemes as well
-$gBitSmarty->assign_by_ref( "gBitThemes", $gBitThemes );
+$gBitSmarty->assignByRef( "gBitThemes", $gBitThemes );
 
 $gBitThemes->loadJavascript( THEMES_PKG_PATH.'scripts/BitThemes.js', TRUE );
 ?>

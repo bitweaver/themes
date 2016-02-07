@@ -92,7 +92,7 @@ $gBitSystem->verifyPermission( 'bit_p_create_css' );
 $customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );	// Path to this user's storage directory
 $customCSSFile = $customCSSPath.'custom.css';	// Path to this user's custom stylesheet
 $customCSSImageURL = $gBitUser->getStorageURL( NULL,$gBitUser->mUserId ).'/images/';
-$gBitSmarty->assign_by_ref('customCSSImageURL',$customCSSImageURL);			
+$gBitSmarty->assignByRef('customCSSImageURL',$customCSSImageURL);			
 // Create a custom.css for this user if they do not already have one
 if (!file_exists($customCSSFile)) {
 	if (!copy(THEMES_PKG_PATH.'/styles/basic/basic.css', $customCSSFile)) {
@@ -172,9 +172,9 @@ if (isset($_REQUEST["fSaveCSS"])and $_REQUEST["fSaveCSS"]) {
 
 // Get the list of themes the user can choose to derive from (aka Reset to)
 $styles = $gBitThemes->getStyles( NULL, FALSE, FALSE );
-$gBitSmarty->assign_by_ref( 'styles', $styles );
+$gBitSmarty->assignByRef( 'styles', $styles );
 $assignStyle = 'basic';
-$gBitSmarty->assign_by_ref( 'assignStyle', $assignStyle);
+$gBitSmarty->assignByRef( 'assignStyle', $assignStyle);
 
 
 // Read in this user's custom.css to display in the textarea
@@ -199,7 +199,7 @@ foreach ($imageList as $image) {
 	}
 }
 
-$gBitSmarty->assign_by_ref('themeImages',$themeImages);	
+$gBitSmarty->assignByRef('themeImages',$themeImages);	
 
 $gBitSystem->display( 'bitpackage:themes/edit_css.tpl', NULL, array( 'display_mode' => 'edit' ));
 

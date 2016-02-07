@@ -34,18 +34,18 @@ if( !empty( $_REQUEST["site_style"] ) ) {
 
 // Get list of available styles
 $styles = $gBitThemes->getStyles( NULL, TRUE );
-$gBitSmarty->assign_by_ref( "styles", $styles );
+$gBitSmarty->assignByRef( "styles", $styles );
 
 $subDirs = array( 'style_info', 'alternate' );
 $stylesList = $gBitThemes->getStylesList( NULL, NULL, $subDirs );
-$gBitSmarty->assign_by_ref( "stylesList", $stylesList );
+$gBitSmarty->assignByRef( "stylesList", $stylesList );
 
 $subDirs = array( 'style_info' );
 $iconStyles = $gBitThemes->getStylesList( CONFIG_PKG_PATH."iconsets/", NULL, $subDirs );
-$gBitSmarty->assign_by_ref( "iconStyles", $iconStyles );
+$gBitSmarty->assignByRef( "iconStyles", $iconStyles );
 
 $styleLayouts = $gBitThemes->getStyleLayouts();
-$gBitSmarty->assign_by_ref( "styleLayouts", $styleLayouts );
+$gBitSmarty->assignByRef( "styleLayouts", $styleLayouts );
 
 // pick some icons for the preview.
 $sampleIcons = array(

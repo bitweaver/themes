@@ -19,7 +19,7 @@ function smarty_function_bithelp($params, &$gBitSmarty) {
 		if($gBitUser->hasPermission( 'p_admin' )){
 			$outstr .= "<a href=\"".KERNEL_PKG_URL."admin/index.php\">".smarty_function_booticon(array('ipackage'=>'icons', 'iname'=>'icon-cogs', 'iexplain'=>'Administration Menu'),$gBitSmarty)."</a> ";
 		}
-		if( $helpInfo = $gBitSmarty->get_template_vars('TikiHelpInfo') ) {
+		if( $helpInfo = $gBitSmarty->getTemplateVars('TikiHelpInfo') ) {
 			$outstr .= "<a href=\"".$helpInfo["URL"]."\" >".smarty_function_booticon(array('ipackage'=>'icons', 'iname'=>'icon-question-sign', 'iexplain'=>(empty($helpInfo["Desc"])?"help":$helpInfo["Desc"])),$gBitSmarty)."</a>";
 		}
 	}

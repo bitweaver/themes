@@ -20,7 +20,7 @@
  *           easily integrated with the wiki search functionality
  *           to provide highlighted search terms.
  * Install:  Drop into the plugin directory, call
- *           $gBitSmarty->load_filter('output','highlight');
+ *           $gBitSmarty->loadFilter('output','highlight');
  *           from application.
  * Author:   Greg Hinkle <ghinkl@users.sourceforge.net>
  *           patched by mose <mose@feu.org>

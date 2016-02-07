@@ -21,7 +21,7 @@ foreach( array_keys( $gBitSystem->mPackages ) as $package ) {
 	if( $gBitUser->hasPermission( 'p_'.$package.'_admin' ) ) {
 		$package = strtolower( $package );
 		$tpl = "bitpackage:$package/menu_".$package."_admin.tpl";
-		if(( $gBitSystem->isPackageActive( $package ) || $package == 'kernel') && $gBitSmarty->template_exists( $tpl )) {
+		if(( $gBitSystem->isPackageActive( $package ) || $package == 'kernel') && $gBitSmarty->templateExists( $tpl )) {
 			$adminMenu[$package]['tpl'] = $tpl;
 			$adminMenu[$package]['display'] = 'display:'.( empty( $package ) || ( isset( $_COOKIE[$package.'admenu'] ) && ( $_COOKIE[$package.'admenu'] == 'o' ) ) ? 'block;' : 'none;' );
 		}
@@ -30,7 +30,7 @@ foreach( array_keys( $gBitSystem->mPackages ) as $package ) {
 
 if( !empty( $adminMenu ) ) {
 	ksort( $adminMenu );
-	$gBitSmarty->assign_by_ref( 'adminMenu', $adminMenu );
+	$gBitSmarty->assignByRef( 'adminMenu', $adminMenu );
 }
 
 /**

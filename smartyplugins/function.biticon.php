@@ -228,7 +228,7 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 		if( empty( $small ) && !$pCheckSmall ) {
 			return smarty_function_biticon( $copyParams, $gBitSmarty, TRUE );
 		} else {
-			return biticon_output( $pParams, "broken.".$pParams['ipackage']."/".$pParams['ipath'].$pParams['iname'] );
+			return biticon_output( $pParams, "broken.icon.".$pParams['ipackage']."/".$pParams['ipath'].$pParams['iname'] );
 		}
 	}
 }

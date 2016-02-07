@@ -44,7 +44,7 @@ function smarty_function_moduleinc($pParams, &$gBitSmarty) {
 		} else {
 			if( $moduleParams = $gBitThemes->getCustomModule( $template )) {
 				$moduleParams = array_merge( $pParams, $moduleParams );
-				$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+				$gBitSmarty->assignByRef( 'moduleParams', $moduleParams );
 				$data = $gBitSmarty->fetch( 'bitpackage:themes/custom_module.tpl' );
 
 				if( !empty( $pParams["cache_time"] ) ) {

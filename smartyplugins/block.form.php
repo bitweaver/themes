@@ -36,8 +36,8 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 		$onsubmit = '';
 
 		// services can add something to onsubmit
-		if( $gBitSmarty->get_template_vars( 'serviceOnsubmit' ) ) {
-			$onsubmit .= $gBitSmarty->get_template_vars( 'serviceOnsubmit' ).";";
+		if( $gBitSmarty->getTemplateVars( 'serviceOnsubmit' ) ) {
+			$onsubmit .= $gBitSmarty->getTemplateVars( 'serviceOnsubmit' ).";";
 		}
 
 		foreach( $pParams as $key => $val ) {

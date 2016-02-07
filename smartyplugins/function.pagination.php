@@ -16,7 +16,7 @@
  * Output:   url of the form: $_SERVER[SCRIPT_NAME]?attribute1=value1&attribute2=value2
  */
 function smarty_function_pagination( $params, &$gBitSmarty ) {
-    $pgnUrl = $gBitSmarty->get_template_vars('returnURL');
+	$pgnUrl = $gBitSmarty->getTemplateVars('returnURL');
     if ( isset( $params['url'] ) ) {
      	  $pgnUrl = $params['url'];
         unset( $params['url'] );

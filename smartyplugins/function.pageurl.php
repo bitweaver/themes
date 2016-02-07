@@ -20,7 +20,7 @@ function smarty_function_pageurl( $params, &$gBitSmarty ) {
 	extract( $params );
 
 	if( !isset( $pgnUrl ) ) {
-		$pgnUrl = $gBitSmarty->get_template_vars('returnURL');
+		$pgnUrl = $gBitSmarty->getTemplateVars('returnURL');
 		if ( isset( $params['url'] ) ) {
 			$pgnUrl = $params['url'];
 			unset( $params['url'] );

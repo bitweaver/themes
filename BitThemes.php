@@ -496,7 +496,7 @@ class BitThemes extends BitSingleton {
 							} else {
 								if( $moduleParams = $this->getCustomModule( $template )) {
 									$moduleParams = array_merge( $r, $moduleParams );
-									$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+									$gBitSmarty->assignByRef( 'moduleParams', $moduleParams );
 									$ret .= $gBitSmarty->fetch( 'bitpackage:themes/custom_module.tpl' );
 
 									if( !empty( $r["cache_time"] ) ) {
@@ -548,7 +548,8 @@ class BitThemes extends BitSingleton {
 
 								// moduleParams are extracted in BitSmarty::getSiblingAttachments() and passed on the the module php file
 								$moduleParams = $r;
-								$gBitSmarty->assign_by_ref( 'moduleParams', $moduleParams );
+								//$_template->tpl_vars['moduleParams'] = new Smarty_variable( $moduleParams );
+								$gBitSmarty->assignByRef( 'moduleParams', $moduleParams );
 								// assign the custom module title
 								$ret .= $gBitSmarty->fetch( $r['module_rsrc'] );
 
@@ -560,7 +561,6 @@ class BitThemes extends BitSingleton {
 								}
 								$r["data"] = $data;
 							}
-
 							unset( $moduleParams );
 						}
 					} catch( Exception $e ) {
@@ -1511,11 +1511,11 @@ class BitThemes extends BitSingleton {
 						break;
 					case 'jquerylocal':
 						$joined = FALSE;
-						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( CONFIG_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( THEMES_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( THEMES_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadJavascript( THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadCss( CONFIG_PKG_PATH.'css/colourstrap.css', FALSE, $pos++, $joined );
-						$this->loadCss( CONFIG_PKG_PATH.'css/colourstrap-icons.css', FALSE, $pos++, $joined );
+						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap.css', FALSE, $pos++, $joined );
+						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap-icons.css', FALSE, $pos++, $joined );
 						break;
 					case 'yui':
 						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
@@ -1592,7 +1592,7 @@ class BitThemes extends BitSingleton {
 	 */
 	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE ) {
 		if( !empty( $pFile ) && !empty( $pType )) {
-			if( $pFile = realpath( $pFile )) {
+//			if( $pFile = realpath( $pFile )) {
 				if( $pAuxFile ) {
 					$fileHash =& $this->mAuxFiles;
 				} else {
@@ -1611,7 +1611,7 @@ class BitThemes extends BitSingleton {
 						return TRUE;
 					}
 				}
-			}
+//			}
 		}
 		return FALSE;
 	}
@@ -2306,7 +2306,7 @@ function themes_content_display( $pContent ) {
 			require_once( USERS_PKG_PATH . $userClass .'.php' );
 			$gQueryUser = new $userClass( $pContent->getField( 'user_id' ) );
 			$gQueryUser->load();
-			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
+			$gBitSmarty->assignByRef( 'gQueryUser', $gQueryUser );
 		}
 	}
 }
@@ -2341,7 +2341,7 @@ function themes_content_list( $pContent, $pListHash ) {
 			require_once( USERS_PKG_PATH . $userClass .'.php' );
 			$gQueryUser = new $userClass( $pListHash['user_id'] );
 			$gQueryUser->load();
-			$gBitSmarty->assign_by_ref( 'gQueryUser', $gQueryUser );
+			$gBitSmarty->assignByRef( 'gQueryUser', $gQueryUser );
 		}
 	}
 }
