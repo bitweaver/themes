@@ -34,20 +34,20 @@ if( !$gBitThemes->getStyle() ) {
 $gBitSmarty->assignByRef( 'gBitThemes', $gBitThemes );
 
 // load some core javascript files
-$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/bitweaver.js', TRUE, 1 );
-$gBitThemes->loadAjax( $gBitSystem->getConfig( 'themes_jquery_hosting', 'jquerylocal' ) );
+$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
+$gBitThemes->loadAjax( $gBitSystem->getConfig( 'themes_jquery_hosting', 'jquery' ) );
 
 if( !$gBitSystem->isFeatureActive( 'site_disable_fat' )) {
-	$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/libs/fat.js', TRUE, 50 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fat.js', TRUE, 50 );
 }
 
 if( $gBitSystem->isFeatureActive( 'site_top_bar_js' ) && $gBitSystem->isFeatureActive( 'site_top_bar_dropdown' )) {
-	$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/libs/fsmenu.js', TRUE, 60 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fsmenu.js', TRUE, 60 );
 }
 
 if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
-	$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/fancyzoom/js-global/FancyZoom.js', TRUE, 80 );
-	$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoom.js', TRUE, 80 );
+	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
 	$gBitSystem->setOnloadScript( 'setupZoom();' );
 }
 
@@ -57,5 +57,5 @@ $gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 // styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
 //$gBitThemes->loadCss( THEMES_PKG_PATH.'css/inline.css' );
 
-$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/libs/jquery.innerfade.js', FALSE, 700, FALSE );
-$gBitThemes->loadJavascript( THEMES_PKG_PATH.'js/libs/overlib.js', FALSE, 701, FALSE );
+$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/jquery.innerfade.js', FALSE, 700, FALSE );
+$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/overlib.js', FALSE, 701, FALSE );
