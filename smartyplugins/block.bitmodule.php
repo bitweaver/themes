@@ -8,7 +8,7 @@
 /**
  * \brief Smarty {bitmodule}{/bitmodule} block handler
  *
- * To make a module it is enough to place smth like following
+ * To make a module it is enough to place something like following
  * into corresponding mod-name.tpl file:
  * \code
  *  {bitmodule name="module_name" title="Module title"}
@@ -32,7 +32,6 @@ function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
 	} else {
 		$pParams['data'] = $pContent;
 	}
-
 //	if( empty( $pParams['title'] )) {
 //		$pParams['title'] = substr( $pContent, 0, 12 )."&hellip;";
 //	}
@@ -41,17 +40,7 @@ function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
 //		$pParams['name'] = preg_replace( "/[^-_a-zA-Z0-9]/", "", $pParams['title'] );
 //	}
 
-	// this is outdated and will not work with our serialised cookies - xing
-	/*
-	if( $_COOKIE[$name] == 'c' ) {
-		$pParams['toggle_state'] = 'none';
-	} else {
-		$pParams['toggle_state'] = 'block';
-	}
-	 */
-	
 	$pParams['name'] = preg_replace( "/[^a-zA-Z0-9\\-\\_]/", "", $pParams['name'] );
-	
 	$gBitSmarty->assign( 'modInfo', $pParams );
 	return $gBitSmarty->fetch('bitpackage:themes/module.tpl');
 }
