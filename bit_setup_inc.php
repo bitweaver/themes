@@ -53,9 +53,3 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 
 $gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 
-//$gBitThemes->loadCss( THEMES_PKG_PATH.'css/dropmenu.css' );
-// styles formerly included inline (kernel, themes). hopefully not needed anymore sometime in the future
-//$gBitThemes->loadCss( THEMES_PKG_PATH.'css/inline.css' );
-
-$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/jquery.innerfade.js', FALSE, 700, FALSE );
-$gBitThemes->loadJavascript( CONFIG_PKG_PATH.'js/overlib.js', FALSE, 701, FALSE );
