@@ -39,14 +39,16 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 		if( $siblingPhpFile = static::getSiblingPhpFile( $source->name ) ) {
 			global $gBitSmarty, $gBitSystem, $gBitUser, $gQueryUserId, $moduleParams;
 			$moduleParams = array();
+			if( !empty( $_template->tpl_vars['moduleParams'] ) ) {
+				// Module Params were passed in from the template, like kernel/dynamic.tpl
+				$moduleParams = $_template->tpl_vars['moduleParams']->value;
+			}
 			if( !empty( $_template->tpl_vars['module_params'] ) ) {
 				// module_params were passed through via the {include},
 				// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
 				$moduleParams['module_params'] = $gBitThemes->parseString( $_template->tpl_vars['module_params']->value );
-			} elseif( !empty( $_template->tpl_vars['moduleParams'] ) ) {
-				// Module Params were passed in from the template, like kernel/dynamic.tpl
-				$moduleParams = $_template->tpl_vars['moduleParams']->value;
 			}
+			$_template->templateId = md5(serialize( $moduleParams ));
 			include( $siblingPhpFile );
 		}
 
