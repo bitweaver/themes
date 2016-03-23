@@ -48,7 +48,7 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 				// e.g. {include file="bitpackage:foobar/mod_list_foo.tpl" module_params="user_id=`$gBitUser->mUserId`&sort_mode=created_desc"}
 				$moduleParams['module_params'] = $gBitThemes->parseString( $_template->tpl_vars['module_params']->value );
 			}
-			$_template->templateId = md5(serialize( $moduleParams ));
+			//$_template->templateId = md5(serialize( $moduleParams ));
 			include( $siblingPhpFile );
 		}
 
