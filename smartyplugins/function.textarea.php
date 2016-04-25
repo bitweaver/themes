@@ -54,7 +54,7 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 		case 'error':
 		case 'required':
 		case 'maxchars':
-			$gBitSmarty->assign("textarea_".$_key, $_value);
+			$pSmarty->assign("textarea_".$_key, $_value);
 			break;
 		case 'class':
 			$class .= ' '.$_key;
@@ -63,16 +63,16 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 			$style .= $_key;
 			break;
 		case 'formatguid':
-			$gBitSmarty->assign('formatGuid', $_value);
+			$pSmarty->assign('formatGuid', $_value);
 			break;
 		case 'langcode':
-			$gBitSmarty->assign('langCode', $_value);
+			$pSmarty->assign('langCode', $_value);
 			break;
 		case 'gContent':
 			// Trick out gContent
 			$oldContent = $gContent;
 			$gContent = $_value;
-			$gBitSmarty->assign('gContent', $_value);
+			$pSmarty->assign('gContent', $_value);
 			break;
 		default:
 			$attributes .= $_key.'="'.$_value.'" ';
@@ -84,30 +84,30 @@ function smarty_function_textarea( $pParams, &$pSmarty ) {
 	if ($gBitSystem->isPackageActive('bnspell')) {
 		$style .= (empty($style) ? '' : ';').'height:'.$pParams['rows'].'em;';
 	}
-	$gBitSmarty->assign('textarea_attributes', $attributes);
+	$pSmarty->assign('textarea_attributes', $attributes);
 
 	if (!empty($style)) {
-		$gBitSmarty->assign('textarea_style', 'style="'.$style.'"');
+		$pSmarty->assign('textarea_style', 'style="'.$style.'"');
 	}
-	$gBitSmarty->assign('textarea_class', 'class="form-control '.$class.'"');
-	$ret = $gBitSmarty->fetch("bitpackage:liberty/edit_textarea.tpl");
+	$pSmarty->assign('textarea_class', 'class="form-control '.$class.'"');
+	$ret = $pSmarty->fetch("bitpackage:liberty/edit_textarea.tpl");
 	if( is_object( $gContent ) ) {
 		if( $formatGuid = $gContent->getField( 'format_guid' ) ) {
-			$gBitSmarty->assign('formatGuid', $formatGuid);
+			$pSmarty->assign('formatGuid', $formatGuid);
 		}
 		if( $langCode = $gContent->getField( 'lang_code' ) ) {
-			$gBitSmarty->assign( 'langCode', $langCode );
+			$pSmarty->assign( 'langCode', $langCode );
 		}
 	}
 
 	// Restore gContent
 	if (isset($oldContent)) {
 		$gContent = $oldContent;
-		$gBitSmarty->assign('gContent', $oldContent);
+		$pSmarty->assign('gContent', $oldContent);
 	}
 
 	// since we have the funky {textarea} in play, we'll display the edit help tab
-	$gBitSmarty->assign( 'display_help_tab', TRUE );
+	$pSmarty->assign( 'display_help_tab', TRUE );
 
 	return $ret;
 }
