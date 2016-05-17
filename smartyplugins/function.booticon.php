@@ -36,7 +36,7 @@ function smarty_function_booticon( $pParams, $pFile ) {
 			$outstr .= '>';
 		}
 
-		$outstr .= '<div class="'.$pParams['iname'];
+		$outstr .= '<span class="'.$pParams['iname'];
 		if( isset( $pParams["iclass"] ) ) {
 			$outstr .=  ' '.$pParams["iclass"].'';
 		}
@@ -59,7 +59,7 @@ function smarty_function_booticon( $pParams, $pFile ) {
 			}
 		}
 
-		$outstr .= '></div>';
+		$outstr .= '></span>';
 
 		if( !empty( $pParams['ilocation'] ) ) {
 			if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {
