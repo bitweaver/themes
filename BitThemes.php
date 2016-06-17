@@ -44,6 +44,8 @@ class BitThemes extends BitSingleton {
 	// When all modules are loaded they are loaded here
 	var $mModules = array();
 
+	// Caching object
+	var $mThemeCache;
 
 	/**
 	 * Initiate class
@@ -58,7 +60,11 @@ class BitThemes extends BitSingleton {
 	}
 
 	public static function isCacheableClass() {
-		return false;
+		return true;
+	}
+
+	public function __sleep() {
+		return array_merge( parent::__sleep(), array( 'mStyle', 'mStyles', 'mThemeCache', 'mAjaxLibs', 'mAuxFiles', 'mRawFiles', 'mDisplayMode', 'mModules' ) );
 	}
 
 	// {{{ =================== Styles ====================
