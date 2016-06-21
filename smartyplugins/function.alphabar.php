@@ -20,6 +20,7 @@
  * Example	- {alphabar}
  */
 function smarty_function_alphabar( $params, &$gBitSmarty ) {
+	global $gBitSystem;
 	extract( $params );
 
 	// work out what the url is
@@ -31,7 +32,7 @@ function smarty_function_alphabar( $params, &$gBitSmarty ) {
 				$url = constant( strtoupper( $ipackage ).'_PKG_URL' ).$ifile;
 			}
 		} else {
-			$url = constant( strtoupper( ACTIVE_PACKAGE ).'_PKG_URL' ).$ifile;
+			$url = constant( strtoupper( $gBitSystem->getActivePackage() ).'_PKG_URL' ).$ifile;
 		}
 	} else {
 		$url = $_SERVER['SCRIPT_NAME'];

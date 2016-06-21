@@ -452,8 +452,8 @@ class BitThemes extends BitSingleton {
 			foreach( $areas as $layout => $area ) {
 				if(
 					$gBitSystem->isFeatureActive( "{$this->mDisplayMode}_hide_{$area}_col" ) ||
-					$gBitSystem->isFeatureActive( "{$gBitSystem->mActivePackage}_hide_{$area}_col" ) ||
-					$gBitSystem->isFeatureActive( "{$gBitSystem->mActivePackage}_{$this->mDisplayMode}_hide_{$area}_col" )
+					$gBitSystem->isFeatureActive( "{$gBitSystem->getActivePackage()}_hide_{$area}_col" ) ||
+					$gBitSystem->isFeatureActive( "{$gBitSystem->getActivePackage()}_{$this->mDisplayMode}_hide_{$area}_col" )
 				) {
 					unset( $this->mLayout[$layout] );
 				}
@@ -599,9 +599,7 @@ class BitThemes extends BitSingleton {
 		if( !empty( $pParamHash['fallback_layout'] )) {
 			$layouts[] = $pParamHash['fallback_layout'];
 		}
-		if( defined( 'ACTIVE_PACKAGE') ) {
-			$layouts[] = ACTIVE_PACKAGE;
-		}
+		$layouts[] = $gBitSystem->getActivePackage();
 		$layouts[] = DEFAULT_PACKAGE;
 
 		foreach( $layouts AS $l ) {
@@ -616,8 +614,8 @@ class BitThemes extends BitSingleton {
 		}
 		if( !empty( $result ) && $result->RecordCount() ) {
 			$row = $result->fetchRow();
-			// Check to see if we have ACTIVE_PACKAGE modules at the top of the results
-			if( isset( $row['layout'] ) && ( $row['layout'] != DEFAULT_PACKAGE ) && ( ACTIVE_PACKAGE != DEFAULT_PACKAGE )) {
+			// Check to see if we have active package modules at the top of the results
+			if( isset( $row['layout'] ) && ( $row['layout'] != DEFAULT_PACKAGE ) && ( $gBitSystem->getActivePackage() != DEFAULT_PACKAGE )) {
 				$skipDefaults = TRUE;
 			} else {
 				$skipDefaults = FALSE;
@@ -712,6 +710,7 @@ class BitThemes extends BitSingleton {
 				$row = $result->fetchRow();
 			}
 		}
+
 		return $ret;
 	}
 

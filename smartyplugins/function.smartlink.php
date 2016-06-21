@@ -47,6 +47,7 @@
  * Note Be careful if ititle is generated dynamically since it is passed through tra() by default, use itra to override<br>
  */
 function smarty_function_smartlink( $params, &$gBitSmarty ) {
+	global $gBitSystem;
 	if( !empty( $params['ihash'] ) ) {
 		$hash = array_merge( $params['ihash'], $params );
 		$hash['ihash'] = NULL;
@@ -70,7 +71,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 				$url = constant( strtoupper( $hash['ipackage'] ).'_PKG_URL' ).$hash['ifile'];
 			}
 		} else {
-			$url = constant( strtoupper( ACTIVE_PACKAGE ).'_PKG_URL' ).$hash['ifile'];
+			$url = constant( strtoupper( $gBitSystem->getActivePackage() ).'_PKG_URL' ).$hash['ifile'];
 		}
 	} else {
 		$url = $_SERVER['SCRIPT_NAME'];
