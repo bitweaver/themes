@@ -15,37 +15,37 @@ require_once( KERNEL_PKG_PATH.'BitCache.php' );
  */
 class BitThemes extends BitSingleton {
 	// Array that contains a full description of the current layout
-	var $mLayout = array();
+	public $mLayout = array();
 
 	// contains the currently active style
-	var $mStyle;
+	public $mStyle;
 
 	// an array with style information
-	var $mStyles = array();
+	public $mStyles = array();
 
 	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
-	var $mAjaxLibs = array();
+	public $mAjaxLibs = array();
 
 	// Auxiliary Javascript and Css Files
-	var $mAuxFiles = array(
+	public $mAuxFiles = array(
 		'js'  => array(),
 		'css' => array()
 	);
 
 	// Raw Javascript and Css Files
-	var $mRawFiles = array(
+	public $mRawFiles = array(
 		'js'  => array(),
 		'css' => array()
 	);
 
 	// Display Mode
-	var $mDisplayMode;
+	public $mDisplayMode;
 
 	// When all modules are loaded they are loaded here
-	var $mModules = array();
+	public $mModules = array();
 
 	// Caching object
-	var $mThemeCache;
+	public $mThemeCache;
 
 	/**
 	 * Initiate class
