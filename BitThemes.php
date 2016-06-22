@@ -1280,7 +1280,7 @@ class BitThemes extends BitSingleton {
 
 		// fix everything
 		// transaction will save us if something goes bad
-		$this->mDb->StartTrans();
+		$this->StartTrans();
 
 		foreach( $legacy_mods as $old ){
 			$key =  array_pop( explode( "/", $old['module_rsrc'] ) );
@@ -1290,7 +1290,7 @@ class BitThemes extends BitSingleton {
 			}
 		}
 
-		$this->mDb->CompleteTrans();
+		$this->CompleteTrans();
 	}
 
 	/**
