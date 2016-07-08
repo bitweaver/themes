@@ -438,7 +438,7 @@ class BitThemes extends BitSingleton {
 	 */
 	function loadLayout( $pParamHash = NULL ) {
 		global $gBitSystem;
-		if( empty( $this->mLayout ) || !count( $this->mLayout )){
+		if( !empty( $pParamHash ) || empty( $this->mLayout ) || !count( $this->mLayout )) {
 			$this->mLayout = $this->getLayout( $pParamHash );
 
 			/**
