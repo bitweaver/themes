@@ -451,7 +451,7 @@ class BitThemes extends BitSingleton {
 			$areas = array( 't' => 'top', 'l' => 'left', 'r' => 'right', 'b' => 'bottom' );
 			foreach( $areas as $layout => $area ) {
 				if(
-					$gBitSystem->isFeatureActive( "{$this->eDisplayMode}_hide_{$area}_col" ) ||
+					$gBitSystem->isFeatureActive( "{$this->mDisplayMode}_hide_{$area}_col" ) ||
 					$gBitSystem->isFeatureActive( "{$gBitSystem->getActivePackage()}_hide_{$area}_col" ) ||
 					$gBitSystem->isFeatureActive( "{$gBitSystem->getActivePackage()}_{$this->mDisplayMode}_hide_{$area}_col" )
 				) {
