@@ -1493,7 +1493,7 @@ class BitThemes extends BitSingleton {
 				}
 			}
 
-			if( !$this->isAjaxLib( $ajaxLib )) {
+			if( !$this->isAjaxLoaded( $ajaxLib )) {
 				// load core javascript files for ajax libraries
 				$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 				$bootstrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap'.$jqueryMin.'.js';
@@ -1503,10 +1503,10 @@ class BitThemes extends BitSingleton {
 						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.12.4' );
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.11.4' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'smoothness' );
-						$jquerySrc = $protocol.'://ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
+						$jquerySrc = '//ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
-						$this->mRawFiles['js'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
-						$this->mRawFiles['css'][] = $protocol.'://ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
+						$this->mRawFiles['js'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
+						$this->mRawFiles['css'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.css';
 						// bootstrap needs to load after jquery
 						if( file_exists( $bootstrapSrc ) ) {
 							$this->mRawFiles['js'][] = $bootstrapSrc;
@@ -1548,7 +1548,7 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function isAjaxLib( $pAjaxLib ) {
+	function isAjaxLoaded( $pAjaxLib ) {
 		if( !empty( $this->mAjaxLibs ) && !empty( $pAjaxLib )) {
 			return in_array( strtolower( $pAjaxLib ), array_keys( $this->mAjaxLibs ));
 		}
@@ -1876,7 +1876,7 @@ class BitThemes extends BitSingleton {
 		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
 			if( $pType = 'js' ) {
 				// prototype is loaded for a reason. we'll remove mochikit
-				if( $this->isAjaxLib( 'prototype' ) && $this->isAjaxLib( 'mochikit' )) {
+				if( $this->isAjaxLoaded( 'prototype' ) && $this->isAjaxLoaded( 'mochikit' )) {
 					foreach( $this->mAuxFiles[$pType] as $key => $js ) {
 						if( strstr( $js, 'Mochi' )) {
 							unset( $this->mAuxFiles[$pType][$key] );
