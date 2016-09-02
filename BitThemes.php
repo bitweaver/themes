@@ -64,7 +64,7 @@ class BitThemes extends BitSingleton {
 	}
 
 	public function __sleep() {
-		return array_merge( parent::__sleep(), array( 'mStyle', 'mStyles', 'mThemeCache', 'mAjaxLibs', 'mAuxFiles', 'mRawFiles', 'mModules' ) );
+		return array_merge( parent::__sleep(), array( 'mStyles', 'mThemeCache', 'mAjaxLibs', 'mAuxFiles', 'mRawFiles', 'mModules' ) );
 	}
 
 	// {{{ =================== Styles ====================
