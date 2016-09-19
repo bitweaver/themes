@@ -300,4 +300,7 @@ transition: all .2s ease;
 #columns { -webkit-column-count: 5; -moz-column-count: 5; column-count: 5; }
 }
 
+@media print {
+a[href]:after { content: none !important; }
+}
 /* vim: set ts=40: */
