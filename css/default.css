@@ -50,7 +50,6 @@ html[dir='rtl'] .closebutton {top:2px; left:2px;}
 
 /* stuff that was in base.css that the basic, clean, lessneat, & blueprint styles need - for now */
 .navbar ul          {padding:0; margin:0; list-style:none;}
-.navbar ul li       {float:left;}
 html[dir='rtl'] .navbar ul li       {float:right;}
 .icon,.icon:hover,
 a.icon,a.icon:hover {border:0px;}
