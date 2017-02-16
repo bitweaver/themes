@@ -21,15 +21,17 @@ function smarty_function_formlabel( $params,&$gBitSmarty ) {
 	if( $gSmartyFormHorizontal ) {
 		$class .= ' col-sm-4';
 	}
+
 	foreach($params as $key => $val) {
 		switch( $key ) {
+			case 'class':
+				$class .= ' '.$val;
+				break;
 			case 'label':
 				$name = $val;
 				break;
 			case 'mandatory':
 				$mandatory = true;
-			case 'class':
-				$class .= ' '.$val;
 			default:
 				if( $val ) {
 					$atts .= ' '.$key.'="'.$val.'"';
@@ -37,6 +39,7 @@ function smarty_function_formlabel( $params,&$gBitSmarty ) {
 				break;
 		}
 	}
+
 	$html = '<label class="'.$class.'" ';
 	if (isset($mandatory) && $mandatory) {
 		$html .= ' required';
