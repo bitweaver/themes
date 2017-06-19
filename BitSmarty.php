@@ -53,6 +53,7 @@ class BitSmarty extends SmartyBC {
 		$this->force_compile = //$smarty_force_compile;
 		$this->debugging = isset($smarty_debugging) && $smarty_debugging;
 		$this->assign( 'app_name', 'bitweaver' );
+		$this->addPluginsDir( EXTERNAL_LIBS_PATH.'smarty/libs/sysplugins' );
 		$this->addPluginsDir( THEMES_PKG_PATH . "smartyplugins" );
 		$this->registerFilter('pre', "add_link_ticket" );
 		$this->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT;
@@ -70,10 +71,6 @@ class BitSmarty extends SmartyBC {
 				$this->addPluginsDir( $packageHash['path'].'smartyplugins' );
 			}
 		}
-	}
-
-	function addPluginsDir( $dir ) {
-		$this->plugins_dir = array_merge( array( $dir ), $this->plugins_dir );
 	}
 
     public function fetch($template = null, $cache_id = null, $compile_id = null, $parent = null, $display = false, $merge_tpl_vars = true, $no_output_filter = false) {
