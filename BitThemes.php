@@ -2308,7 +2308,7 @@ function themes_content_display( $pContent ) {
 		$gBitThemes->setStyle( $theme );
 		if( !is_object( $gQueryUser ) ) {
 			$userClass = $gBitSystem->getConfig( 'user_class', 'BitPermUser' );
-			require_once( USERS_PKG_PATH.'lib/' . $userClass .'.php' );
+			require_once( USERS_PKG_PATH.'includes/' . $userClass .'.php' );
 			$gQueryUser = new $userClass( $pContent->getField( 'user_id' ) );
 			$gQueryUser->load();
 			$gBitSmarty->assignByRef( 'gQueryUser', $gQueryUser );
@@ -2343,7 +2343,7 @@ function themes_content_list( $pContent, $pListHash ) {
 		$gBitThemes->setStyle( $theme );
 		if( !is_object( $gQueryUser ) ) {
 			$userClass = $gBitSystem->getConfig( 'user_class', 'BitPermUser' );
-			require_once( USERS_PKG_PATH.'lib/' . $userClass .'.php' );
+			require_once( USERS_PKG_PATH.'includes/' . $userClass .'.php' );
 			$gQueryUser = new $userClass( $pListHash['user_id'] );
 			$gQueryUser->load();
 			$gBitSmarty->assignByRef( 'gQueryUser', $gQueryUser );
