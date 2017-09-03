@@ -33,6 +33,7 @@ html[dir='rtl'] .alignright	{text-align:left}
 .display-none	{display:none;}
 .inline	{display:inline;}
 .inline-block	{display:inline-block;}
+.display-block	{display:block;}
 .table-cell	{display:table-cell;}
 
 .strong	{font-weight:bold}
