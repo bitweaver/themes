@@ -35,8 +35,6 @@ if( !empty( $_REQUEST['module_name'] ) ) {
 	$gBitSmarty->assign( 'fAssign', $fAssign );
 }
 
-$gBitSystem->verifyInstalledPackages();
-
 // clone existing layout
 $cloneLayouts = $gBitThemes->getAllLayouts();
 $gBitSmarty->assign( 'cloneLayouts', $cloneLayouts );
