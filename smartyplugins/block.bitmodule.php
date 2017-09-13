@@ -32,9 +32,10 @@ function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
 	} else {
 		$pParams['data'] = $pContent;
 	}
-//	if( empty( $pParams['title'] )) {
-//		$pParams['title'] = substr( $pContent, 0, 12 )."&hellip;";
-//	}
+
+	if( empty( $pParams['title'] )) {
+		$pParams['title'] = substr( $pContent, 0, 12 )."&hellip;";
+	}
 
 //	if( empty( $pParams['name'] )) {
 //		$pParams['name'] = preg_replace( "/[^-_a-zA-Z0-9]/", "", $pParams['title'] );
