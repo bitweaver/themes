@@ -1500,8 +1500,8 @@ class BitThemes extends BitSingleton {
 				switch( $ajaxLib ) {
 					case 'jquery':
 						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
-						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '1.12.4' );
-						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.11.4' );
+						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '2.2.4' );
+						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.12.1' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'smoothness' );
 						$jquerySrc = '//ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
