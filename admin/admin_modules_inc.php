@@ -10,7 +10,7 @@ $formModuleFeatures = array(
 //	),
 //	'site_show_all_modules_always' => array(
 //		'label' => 'Display modules to all teams always',
-//		'note' => 'If you activate this, any modules you assign will be visible to all users, regardless of the settings on the layout page.<br />Hint: If you lose your login module, use /users/login.php to login!',
+//		'note' => 'If you activate this, any modules you assign will be visible to all users, regardless of the settings on the layout page.<br />Hint: If you lose your login module, use /users/signin.php to login!',
 //	),
 //	'site_module_controls' => array(
 //		'label' => 'Show Module Controls',
