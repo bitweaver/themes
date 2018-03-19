@@ -25,14 +25,16 @@ function smarty_block_jstab( $pParams, $pContent, &$gBitSmarty, $pRepeat ) {
 
 		$tabId = strtolower( isset( $pParams['id'] ) ? $pParams['id'] : 'tab'.preg_replace("/[^A-Za-z0-9]/", '', $tTitle) ); 
 
-		$tabString = '<li '.$tClick.' '.$tClass.' '.$tStyle.'><a href="#'.$tabId.'" data-toggle="tab">' . htmlspecialchars( $tTitle ) . '</a></li>';
+		$tabString = '<li '.$tClick.' '.$tClass.' '.$tStyle.'><a href="#'.$tabId.'" data-toggle="'.$type.'">' . htmlspecialchars( $tTitle ) . '</a></li>';
 		if( isset( $pParams['position'] ) ) {
 			array_splice( $jsTabLinks, $pParams['position'], 0, $tabString );
 		} else {
 			$jsTabLinks[] = $tabString;
 		}
 
-		$ret = '<div class="tab-pane" id="'.$tabId.'">'; 
+		$type = BitBase::getParameter( $pParams, 'type', 'tabs' );
+
+		$ret = '<div class="'.$type.'-pane" id="'.$tabId.'">'; 
 		$ret .= $pContent;
 		$ret .= '</div>';
 
