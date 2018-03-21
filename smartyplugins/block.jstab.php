@@ -32,7 +32,7 @@ function smarty_block_jstab( $pParams, $pContent, &$gBitSmarty, $pRepeat ) {
 			$jsTabLinks[] = $tabString;
 		}
 
-		$type = BitBase::getParameter( $pParams, 'type', 'tabs' );
+		$type = BitBase::getParameter( $pParams, 'type', 'tab' );
 
 		$ret = '<div class="'.$type.'-pane" id="'.$tabId.'">'; 
 		$ret .= $pContent;

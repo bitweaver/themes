@@ -33,9 +33,9 @@ function smarty_block_jstabs( $pParams, $pContent, &$gBitSmarty, $pRepeat ) {
 			$setupJs = "$('#$tabId a:first').tab('show');";
 		}
 
-		$type = BitBase::getParameter( $pParams, 'type', 'tabs' );
+		$type = BitBase::getParameter( $pParams, 'type', 'tab' );
 
-		$ret = '<ul class="nav nav-'.$type.'" data-'.$type.'="'.$type.'" id="'.$tabId.'">';
+		$ret = '<ul class="nav nav-'.$type.'s" data-'.$type.'="'.$type.'" id="'.$tabId.'">';
 		foreach( $jsTabLinks as $tabLink ) {
 			$ret .= $tabLink;
 		}
