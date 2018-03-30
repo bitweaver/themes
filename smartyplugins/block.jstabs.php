@@ -35,11 +35,11 @@ function smarty_block_jstabs( $pParams, $pContent, &$gBitSmarty, $pRepeat ) {
 
 		$tabType = BitBase::getParameter( $pParams, 'tabtype', 'tab' );
 
-		$ret = '<ul class="nav nav-'.$tabType.'s" data-'.$tabType.'="'.$tabType.'" id="'.$tabId.'">';
+		$ret = '<ul class="nav nav-'.$tabType.'s" data-tab="'.$tabType.'" id="'.$tabId.'">';
 		foreach( $jsTabLinks as $tabLink ) {
 			$ret .= $tabLink;
 		}
-		$ret .= '</ul><div class="'.$tabType.'-content">'.$pContent.'</div>';
+		$ret .= '</ul><div class="tab-content">'.$pContent.'</div>';
 		$ret .= '<script type="text/javascript">/*<![CDATA[*/ $(\'#'.$tabId.' a\').click(function (e) { e.preventDefault(); $(this).tab(\'show\'); }); '.$setupJs .'/*]]>*/</script> ';
 
 
