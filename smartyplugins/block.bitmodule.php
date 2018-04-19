@@ -33,14 +33,6 @@ function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
 		$pParams['data'] = $pContent;
 	}
 
-	if( empty( $pParams['title'] )) {
-		$pParams['title'] = substr( $pContent, 0, 12 )."&hellip;";
-	}
-
-//	if( empty( $pParams['name'] )) {
-//		$pParams['name'] = preg_replace( "/[^-_a-zA-Z0-9]/", "", $pParams['title'] );
-//	}
-
 	$pParams['name'] = preg_replace( "/[^a-zA-Z0-9\\-\\_]/", "", $pParams['name'] );
 	$gBitSmarty->assign( 'modInfo', $pParams );
 	return $gBitSmarty->fetch('bitpackage:themes/module.tpl');
