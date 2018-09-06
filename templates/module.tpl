@@ -15,7 +15,7 @@
 	{assign var=area value=$moduleArea}
 {/if}
 
-<div class="panel panel-default module{if !empty($modInfo.class)} {$modInfo.class}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
+<{$moduleTag} class="panel panel-default module{if !empty($modInfo.class)} {$modInfo.class}{/if} {$modInfo.name|replace:'_':'-'}" {if !empty($area)}id="{$area}{$moduleParams.pos}"{/if}>
 	{if empty($modInfo.notitle)}
 		<div class="panel-heading">
 			{if $gBitSystem->isFeatureActive( 'themes_module_controls' )}
@@ -40,5 +40,5 @@
 	<div class="panel-body"{if $gBitSystem->isFeatureActive( 'themes_collapsible_modules' )} style="display:{$moduleParams.toggle_state|default:block};" id="module{$area}{$moduleParams.pos}"{/if}>
 		{$modInfo.data}
 	</div>
-</div>
+</{$moduleTag}>
 {/strip}

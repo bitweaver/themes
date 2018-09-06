@@ -27,6 +27,8 @@ I fixed that error case. -- mose
  
  */
 function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
+	$moduleTag = !empty( $pParams['tag'] ) ? $pParams['tag'] : 'div';
+	$gBitSmarty->assign( 'moduleTag', $moduleTag );
 	if( empty( $pContent )) {
 		return '';
 	} else {
