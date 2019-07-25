@@ -31,7 +31,7 @@ function smarty_function_jspopup( $pParams, &$gBitSmarty ) {
 	}
 
 	if( empty( $pParams['title'] ) ) {
-		return( 'assign: missing "title" parameter' );
+		$title = basename( $pParams['href'] );
 	} else {
 		$title = empty( $pParams['notra'] ) ? $pParams['title'] : tra( $pParams['title'] );
 	}
