@@ -15,7 +15,7 @@ function smarty_function_required( $pParams, &$gBitSmarty ) {
 		'iname'    => 'emblem-important',
 		'iexplain' => 'Required',
 	);
-	$ret = smarty_function_biticon( $biticon, $gBitSmarty );
+	$ret = smarty_function_biticon( $biticon );
 
 	if( !empty( $pParams['legend'] )) {
 		$ret = "<p>$ret ".tra( "Elements marked with this symbol are required." )."</p>";

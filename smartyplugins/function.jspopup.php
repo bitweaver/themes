@@ -13,11 +13,11 @@
  * smarty_function_jspopup 
  * 
  * @param array $pParams hash of options 
- * @param srting $pParams[href] link the popup should open
- * @param srting $pParams[title] title of the link
- * @param srting $pParams[img] source of an image that is to be displayed instead of the title
- * @param srting $pParams[href]
- * @param srting $pParams[href]
+ * @param string $pParams[href] link the popup should open
+ * @param string $pParams[title] title of the link
+ * @param string $pParams[img] source of an image that is to be displayed instead of the title
+ * @param string $pParams[href]
+ * @param string $pParams[href]
  * @param array $gBitSmarty 
  * @access public
  * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
@@ -71,7 +71,7 @@ function smarty_function_jspopup( $pParams, &$gBitSmarty ) {
 		if( !empty( $pParams['iforce'] ) ) {
 			$ibiticon['iforce'] = $pParams['iforce'];
 		}
-		$img = smarty_function_biticon( $ibiticon, $gBitSmarty );
+		$img = smarty_function_biticon( $ibiticon );
 	}
 
 	if( !empty( $pParams['img'] )) {

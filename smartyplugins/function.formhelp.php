@@ -150,8 +150,8 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 					);
 
 					$html .= ' <span class="formhelppopup" '.$atts.'>&nbsp;';
-					$html .= '<a '.smarty_function_popup( $popup, $gBitSmarty ).'>';
-					$html .= smarty_function_biticon( $biticon, $gBitSmarty );
+					$html .= '<a '.smarty_function_popup( $popup ).'>';
+					$html .= smarty_function_biticon( $biticon );
 					$html .= '</a>';
 					$html .= '</span>';
 				} else {

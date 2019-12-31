@@ -56,7 +56,7 @@ function biticon_output( $pParams, $pFile ) {
 	if( isset( $pParams["url"] )) {
 		$outstr = $pFile;
 	} else {
-		if(( $gBitSystem->getConfig( 'site_biticon_display_style' ) == 'text' || $pParams['iforce'] == 'text' ) && $pParams['iforce'] != 'icon' ) {
+		if( (empty( $pFile ) || $gBitSystem->getConfig( 'site_biticon_display_style' ) == 'text' || $pParams['iforce'] == 'text') && $pParams['iforce'] != 'icon' ) {
 			$outstr =  $iexplain;
 		} else {
 			$outstr='<img src="'.$pFile.'"';
@@ -106,11 +106,11 @@ function biticon_output( $pParams, $pFile ) {
  * @param array $pParams['ipath'] subdirectory within icon directory
  * @param array $pParams['iname'] name of the icon without extension
  * @param array $pParams['ipackage'] package the icon should be searched for - if it's part of an icon theme, this should be set to 'icons'
- * @param array $gBitSmarty Referenced object
+ * @param array $pCheckSmall look for a small render of the image
  * @access public
  * @return final <img>
  */
-function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE ) {
+function smarty_function_biticon( $pParams, $pCheckSmall = FALSE ) {
 	global $gBitSystem, $gBitThemes, $gSniffer;
 
 	// this is needed in case everything goes horribly wrong
@@ -224,11 +224,11 @@ function smarty_function_biticon( $pParams, &$gBitSmarty, $pCheckSmall = FALSE )
 	if( isset( $pParams['url'] )) {
 		return FALSE;
 	} else {
-		// if we were looking for the large icon, we'll try the whole kaboodle again, looking for the small icon
 		if( empty( $small ) && !$pCheckSmall ) {
-			return smarty_function_biticon( $copyParams, $gBitSmarty, TRUE );
+			// if we were looking for the large icon, we'll try the whole kaboodle again, looking for the small icon
+			return smarty_function_biticon( $copyParams, TRUE );
 		} else {
-			return biticon_output( $pParams, "broken.icon.".$pParams['ipackage']."/".$pParams['ipath'].$pParams['iname'] );
+			return biticon_output( $pParams, NULL );
 		}
 	}
 }
@@ -294,4 +294,3 @@ function biticon_get_cache_file( $pParams ) {
 	// return path to cache file
 	return $gBitThemes->getIconCachePath().md5( $hashstring.$gBitSystem->getConfig( 'site_biticon_display_style', 'icon' ));
 }
-?>

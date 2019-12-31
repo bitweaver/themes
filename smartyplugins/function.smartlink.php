@@ -46,7 +46,7 @@
  *				and it is highlighted when $isort_mode ( or $_REQUEST['sort_mode'] ) is not set (idefault)<br>
  * Note Be careful if ititle is generated dynamically since it is passed through tra() by default, use itra to override<br>
  */
-function smarty_function_smartlink( $params, &$gBitSmarty ) {
+function smarty_function_smartlink( $params ) {
 	global $gBitSystem;
 	if( !empty( $params['ihash'] ) ) {
 		$hash = array_merge( $params['ihash'], $params );
@@ -179,7 +179,7 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 			if( !empty( $hash['iforce'] ) ) {
 				$booticon['iforce'] = $hash['iforce'];
 			}
-			$ret .= smarty_function_booticon( $booticon, $gBitSmarty );
+			$ret .= smarty_function_booticon( $booticon );
 		} elseif( isset( $hash['ibiticon'] ) ) {
 			$tmp = explode( '/', $hash['ibiticon'] );
 			if( !empty( $tmp[2] )) {
@@ -193,13 +193,13 @@ function smarty_function_smartlink( $params, &$gBitSmarty ) {
 			if( !empty( $hash['iforce'] ) ) {
 				$ibiticon['iforce'] = $hash['iforce'];
 			}
-			$ret .= smarty_function_biticon( $ibiticon, $gBitSmarty );
+			$ret .= smarty_function_biticon( $ibiticon );
 		} else {
 			$ret .= $ititle;
 		}
 
 		if( isset( $sorticon ) ) {
-			$ret .= '&nbsp;'.smarty_function_booticon( $sorticon, $gBitSmarty );
+			$ret .= '&nbsp;'.smarty_function_booticon( $sorticon );
 		}
 		$ret .= '</a>';
 	}
