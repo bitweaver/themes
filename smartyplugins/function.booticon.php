@@ -17,58 +17,54 @@
  * @access public
  * @return Full <img> on success
  */
-function smarty_function_booticon( $pParams, $pFile ) {
+function smarty_function_booticon( $pParams ) {
 	global $gBitSystem;
 
 	if( empty( $pParams['iforce'] )) {
 		$pParams['iforce'] = NULL;
 	}
 
-	if( isset( $pParams["url"] )) {
-		$outstr .= $pFile;
-	} else {
-		$outstr = '';
-		if( isset( $pParams['href'] ) ) {
-			$outstr .= '<a href="'.$pParams['href'].'" class="icon"';
-			if( isset( $pParams['iexplain'] ) ) {
-				$outstr .= ' title="'.htmlentities( $pParams['iexplain'] ).'"';
-			}
-			$outstr .= '>';
-		}
-
-		$outstr .= '<span class="'.$pParams['iname'];
-		if( isset( $pParams["iclass"] ) ) {
-			$outstr .=  ' '.$pParams["iclass"].'';
-		}
-		if( isset( $pParams["class"] ) ) {
-			$outstr .=  ' '.$pParams["class"].'';
-		}
-		$outstr .= '"';
-
-		if( isset( $pParams["id"] ) ) {
-			$outstr .=  ' id="'.$pParams['id'].'"';
-		}
-
+	$outstr = '';
+	if( isset( $pParams['href'] ) ) {
+		$outstr .= '<a href="'.$pParams['href'].'" class="icon"';
 		if( isset( $pParams['iexplain'] ) ) {
 			$outstr .= ' title="'.htmlentities( $pParams['iexplain'] ).'"';
 		}
+		$outstr .= '>';
+	}
 
-		foreach( array_keys( $pParams ) as $key ) {
-			if( strpos( $key, 'on' ) === 0 ) {
-				$outstr .=  ' '.$key.'="'.$pParams[$key].'"';
-			}
-		}
+	$outstr .= '<span class="'.$pParams['iname'];
+	if( isset( $pParams["iclass"] ) ) {
+		$outstr .=  ' '.$pParams["iclass"].'';
+	}
+	if( isset( $pParams["class"] ) ) {
+		$outstr .=  ' '.$pParams["class"].'';
+	}
+	$outstr .= '"';
 
-		$outstr .= '></span>';
+	if( isset( $pParams["id"] ) ) {
+		$outstr .=  ' id="'.$pParams['id'].'"';
+	}
 
-		if( !empty( $pParams['ilocation'] ) ) {
-			if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {
-				$outstr .= ' '.$pParams['iexplain'];
-			}
+	if( isset( $pParams['iexplain'] ) ) {
+		$outstr .= ' title="'.htmlentities( $pParams['iexplain'] ).'"';
+	}
+
+	foreach( array_keys( $pParams ) as $key ) {
+		if( strpos( $key, 'on' ) === 0 ) {
+			$outstr .=  ' '.$key.'="'.$pParams[$key].'"';
 		}
-		if( isset( $pParams["href"] ) ) {
-			$outstr .= '</a>';
+	}
+
+	$outstr .= '></span>';
+
+	if( !empty( $pParams['ilocation'] ) ) {
+		if( $pParams['ilocation'] == 'menu' && isset( $pParams['iexplain'] ) ) {
+			$outstr .= ' '.$pParams['iexplain'];
 		}
+	}
+	if( isset( $pParams["href"] ) ) {
+		$outstr .= '</a>';
 	}
 
 	return $outstr;
