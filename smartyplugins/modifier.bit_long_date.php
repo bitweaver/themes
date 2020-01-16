@@ -16,6 +16,6 @@ $gBitSmarty->loadPlugin( 'smarty_modifier_bit_date_format' );
  */
 function smarty_modifier_bit_long_date( $pString ) {
 	global $gBitSystem;
-	return smarty_modifier_bit_date_format( $pString, $gBitSystem->get_long_date_format(), '%A %d of %B, %Y' );
+	return smarty_modifier_bit_date_format( $pString, $gBitSystem->get_long_date_format(), '%A, %B %d, %Y' );
 }
 ?>
