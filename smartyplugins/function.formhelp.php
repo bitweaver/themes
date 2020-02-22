@@ -26,7 +26,7 @@
  *									only dispalyed if help is enabled
  *			- force		(optional)	if set, it will always dipslay this entry regardless of the feature settings
  */
-function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
+function smarty_function_formhelp( $pParams, &$pSmarty=NULL ) {
 	$atts = $ret_note = $ret_page = $ret_link = $ret_install = '';
 
 	if( !empty( $pParams['hash'] ) ) {
@@ -124,6 +124,7 @@ function smarty_function_formhelp( $pParams, &$gBitSmarty ) {
 			// using the overlib popup system
 			if( !empty( $content ) ) {
 				if( $gBitSystem->isFeatureActive('site_help_popup') ) {
+					global $gBitSmarty;
 					$gBitSmarty->loadPlugin( 'smarty_modifier_popup' );
 					$gBitSmarty->loadPlugin( 'smarty_function_biticon' );
 

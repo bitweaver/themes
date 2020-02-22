@@ -8,7 +8,8 @@
 /**
  * smarty_function_required
  */
-function smarty_function_required( $pParams, &$gBitSmarty ) {
+function smarty_function_required( $pParams, &$pSmarty=NULL ) {
+	global $gBitSmarty;
 	$gBitSmarty->loadPlugin( 'smarty_function_biticon' );
 	$biticon = array(
 		'ipackage' => 'icons',

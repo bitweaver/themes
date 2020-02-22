@@ -46,14 +46,14 @@
  *				and it is highlighted when $isort_mode ( or $_REQUEST['sort_mode'] ) is not set (idefault)<br>
  * Note Be careful if ititle is generated dynamically since it is passed through tra() by default, use itra to override<br>
  */
-function smarty_function_smartlink( $params ) {
+function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 	global $gBitSystem;
-	if( !empty( $params['ihash'] ) ) {
-		$hash = array_merge( $params['ihash'], $params );
+	if( !empty( $pParams['ihash'] ) ) {
+		$hash = array_merge( $pParams['ihash'], $pParams );
 		$hash['ihash'] = NULL;
 	} else {
 		// maybe params were passed in separately
-		$hash = &$params;
+		$hash = &$pParams;
 	}
 
 	if( !isset( $hash['ititle'] ) ) {
@@ -165,7 +165,7 @@ function smarty_function_smartlink( $params ) {
 	if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
 		$ret = $url.$url_params;
 	} else {
-		$ret = '<a class="icon" '.$atitle.' '.( !empty( $params['ionclick'] ) ? 'onclick="'.$params['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $params['ianchor'] ) ? '#'.$params['ianchor'] : '' ).'">';
+		$ret = '<a class="icon" '.$atitle.' '.( !empty( $pParams['ionclick'] ) ? 'onclick="'.$pParams['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $pParams['ianchor'] ) ? '#'.$pParams['ianchor'] : '' ).'">';
 
 		// if we want to display an icon instead of text, do that
 		if( isset( $hash['booticon'] ) ) {
@@ -203,7 +203,7 @@ function smarty_function_smartlink( $params ) {
 		}
 		$ret .= '</a>';
 	}
-	if( isset( $params['itype'] ) && $params['itype'] == 'li' ) {
+	if( isset( $pParams['itype'] ) && $pParams['itype'] == 'li' ) {
 		$ret = '<li>'.$ret.'</li>';
 	}
 	return $ret;

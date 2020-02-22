@@ -110,7 +110,7 @@ function biticon_output( $pParams, $pFile ) {
  * @access public
  * @return final <img>
  */
-function smarty_function_biticon( $pParams, $pCheckSmall = FALSE ) {
+function smarty_function_biticon( $pParams, &$pSmarty=NULL ) {
 	global $gBitSystem, $gBitThemes, $gSniffer;
 
 	// this is needed in case everything goes horribly wrong
@@ -150,11 +150,6 @@ function smarty_function_biticon( $pParams, $pCheckSmall = FALSE ) {
 				$pParams['ipath'] .= $gBitSystem->getConfig( 'site_icon_size', 'small' ).'/';
 			}
 		}
-	}
-
-	// this only happens when we haven't found the original icon we've been looking for
-	if( $pCheckSmall ) {
-		$pParams['ipath'] = preg_replace( "!/.*?/$!", "/small/", $pParams['ipath'] );
 	}
 
 	// we have one special case: pkg_icons don't have a size variant
@@ -224,8 +219,9 @@ function smarty_function_biticon( $pParams, $pCheckSmall = FALSE ) {
 	if( isset( $pParams['url'] )) {
 		return FALSE;
 	} else {
-		if( empty( $small ) && !$pCheckSmall ) {
+		if( empty( $small ) ) {
 			// if we were looking for the large icon, we'll try the whole kaboodle again, looking for the small icon
+			$copyParams['ipath'] = preg_replace( "!/.*?/$!", "/small/", $copyParams['ipath'] );
 			return smarty_function_biticon( $copyParams, TRUE );
 		} else {
 			return biticon_output( $pParams, NULL );
