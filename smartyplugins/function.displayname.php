@@ -50,7 +50,7 @@ function smarty_function_displayname( $pParams, &$gBitSmarty ) {
 	}
 
 	if( !empty( $hash ) ) {
-		$displayName = BitUser::getDisplayNameFromHash( empty( $pParams['nolink'] ), $hash );
+		$displayName = BitUser::getDisplayNameFromHash( $hash, empty( $pParams['nolink'] ) );
 	} else {
 		// Now we're really in trouble. We don't even have a user_id to work with
 		$displayName = "Unknown";
