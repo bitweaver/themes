@@ -33,7 +33,10 @@ function smarty_function_booticon( $pParams ) {
 		$outstr .= '>';
 	}
 
-	$outstr .= '<span class="'.$pParams['iname'];
+	$outstr .= '<span class="';
+	if( isset( $pParams["iname"] ) ) {
+		$outstr .= $pParams['iname'];
+	}
 	if( isset( $pParams["iclass"] ) ) {
 		$outstr .=  ' '.$pParams["iclass"].'';
 	}
