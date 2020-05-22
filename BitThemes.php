@@ -559,13 +559,13 @@ class BitThemes extends BitSingleton {
 								// assign the custom module title
 								$ret .= $gBitSmarty->fetch( $r['module_rsrc'] );
 
-								if( !empty( $r["cache_time"] ) ) {
+								if( !empty( $r["cache_time"] ) && !empty( $data ) ) {
 									// write to chache file
 									$fp = fopen( $cachefile, "w+" );
 									fwrite( $fp, $data, strlen( $data ));
 									fclose( $fp );
-								}
 								$r["data"] = $data;
+								}
 							}
 							unset( $moduleParams );
 						}
