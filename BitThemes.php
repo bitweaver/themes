@@ -462,7 +462,7 @@ class BitThemes extends BitSingleton {
 	}
 
 	function hasColumnModules( $pColumn ) {
-		return count( $this->mLayout[$pColumn] );
+		return !empty( $this->mLayout[$pColumn] );
 	}
 
 	function displayLayoutColumn( $pColumn ) {
