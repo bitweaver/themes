@@ -1,4 +1,5 @@
 <?php
+/*** Handle jQuery plugin naming conflict between jQuery UI and Bootstrap ***/
 /**
  * Smarty {pagination} function plugin
  * @package Smarty
@@ -28,6 +29,7 @@ function smarty_function_pagination( $params, &$gBitSmarty ) {
     $gBitSmarty->assign( 'pgnUrl', $pgnUrl );
 
 	$pgnVars = '';
+	$pgnHidden = array();
 	foreach( $params as $form_param => $form_val ) {
 		$pgnVars .= "&amp;".$form_param."=".$form_val;
 		$pgnHidden[$form_param] = $form_val;
