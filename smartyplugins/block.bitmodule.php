@@ -35,7 +35,9 @@ function smarty_block_bitmodule( $pParams, $pContent, &$gBitSmarty) {
 		$pParams['data'] = $pContent;
 	}
 
-	$pParams['name'] = preg_replace( "/[^a-zA-Z0-9\\-\\_]/", "", $pParams['name'] );
+	if( !empty( $pParams['name'] ) ) {
+		$pParams['name'] = preg_replace( "/[^a-zA-Z0-9\\-\\_]/", "", $pParams['name'] );
+	}
 	$gBitSmarty->assign( 'modInfo', $pParams );
 	return $gBitSmarty->fetch('bitpackage:themes/module.tpl');
 }
