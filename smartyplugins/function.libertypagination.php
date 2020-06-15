@@ -48,7 +48,7 @@ function smarty_function_libertypagination($params, &$gBitSmarty) {
 	$pgnVars .= ( !empty( $params['ianchor'] ) ? '#'.$params['ianchor'] : '' );
     for( $pageCount = 1; $pageCount < $params['numPages']+1; $pageCount++ ) {
 		if( $pageCount != $params[$pgnName] ) {
-			if( $params['ajaxId'] ) {
+			if( !empty( $params['ajaxId'] ) ) {
 				$pages[] = '<a href="javascript:void(0);" onclick="BitAjax.updater(\''.$params['ajaxId']."','".$_SERVER['REQUEST_URI']."','".$pgnName.'='.$pageCount.$pgnVars.'\')'.'">'.( $pageCount ).'</a>';
 			} else {
 				$pages[] = '<a href="'.$_SERVER['SCRIPT_URL'].'?'.$pgnName.'='.$pageCount.$pgnVars.'">'.( $pageCount ).'</a>';
