@@ -1478,10 +1478,6 @@ class BitThemes extends BitSingleton {
 						$pLibPath = UTIL_PKG_PATH."javascript/MochiKit/";
 						$pos = 100;
 						break;
-					case 'yui':
-						$pLibPath = UTIL_PKG_PATH."javascript/yui/";
-						$pos = 100;
-						break;
 					case 'jquerylocal':
 						$pLibPath = UTIL_PKG_PATH."javascript/jquery/";
 						$pos = 100;
@@ -1504,8 +1500,9 @@ class BitThemes extends BitSingleton {
 						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.12.1' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'smoothness' );
 						$jquerySrc = '//ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
+						$jqueryUiSrc = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
 						$this->mRawFiles['js'][] = $jquerySrc;
-						$this->mRawFiles['js'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
+						$this->mRawFiles['js'][] = $jqueryUiSrc;
 						$this->mRawFiles['css'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.min.css';
 						// bootstrap needs to load after jquery
 						if( file_exists( $bootstrapSrc ) ) {
@@ -1516,14 +1513,15 @@ class BitThemes extends BitSingleton {
 						break;
 					case 'jquerylocal':
 						$joined = FALSE;
-						$this->loadJavascript( THEMES_PKG_PATH.'js/jquery'.$jqueryMin.'.js', FALSE, $pos++, $joined );
-						$this->loadJavascript( THEMES_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+//						$jquerySrc = THEMES_PKG_PATH.'js/jquery'.$jqueryMin.'.js';
+//						$jqueryUiSrc = THEMES_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js';
+						$jquerySrc = UTIL_PKG_PATH.'javascript/jquery/jquery'.$jqueryMin.'.js';
+						$jqueryUiSrc = UTIL_PKG_PATH.'javascript/jquery/jquery-ui'.$jqueryMin.'.js';
+						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined );
+						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined );
 						$this->loadJavascript( THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
 						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap.css', FALSE, $pos++, $joined );
 						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap-icons.css', FALSE, $pos++, $joined );
-						break;
-					case 'yui':
-						$this->loadJavascript( $pLibPath.'yuiloader-dom-event/yuiloader-dom-event.js', FALSE, $pos++ );
 						break;
 				}
 				$this->mAjaxLibs[$ajaxLib] = TRUE;
