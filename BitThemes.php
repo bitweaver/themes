@@ -1519,7 +1519,7 @@ class BitThemes extends BitSingleton {
 						$jqueryUiSrc = UTIL_PKG_PATH.'javascript/jquery/jquery-ui'.$jqueryMin.'.js';
 						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined );
 						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined );
-						$this->loadJavascript( THEMES_PKG_PATH.'bootstrap/js/bootstrap'.$jqueryMin.'.js', FALSE, $pos++, $joined );
+						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined );
 						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap.css', FALSE, $pos++, $joined );
 						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap-icons.css', FALSE, $pos++, $joined );
 						break;
