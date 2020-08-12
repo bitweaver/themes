@@ -5,8 +5,16 @@
  * @subpackage plugins
  */
 
-require_once( USERS_PKG_PATH.'includes/recaptchalib.php' );
-require_once( USERS_PKG_PATH.'includes/solvemedialib.php' );
+global $gBitSystem;
+
+if( $gBitSystem->isFeatureActive('users_register_recaptcha') ) {
+	require_once UTIL_PKG_PATH.'includes/recaptcha/autoload.php';
+	$recaptcha = new \ReCaptcha\ReCaptcha( $gBitSystem->getConfig( 'users_register_recaptcha_private_key' ) );
+}
+
+if( $gBitSystem->isFeatureActive('users_register_smcaptcha') ) {
+	require_once( USERS_PKG_PATH.'includes/solvemedialib.php' );
+}
 
 /**
  * smarty_function_captcha
