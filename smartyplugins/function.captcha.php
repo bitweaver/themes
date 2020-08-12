@@ -28,7 +28,7 @@ function smarty_function_captcha( $pParams, &$gBitSmarty ) {
 			$gBitSmarty->assign( 'errors', $pParams['errors'] );
 		}
 		if( $gBitSystem->isFeatureActive( 'liberty_use_captcha_freecap' ) ) {
-			$pParams['source'] = UTIL_PKG_URL."freecap/freecap.php";
+			$pParams['source'] = UTIL_PKG_URL."includes/freecap/freecap.php";
 		} else {
 			$getString = 'size='.$pParams['size'];
 			if( @BitBase::verifyId( $pParams['width'] ) ) {
@@ -40,7 +40,7 @@ function smarty_function_captcha( $pParams, &$gBitSmarty ) {
 			$pParams['source'] = USERS_PKG_URL."captcha_image.php?$getString";
 		}
 		$gBitSmarty->assign( 'params', $pParams );
-		print $gBitSmarty->fetch( "bitpackage:kernel/captcha.tpl" );
+		print $gBitSmarty->fetch( "bitpackage:themes/captcha.tpl" );
 	}
 }
 ?>
