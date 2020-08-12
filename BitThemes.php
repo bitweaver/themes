@@ -1899,6 +1899,9 @@ class BitThemes extends BitSingleton {
 					}
 				} else if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
 					$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
+					if( file_exists( $file ) && ($cacheTime = filemtime( $file )) ) {
+						$this->mRawFiles[$pType][$pos] .= (strpos('?',$file) ? '&' : '?' ).$cacheTime;
+					}
 				}
 			}
 		}
