@@ -110,7 +110,7 @@ function biticon_output( $pParams, $pFile ) {
  * @access public
  * @return final <img>
  */
-function smarty_function_biticon( $pParams, &$pSmarty=NULL ) {
+function smarty_function_biticon( $pParams, $pSmall=NULL ) {
 	global $gBitSystem, $gBitThemes, $gSniffer;
 
 	// this is needed in case everything goes horribly wrong
@@ -219,7 +219,7 @@ function smarty_function_biticon( $pParams, &$pSmarty=NULL ) {
 	if( isset( $pParams['url'] )) {
 		return FALSE;
 	} else {
-		if( empty( $small ) ) {
+		if( empty( $pSmall ) ) {
 			// if we were looking for the large icon, we'll try the whole kaboodle again, looking for the small icon
 			$copyParams['ipath'] = preg_replace( "!/.*?/$!", "/small/", $copyParams['ipath'] );
 			return smarty_function_biticon( $copyParams, TRUE );
