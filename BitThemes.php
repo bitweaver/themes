@@ -1520,8 +1520,6 @@ class BitThemes extends BitSingleton {
 						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined );
 						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined );
 						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined );
-						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap.css', FALSE, $pos++, $joined );
-						$this->loadCss( THEMES_PKG_PATH.'bootstrap/colourstrap/colourstrap-icons.css', FALSE, $pos++, $joined );
 						break;
 				}
 				$this->mAjaxLibs[$ajaxLib] = TRUE;
