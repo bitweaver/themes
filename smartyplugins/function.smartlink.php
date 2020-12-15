@@ -91,7 +91,7 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 
 	// if isort is set, we need to deal with all the sorting stuff
 	if( !empty( $hash['isort'] ) ) {
-		$isort_mode = isset( $hash['isort_mode'] ) ? $hash['isort_mode'] : isset( $_REQUEST['sort_mode'] ) ? $_REQUEST['sort_mode'] : NULL ;
+		$isort_mode = isset( $hash['isort_mode'] ) ? $hash['isort_mode'] : (isset( $_REQUEST['sort_mode'] ) ? $_REQUEST['sort_mode'] : NULL);
 		$sort_asc = $hash['isort'].'_asc';
 		$sort_desc = $hash['isort'].'_desc';
 
