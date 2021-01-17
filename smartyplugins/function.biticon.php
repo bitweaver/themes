@@ -128,7 +128,7 @@ function smarty_function_biticon( $pParams, $pSmall=NULL ) {
 		$pParams['iname'] = $pParams['ipath'].$pParams['iname'];
 		$boom = explode( '/', $pParams['iname'] );
 		$pParams['iname'] = array_pop( $boom );
-		$pParams['ipath'] = str_replace( "//", "/", "/".implode( $boom, '/' )."/" );
+		$pParams['ipath'] = str_replace( "//", "/", "/".implode( '/', $boom )."/" );
 	}
 
 	// if we don't have an ipath yet, we will set it here
