@@ -46,6 +46,7 @@ function smarty_function_jspopup( $pParams, &$pSmarty=NULL ) {
 
 
 	$optionHash = array( 'type', 'width', 'height', 'gutsonly', 'img' );
+	$guts = '';
 	foreach( $pParams as $param => $val ) {
 		if( !in_array( $param, $optionHash ) ) {
 			if( $param == 'title' ) {
