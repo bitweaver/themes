@@ -65,7 +65,9 @@ function smarty_function_libertypagination($params, &$gBitSmarty) {
 		$gBitSmarty->assign( 'pgnHidden', $pgnHidden );
 	    $gBitSmarty->assign( 'pgnPages', $pages );
 	    $gBitSmarty->assign( 'numPages', $params['numPages'] );
-	    $gBitSmarty->assign( 'ajaxId', $params['ajaxId'] );
+		if( !empty( $params['ajaxId'] ) ) {
+		    $gBitSmarty->assign( 'ajaxId', $params['ajaxId'] );
+		}
 	    $gBitSmarty->display( 'bitpackage:liberty/libertypagination.tpl' );
 	}
 }
