@@ -69,7 +69,8 @@ function smarty_function_include_wiki_page_content($params, &$gBitSmarty)
 		$transclusion_bitpage->mPageId = $transclusion_page_id;
 		if($transclusion_bitpage->load()) {
 			$transclusion_full_page_data = $transclusion_bitpage->mInfo['data'];
-			$transclusion_parsed = $transclusion_bitpage->parseData($transclusion_full_page_data, ( isset( $transclusion_bitpage->mInfo['format_guid'] ) ?  $transclusion_bitpage->mInfo['format_guid'] : 'tikiwiki' ) ) ;
+			$transclusion_full_page_data['format'] = (isset( $transclusion_bitpage->mInfo['format_guid'] ) ?  $transclusion_bitpage->mInfo['format_guid'] : 'tikiwiki');
+			$transclusion_parsed = LibertyComment::parseDataHash( $transclusion_full_page_data ) ;
 		}
 	}
 
