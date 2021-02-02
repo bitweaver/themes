@@ -9,7 +9,7 @@
  * Setup
  */
 require_once( '../kernel/setup_inc.php' );
-include_once( KERNEL_PKG_PATH.'BitBase.php' );
+include_once( KERNEL_PKG_CLASS_PATH.'BitBase.php' );
 
 if (isset($_SERVER['HTTP_REFERER'])) {
 	$orig_url = $_SERVER['HTTP_REFERER'];
