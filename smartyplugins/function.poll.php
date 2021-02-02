@@ -19,7 +19,7 @@ function smarty_function_poll($params, &$gBitSmarty) {
     extract($params);
     // Param = zone
 	include_once( POLLS_PKG_PATH.'poll_lib.php' );
-	include_once( LIBERTY_PKG_PATH.'LibertyComment.php' );
+	include_once( LIBERTY_PKG_CLASS_PATH.'LibertyComment.php' );
 
     if (empty($id)) {
       $id = $polllib->get_random_active_poll();

@@ -18,7 +18,7 @@
  * @param Smarty
  * @return string
  */
-require_once(LIBERTY_PKG_PATH."LibertyContent.php");
+require_once(LIBERTY_PKG_CLASS_PATH.'LibertyContent.php');
 
 function smarty_function_popup($params, &$gBitSmarty) {
 	$append = '';

@@ -6,7 +6,7 @@
 /**
  * Set-up
  */
-require_once( KERNEL_PKG_PATH.'BitCache.php' );
+require_once( KERNEL_PKG_CLASS_PATH.'BitCache.php' );
 /**
  * BitThemes
  *
@@ -1646,7 +1646,7 @@ class BitThemes extends BitSingleton {
 						$packer = new JavaScriptPacker( file_get_contents( $pJavascriptFile ) );
 						$this->mThemeCache->writeCacheFile( $cachefile, $packer->pack() );
 						*/
-						$cacheData = shell_exec( 'java -jar '.UTIL_PKG_INC.'yui/yuicompressor-2.4.2.jar --type js '.$pJavascriptFile );
+						$cacheData = shell_exec( 'java -jar '.UTIL_PKG_INCLUDE_PATH.'yui/yuicompressor-2.4.2.jar --type js '.$pJavascriptFile );
 						$this->mThemeCache->writeCacheFile( $cachefile, $cacheData );
 					}
 

@@ -19,7 +19,7 @@ $gLibertySystem->registerService(
 	array( 'description' => 'Applied when user themes are enabled; See theme pkg administration to enable.' )
 );
 
-require_once( THEMES_PKG_PATH."BitThemes.php" );
+require_once( THEMES_PKG_CLASS_PATH.'BitThemes.php' );
 
 BitThemes::loadSingleton();
 global $gBitThemes, $gBitSmarty;

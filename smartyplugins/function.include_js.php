@@ -40,7 +40,7 @@ function smarty_function_include_js( $params,&$gBitSmarty ) {
 			// if the file hasn't been packed and cached yet, we do that now.
 			if( !$BitCache->isCached( $cachefile, filemtime( $file ))) {
 				// pack and cache it
-				$cachedata = shell_exec( 'java -jar '.UTIL_PKG_INC.'yui/yuicompressor-2.4.2.jar --type js '.$file );
+				$cachedata = shell_exec( 'java -jar '.UTIL_PKG_INCLUDE_PATH.'yui/yuicompressor-2.4.2.jar --type js '.$file );
 				$BitCache->writeCacheFile( $cachefile, $cachedata );
 			}
 
