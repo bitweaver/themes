@@ -282,16 +282,6 @@ class BitThemes extends BitSingleton {
 			closedir( $h );
 		}
 
-		if( $bIncludeCustom && $gBitSystem->getConfig( 'themes_edit_css' )) {
-			// Include the users custom css if they have created one
-			$customCSSPath = $gBitUser->getStoragePath( NULL,$gBitUser->mUserId );
-			$customCSSFile = $customCSSPath.'custom.css';
-
-			if (file_exists($customCSSFile)) {
-				$ret[] = 'custom';
-			}
-		}
-
 		if( count( $ret )) {
 			sort( $ret );
 		}
@@ -2307,7 +2297,7 @@ function themes_content_display( $pContent ) {
 		$gBitThemes->setStyle( $theme );
 		if( !is_object( $gQueryUser ) ) {
 			$userClass = $gBitSystem->getConfig( 'user_class', 'BitPermUser' );
-			require_once( USERS_PKG_PATH.'includes/' . $userClass .'.php' );
+			require_once( USERS_PKG_PATH.'includes/classes/' . $userClass .'.php' );
 			$gQueryUser = new $userClass( $pContent->getField( 'user_id' ) );
 			$gQueryUser->load();
 			$gBitSmarty->assignByRef( 'gQueryUser', $gQueryUser );
