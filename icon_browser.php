@@ -13,7 +13,7 @@
 /**
  * Setup
  */
-require_once( "../kernel/setup_inc.php" );
+require_once( "../kernel/includes/setup_inc.php" );
 
 if( !$gBitUser->isRegistered() ) {
 	$gBitSystem->fatalError( "You need to be registered to view this page." );

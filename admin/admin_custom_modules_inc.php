@@ -1,7 +1,7 @@
 <?php
 // $Header$
 
-require_once( '../../kernel/setup_inc.php' );
+require_once( '../../kernel/includes/setup_inc.php' );
 $feedback = array();
 
 if( !empty( $_REQUEST['name'] )) {
