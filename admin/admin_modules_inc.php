@@ -1,7 +1,7 @@
 <?php
 // $Header$
 
-require_once( '../../kernel/setup_inc.php' );
+require_once( '../../kernel/includes/setup_inc.php' );
 
 $formModuleFeatures = array(
 //	'site_collapsible_modules' => array(

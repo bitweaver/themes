@@ -12,7 +12,7 @@
 /**
  * Setup
  */
-include_once( '../kernel/setup_inc.php' );
+include_once( '../kernel/includes/setup_inc.php' );
 include_once( THEMES_PKG_PATH.'css_lib.php' );
 
 /************************************
