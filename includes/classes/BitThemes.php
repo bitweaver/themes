@@ -1142,7 +1142,7 @@ class BitThemes extends BitSingleton {
 		if( is_array( $p2DHash )) {
 			// Generate human friendly names
 			foreach( array_keys( $p2DHash ) as $col ) {
-				if( count( $p2DHash[$col] )) {
+				if( is_array( $p2DHash[$col] ) && count( $p2DHash[$col] )) {
 					foreach( array_keys( $p2DHash["$col"] ) as $mod ) {
 						list( $rsrc, $specifier ) = explode( ':', $p2DHash[$col][$mod]['module_rsrc'], 2 );
 						$specelems = explode( '/', $specifier );
