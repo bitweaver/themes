@@ -59,22 +59,16 @@
 
 function smarty_function_include_wiki_page_content($params, &$gBitSmarty)
 {
-	global $debugger;
+	$parsed = '';
 	//
-	$pageName = !empty( $params['page'] ) ? $params['page'] : (!empty( $params['page_default'] ) ? $params['page_default'] : NULL );
-	$transclusion_parsed = '';
-	include_once( WIKI_PKG_PATH.'BitPage.php' );
-	$transclusion_bitpage = new BitPage();
-	if( $transclusion_page_id = $transclusion_bitpage->findByPageName($pageName) ) {
-		$transclusion_bitpage->mPageId = $transclusion_page_id;
-		if($transclusion_bitpage->load()) {
-			$transclusion_full_page_data = $transclusion_bitpage->mInfo['data'];
-			$transclusion_full_page_data['format'] = (isset( $transclusion_bitpage->mInfo['format_guid'] ) ?  $transclusion_bitpage->mInfo['format_guid'] : 'tikiwiki');
-			$transclusion_parsed = LibertyComment::parseDataHash( $transclusion_full_page_data ) ;
+	if( ($pageName = !empty( $params['page'] ) ? $params['page'] : (!empty( $params['page_default'] ) ? $params['page_default'] : NULL )) ) {
+		include_once( WIKI_PKG_CLASS_PATH.'BitPage.php' );
+		if( $includePage = BitPage::lookupObject( array( 'page' => $pageName ) ) ) {
+			$parsed = $includePage->getParsedData();
 		}
 	}
 
-	return $transclusion_parsed;
+	return $parsed;
 }
 
 ?>
