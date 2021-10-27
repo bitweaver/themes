@@ -23,6 +23,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 
 .highlight	{background-color:#fcf8e3;}
 
+.border-none,
+.no-border	{border:0;}
 .no-padding,
 .nopadding	{padding:0;}
 .no-margin,
