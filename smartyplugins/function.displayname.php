@@ -27,9 +27,9 @@ function smarty_function_displayname( $pParams, &$gBitSmarty ) {
 			if( strpos( '@', $pParams['hash'] ) ) {
 				$lookupHash['email'] = $hash;
 			} elseif( is_numeric( $pParams['hash'] ) ) {
-				$lookupHash['user_id'] = $hash;
+				$lookupHash['user_id'] = $pParams['hash'];
 			} else {
-				$lookupHash['login'] = $hash;
+				$lookupHash['login'] = $pParams['hash'];
 			}
 		}
 	} elseif( !empty( $pParams['user_id'] ) ) {
