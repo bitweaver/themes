@@ -2204,9 +2204,10 @@ function themes_feedback_to_html( $params ) {
 		// maybe params were passed in separately
 		$hash = &$params;
 	}
-	$feedback = '';
 	$i = 0;
 	$color = isset( $hash['color'] )?$hash['color']:"000000";
+
+	$output = array();
 	foreach( $hash as $key => $val ) {
 		if( $val ) {
 			$keys = array( 'warning', 'success', 'error', 'important', 'note' );
@@ -2235,10 +2236,10 @@ function themes_feedback_to_html( $params ) {
 				foreach( $val as $valText ) {
 					if( is_array( $valText ) ) {
 						foreach( $valText as $text ) {
-							$feedback .= '<span class="inline-block '.$alertClass.'">'.$text.'</span>';
+							$output[$alertClass][] = $text;
 						}
 					} else {
-						$feedback .= '<span class="inline-block '.$alertClass.'">'.$valText.'</span>';
+						$output[$alertClass][] = $valText;
 					}
 				}
 
@@ -2250,10 +2251,10 @@ function themes_feedback_to_html( $params ) {
 				if ( $key != 'color' ) {
 					if( is_array( $val ) ) {
 						foreach( $val as $text ) {
-							$feedback .= '<span class="'.$key.'">'.$text.'</span>';
+							$output[$key][] = $text;
 						}
 					} else {
-						$feedback .= '<span class="'.$key.'">'.$val.'</span>';
+						$output[$key][] = $val;
 					}
 				}
 			}
@@ -2261,8 +2262,19 @@ function themes_feedback_to_html( $params ) {
 	}
 
 	$html = '';
-	if( !empty( $feedback ) ) {
-		$html .= $feedback;
+	foreach( $output as $cssClass => $messages ) {
+		$html .= '<span class="inline-block '.$cssClass.'">';
+		if( count( $messages ) == 1 ) {
+			$html .= current( $messages );
+		} else {
+			$html .= '<ul>';
+			foreach( $messages as $msgText ) {
+				$html .= '<li>'.$msgText.'</li>';
+			}
+			$html .= '</ul>';
+		}
+		
+		$html .= '</span>';
 	}
 	return $html;
 }
