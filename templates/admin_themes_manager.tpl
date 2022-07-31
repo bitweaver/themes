@@ -10,8 +10,8 @@
 			<div id="themeapprove">
 				<h1>{tr}Confirm Selection{/tr}</h1>
 				<p>{tr}The settings you have chosen has not been applied to the site yet. This allows you to test the styles before applying them to your site. To accept the change, please click on the accept button below{/tr}<p>
-				<a class="btn btn-primary" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$smarty.request.site_style}&amp;style_variation={$smarty.request.style_variation}&amp;site_style_layout={$smarty.request.site_style_layout}&amp;approved=1">{booticon ipackage=icons iname="icon-ok"}{tr}Accept{/tr}</a>
-				<a class="btn pull-right" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php">{booticon ipackage=icons iname="icon-remove" }{tr}Cancel{/tr}</a>
+				<a class="btn btn-primary" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$smarty.request.site_style}&amp;style_variation={$smarty.request.style_variation}&amp;site_style_layout={$smarty.request.site_style_layout}&amp;approved=1">{booticon iname="fa-circle-check"}{tr}Accept{/tr}</a>
+				<a class="btn pull-right" href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php">{booticon iname="fa-circle-xmark" }{tr}Cancel{/tr}</a>
 			</div>
 		{/if}
 
@@ -21,7 +21,7 @@
 					{foreach from=$stylesList item=s}
 						<legend {if $style eq $s.style}class="highlight"{/if}>
 							{if $style eq $s.style}
-								{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Theme"}&nbsp;
+								{booticon iname="fa-check" iexplain="Current Theme"}&nbsp;
 							{/if}
 							<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_style={$s.style}">{$s.style|replace:"_":" "}</a>
 						</legend>
@@ -60,7 +60,7 @@
 							<li class="item">
 								<legend {if $style eq $s.style}class="highlight"{/if}>
 									{if $gBitSystem->getConfig(site_icon_style) eq $s.style}
-										{booticon iname="icon-ok"  ipackage="icons"  iexplain="Current Theme"}&nbsp;
+										{booticon iname="fa-check" iexplain="Current Theme"}&nbsp;
 									{/if}
 									<a href="{$smarty.const.THEMES_PKG_URL}admin/admin_themes_manager.php?site_icon_style={$s.style}">{$s.style|replace:"_":" "}</a>
 								</legend>
@@ -75,7 +75,7 @@
 
 								<h3>{tr}Sample icons{/tr}</h3>
 								{foreach from=$sampleIcons item=icon}
-									{biticon ipackage=icons istyle=$s.style iname="large/$icon" iexplain=$icon}
+									{biticon ipackage=icons istyle=$s.style iname="fa-large/$icon" iexplain=$icon}
 								{/foreach}
 
 								{if $smarty.const.DEFAULT_ICON_STYLE eq $s.style}

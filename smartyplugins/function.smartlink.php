@@ -108,7 +108,7 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 		if( $sort_asc == $isort_mode ) {
 			$sorticon = array(
 				'ipackage' => 'icons',
-				'iname' => 'icon-sort-up',
+				'iname' => 'fa-sort-up',
 				'iexplain' => 'ascending',
 				'iforce' => 'icon',
 			);
@@ -116,7 +116,7 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 		} elseif( $sort_desc == $isort_mode ) {
 			$sorticon = array(
 				'ipackage' => 'icons',
-				'iname' => 'icon-sort-down',
+				'iname' => 'fa-sort-down',
 				'iexplain' => 'descending',
 				'iforce' => 'icon',
 			);

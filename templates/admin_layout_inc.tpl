@@ -5,9 +5,9 @@
 				{formlabel label="Adjust display" for=""}
 				{forminput}
 					{if !$smarty.request.nocollapse}
-						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{booticon iname="icon-plus-sign"   iforce=icon_text iexplain="Expand all modules"}</a>
+						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;nocollapse=1">{booticon iname="fa-circle-plus" iexplain="Expand all modules"}</a>
 					{else}
-						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{booticon iname="icon-minus-sign"   iforce=icon_text iexplain="Collapse all modules"}</a>
+						<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}">{booticon iname="fa-circle-minus" iexplain="Collapse all modules"}</a>
 					{/if}
 					{formhelp note="Toggle the state of <em>all modules</em> (expanded/collapsed). This reloads the page without saving changes made prior."}
 				{/forminput}
@@ -15,7 +15,7 @@
 			<div class="form-group">
 				{formlabel label="Adjust modules" for=""}
 				{forminput}
-					<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{booticon iname="icon-circle-arrow-right"   iforce=icon_text iexplain="Adjust module postitions"}</a>
+					<a href="{$smarty.const.KERNEL_PKG_URL}admin/index.php?page={$page}&amp;fixpos=1">{booticon iname="fa-circle-arrow-right" iexplain="Adjust module postitions"}</a>
 					{formhelp note="Reset the position numbers of <em>all modules</em> using increments of 5."}
 				{/forminput}
 			</div>

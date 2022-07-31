@@ -1,6 +1,6 @@
 {capture name=shared}
-	{smartlink ititle="Up" booticon="icon-arrow-up" iforce="icon" page=$page move_module=up module_package=$module_package module_id=$modInfo.module_id}
-	{smartlink ititle="Down" booticon="icon-arrow-down" iforce="icon" page=$page move_module=down module_package=$module_package module_id=$modInfo.module_id}
+	{smartlink ititle="Up" booticon="fa-arrow-up" page=$page move_module=up module_package=$module_package module_id=$modInfo.module_id}
+	{smartlink ititle="Down" booticon="fa-arrow-down" page=$page move_module=down module_package=$module_package module_id=$modInfo.module_id}
 	{if $colkey eq 'left' or $colkey eq 'right'}
 		{if $colkey == 'left'}
 			{assign var=icon value=next}
@@ -9,12 +9,12 @@
 			{assign var=icon value=previous}
 			{assign var=move value=left}
 		{/if}
-		{smartlink ititle="Move module" ibiticon="icons/go-$icon" iforce="icon" iexplain="`$move`" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
+		{smartlink ititle="Move module" booticon="fa-arrow-$icon" iexplain="`$move`" page=$page move_module=$move module_package=$module_package module_id=$modInfo.module_id}
 	{/if}
 	{if $gBitThemes->isCustomModule( $modInfo.module_rsrc )}
-		{smartlink ititle="Edit" booticon="icon-edit" iforce=icon iexplain="Edit" page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
+		{smartlink ititle="Edit" booticon="fa-edit" iexplain="Edit" page=custom_modules name=$modInfo.module_rsrc|regex_replace:"!.*\/!":"" action=edit}
 	{/if}
-	{smartlink ititle="Unassign" booticon="icon-trash" iforce=icon iexplain="Delete" ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id }
+	{smartlink ititle="Unassign" booticon="fa-trash" iexplain="Delete" ionclick="return confirm('Are you sure you want to remove `$modInfo.name`?');" page=$page move_module=unassign module_package=$module_package module_id=$modInfo.module_id }
 {/capture}
 
 {strip}

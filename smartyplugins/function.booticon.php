@@ -33,17 +33,30 @@ function smarty_function_booticon( $pParams ) {
 		$outstr .= '>';
 	}
 
-	$outstr .= '<span class="';
-	if( isset( $pParams["iname"] ) ) {
-		$outstr .= $pParams['iname'];
+	$outstr .= '<span class="fa ';
+	if( strpos( $pParams["iname"], 'icon-' ) === 0 ) {
+		$pParams['iname'] = str_replace( 'icon-', 'fa-', $pParams['iname'] );
 	}
+if( strpos( $pParams["iname"], 'fa-' ) !== 0 ) {
+	bit_error_log( 'missing fa '.$pParams["iname"] );
+}
+
+	$outstr .= str_replace( 'icon-', '', $pParams['iname'] );
+	
 	if( isset( $pParams["iclass"] ) ) {
 		$outstr .=  ' '.$pParams["iclass"].'';
 	}
 	if( isset( $pParams["class"] ) ) {
 		$outstr .=  ' '.$pParams["class"].'';
 	}
+	if( isset( $pParams["igroup"] ) ) {
+		$outstr .=  ' '.$pParams["igroup"].'';
+	}
 	$outstr .= '"';
+
+	if( isset( $pParams["style"] ) ) {
+		$outstr .=  ' style="'.$pParams["style"].'"';
+	}
 
 	if( isset( $pParams["id"] ) ) {
 		$outstr .=  ' id="'.$pParams['id'].'"';
