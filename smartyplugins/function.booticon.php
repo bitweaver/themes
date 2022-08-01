@@ -34,6 +34,9 @@ function smarty_function_booticon( $pParams ) {
 	}
 
 	$outstr .= '<span class="fa ';
+if( empty( $pParams["iname"] ) ) {
+	bit_error_log( 'missing iname', $pParams );
+}
 	if( strpos( $pParams["iname"], 'icon-' ) === 0 ) {
 		$pParams['iname'] = str_replace( 'icon-', 'fa-', $pParams['iname'] );
 	}
