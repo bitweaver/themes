@@ -33,7 +33,7 @@ function smarty_function_booticon( $pParams ) {
 		$outstr .= '>';
 	}
 
-	$outstr .= '<span class="fa ';
+	$outstr .= '<span class="fa fal ';
 if( empty( $pParams["iname"] ) ) {
 	bit_error_log( 'missing iname', $pParams );
 }
