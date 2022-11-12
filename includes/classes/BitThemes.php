@@ -803,12 +803,13 @@ class BitThemes extends BitSingleton {
 			$this->mDb->query( "DELETE FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pToLayout ));
 			// get requested layout
 			$team = defined('ROLE_MODEL') ? 'roles' : 'groups';
-			$layout = $this->mDb->getAll( "
+			if( $layout = $this->mDb->getAll( "
 				SELECT `title`, `layout_area`, `module_rows`, `module_rsrc`, `params`, `cache_time`, `$team`, `pos`
-				FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pFromLayout ));
-			foreach( $layout as $module ) {
-				$module['layout'] = $pToLayout;
-				$this->storeModule( $module );
+				FROM `".BIT_DB_PREFIX."themes_layouts` WHERE `layout`=?", array( $pFromLayout )) ) {
+				foreach( $layout as $module ) {
+					$module['layout'] = $pToLayout;
+					$this->storeModule( $module );
+				}
 			}
 		}
 		return TRUE;
