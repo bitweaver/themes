@@ -150,8 +150,10 @@ class BitThemes extends BitSingleton {
 	 */
 	function setStyle( $pStyle ) {
 		global $gBitSmarty;
-		$this->mStyle = $pStyle;
-		$gBitSmarty->verifyCompileDir();
+		if( file_exists( CONFIG_PKG_PATH.'themes/'.$pStyle ) ) {
+			$this->mStyle = $pStyle;
+			$gBitSmarty->verifyCompileDir();
+		}
 	}
 
 	/**
