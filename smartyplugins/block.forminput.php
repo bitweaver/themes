@@ -49,7 +49,7 @@ function smarty_block_forminput($params, $content, &$gBitSmarty) {
 	}
 
 	if( $content ) {
-		return '<div class="'.$class.'" '.$attr.' >'.$labelStart.$content.$labelEnd.'</div>';
+		return '<div class="form-group '.$class.'" '.$attr.' >'.$labelStart.$content.$labelEnd.'</div>';
 	}
 }
 ?>
