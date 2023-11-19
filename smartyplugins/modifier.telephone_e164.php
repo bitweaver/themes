@@ -9,26 +9,33 @@
  * smarty_modifier_telelphone_e164
  */
 function smarty_modifier_telephone_e164( $pTelephoneNumber, $pCountryCodeIso2='US' ) {
-	$ret = $pTelephoneNumber;
+	if( $ret = $pTelephoneNumber ) {
 
-	global $gPhoneNumberUtil;
-	if( empty( $gPhoneNumberUtil ) ) {
-		spl_autoload_register(function ($class) {
-			// replace namespace separators with directory separators in the relative 
-			// class name, append with .php
-			$class_path = str_replace('\\', '/', $class);
-			
-			$file =  EXTERNAL_LIBS_PATH . $class_path . '.php';
+		global $gPhoneNumberUtil;
+		if( empty( $gPhoneNumberUtil ) ) {
+			spl_autoload_register(function ($class) {
+				// replace namespace separators with directory separators in the relative 
+				// class name, append with .php
+				$class_path = str_replace('\\', '/', $class);
+				
+				$file =  EXTERNAL_LIBS_PATH . $class_path . '.php';
 
-			// if the file exists, require it
-			if (file_exists($file)) {
-				require_once( $file );
+				// if the file exists, require it
+				if (file_exists($file)) {
+					require_once( $file );
+				}
+			});
+			$gPhoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+		}
+		if( is_object( $gPhoneNumberUtil ) ) {
+			try {
+				if( $parsedNumber = $gPhoneNumberUtil->parse( $pTelephoneNumber, $pCountryCodeIso2 ) ) {
+					$ret = $gPhoneNumberUtil->format( $parsedNumber, \libphonenumber\PhoneNumberFormat::E164 );
+				}
+			} catch( Exception $e ) {
+				bit_error_log( 'telephone_e164 failed: '.$pCountryCodeIso2.' '.$pTelephoneNumber );
 			}
-		});
-		$gPhoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
-	}
-	if( is_object( $gPhoneNumberUtil ) && ($parsedNumber = $gPhoneNumberUtil->parse( $pTelephoneNumber, $pCountryCodeIso2 ) ) ) {
-		$ret = $gPhoneNumberUtil->format( $parsedNumber, \libphonenumber\PhoneNumberFormat::E164 );
+		}
 	}
 	return $ret;
 }
