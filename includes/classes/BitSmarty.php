@@ -195,13 +195,13 @@ function add_link_ticket( $pTplSource ) {
 //		$pTplSource = preg_replace( $from, $to, $pTplSource );
 		$from = '#<form([^>]*)>#i';
 		// div tag is for stupid XHTML compliance.
-		$to = '<form\\1><div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}" /></div>';
+		$to = '<form\\1><div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}"></div>';
 		$pTplSource = preg_replace( $from, $to, $pTplSource );
 		if( strpos( $pTplSource, '{form}' )) {
-			$pTplSource = str_replace( '{form}', '{form}<div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}" /></div>', $pTplSource );
+			$pTplSource = str_replace( '{form}', '{form}<div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}"></div>', $pTplSource );
 		} elseif( strpos( $pTplSource, '{form ' ) ) {
 			$from = '#\{form(\}| [^\}]*)\}#i';
-			$to = '{form\\1}<div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}" /></div>';
+			$to = '{form\\1}<div style="display:inline"><input type="hidden" name="tk" value="{$gBitUser->mTicket}"></div>';
 			$pTplSource = preg_replace( $from, $to, $pTplSource );
 		}
 	}

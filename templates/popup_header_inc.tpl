@@ -3,7 +3,7 @@
 <head>
 	<title>{$browserTitle} - {$gBitSystem->getConfig('site_title')}</title>
 
-	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->getStyleCssFile($smarty.request.site_style,1)}" media="all" />
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->getStyleCssFile($smarty.request.site_style,1)}" media="all">
 	{include file="bitpackage:kernel/header_inc.tpl"}
 	{include file="bitpackage:themes/header_inc.tpl"}
 </head>
