@@ -44,6 +44,8 @@ function smarty_function_formhelp( $pParams, &$pSmarty=NULL ) {
 		}
 	}
 
+	$class = '';
+
 	foreach( $hash as $key => $val ) {
 		switch( $key ) {
 			case 'note':
@@ -56,6 +58,7 @@ function smarty_function_formhelp( $pParams, &$pSmarty=NULL ) {
 			case 'package':
 			case 'install':
 			case 'force':
+			case 'class':
 				$$key = $val;
 				break;
 			default:
@@ -150,13 +153,13 @@ function smarty_function_formhelp( $pParams, &$pSmarty=NULL ) {
 						'iexplain' => 'Extended Help',
 					);
 
-					$html .= ' <span class="formhelppopup" '.$atts.'>&nbsp;';
+					$html .= ' <span class="formhelppopup '.$class.'" '.$atts.'>&nbsp;';
 					$html .= '<a '.smarty_function_popup( $popup ).'>';
 					$html .= smarty_function_biticon( $biticon );
 					$html .= '</a>';
 					$html .= '</span>';
 				} else {
-					$html .= '<span class="help-block" '.$atts.'>'.$content.'</span>';
+					$html .= '<span class="help-block '.$class.'" '.$atts.'>'.$content.'</span>';
 				}
 			}
 
