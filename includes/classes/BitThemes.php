@@ -1445,7 +1445,7 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 */
 	function isAjaxRequest() {
-		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_xml'] ));
+		return(( !empty( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest' ) || !empty( $_REQUEST['ajax_api'] ));
 	}
 
 	// {{{ Javascript and CSS load methods
