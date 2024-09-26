@@ -16,11 +16,11 @@ ul.hor li ul ul	{margin:-21px 0 0 13em;}
 ul.hor li.m-admin li a {margin:0;}
 /* set some background colors for visibility */
 /* thanks to our favourite browser we can't simply inherit the values */
-#bittopbar	{z-index:1000;}
+#bw-top-bar	{z-index:1000;}
 ul.hor		{z-index:1001;}
 ul.hor ul		{z-index:1002;}
 ul.hor ul ul	{z-index:1003;}
-#bittopbar,
+#bw-top-bar,
 ul.hor,
 ul.hor li,
 ul.hor li ul	{background:#fff; z-index:1004;}
