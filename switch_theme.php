@@ -22,12 +22,12 @@ if (isset($_GET['theme']) && $gBitSystem->getConfig('users_themes') == 'y'){
 
 	if(isset($gBitUser) && $gBitSystem->getConfig('users_preferences') == 'y' ) {  
 		$gBitUser->storePreference('theme',$new_theme);
-		setcookie('bit-theme', '', time()-3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
+		setcookie('bw-theme', '', time()-3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
 	} else {
-		setcookie('bit-theme', $new_theme, time()+3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
+		setcookie('bw-theme', $new_theme, time()+3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
 	}
 } else{
-	setcookie('bit-theme', '', time()-3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
+	setcookie('bw-theme', '', time()-3600*24*30*12, $gBitSystem->getConfig('cookie_path'), $gBitSystem->getConfig('cookie_domain'));
 }
 
 header("location: $orig_url");

@@ -18,8 +18,8 @@ if( $change_theme == 'y' ) {
 		$userStyle = $gBitUser->getPreference('theme');
 		$style = empty($userStyle) ? $style : $userStyle;
 	}
-	if (isset($_COOKIE['bit-theme'])) {
-		$style = $_COOKIE['bit-theme'];
+	if (isset($_COOKIE['bw-theme'])) {
+		$style = $_COOKIE['bw-theme'];
 	}
 
 	$styles = $gBitThemes->getStyles( NULL, TRUE );

@@ -272,7 +272,7 @@ ul.structure-toc ul {
   margin-left: 20px;
 }
 
-.bit-columns {
+.bw-columns {
 -webkit-column-count: 3;
 -webkit-column-gap: 10px;
 -webkit-column-fill: auto;
@@ -284,7 +284,7 @@ column-gap: 15px;
 column-fill: auto;
 }
 
-.bit-column-cell {
+.bw-column-cell {
 display: inline-block;
 -webkit-column-break-inside: avoid;
 -moz-column-break-inside: avoid;
