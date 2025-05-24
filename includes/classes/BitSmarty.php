@@ -14,7 +14,7 @@
  * required setup
  */
 
-require_once( EXTERNAL_LIBS_PATH.'smarty/libs/SmartyBC.class.php' );
+require_once( EXTERNAL_LIBS_PATH.'smarty/libs/Smarty.class.php' );
 
 
 /**
@@ -34,7 +34,8 @@ class PermissionCheck {
  *
  * @package kernel
  */
-class BitSmarty extends SmartyBC {
+
+class BitSmarty extends Smarty {
 
 	protected $mCompileRsrc;
 
