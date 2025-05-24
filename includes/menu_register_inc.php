@@ -37,7 +37,9 @@ if( !empty( $adminMenu ) ) {
  * mAppMenu_sort
  */
 function mAppMenu_sort( $a, $b ) {
-	if( @is_numeric( $a['menu_position'] ) ) {
+	if( empty( $a['menu_position'] ) ) {
+		return 0;
+	} elseif( is_numeric( $a['menu_position'] ) ) {
 		return( (int)$a['menu_position'] > (int)$b['menu_position'] );
 	} elseif( !empty( $a['menu_title'] ) ) {
 		return( strcmp( $a['menu_title'], $b['menu_title'] ) );
