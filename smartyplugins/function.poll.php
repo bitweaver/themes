@@ -8,7 +8,7 @@
 /**
  * smarty_function_base
  */
-require_once( KERNEL_PKG_PATH.'BitBase.php' );
+require_once( KERNEL_PKG_CLASS_PATH.'BitBase.php' );
 
 /**
  * smarty_function_poll
@@ -18,7 +18,7 @@ function smarty_function_poll($params, &$gBitSmarty) {
 
     extract($params);
     // Param = zone
-	include_once( POLLS_PKG_PATH.'poll_lib.php' );
+	include_once( POLLS_PKG_INCLUDE_PATH.'poll_lib.php' );
 	include_once( LIBERTY_PKG_CLASS_PATH.'LibertyComment.php' );
 
     if (empty($id)) {
