@@ -46,10 +46,11 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 				case 'ipackage':
 					if( $key == 'ipackage' ) {
 						if( $val == 'root' ) {
-							$url .= BIT_ROOT_URL.$pParams['ifile'];
+							$url .= BIT_ROOT_URL;
 						} else {
-							$url .= constant( strtoupper( $val ).'_PKG_URL' ).$pParams['ifile'];
+							$url .= constant( strtoupper( $val ).'_PKG_URL' );
 						}
+						$url .= BitBase::getParameter( $pParams, 'ifile' );
 					}
 					break;
 				case 'legend':
