@@ -68,7 +68,10 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 			if( $hash['ipackage'] == 'root' ) {
 				$url = BIT_ROOT_URL.$hash['ifile'];
 			} else {
-				$url = constant( strtoupper( $hash['ipackage'] ).'_PKG_URL' ).$hash['ifile'];
+				$pkgConst = strtoupper( $hash['ipackage'] ).'_PKG_URL';
+				if( defined( $pkgConst ) ) {
+					$url = constant( strtoupper( $hash['ipackage'] ).'_PKG_URL' ).$hash['ifile'];
+				}
 			}
 		} else {
 			$url = constant( strtoupper( $gBitSystem->getActivePackage() ).'_PKG_URL' ).$hash['ifile'];
