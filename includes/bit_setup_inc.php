@@ -45,3 +45,36 @@ if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
 
 $gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 
+$styleString = $gBitSystem->getConfig('style');
+
+if( !defined( 'THEMES_PATH' ) ) {
+	define( 'THEMES_PATH', CONFIG_PKG_PATH.'themes/' );
+}
+if( !defined( 'THEMES_URL' ) ) {
+	define( 'THEMES_URL', CONFIG_PKG_URL.'themes/' );
+}
+if( !defined( 'THEMES_URI' ) ) {
+	define( 'THEMES_URI', CONFIG_PKG_URI.'themes/' );
+}
+if( !defined( 'ICONSETS_PATH' ) ) {
+	define( 'ICONSETS_PATH', CONFIG_PKG_PATH.'iconsets/' );
+}
+if( !defined( 'ICONSETS_URL' ) ) {
+	define( 'ICONSETS_URL', CONFIG_PKG_URL.'iconsets/' );
+}
+if( !defined( 'ICONSETS_URI' ) ) {
+	define( 'ICONSETS_URI', CONFIG_PKG_URI.'iconsets/' );
+}
+
+if( !defined( 'CONFIG_THEME_PATH' ) ) {
+	define( 'CONFIG_THEME_PATH', THEMES_PATH.$styleString.'/' );
+}
+if( !defined( 'CONFIG_THEME_URL' ) ) {
+	define( 'CONFIG_THEME_URL', THEMES_URL.$styleString.'/' );
+}
+if( !defined( 'CONFIG_IMAGE_PATH' ) ) {
+	define( 'CONFIG_IMAGE_PATH', THEMES_PATH.$styleString.'/images/' );
+}
+if( !defined( 'CONFIG_IMAGE_URL' ) ) {
+	define( 'CONFIG_IMAGE_URL', THEMES_URL.$styleString.'/images/' );
+}
