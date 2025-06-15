@@ -24,16 +24,20 @@ $gBitSmarty->loadPlugin('smarty_shared_make_timestamp');
  */
 function smarty_modifier_cal_date_format($string, $format = "%b %e, %Y", $default_date=null, $tra_format=null)
 {
-	$mDate = new BitDate(0);
-	if ( $mDate->get_display_offset()) $format = preg_replace("/ ?%Z/","",$format);
-   	else $format = preg_replace("/%Z/","UTC",$format);
+	$mDate = new BitDate();
+	if ( $mDate->get_display_offset()) {
+        $format = preg_replace("/ ?%Z/","",$format);
+   	} else {
+        $format = preg_replace("/%Z/","UTC",$format);
+    }
 
-	$disptime = $mDate->getTimestampFromISO($string);
+	$disptime = strtotime( $string ); // Let PHP handle all conversion, TZ or not...
 
 	global $gBitSystem, $gBitLanguage; //$gBitLanguage->mLanguage= $gBitSystem->getConfig("language", "en");
 	if ($gBitSystem->getConfig("language", "en") != $gBitLanguage->mLanguage && $tra_format) {
 		$format = $tra_format;
 	}
+
 	return $mDate->strftime($format, $disptime, true);
 }
 
