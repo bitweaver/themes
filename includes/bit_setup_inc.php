@@ -19,14 +19,11 @@ $gLibertySystem->registerService(
 	array( 'description' => 'Applied when user themes are enabled; See theme pkg administration to enable.' )
 );
 
+// Set up themes engine
 require_once( THEMES_PKG_CLASS_PATH.'BitThemes.php' );
-
 BitThemes::loadSingleton();
 global $gBitThemes, $gBitSmarty;
-
 $gBitSmarty->verifyCompileDir();
-
-
 // setStyle first, in case package decides it wants to reset the style in it's own <package>/bit_setup_inc.php
 if( !$gBitThemes->getStyle() ) {
 	$gBitThemes->setStyle( DEFAULT_THEME );
@@ -78,3 +75,7 @@ if( !defined( 'CONFIG_IMAGE_PATH' ) ) {
 if( !defined( 'CONFIG_IMAGE_URL' ) ) {
 	define( 'CONFIG_IMAGE_URL', THEMES_URL.$styleString.'/images/' );
 }
+
+// Global feedback mechanism
+require_once( THEMES_PKG_CLASS_PATH.'BitFeedback.php' );
+
