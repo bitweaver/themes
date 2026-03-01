@@ -24,6 +24,8 @@ html[dir='rtl'] .alignright	{text-align:left}
 
 .highlight	{background-color:#fcf8e3;}
 
+.no-wrap	{text-wrap:nowrap;}
+
 .border-none,
 .no-border	{border:0;}
 .no-padding,
