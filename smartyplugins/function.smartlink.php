@@ -48,6 +48,8 @@
  */
 function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 	global $gBitSystem;
+
+	$ret = '';
 	if( !empty( $pParams['ihash'] ) ) {
 		$hash = array_merge( $pParams['ihash'], $pParams );
 		$hash['ihash'] = NULL;
@@ -70,7 +72,7 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 			} else {
 				$pkgConst = strtoupper( $hash['ipackage'] ).'_PKG_URL';
 				if( defined( $pkgConst ) ) {
-					$url = constant( strtoupper( $hash['ipackage'] ).'_PKG_URL' ).$hash['ifile'];
+					$url = constant( $pkgConst ).$hash['ifile'];
 				}
 			}
 		} else {
@@ -80,134 +82,136 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 		$url = $_SERVER['SCRIPT_NAME'];
 	}
 
-	$url_params = NULL;
-	if( isset( $hash['itra'] ) && !empty( $hash['itra'] ) ) {
-		// present and non-zero value
-		$ititle = $hash['ititle'];
-		$iatitle =  empty( $hash['iatitle'] ) ? $ititle : $hash['iatitle'];
-	} else {
-		$ititle = tra( $hash['ititle'] );
-		$iatitle =  empty( $hash['iatitle'] ) ? $ititle : tra ( $hash['iatitle'] );
-	}
-
-	$atitle = 'title="'.$iatitle.'"';
-
-	// if isort is set, we need to deal with all the sorting stuff
-	if( !empty( $hash['isort'] ) ) {
-		$isort_mode = isset( $hash['isort_mode'] ) ? $hash['isort_mode'] : (isset( $_REQUEST['sort_mode'] ) ? $_REQUEST['sort_mode'] : NULL);
-		$sort_asc = $hash['isort'].'_asc';
-		$sort_desc = $hash['isort'].'_desc';
-
-		$atitle = 'title="'.tra( 'Sort by' ).": ".$iatitle.'"';
-		$url .= '?';
-		$url_params .= 'sort_mode=';
-
-		// check if we have to highlight this link, when $isort_mode isn't set
-		if( isset( $hash['idefault'] ) && empty( $isort_mode ) ) {
-			$isort_mode .= $hash['isort'].'_'.( isset( $hash['iorder'] ) ? $hash['iorder'] : 'asc' );
-		}
-
-		// check if sort_mode has anything to do with our link
-		if( $sort_asc == $isort_mode ) {
-			$sorticon = array(
-				'ipackage' => 'icons',
-				'iname' => 'fa-sort-up',
-				'iexplain' => 'ascending',
-				'iforce' => 'icon',
-			);
-			$url_params .= $sort_desc;
-		} elseif( $sort_desc == $isort_mode ) {
-			$sorticon = array(
-				'ipackage' => 'icons',
-				'iname' => 'fa-sort-down',
-				'iexplain' => 'descending',
-				'iforce' => 'icon',
-			);
-			$url_params .= $sort_asc;
+	if( !empty( $url ) ) {
+		$url_params = NULL;
+		if( isset( $hash['itra'] ) && !empty( $hash['itra'] ) ) {
+			// present and non-zero value
+			$ititle = $hash['ititle'];
+			$iatitle =  empty( $hash['iatitle'] ) ? $ititle : $hash['iatitle'];
 		} else {
-			$url_params .= $hash['isort'].'_'.( isset( $hash['iorder'] ) ? $hash['iorder'] : 'asc' );
+			$ititle = tra( $hash['ititle'] );
+			$iatitle =  empty( $hash['iatitle'] ) ? $ititle : tra ( $hash['iatitle'] );
 		}
-	}
 
-	$ignore = array( 'iatitle', 'icontrol', 'isort', 'ianchor', 'isort_mode', 'iorder', 'ititle', 'idefault', 'ifile', 'ipackage', 'itype', 'iurl', 'ionclick', 'ibiticon', 'iforce', 'itra', 'booticon' );
-	// append any other paramters that were passed in
-	foreach( $hash as $key => $val ) {
-		if( !empty( $val ) && !in_array( $key, $ignore ) ) {
-			// normally the key is a string
-			if( !is_array( $val ) ){
-				$url_params .= empty( $url_params ) ? '?' : '&amp;';
-				$url_params .= $key."=".$val;
-			// but sometimes it can be an array
-			}else{
-				foreach( $val as $v ){
+		$atitle = 'title="'.$iatitle.'"';
+
+		// if isort is set, we need to deal with all the sorting stuff
+		if( !empty( $hash['isort'] ) ) {
+			$isort_mode = isset( $hash['isort_mode'] ) ? $hash['isort_mode'] : (isset( $_REQUEST['sort_mode'] ) ? $_REQUEST['sort_mode'] : NULL);
+			$sort_asc = $hash['isort'].'_asc';
+			$sort_desc = $hash['isort'].'_desc';
+
+			$atitle = 'title="'.tra( 'Sort by' ).": ".$iatitle.'"';
+			$url .= '?';
+			$url_params .= 'sort_mode=';
+
+			// check if we have to highlight this link, when $isort_mode isn't set
+			if( isset( $hash['idefault'] ) && empty( $isort_mode ) ) {
+				$isort_mode .= $hash['isort'].'_'.( isset( $hash['iorder'] ) ? $hash['iorder'] : 'asc' );
+			}
+
+			// check if sort_mode has anything to do with our link
+			if( $sort_asc == $isort_mode ) {
+				$sorticon = array(
+					'ipackage' => 'icons',
+					'iname' => 'fa-sort-up',
+					'iexplain' => 'ascending',
+					'iforce' => 'icon',
+				);
+				$url_params .= $sort_desc;
+			} elseif( $sort_desc == $isort_mode ) {
+				$sorticon = array(
+					'ipackage' => 'icons',
+					'iname' => 'fa-sort-down',
+					'iexplain' => 'descending',
+					'iforce' => 'icon',
+				);
+				$url_params .= $sort_asc;
+			} else {
+				$url_params .= $hash['isort'].'_'.( isset( $hash['iorder'] ) ? $hash['iorder'] : 'asc' );
+			}
+		}
+
+		$ignore = array( 'iatitle', 'icontrol', 'isort', 'ianchor', 'isort_mode', 'iorder', 'ititle', 'idefault', 'ifile', 'ipackage', 'itype', 'iurl', 'ionclick', 'ibiticon', 'iforce', 'itra', 'booticon' );
+		// append any other paramters that were passed in
+		foreach( $hash as $key => $val ) {
+			if( !empty( $val ) && !in_array( $key, $ignore ) ) {
+				// normally the key is a string
+				if( !is_array( $val ) ){
 					$url_params .= empty( $url_params ) ? '?' : '&amp;';
-					$url_params .= $key."[]=".$v;
+					$url_params .= $key."=".$val;
+				// but sometimes it can be an array
+				}else{
+					foreach( $val as $v ){
+						$url_params .= empty( $url_params ) ? '?' : '&amp;';
+						$url_params .= $key."[]=".$v;
+					}
 				}
 			}
 		}
-	}
 
-	if( !empty( $hash['icontrol'] ) && is_array( $hash['icontrol'] ) ) {
-		$sep = empty( $url_params ) ? '?' : '&amp;';
-		$url_params .= !empty( $hash['icontrol']['current_page'] ) ? $sep.'list_page='.$hash['icontrol']['current_page'] : '';
-		$sep = empty( $url_params ) ? '?' : '&amp;';
-		$url_params .= !empty( $hash['icontrol']['find'] ) ? $sep.'find='.$hash['icontrol']['find'] : '';
-		if( !empty( $hash['icontrol']['parameters'] ) && is_array( $hash['icontrol']['parameters'] ) ) {
-			foreach( $hash['icontrol']['parameters'] as $key => $value ) {
-				if( !empty( $value )) {
-					$sep = empty( $url_params ) ? '?' : '&amp;';
-					$url_params .= $sep.$key."=".$value;
+		if( !empty( $hash['icontrol'] ) && is_array( $hash['icontrol'] ) ) {
+			$sep = empty( $url_params ) ? '?' : '&amp;';
+			$url_params .= !empty( $hash['icontrol']['current_page'] ) ? $sep.'list_page='.$hash['icontrol']['current_page'] : '';
+			$sep = empty( $url_params ) ? '?' : '&amp;';
+			$url_params .= !empty( $hash['icontrol']['find'] ) ? $sep.'find='.$hash['icontrol']['find'] : '';
+			if( !empty( $hash['icontrol']['parameters'] ) && is_array( $hash['icontrol']['parameters'] ) ) {
+				foreach( $hash['icontrol']['parameters'] as $key => $value ) {
+					if( !empty( $value )) {
+						$sep = empty( $url_params ) ? '?' : '&amp;';
+						$url_params .= $sep.$key."=".$value;
+					}
 				}
 			}
 		}
-	}
 
-	// encode quote marks so we not break href="" construction
-	$url_params = preg_replace('/"/', '%22', $url_params);
+		// encode quote marks so we not break href="" construction
+		$url_params = preg_replace('/"/', '%22', $url_params);
 
-	if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
-		$ret = $url.$url_params;
-	} else {
-		$ret = '<a class="icon" '.$atitle.' '.( !empty( $pParams['ionclick'] ) ? 'onclick="'.$pParams['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $pParams['ianchor'] ) ? '#'.$pParams['ianchor'] : '' ).'">';
-
-		// if we want to display an icon instead of text, do that
-		if( isset( $hash['booticon'] ) ) {
-			if( !empty( $tmp[2] )) {
-				$tmp[1] .= "/".$tmp[2];
-			}
-			$booticon = array(
-				'iname' => $hash['booticon'],
-				'iexplain' => $hash['ititle'], // use untranslated ititle - booticon has a tra()
-			);
-			if( !empty( $hash['iforce'] ) ) {
-				$booticon['iforce'] = $hash['iforce'];
-			}
-			$ret .= smarty_function_booticon( $booticon );
-		} elseif( isset( $hash['ibiticon'] ) ) {
-			$tmp = explode( '/', $hash['ibiticon'] );
-			if( !empty( $tmp[2] )) {
-				$tmp[1] .= "/".$tmp[2];
-			}
-			$ibiticon = array(
-				'ipackage' => $tmp[0],
-				'iname' => $tmp[1],
-				'iexplain' => $hash['ititle'], // use untranslated ititle - biticon has a tra()
-			);
-			if( !empty( $hash['iforce'] ) ) {
-				$ibiticon['iforce'] = $hash['iforce'];
-			}
-			$ret .= smarty_function_biticon( $ibiticon );
+		if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
+			$ret = $url.$url_params;
 		} else {
-			$ret .= $ititle;
-		}
+			$ret = '<a class="icon" '.$atitle.' '.( !empty( $pParams['ionclick'] ) ? 'onclick="'.$pParams['ionclick'].'" ' : '' ).'href="'.$url.$url_params.( !empty( $pParams['ianchor'] ) ? '#'.$pParams['ianchor'] : '' ).'">';
 
-		if( isset( $sorticon ) ) {
-			$ret .= '&nbsp;'.smarty_function_booticon( $sorticon );
+			// if we want to display an icon instead of text, do that
+			if( isset( $hash['booticon'] ) ) {
+				if( !empty( $tmp[2] )) {
+					$tmp[1] .= "/".$tmp[2];
+				}
+				$booticon = array(
+					'iname' => $hash['booticon'],
+					'iexplain' => $hash['ititle'], // use untranslated ititle - booticon has a tra()
+				);
+				if( !empty( $hash['iforce'] ) ) {
+					$booticon['iforce'] = $hash['iforce'];
+				}
+				$ret .= smarty_function_booticon( $booticon );
+			} elseif( isset( $hash['ibiticon'] ) ) {
+				$tmp = explode( '/', $hash['ibiticon'] );
+				if( !empty( $tmp[2] )) {
+					$tmp[1] .= "/".$tmp[2];
+				}
+				$ibiticon = array(
+					'ipackage' => $tmp[0],
+					'iname' => $tmp[1],
+					'iexplain' => $hash['ititle'], // use untranslated ititle - biticon has a tra()
+				);
+				if( !empty( $hash['iforce'] ) ) {
+					$ibiticon['iforce'] = $hash['iforce'];
+				}
+				$ret .= smarty_function_biticon( $ibiticon );
+			} else {
+				$ret .= $ititle;
+			}
+
+			if( isset( $sorticon ) ) {
+				$ret .= '&nbsp;'.smarty_function_booticon( $sorticon );
+			}
+			$ret .= '</a>';
 		}
-		$ret .= '</a>';
-	}
-	if( isset( $pParams['itype'] ) && $pParams['itype'] == 'li' ) {
-		$ret = '<li>'.$ret.'</li>';
+		if( isset( $pParams['itype'] ) && $pParams['itype'] == 'li' ) {
+			$ret = '<li>'.$ret.'</li>';
+		}
 	}
 	return $ret;
 }
