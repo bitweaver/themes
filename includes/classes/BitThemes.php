@@ -47,6 +47,8 @@ class BitThemes extends BitSingleton {
 	// Caching object
 	public $mThemeCache;
 
+	public $mFormatHeader;
+
 	/**
 	 * Initiate class
 	 *

@@ -166,7 +166,7 @@ function smarty_function_smartlink( $pParams, &$pSmarty=NULL ) {
 		}
 
 		// encode quote marks so we not break href="" construction
-		$url_params = preg_replace('/"/', '%22', $url_params);
+		$url_params = preg_replace('/"/', '%22', $url_params ?? '');
 
 		if( isset( $hash['itype'] ) && $hash['itype'] == 'url' ) {
 			$ret = $url.$url_params;

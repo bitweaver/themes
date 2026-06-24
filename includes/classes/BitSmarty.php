@@ -57,8 +57,67 @@ class BitSmarty extends Smarty {
 		$this->addPluginsDir( EXTERNAL_LIBS_PATH.'smarty/libs/sysplugins' );
 		$this->addPluginsDir( THEMES_PKG_PATH . "smartyplugins" );
 		$this->registerFilter('pre', "add_link_ticket" );
-		$this->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT;
-		
+		$this->error_reporting = E_ALL & ~E_NOTICE & ~E_STRICT & ~E_USER_DEPRECATED;
+		$this->muteUndefinedOrNullWarnings();
+		// Smarty 4: PHP built-in functions used as modifiers must be explicitly registered.
+		// SmartyException is caught in case a function is already a Smarty built-in.
+		// Non-string-first-arg functions: pass through directly.
+		foreach( [
+			'abs', 'array_keys', 'array_reverse', 'chr', 'count', 'current',
+			'date', 'floatval', 'floor',
+			'get_class', 'http_build_query', 'implode', 'intval',
+			'is_a', 'is_array', 'is_numeric', 'is_object',
+			'json_encode', 'key', 'method_exists', 'number_format', 'rand',
+			'round', 'unserialize',
+		] as $fn ) {
+			try {
+				$this->registerPlugin( 'modifier', $fn, $fn );
+			} catch( \SmartyException $e ) {}
+		}
+		// String modifiers: null-safe wrappers — PHP 8.1 rejects null for typed string params.
+		foreach( [
+			'addslashes'        => fn($s) => addslashes($s ?? ''),
+			'basename'          => fn($s) => basename($s ?? ''),
+			'dirname'           => fn($s) => dirname($s ?? ''),
+			'html_entity_decode'=> fn($s) => html_entity_decode($s ?? ''),
+			'htmlentities'      => fn($s) => htmlentities($s ?? ''),
+			'preg_replace'      => fn($s, ...$a) => preg_replace($s ?? '', ...$a),
+			'str_replace'       => fn($s, ...$a) => str_replace($s ?? '', ...$a),
+			'strip_tags'        => fn($s) => strip_tags($s ?? ''),
+			'stripslashes'      => fn($s) => stripslashes($s ?? ''),
+			'stristr'           => fn($s, ...$a) => stristr($s ?? '', ...$a),
+			'strlen'            => fn($s) => strlen($s ?? ''),
+			'strpos'            => fn($s, ...$a) => strpos($s ?? '', ...$a),
+			'strrpos'           => fn($s, ...$a) => strrpos($s ?? '', ...$a),
+			'strstr'            => fn($s, ...$a) => strstr($s ?? '', ...$a),
+			'strtolower'        => fn($s) => strtolower($s ?? ''),
+			'strtotime'         => fn($s) => strtotime($s ?? ''),
+			'strtoupper'        => fn($s) => strtoupper($s ?? ''),
+			'strtr'             => fn($s, ...$a) => strtr($s ?? '', ...$a),
+			'substr'            => fn($s, ...$a) => substr($s ?? '', ...$a),
+			'trim'              => fn($s) => trim($s ?? ''),
+			'ucfirst'           => fn($s) => ucfirst($s ?? ''),
+			'ucwords'           => fn($s) => ucwords($s ?? ''),
+			'urlencode'         => fn($s) => urlencode($s ?? ''),
+		] as $name => $fn ) {
+			try {
+				$this->registerPlugin( 'modifier', $name, $fn );
+			} catch( \SmartyException $e ) {}
+		}
+		// Filesystem modifiers: null-safe wrappers so {$path|file_exists} etc. don't warn on missing keys.
+		foreach( [
+			'file_exists' => fn($f) => $f !== null && file_exists($f),
+			'filesize'    => fn($f) => $f !== null && filesize($f),
+			'filemtime'   => fn($f) => $f !== null && filemtime($f),
+			'is_readable' => fn($f) => $f !== null && is_readable($f),
+			'is_dir'      => fn($f) => $f !== null && is_dir($f),
+			'is_file'     => fn($f) => $f !== null && is_file($f),
+		] as $name => $fn ) {
+			try {
+				$this->registerPlugin( 'modifier', $name, $fn );
+			} catch( \SmartyException $e ) {}
+		}
+
 		global $permCheck;
 		$permCheck = new PermissionCheck();
 // SMARTY3	$this->register_object( 'perm', $permCheck, array(), TRUE, array( 'autoComplete' ));
