@@ -63,12 +63,12 @@ class BitSmarty extends Smarty {
 		// SmartyException is caught in case a function is already a Smarty built-in.
 		// Non-string-first-arg functions: pass through directly.
 		foreach( [
-			'abs', 'array_keys', 'array_reverse', 'chr', 'count', 'current',
-			'date', 'floatval', 'floor',
+			'abs', 'array_keys', 'array_reverse', 'chr', 'count', 'current', 'sizeof',
+			'date', 'extension_loaded', 'floatval', 'floor', 'mktime',
 			'get_class', 'http_build_query', 'implode', 'intval',
-			'is_a', 'is_array', 'is_numeric', 'is_object',
+			'is_a', 'is_array', 'is_null', 'is_numeric', 'is_object',
 			'json_encode', 'key', 'method_exists', 'number_format', 'rand',
-			'round', 'unserialize',
+			'round', 'tra', 'unserialize',
 		] as $fn ) {
 			try {
 				$this->registerPlugin( 'modifier', $fn, $fn );
@@ -117,7 +117,7 @@ class BitSmarty extends Smarty {
 				$this->registerPlugin( 'modifier', $name, $fn );
 			} catch( \SmartyException $e ) {}
 		}
-
+		$this->registerClass( 'BitBase', 'BitBase' );
 		global $permCheck;
 		$permCheck = new PermissionCheck();
 // SMARTY3	$this->register_object( 'perm', $permCheck, array(), TRUE, array( 'autoComplete' ));
@@ -237,6 +237,15 @@ class BitSmarty extends Smarty {
 		mkdir_p( $cacheDir );
 		$this->setCacheDir( $cacheDir );
 	}
+}
+
+// Register a user-space or package function as a Smarty modifier.
+// $gBitSmarty must already be initialised — a null here means a loading-order bug, not a silent skip.
+function bitsmarty_register_function( $name, $callable ) {
+	global $gBitSmarty;
+	try {
+		$gBitSmarty->registerPlugin( 'modifier', $name, $callable );
+	} catch( \SmartyException $e ) {}
 }
 
 /**
