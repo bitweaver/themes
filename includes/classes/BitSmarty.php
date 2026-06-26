@@ -66,7 +66,7 @@ class BitSmarty extends Smarty {
 			'abs', 'array_keys', 'array_reverse', 'chr', 'count', 'current', 'sizeof',
 			'date', 'extension_loaded', 'floatval', 'floor', 'mktime',
 			'get_class', 'http_build_query', 'implode', 'intval',
-			'is_a', 'is_array', 'is_null', 'is_numeric', 'is_object',
+			'is_a', 'is_array', 'is_int', 'is_null', 'is_numeric', 'is_object',
 			'json_encode', 'key', 'method_exists', 'number_format', 'rand',
 			'round', 'tra', 'unserialize',
 		] as $fn ) {
