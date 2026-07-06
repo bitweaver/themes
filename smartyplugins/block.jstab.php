@@ -27,6 +27,7 @@ function smarty_block_jstab( $pParams, $pContent, &$gBitSmarty, $pRepeat ) {
 
 		$tabString = '<li '.$tClick.' '.$tClass.' '.$tStyle.'><a href="#'.$tabId.'">' . $tTitle . '</a></li>';
 		if( isset( $pParams['position'] ) ) {
+			if( !is_array( $jsTabLinks ) ) { $jsTabLinks = []; }
 			array_splice( $jsTabLinks, $pParams['position'], 0, $tabString );
 		} else {
 			$jsTabLinks[] = $tabString;
