@@ -107,8 +107,8 @@ class BitSmarty extends Smarty {
 		// Filesystem modifiers: null-safe wrappers so {$path|file_exists} etc. don't warn on missing keys.
 		foreach( [
 			'file_exists' => fn($f) => $f !== null && file_exists($f),
-			'filesize'    => fn($f) => $f !== null && file_exists($f) && filesize($f),
-			'filemtime'   => fn($f) => $f !== null && file_exists($f) && filemtime($f),
+			'filesize'    => fn($f) => $f !== null && file_exists($f) ? filesize($f) : false,
+			'filemtime'   => fn($f) => $f !== null && file_exists($f) ? filemtime($f) : false,
 			'is_readable' => fn($f) => $f !== null && is_readable($f),
 			'is_dir'      => fn($f) => $f !== null && is_dir($f),
 			'is_file'     => fn($f) => $f !== null && is_file($f),
