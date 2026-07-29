@@ -1,0 +1,34 @@
+# Themes package documentation
+
+> Engineering documentation derived from the source in this package. The
+> package's `includes/` directory must be denied to direct HTTP requests.
+
+## Purpose
+
+Themes manages Smarty, package template resolution, layouts, modules, styles, icons, and presentation feedback.
+
+## Responsibility
+
+Owns the rendering layer and the rules that resolve package and theme templates.
+
+## Dependencies
+
+kernel, languages, util, Smarty.
+
+Dependency direction matters: this package may depend on the packages above;
+the dependencies do not thereby depend on this package.
+
+## Boundary
+
+Does not own business objects, persistence, or authorization policy.
+
+## Documentation map
+
+- [Architecture](architecture.md) — initialization, components, and request flow.
+- [Source reference](source-reference.md) — source-derived files, classes,
+  controllers, schema artifacts, plugins, and templates.
+- [Development guide](development.md) — safe change workflow, extension points,
+  validation, and maintenance guidance.
+- [Security](security.md) — trust boundaries and direct-HTTP access requirements.
+- [Rendering, layouts, and assets](rendering-layouts-assets.md) — Smarty
+  initialization, template resolution, layout/module flow, styles, and scripts.
