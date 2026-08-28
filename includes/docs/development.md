@@ -27,10 +27,15 @@
 ## APCu singleton caching
 
 `BitThemes` is an APCu-cached singleton when `BIT_CACHE_OBJECTS` is enabled.
-Only durable theme-cache infrastructure is serialized. Request-scoped CSS/JS
-lists, ajax lib registrations, joined style state, and module payloads are
-reset on wakeup so one page's `loadCss()` / `loadJavascript()` / `loadAjax()`
-cannot leak into later requests on the same PHP-FPM worker.
+Site-wide baseline asset lists (`mStyles`, `mAjaxLibs`, `mAuxFiles`,
+`mRawFiles`, `mModules`) are intentionally serialized so every page does not
+rebuild jquery/package CSS from scratch.
+
+Page-only assets must not enter that baseline. Pass `$pPersistent = FALSE` as
+the final argument to `loadCss()`, `loadJavascript()`, and `loadAjax()` from
+controllers and page setup includes (for example `designer_setup_inc.php` or
+bookstore admin). Those registrations go into request-only overlays that are
+merged for the current response and omitted from `__sleep()`.
 
 For Bootstrap container width, `kernel/templates/html.tpl` renders
 `container{$gBitSystem->getConfig('layout-body')}`. Per-request full-width

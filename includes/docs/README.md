@@ -24,8 +24,9 @@ Does not own business objects, persistence, or authorization policy.
 
 ## Caching gotcha
 
-With `BIT_CACHE_OBJECTS`, the `BitThemes` singleton is stored in APCu. Request
-asset registrations must not be treated as durable singleton state; see
+With `BIT_CACHE_OBJECTS`, the `BitThemes` singleton is stored in APCu and keeps
+site-wide CSS/JS baselines. Page-only `loadCss()` / `loadJavascript()` /
+`loadAjax()` calls must pass `$pPersistent = FALSE`; see
 [development.md](development.md). Site body width (`layout-body`) is a Kernel
 config read from `html.tpl` — use `setRequestConfig()` for per-request fluid
 layout overrides.

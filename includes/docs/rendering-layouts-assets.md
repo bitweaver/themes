@@ -69,6 +69,13 @@ Queue assets through `BitThemes::loadJavascript()` and related APIs. Ordering
 arguments are part of dependency behavior. Avoid duplicate direct `<script>`
 tags in templates.
 
+When `BIT_CACHE_OBJECTS` is enabled, baseline queues are kept in the APCu
+`BitThemes` singleton. Controllers and page-only setup files must pass
+`$pPersistent = FALSE` on `loadCss()` / `loadJavascript()` / `loadAjax()` so
+those assets stay request-local and cannot leak to other pages on the same
+worker. Package `bit_setup_inc.php` site-wide loads may keep the default
+(persistent) behavior.
+
 Pass server data using established encoded bootstrap/assignment patterns.
 Never concatenate unescaped user data into executable JavaScript.
 

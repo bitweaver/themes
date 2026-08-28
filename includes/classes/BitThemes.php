@@ -26,17 +26,40 @@ class BitThemes extends BitSingleton {
 	// Ajax libraries needed by current Ajax framework (MochiKit libs, etc.)
 	public $mAjaxLibs = array();
 
-	// Auxiliary Javascript and Css Files
+	// Auxiliary Javascript and Css Files (APCu-persisted baseline)
 	public $mAuxFiles = array(
 		'js'  => array(),
 		'css' => array()
 	);
 
-	// Raw Javascript and Css Files
+	// Raw Javascript and Css Files (APCu-persisted baseline)
 	public $mRawFiles = array(
 		'js'  => array(),
 		'css' => array()
 	);
+
+	/**
+	 * Request-only aux files. Merged for the current response; never serialized
+	 * into the APCu BitThemes singleton.
+	 */
+	public $mRequestAuxFiles = array(
+		'js'  => array(),
+		'css' => array()
+	);
+
+	/**
+	 * Request-only raw files. Merged for the current response; never serialized
+	 * into the APCu BitThemes singleton.
+	 */
+	public $mRequestRawFiles = array(
+		'js'  => array(),
+		'css' => array()
+	);
+
+	/**
+	 * Request-only ajax lib flags. Checked by isAjaxLoaded(); never serialized.
+	 */
+	public $mRequestAjaxLibs = array();
 
 	// Display Mode
 	public $mDisplayMode;
@@ -66,26 +89,39 @@ class BitThemes extends BitSingleton {
 	}
 
 	public function __sleep() {
-		// Persist only durable theme-cache infrastructure. Request-scoped asset
-		// lists (CSS/JS/ajax libs), joined style state, and module payloads must
-		// not leak across requests via the APCu-cached BitThemes singleton.
-		return array_merge( parent::__sleep(), array( 'mThemeCache' ) );
+		// Persist site-wide baseline style/asset/module state. Request-only
+		// overlays (mRequest*) are intentionally omitted so page-specific
+		// loadCss/loadJavascript cannot leak across FPM worker requests.
+		return array_merge( parent::__sleep(), array( 'mStyles', 'mThemeCache', 'mAjaxLibs', 'mAuxFiles', 'mRawFiles', 'mModules' ) );
 	}
 
 	public function __wakeup() {
 		parent::__wakeup();
-		$this->mStyles = array();
-		$this->mAjaxLibs = array();
-		$this->mAuxFiles = array(
+		$this->mRequestAuxFiles = array(
 			'js'  => array(),
 			'css' => array(),
 		);
-		$this->mRawFiles = array(
+		$this->mRequestRawFiles = array(
 			'js'  => array(),
 			'css' => array(),
 		);
-		$this->mModules = array();
+		$this->mRequestAjaxLibs = array();
 		$this->mLayout = array();
+		if( empty( $this->mAuxFiles ) || !is_array( $this->mAuxFiles ) ) {
+			$this->mAuxFiles = array( 'js' => array(), 'css' => array() );
+		}
+		if( empty( $this->mRawFiles ) || !is_array( $this->mRawFiles ) ) {
+			$this->mRawFiles = array( 'js' => array(), 'css' => array() );
+		}
+		if( empty( $this->mAjaxLibs ) || !is_array( $this->mAjaxLibs ) ) {
+			$this->mAjaxLibs = array();
+		}
+		if( empty( $this->mModules ) || !is_array( $this->mModules ) ) {
+			$this->mModules = array();
+		}
+		if( empty( $this->mStyles ) || !is_array( $this->mStyles ) ) {
+			$this->mStyles = array();
+		}
 	}
 
 	// {{{ =================== Styles ====================
@@ -1479,7 +1515,7 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
 	 */
-	function loadAjax( $pAjaxLib, $pLibHash=NULL, $pLibPath=NULL, $pPack = FALSE ) {
+	function loadAjax( $pAjaxLib, $pLibHash=NULL, $pLibPath=NULL, $pPack = FALSE, $pPersistent = TRUE ) {
 		global $gBitSystem, $gBitSmarty, $gSniffer;
 		$ret = FALSE;
 		$joined = TRUE;
@@ -1507,6 +1543,7 @@ class BitThemes extends BitSingleton {
 				// load core javascript files for ajax libraries
 				$jqueryMin = $gBitSystem->isLive() ? '.min' : '';
 				$bootstrapSrc = CONFIG_PKG_PATH.'themes/bootstrap/js/bootstrap'.$jqueryMin.'.js';
+				$rawJs =& $this->getRawFilesHash( $pPersistent );
 				switch( $ajaxLib ) {
 					case 'jquery':
 						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
@@ -1515,12 +1552,12 @@ class BitThemes extends BitSingleton {
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'smoothness' );
 						$jquerySrc = '//ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$jqueryUiSrc = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
-						$this->mRawFiles['js'][] = $jquerySrc;
-						$this->mRawFiles['js'][] = $jqueryUiSrc;
-						$this->mRawFiles['css'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.min.css';
+						$rawJs['js'][] = $jquerySrc;
+						$rawJs['js'][] = $jqueryUiSrc;
+						$rawJs['css'][] = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/themes/'.$jqueryTheme.'/jquery-ui.min.css';
 						// bootstrap needs to load after jquery
 						if( file_exists( $bootstrapSrc ) ) {
-							$this->mRawFiles['js'][] = $bootstrapSrc;
+							$rawJs['js'][] = $bootstrapSrc;
 						}
 
 						$gBitSmarty->assign( 'jquerySrc', $jquerySrc );
@@ -1531,18 +1568,22 @@ class BitThemes extends BitSingleton {
 //						$jqueryUiSrc = THEMES_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js';
 						$jquerySrc = UTIL_PKG_PATH.'javascript/jquery/jquery'.$jqueryMin.'.js';
 						$jqueryUiSrc = UTIL_PKG_PATH.'javascript/jquery/jquery-ui'.$jqueryMin.'.js';
-						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined );
-						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined );
-						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined );
+						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined, $pPersistent );
+						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined, $pPersistent );
+						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined, $pPersistent );
 						break;
 				}
-				$this->mAjaxLibs[$ajaxLib] = TRUE;
+				if( $pPersistent ) {
+					$this->mAjaxLibs[$ajaxLib] = TRUE;
+				} else {
+					$this->mRequestAjaxLibs[$ajaxLib] = TRUE;
+				}
 			}
 
 			if( is_array( $pLibHash )) {
 				foreach( $pLibHash as $lib ) {
 					$fullLib = ($lib[0] == '/' ? '' : $pLibPath).$lib;
-					$this->loadJavascript( $fullLib, $pPack, $pos++, $joined );
+					$this->loadJavascript( $fullLib, $pPack, $pos++, $joined, $pPersistent );
 				}
 			}
 
@@ -1559,9 +1600,29 @@ class BitThemes extends BitSingleton {
 	 * @return TRUE on success, FALSE on failure
 	 */
 	function isAjaxLoaded( $pAjaxLib ) {
-		if( !empty( $this->mAjaxLibs ) && !empty( $pAjaxLib )) {
-			return in_array( strtolower( $pAjaxLib ), array_keys( $this->mAjaxLibs ));
+		if( !empty( $pAjaxLib )) {
+			$lib = strtolower( $pAjaxLib );
+			if( !empty( $this->mAjaxLibs ) && in_array( $lib, array_keys( $this->mAjaxLibs ))) {
+				return TRUE;
+			}
+			if( !empty( $this->mRequestAjaxLibs ) && in_array( $lib, array_keys( $this->mRequestAjaxLibs ))) {
+				return TRUE;
+			}
 		}
+		return FALSE;
+	}
+
+	/**
+	 * Return a reference to the persistent or request-only raw files hash.
+	 *
+	 * @param boolean $pPersistent
+	 * @return array
+	 */
+	function &getRawFilesHash( $pPersistent = TRUE ) {
+		if( $pPersistent ) {
+			return $this->mRawFiles;
+		}
+		return $this->mRequestRawFiles;
 	}
 
 	/**
@@ -1605,19 +1666,25 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE ) {
+	function loadAuxFile( $pFile = NULL, $pType = NULL, $pPosition = 1, $pAuxFile = TRUE, $pPersistent = TRUE ) {
 		if( !empty( $pFile ) && !empty( $pType )) {
 //			if( $pFile = realpath( $pFile )) {
-				if( $pAuxFile ) {
-					$fileHash =& $this->mAuxFiles;
+				if( $pPersistent ) {
+					if( $pAuxFile ) {
+						$fileHash =& $this->mAuxFiles;
+					} else {
+						$fileHash =& $this->mRawFiles;
+					}
+				} elseif( $pAuxFile ) {
+					$fileHash =& $this->mRequestAuxFiles;
 				} else {
-					$fileHash =& $this->mRawFiles;
+					$fileHash =& $this->mRequestRawFiles;
 				}
 
 				if( !$this->isAuxFile( $pFile, $pType, $pAuxFile )) {
 					// if the selected position is occupied, we'll try to load it in the next position
 					if( !empty( $fileHash[$pType][$pPosition] )) {
-						$this->loadAuxFile( $pFile, $pType, ++$pPosition, $pAuxFile );
+						$this->loadAuxFile( $pFile, $pType, ++$pPosition, $pAuxFile, $pPersistent );
 					} else {
 						$fileHash[$pType][$pPosition] = $pFile;
 						// ensure that hash is sorted correctly
@@ -1644,7 +1711,7 @@ class BitThemes extends BitSingleton {
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600, $pJoined = TRUE ) {
+	function loadJavascript( $pJavascriptFile, $pPack = FALSE, $pPosition = 600, $pJoined = TRUE, $pPersistent = TRUE ) {
 		global $gBitSystem;
 		$ret = FALSE;
 		if( !empty( $pJavascriptFile )) {
@@ -1669,7 +1736,9 @@ class BitThemes extends BitSingleton {
 				}
 			}
 
-			$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition, ( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )));
+			// Request-only assets stay out of the persistent joined bundle.
+			$useAux = ( $pPersistent && $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ));
+			$ret = $this->loadAuxFile( $pJavascriptFile, 'js', $pPosition, $useAux, $pPersistent );
 		}
 		return $ret;
 	}
@@ -1681,10 +1750,11 @@ class BitThemes extends BitSingleton {
 	 * @param numeric $pPosition Specify the position of the javascript file in the load process
 	 * @param boolean $pJoined Adds the file to the list of files to be concatenated into a single file
 	 * @param boolean $pForce Forces the css file to always be loaded, should only be used by active style
+	 * @param boolean $pPersistent When FALSE, register for this request only (not APCu-cached)
 	 * @access public
 	 * @return TRUE on success, FALSE on failure
 	 */
-	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE, $pForce = FALSE ) {
+	function loadCss( $pCssFile, $pPack = TRUE, $pPosition = 300, $pJoined = TRUE, $pForce = FALSE, $pPersistent = TRUE ) {
 		global $gBitSystem;
 		$ret = FALSE;
 		if( !empty( $pCssFile ) && ( !$gBitSystem->isFeatureActive( 'themes_disable_pkg_css' ) || $pForce )) {
@@ -1693,7 +1763,9 @@ class BitThemes extends BitSingleton {
 				$pCssFile = $this->packCss( $pCssFile, ( $pPack && $gBitSystem->isFeatureActive( 'themes_packed_js_css' )));
 			}
 
-			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition, ( $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' )));
+			// Request-only assets stay out of the persistent joined bundle.
+			$useAux = ( $pPersistent && $pJoined && $gBitSystem->isFeatureActive( 'themes_joined_js_css' ));
+			$ret = $this->loadAuxFile( $pCssFile, 'css', $pPosition, $useAux, $pPersistent );
 		}
 		return $ret;
 	}
@@ -1868,15 +1940,11 @@ class BitThemes extends BitSingleton {
 		// unload files that are not wanted by users
 		if( !empty( $this->mUnloadFiles[$pType] )) {
 			foreach( $this->mUnloadFiles[$pType] as $file ) {
-				if( !empty( $this->mAuxFiles[$pType] )) {
-					if( $key = array_search( $file, $this->mAuxFiles[$pType] )) {
-						unset( $this->mAuxFiles[$pType][$key] );
-					}
-				}
-
-				if( !empty( $this->mRawFiles[$pType] )) {
-					if( $key = array_search( $file, $this->mRawFiles[$pType] )) {
-						unset( $this->mRawFiles[$pType][$key] );
+				foreach( array( 'mAuxFiles', 'mRawFiles', 'mRequestAuxFiles', 'mRequestRawFiles' ) as $hashName ) {
+					if( !empty( $this->{$hashName}[$pType] )) {
+						if( $key = array_search( $file, $this->{$hashName}[$pType] )) {
+							unset( $this->{$hashName}[$pType][$key] );
+						}
 					}
 				}
 			}
@@ -1896,23 +1964,25 @@ class BitThemes extends BitSingleton {
 			}
 		}
 
-		// convert full file path to URL in mRawFiles hash
-		if( !empty( $this->mRawFiles[$pType] )) {
-			foreach( $this->mRawFiles[$pType] as $pos => $file ) {
-				if (is_windows() ) {
-					$file = str_replace( '\\', '/',  $file );
-					// Put first forward slash back
-					$file = substr_replace( $file, '\\', 2, 1 );
-					$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
-					// Put first forward slash back
-					$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
-					if ( strpos( $file, $winBitRootPath ) !== FALSE ) {
-						$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( $winBitRootPath ));
-					}
-				} else if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
-					$this->mRawFiles[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
-					if( file_exists( $file ) && ($cacheTime = filemtime( $file )) ) {
-						$this->mRawFiles[$pType][$pos] .= (strpos('?',$file) ? '&' : '?' ).$cacheTime;
+		// convert full file path to URL in persistent and request raw hashes
+		foreach( array( 'mRawFiles', 'mRequestRawFiles' ) as $hashName ) {
+			if( !empty( $this->{$hashName}[$pType] )) {
+				foreach( $this->{$hashName}[$pType] as $pos => $file ) {
+					if (is_windows() ) {
+						$file = str_replace( '\\', '/',  $file );
+						// Put first forward slash back
+						$file = substr_replace( $file, '\\', 2, 1 );
+						$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
+						// Put first forward slash back
+						$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
+						if ( strpos( $file, $winBitRootPath ) !== FALSE ) {
+							$this->{$hashName}[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( $winBitRootPath ));
+						}
+					} else if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
+						$this->{$hashName}[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
+						if( file_exists( $file ) && ($cacheTime = filemtime( $file )) ) {
+							$this->{$hashName}[$pType][$pos] .= (strpos('?',$file) ? '&' : '?' ).$cacheTime;
+						}
 					}
 				}
 			}
@@ -2021,15 +2091,18 @@ class BitThemes extends BitSingleton {
 	 * @return TRUE on success, FALSE on failure
 	 */
 	function isAuxFile( $pFile = NULL, $pType = NULL, $pAuxFile = TRUE ) {
-		if( $pAuxFile ) {
-			$fileHash =& $this->mAuxFiles;
-		} else {
-			$fileHash =& $this->mRawFiles;
+		if( empty( $pFile ) || empty( $pType )) {
+			return FALSE;
 		}
-
-		if( !empty( $pFile ) && !empty( $pType ) && !empty( $fileHash[$pType] )) {
-			return( in_array( $pFile, $fileHash[$pType] ));
+		$hashes = $pAuxFile
+			? array( $this->mAuxFiles, $this->mRequestAuxFiles )
+			: array( $this->mRawFiles, $this->mRequestRawFiles );
+		foreach( $hashes as $fileHash ) {
+			if( !empty( $fileHash[$pType] ) && in_array( $pFile, $fileHash[$pType] )) {
+				return TRUE;
+			}
 		}
+		return FALSE;
 	}
 
 

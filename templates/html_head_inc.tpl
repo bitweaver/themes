@@ -2,10 +2,16 @@
 {foreach from=$gBitThemes->mRawFiles.css item=cssFile}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all">
 {/foreach}
+{foreach from=$gBitThemes->mRequestRawFiles.css item=cssFile}
+	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all">
+{/foreach}
 
 {foreach from=$gBitThemes->mRawFiles.js item=jsFile}
 	<script src="{$jsFile}"></script>
-{/foreach} 
+{/foreach}
+{foreach from=$gBitThemes->mRequestRawFiles.js item=jsFile}
+	<script src="{$jsFile}"></script>
+{/foreach}
 {if $gBitThemes->mStyles.joined_css}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$gBitThemes->mStyles.joined_css}" media="all">
 {/if}
