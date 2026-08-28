@@ -55,3 +55,17 @@ schema alone.
 Templates belong to the package but are resolved through Themes/Smarty.
 Controllers own request handling; templates should render assigned state rather
 than perform domain mutations.
+
+## APCu singleton and full-width layout symptom
+
+`BitThemes` is APCu-cached when `BIT_CACHE_OBJECTS` is on. Site-wide baseline
+CSS/JS/module lists are meant to stay cached; page-only `loadCss` /
+`loadJavascript` / `loadAjax` must pass `$pPersistent = FALSE` or those assets
+can leak onto unrelated pages after a cache-miss store on that FPM worker.
+
+Separately, main content width is controlled by Kernel config `layout-body` in
+`kernel/templates/html.tpl` (`container` vs `container-fluid`). Intermittent
+site-wide full width after visiting designer/admin pages was traced to
+`BitSystem` APCu poisoning of `layout-body`, not to Bootstrap column classes on
+`#wrapper`. See [development.md](development.md) and Kernel
+`core-runtime.md`.
