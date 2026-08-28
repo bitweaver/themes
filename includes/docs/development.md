@@ -24,6 +24,19 @@
   paths.
 - Treat request parameters as untrusted even when a controller is admin-only.
 
+## APCu singleton caching
+
+`BitThemes` is an APCu-cached singleton when `BIT_CACHE_OBJECTS` is enabled.
+Only durable theme-cache infrastructure is serialized. Request-scoped CSS/JS
+lists, ajax lib registrations, joined style state, and module payloads are
+reset on wakeup so one page's `loadCss()` / `loadJavascript()` / `loadAjax()`
+cannot leak into later requests on the same PHP-FPM worker.
+
+For Bootstrap container width, `kernel/templates/html.tpl` renders
+`container{$gBitSystem->getConfig('layout-body')}`. Per-request full-width
+pages must call `$gBitSystem->setRequestConfig('layout-body', '-fluid')`
+rather than `setConfig()` or direct `$gBitSystem->mConfig` writes.
+
 ## Schema changes
 
 Update both installation and upgrade paths. Define portable schema through the

@@ -66,7 +66,26 @@ class BitThemes extends BitSingleton {
 	}
 
 	public function __sleep() {
-		return array_merge( parent::__sleep(), array( 'mStyles', 'mThemeCache', 'mAjaxLibs', 'mAuxFiles', 'mRawFiles', 'mModules' ) );
+		// Persist only durable theme-cache infrastructure. Request-scoped asset
+		// lists (CSS/JS/ajax libs), joined style state, and module payloads must
+		// not leak across requests via the APCu-cached BitThemes singleton.
+		return array_merge( parent::__sleep(), array( 'mThemeCache' ) );
+	}
+
+	public function __wakeup() {
+		parent::__wakeup();
+		$this->mStyles = array();
+		$this->mAjaxLibs = array();
+		$this->mAuxFiles = array(
+			'js'  => array(),
+			'css' => array(),
+		);
+		$this->mRawFiles = array(
+			'js'  => array(),
+			'css' => array(),
+		);
+		$this->mModules = array();
+		$this->mLayout = array();
 	}
 
 	// {{{ =================== Styles ====================

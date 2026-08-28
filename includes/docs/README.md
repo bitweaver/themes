@@ -22,6 +22,14 @@ the dependencies do not thereby depend on this package.
 
 Does not own business objects, persistence, or authorization policy.
 
+## Caching gotcha
+
+With `BIT_CACHE_OBJECTS`, the `BitThemes` singleton is stored in APCu. Request
+asset registrations must not be treated as durable singleton state; see
+[development.md](development.md). Site body width (`layout-body`) is a Kernel
+config read from `html.tpl` — use `setRequestConfig()` for per-request fluid
+layout overrides.
+
 ## Documentation map
 
 - [Architecture](architecture.md) — initialization, components, and request flow.
