@@ -6,33 +6,47 @@
  */
 
 /**
- * smarty_modifier_telelphone_e164
+ * Format a telephone number as E.164 when libphonenumber is available.
+ * Falls back to the original string if the library is missing or parsing fails.
+ * (Never fatals on missing class — checkout success embeds this in tracking JS.)
  */
 function smarty_modifier_telephone_e164( $pTelephoneNumber, $pCountryCodeIso2='US' ) {
 	if( $ret = $pTelephoneNumber ) {
 
 		global $gPhoneNumberUtil;
-		if( empty( $gPhoneNumberUtil ) ) {
-			spl_autoload_register(function ($class) {
-				// replace namespace separators with directory separators in the relative 
-				// class name, append with .php
-				$class_path = str_replace('\\', '/', $class);
-				
-				$file =  EXTERNAL_LIBS_PATH . $class_path . '.php';
-
-				// if the file exists, require it
-				if (file_exists($file)) {
-					require_once( $file );
+		// isset: false means init already failed this request; do not retry every call
+		if( !isset( $gPhoneNumberUtil ) ) {
+			$gPhoneNumberUtil = false;
+			static $libphonenumberAutoloadRegistered = false;
+			if( !$libphonenumberAutoloadRegistered ) {
+				$libphonenumberAutoloadRegistered = true;
+				spl_autoload_register( function( $class ) {
+					if( strncmp( $class, 'libphonenumber\\', 15 ) !== 0 ) {
+						return;
+					}
+					$file = EXTERNAL_LIBS_PATH.'libphonenumber/'.str_replace( '\\', '/', substr( $class, 15 ) ).'.php';
+					if( file_exists( $file ) ) {
+						require_once( $file );
+					}
+				} );
+			}
+			if( class_exists( '\\libphonenumber\\PhoneNumberUtil', true ) ) {
+				try {
+					$gPhoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+				} catch( \Throwable $e ) {
+					bit_error_log( 'telephone_e164: PhoneNumberUtil init failed: '.$e->getMessage() );
+					$gPhoneNumberUtil = false;
 				}
-			});
-			$gPhoneNumberUtil = \libphonenumber\PhoneNumberUtil::getInstance();
+			} else {
+				bit_error_log( 'telephone_e164: libphonenumber not available under '.EXTERNAL_LIBS_PATH.'libphonenumber/' );
+			}
 		}
 		if( is_object( $gPhoneNumberUtil ) ) {
 			try {
 				if( $parsedNumber = $gPhoneNumberUtil->parse( $pTelephoneNumber, $pCountryCodeIso2 ) ) {
 					$ret = $gPhoneNumberUtil->format( $parsedNumber, \libphonenumber\PhoneNumberFormat::E164 );
 				}
-			} catch( Exception $e ) {
+			} catch( \Throwable $e ) {
 				bit_error_log( 'telephone_e164 failed: '.$pCountryCodeIso2.' '.$pTelephoneNumber );
 			}
 		}
