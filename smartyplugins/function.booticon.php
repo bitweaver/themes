@@ -40,7 +40,7 @@ if( empty( $pParams["iname"] ) ) {
 	if( strpos( $pParams["iname"], 'icon-' ) === 0 ) {
 		$pParams['iname'] = str_replace( 'icon-', 'fa-', $pParams['iname'] );
 	}
-if( strpos( $pParams["iname"], 'fa-' ) !== 0 ) {
+if( strpos( $pParams["iname"], 'fa-' ) === false ) {
 	bit_error_log( 'missing fa '.$pParams["iname"] );
 }
 
