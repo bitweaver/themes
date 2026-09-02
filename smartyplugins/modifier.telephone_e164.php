@@ -24,7 +24,8 @@ function smarty_modifier_telephone_e164( $pTelephoneNumber, $pCountryCodeIso2='U
 					if( strncmp( $class, 'libphonenumber\\', 15 ) !== 0 ) {
 						return;
 					}
-					$file = EXTERNAL_LIBS_PATH.'libphonenumber/'.str_replace( '\\', '/', substr( $class, 15 ) ).'.php';
+					// giggsey libphonenumber-for-php(-lite) uses PSR-4 under src/
+					$file = EXTERNAL_LIBS_PATH.'libphonenumber/src/'.str_replace( '\\', '/', substr( $class, 15 ) ).'.php';
 					if( file_exists( $file ) ) {
 						require_once( $file );
 					}
@@ -38,7 +39,7 @@ function smarty_modifier_telephone_e164( $pTelephoneNumber, $pCountryCodeIso2='U
 					$gPhoneNumberUtil = false;
 				}
 			} else {
-				bit_error_log( 'telephone_e164: libphonenumber not available under '.EXTERNAL_LIBS_PATH.'libphonenumber/' );
+				bit_error_log( 'telephone_e164: libphonenumber not available under '.EXTERNAL_LIBS_PATH.'libphonenumber/src/' );
 			}
 		}
 		if( is_object( $gPhoneNumberUtil ) ) {
