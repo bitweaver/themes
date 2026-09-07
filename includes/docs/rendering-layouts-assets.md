@@ -7,6 +7,8 @@ directory, selects the current style, assigns `$gBitThemes`, and loads baseline
 JavaScript/AJAX support.
 
 `BitSmarty` extends Smarty and implements Bitweaver resource/plugin behavior.
+Registered PHP string modifiers coerce null and non-scalars to an empty string
+before calling the native function.
 `BitThemes` owns styles, layouts, modules, asset queues, display mode, and
 response format.
 

@@ -23,6 +23,8 @@
 - Reuse registered package paths and URLs instead of hard-coded deployment
   paths.
 - Treat request parameters as untrusted even when a controller is admin-only.
+- `BitSmarty` string modifiers coerce null and non-scalars (arrays/objects) to
+  `''` so `|strtolower` and similar cannot TypeError on probe query params.
 
 ## APCu singleton caching
 

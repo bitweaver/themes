@@ -74,31 +74,35 @@ class BitSmarty extends Smarty {
 				$this->registerPlugin( 'modifier', $fn, $fn );
 			} catch( \SmartyException $e ) {}
 		}
-		// String modifiers: null-safe wrappers — PHP 8.1 rejects null for typed string params.
+		// String modifiers: coerce null and non-scalars. PHP 8 TypeError on
+		// arrays (e.g. ?group[x]=1); PHP 8.1 rejects null for typed string params.
+		$asString = static function( $s ): string {
+			return is_scalar( $s ) ? (string)$s : '';
+		};
 		foreach( [
-			'addslashes'        => fn($s) => addslashes($s ?? ''),
-			'basename'          => fn($s) => basename($s ?? ''),
-			'dirname'           => fn($s) => dirname($s ?? ''),
-			'html_entity_decode'=> fn($s) => html_entity_decode($s ?? ''),
-			'htmlentities'      => fn($s) => htmlentities($s ?? ''),
-			'preg_replace'      => fn($s, ...$a) => preg_replace($s ?? '', ...$a),
-			'str_replace'       => fn($s, ...$a) => str_replace($s ?? '', ...$a),
-			'strip_tags'        => fn($s) => strip_tags($s ?? ''),
-			'stripslashes'      => fn($s) => stripslashes($s ?? ''),
-			'stristr'           => fn($s, ...$a) => stristr($s ?? '', ...$a),
-			'strlen'            => fn($s) => strlen($s ?? ''),
-			'strpos'            => fn($s, ...$a) => strpos($s ?? '', ...$a),
-			'strrpos'           => fn($s, ...$a) => strrpos($s ?? '', ...$a),
-			'strstr'            => fn($s, ...$a) => strstr($s ?? '', ...$a),
-			'strtolower'        => fn($s) => strtolower($s ?? ''),
-			'strtotime'         => fn($s) => strtotime($s ?? ''),
-			'strtoupper'        => fn($s) => strtoupper($s ?? ''),
-			'strtr'             => fn($s, ...$a) => strtr($s ?? '', ...$a),
-			'substr'            => fn($s, ...$a) => substr($s ?? '', ...$a),
-			'trim'              => fn($s) => trim($s ?? ''),
-			'ucfirst'           => fn($s) => ucfirst($s ?? ''),
-			'ucwords'           => fn($s) => ucwords($s ?? ''),
-			'urlencode'         => fn($s) => urlencode($s ?? ''),
+			'addslashes'        => fn($s) => addslashes($asString($s)),
+			'basename'          => fn($s) => basename($asString($s)),
+			'dirname'           => fn($s) => dirname($asString($s)),
+			'html_entity_decode'=> fn($s) => html_entity_decode($asString($s)),
+			'htmlentities'      => fn($s) => htmlentities($asString($s)),
+			'preg_replace'      => fn($s, ...$a) => preg_replace($asString($s), ...$a),
+			'str_replace'       => fn($s, ...$a) => str_replace($asString($s), ...$a),
+			'strip_tags'        => fn($s) => strip_tags($asString($s)),
+			'stripslashes'      => fn($s) => stripslashes($asString($s)),
+			'stristr'           => fn($s, ...$a) => stristr($asString($s), ...$a),
+			'strlen'            => fn($s) => strlen($asString($s)),
+			'strpos'            => fn($s, ...$a) => strpos($asString($s), ...$a),
+			'strrpos'           => fn($s, ...$a) => strrpos($asString($s), ...$a),
+			'strstr'            => fn($s, ...$a) => strstr($asString($s), ...$a),
+			'strtolower'        => fn($s) => strtolower($asString($s)),
+			'strtotime'         => fn($s) => strtotime($asString($s)),
+			'strtoupper'        => fn($s) => strtoupper($asString($s)),
+			'strtr'             => fn($s, ...$a) => strtr($asString($s), ...$a),
+			'substr'            => fn($s, ...$a) => substr($asString($s), ...$a),
+			'trim'              => fn($s) => trim($asString($s)),
+			'ucfirst'           => fn($s) => ucfirst($asString($s)),
+			'ucwords'           => fn($s) => ucwords($asString($s)),
+			'urlencode'         => fn($s) => urlencode($asString($s)),
 		] as $name => $fn ) {
 			try {
 				$this->registerPlugin( 'modifier', $name, $fn );
