@@ -31,6 +31,19 @@ site-wide CSS/JS baselines. Page-only `loadCss()` / `loadJavascript()` /
 config read from `html.tpl` — use `setRequestConfig()` for per-request fluid
 layout overrides.
 
+## Color input
+
+`{colorinput}` (`smartyplugins/function.colorinput.php`) is the shared
+hex + native color-picker control. It does not depend on Designer’s
+bootstrap-colorpicker. Typical use:
+
+```smarty
+{colorinput name="background_color" value=$gBitProduct->getCoverBackgroundColor() size="sm"}
+```
+
+Optional params: `id`, `class`, `size` (`sm`/`lg`), `title`, `aria-label`,
+`disabled`.
+
 ## Documentation map
 
 - [Architecture](architecture.md) — initialization, components, and request flow.
