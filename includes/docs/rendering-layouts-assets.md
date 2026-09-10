@@ -24,6 +24,11 @@ Resolution allows an active theme to override a package template while falling
 back to the package's own `templates/` directory. This preserves pristine
 package templates and keeps branding/presentation overrides in themes.
 
+Install-wide overlays live at `config/themes/<package>/<template>` (for
+example `config/themes/kernel/html.tpl`). Those apply to every style in this
+checkout, after `config/themes/force/` and before a per-style copy under
+`config/themes/<stylename>/<package>/`.
+
 Never build a template filesystem path from request input. Pass a known
 resource name to Smarty.
 

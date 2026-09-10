@@ -113,6 +113,9 @@ class Smarty_Resource_Bitpackage extends Smarty_Resource_Custom {
 				$ret['force_simple'] = CONFIG_PKG_PATH."themes/force/$subdir$template";
 			}
 
+			// install-wide package overlay, e.g. config/themes/kernel/html.tpl
+			$ret['config_package'] = CONFIG_PKG_PATH."themes/$package/$subdir$template";
+
 			// look in themes/style/<stylename>/
 			$ret['override']        = $gBitThemes->getStylePath()."$package/$subdir$template";
 			$ret['override_simple'] = $gBitThemes->getStylePath().$subdir.$template;
