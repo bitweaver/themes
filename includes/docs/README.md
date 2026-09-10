@@ -47,6 +47,17 @@ width is **9em**. Typical use:
 Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
 (`hex`), `title`, `aria-label`, `disabled`.
 
+## HTML id / class tokens
+
+`|html_id` (`smartyplugins/modifier.html_id.php`) sanitizes a string for
+use as an HTML `id` or class token: non `[A-Za-z0-9_-]` → `_`. Use when
+building DOM hooks from catalog values (e.g. part numbers with `.` like
+`11X8.5`). Do **not** apply to URL query values or displayed labels.
+
+```smarty
+{assign var=coverPreviewId value="cover-`$printerKey`-`$opId`-`$partNumber`"|html_id}
+```
+
 ## Documentation map
 
 - [Architecture](architecture.md) — initialization, components, and request flow.
