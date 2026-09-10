@@ -34,15 +34,29 @@ layout overrides.
 ## Color input
 
 `{colorinput}` (`smartyplugins/function.colorinput.php`) is the shared
-hex + native color-picker control. It does not depend on Designer’s
-bootstrap-colorpicker. Typical use:
+compact swatch + hex text + native `<input type="color">` control
+(eyedropper). **`format` defaults to `hex`** for the text field
+(`#RRGGBB`); picker changes are normalized to hex and fire `change`.
+Native OS dialogs may open in RGB — that cannot be forced to HEX. Group
+width is **9em**. Typical use:
 
 ```smarty
-{colorinput name="background_color" value=$gBitProduct->getCoverBackgroundColor() size="sm"}
+{colorinput id="pdf-tackle-hex-…" value=$bg size="sm" format="hex" title="Fill color"}
 ```
 
-Optional params: `id`, `class`, `size` (`sm`/`lg`), `title`, `aria-label`,
-`disabled`.
+Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
+(`hex`), `title`, `aria-label`, `disabled`.
+
+## HTML id / class tokens
+
+`|html_id` (`smartyplugins/modifier.html_id.php`) sanitizes a string for
+use as an HTML `id` or class token: non `[A-Za-z0-9_-]` → `_`. Use when
+building DOM hooks from catalog values (e.g. part numbers with `.` like
+`11X8.5`). Do **not** apply to URL query values or displayed labels.
+
+```smarty
+{assign var=coverPreviewId value="cover-`$printerKey`-`$opId`-`$partNumber`"|html_id}
+```
 
 ## Documentation map
 
