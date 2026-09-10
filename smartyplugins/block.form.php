@@ -60,6 +60,7 @@ function smarty_block_form( $pParams, $pContent, &$gBitSmarty) {
 					break;
 				// this is needed for backwards compatibility since we sometimes pass in a url
 				case 'action':
+					$val = (string) $val;
 					if( substr( $val, 0, 4 ) == 'http' ) {
 						if( isset( $pParams['secure'] ) && $pParams['secure'] && ( substr( $val, 0, 5 ) != 'https' )) {
 							$val = preg_replace( '/^http/', 'https', $val );
