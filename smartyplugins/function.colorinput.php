@@ -11,10 +11,10 @@
  *
  * Type:     function
  * Name:     colorinput
- * Purpose:  Compact swatch + hex text + native &lt;input type="color"&gt;
- *           (eyedropper). Text format defaults to hex (#RRGGBB). Group width
- *           is 9em (room for a future #RRGGBBAA). OS dialogs may open in RGB;
- *           the text field stays hex.
+ * Purpose:  Compact native &lt;input type="color"&gt; + hex text
+ *           (eyedropper). Both are form-control in one input-group.
+ *           Text format defaults to hex (#RRGGBB). Sizes in css/base.css.
+ *           OS dialogs may open in RGB; the text field stays hex.
  *
  * Input:
  *           - name        (optional) form field name on the text input
@@ -54,7 +54,6 @@ function smarty_function_colorinput( $pParams, &$pSmarty=NULL ) {
 	}
 
 	$pickerId = $id.'-picker';
-	$swatchId = $id.'-swatch';
 
 	$html = '';
 	if( !$assetsPrinted ) {
@@ -63,9 +62,7 @@ function smarty_function_colorinput( $pParams, &$pSmarty=NULL ) {
 	}
 
 	$html .= '<div class="'.htmlspecialchars( $groupClass ).'" data-format="'.htmlspecialchars( $format ).'" data-color="'.htmlspecialchars( $value ).'">';
-	$html .= '<span class="input-group-addon colorinput-swatch" id="'.htmlspecialchars( $swatchId ).'" style="background:'.htmlspecialchars( $value ).'" title="'.htmlspecialchars( tra( 'Pick color' ) ).'" role="button" tabindex="0">';
-	$html .= '<input type="color" class="colorinput-picker" id="'.htmlspecialchars( $pickerId ).'" value="'.htmlspecialchars( strtolower( $value ) ).'" tabindex="-1" aria-hidden="true"'.$disabled.' />';
-	$html .= '</span>';
+	$html .= '<input type="color" class="form-control colorinput-picker" id="'.htmlspecialchars( $pickerId ).'" value="'.htmlspecialchars( strtolower( $value ) ).'" title="'.htmlspecialchars( $title ).'" aria-label="'.htmlspecialchars( $aria ).'"'.$disabled.' />';
 	$html .= '<input type="text" class="form-control colorinput-text" id="'.htmlspecialchars( $id ).'"';
 	if( $name !== '' ) {
 		$html .= ' name="'.htmlspecialchars( $name ).'"';
@@ -94,13 +91,7 @@ function bit_colorinput_normalize( $pValue ) {
 }
 
 function bit_colorinput_assets() {
-	return '<style type="text/css">
-.colorinput{display:inline-table;width:9em;max-width:9em;vertical-align:middle;}
-.colorinput>.form-control{width:100%;}
-.colorinput-swatch{cursor:pointer;min-width:2em;position:relative;overflow:hidden;}
-.colorinput-picker{position:absolute;left:0;top:0;width:100%;height:100%;margin:0;padding:0;border:0;opacity:0.01;cursor:pointer;}
-</style>
-<script type="text/javascript">/*<![CDATA[*/
+	return '<script type="text/javascript">/*<![CDATA[*/
 (function($){
 	if( window.bitColorInputReady ) { return; }
 	window.bitColorInputReady = true;
@@ -122,7 +113,6 @@ function bit_colorinput_assets() {
 		$text.val( n );
 		$root.attr( "data-color", n );
 		$root.find(".colorinput-picker").val( n.toLowerCase() );
-		$root.find(".colorinput-swatch").css( "background", n );
 		if( fireChange && prev !== n ) {
 			$text.trigger( "change" );
 		}
@@ -138,7 +128,6 @@ function bit_colorinput_assets() {
 		var n = bitColorInputNorm( this.value );
 		if( n ) {
 			$root.find(".colorinput-picker").val( n.toLowerCase() );
-			$root.find(".colorinput-swatch").css( "background", n );
 		}
 	});
 	$(document).on("blur", ".colorinput-text", function() {
@@ -146,12 +135,6 @@ function bit_colorinput_assets() {
 		if( !bitColorInputApply( $root, this.value, false ) ) {
 			bitColorInputApply( $root, $root.attr("data-color") || $root.find(".colorinput-picker").val(), false );
 		}
-	});
-	$(document).on("keypress", ".colorinput-swatch", function(e) {
-		if( e.which !== 13 && e.which !== 32 ) { return; }
-		e.preventDefault();
-		var picker = $(this).find(".colorinput-picker").get(0);
-		if( picker && typeof picker.click === "function" ) { picker.click(); }
 	});
 })(jQuery);
 /*]]>*/</script>';

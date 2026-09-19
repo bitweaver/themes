@@ -309,4 +309,11 @@ transition: all .2s ease;
 @media print {
 a[href]:after { content: none !important; }
 }
+
+.colorinput	{ display:inline-table; vertical-align:middle; }
+.input-group.colorinput > .form-control.colorinput-text	{ width:8em; }
+.input-group.colorinput > .form-control.colorinput-picker	{ width:2.5em; padding:0; }
+.colorinput-picker::-webkit-color-swatch-wrapper	{ padding:0; }
+.colorinput-picker::-webkit-color-swatch	{ border:none; border-radius:2px; }
+.colorinput-picker::-moz-color-swatch	{ border:none; }
 /* vim: set ts=40: */
