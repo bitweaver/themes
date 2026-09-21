@@ -71,6 +71,9 @@ Queue assets through `BitThemes::loadJavascript()` and related APIs. Ordering
 arguments are part of dependency behavior. Avoid duplicate direct `<script>`
 tags in templates.
 
+Themes setup loads package `css/base.css` (utilities and `{colorinput}`)
+as core CSS. Do not add a second colorinput stylesheet.
+
 When `BIT_CACHE_OBJECTS` is enabled, baseline queues are kept in the APCu
 `BitThemes` singleton. Controllers and page-only setup files must pass
 `$pPersistent = FALSE` on `loadCss()` / `loadJavascript()` / `loadAjax()` so

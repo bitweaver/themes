@@ -39,7 +39,8 @@ compact swatch + hex text + native `<input type="color">` control
 they share Bootstrap height. **`format` defaults to `hex`** for the text
 field (`#RRGGBB`); picker changes are normalized to hex and fire
 `change`. Native OS dialogs may open in RGB — that cannot be forced to
-HEX. Layout CSS is in `css/base.css` (picker **2.5em**, hex **8em**).
+HEX. Layout CSS is in `css/base.css` (picker **2.5em**, hex **8em**),
+queued from package setup as core Themes CSS — not a separate file.
 Typical use:
 
 ```smarty
