@@ -50,6 +50,22 @@ Typical use:
 Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
 (`hex`), `title`, `aria-label`, `disabled`.
 
+## Byte sizes
+
+`|display_bytes` (`smartyplugins/modifier.display_bytes.php`) turns a byte
+count into a short label (`12.4 MB`). Division is by 1024; the unit list is
+`B` through `YB`. The second argument is decimal places (default 1). The
+default return is plain text.
+
+Pass `1` as the third argument to emit a `<span class="link">`. A click
+swaps the label with the exact count (`number_format` plus ` bytes`); a
+second click restores the short label.
+
+```smarty
+{$someFile|filesize|display_bytes}
+{$someFile|filesize|display_bytes:1:1}
+```
+
 ## HTML id / class tokens
 
 `|html_id` (`smartyplugins/modifier.html_id.php`) sanitizes a string for
