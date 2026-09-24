@@ -54,16 +54,25 @@ Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
 
 `|display_bytes` (`smartyplugins/modifier.display_bytes.php`) turns a byte
 count into a short label (`12.4 MB`). Division is by 1024; the unit list is
-`B` through `YB`. The second argument is decimal places (default 1). The
-default return is plain text.
+`B` through `YB`. The default is a `<span class="link">`. A click swaps the
+label with the exact count (`number_format` plus ` bytes`); a second click
+restores the short label. The click does not follow a parent link.
 
-Pass `1` as the third argument to emit a `<span class="link">`. A click
-swaps the label with the exact count (`number_format` plus ` bytes`); a
-second click restores the short label.
+The second argument is the mode:
+
+| Mode | Result |
+|------|--------|
+| `toggle` (default) | Short label; click shows the exact count |
+| `plain` | Short label only |
+| `raw` | Exact count only (`1,234 bytes`) |
+
+A numeric second argument is decimal places and still toggles. Pass decimals
+as the third argument when the mode is named (`plain:2`).
 
 ```smarty
 {$someFile|filesize|display_bytes}
-{$someFile|filesize|display_bytes:1:1}
+{$someFile|filesize|display_bytes:plain}
+{$someFile|filesize|display_bytes:raw}
 ```
 
 ## HTML id / class tokens
