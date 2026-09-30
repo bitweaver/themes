@@ -79,7 +79,9 @@ When `BIT_CACHE_OBJECTS` is enabled, baseline queues are kept in the APCu
 `$pPersistent = FALSE` on `loadCss()` / `loadJavascript()` / `loadAjax()` so
 those assets stay request-local and cannot leak to other pages on the same
 worker. Package `bit_setup_inc.php` site-wide loads may keep the default
-(persistent) behavior.
+(persistent) behavior. Site body width (`layout-body`) is a Kernel config
+read from `html.tpl`. Per-request fluid overrides use `setRequestConfig()`,
+not `setConfig()`.
 
 Pass server data using established encoded bootstrap/assignment patterns.
 Never concatenate unescaped user data into executable JavaScript.
@@ -97,6 +99,61 @@ When adding a template-callable API:
 - Register explicitly for current Smarty versions.
 - Test missing/null values under strict PHP behavior.
 - Do not rely on arbitrary PHP function access.
+
+### Color input
+
+`{colorinput}` (`smartyplugins/function.colorinput.php`) is the shared
+compact swatch + hex text + native `<input type="color">` control
+(eyedropper). Both controls are `form-control` in one `input-group` so
+they share Bootstrap height. **`format` defaults to `hex`** for the text
+field (`#RRGGBB`); picker changes are normalized to hex and fire
+`change`. Native OS dialogs may open in RGB — that cannot be forced to
+HEX. Layout CSS is in `css/base.css` (picker **2.5em**, hex **8em**),
+queued from package setup as core Themes CSS — not a separate file.
+Typical use:
+
+```smarty
+{colorinput id="bg-color" value=$bg size="sm" format="hex" title="Background"}
+```
+
+Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
+(`hex`), `title`, `aria-label`, `disabled`.
+
+### Byte sizes
+
+`|display_bytes` (`smartyplugins/modifier.display_bytes.php`) turns a byte
+count into a short label (`12.4 MB`). Division is by 1024; the unit list is
+`B` through `YB`. The default is a `<span class="link">`. A click swaps the
+label with the exact count (`number_format` plus ` bytes`); a second click
+restores the short label. The click does not follow a parent link.
+
+The second argument is the mode:
+
+| Mode | Result |
+|------|--------|
+| `toggle` (default) | Short label; click shows the exact count |
+| `plain` | Short label only |
+| `raw` | Exact count only (`1,234 bytes`) |
+
+A numeric second argument is decimal places and still toggles. Pass decimals
+as the third argument when the mode is named (`plain:2`).
+
+```smarty
+{$someFile|filesize|display_bytes}
+{$someFile|filesize|display_bytes:plain}
+{$someFile|filesize|display_bytes:raw}
+```
+
+### HTML id and class tokens
+
+`|html_id` (`smartyplugins/modifier.html_id.php`) sanitizes a string for
+use as an HTML `id` or class token: non `[A-Za-z0-9_-]` → `_`. Use when
+building DOM hooks from catalog values (for example a part number that
+contains `.`). Do not apply it to URL query values or displayed labels.
+
+```smarty
+{assign var=coverPreviewId value="cover-`$printerKey`-`$opId`-`$partNumber`"|html_id}
+```
 
 ## Response formats
 
