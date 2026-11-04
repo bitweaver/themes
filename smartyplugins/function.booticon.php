@@ -20,6 +20,10 @@
 function smarty_function_booticon( $pParams ) {
 	global $gBitSystem;
 
+	if( empty( $pParams['iname'] ) ) {
+		return '';
+	}
+
 	if( empty( $pParams['iforce'] )) {
 		$pParams['iforce'] = NULL;
 	}
@@ -34,15 +38,9 @@ function smarty_function_booticon( $pParams ) {
 	}
 
 	$outstr .= '<span class="fa fal ';
-if( empty( $pParams["iname"] ) ) {
-	bit_error_log( 'missing iname', $pParams );
-}
-	if( strpos( $pParams["iname"], 'icon-' ) === 0 ) {
+	if( strpos( $pParams['iname'], 'icon-' ) === 0 ) {
 		$pParams['iname'] = str_replace( 'icon-', 'fa-', $pParams['iname'] );
 	}
-if( strpos( $pParams["iname"], 'fa-' ) === false ) {
-	bit_error_log( 'missing fa '.$pParams["iname"] );
-}
 
 	$outstr .= str_replace( 'icon-', '', $pParams['iname'] );
 	
