@@ -316,4 +316,7 @@ a[href]:after { content: none !important; }
 .colorinput-picker::-webkit-color-swatch-wrapper	{ padding:0; }
 .colorinput-picker::-webkit-color-swatch	{ border:none; border-radius:2px; }
 .colorinput-picker::-moz-color-swatch	{ border:none; }
+
+.passwordinput-toggle	{ cursor:pointer; user-select:none; }
+.passwordinput-toggle .passwordinput-icon	{ width:1.25em; text-align:center; }
 /* vim: set ts=40: */
