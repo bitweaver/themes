@@ -48,7 +48,7 @@ function smarty_modifier_telephone_e164( $pTelephoneNumber, $pCountryCodeIso2='U
 					$ret = $gPhoneNumberUtil->format( $parsedNumber, \libphonenumber\PhoneNumberFormat::E164 );
 				}
 			} catch( \Throwable $e ) {
-				bit_error_log( 'telephone_e164 failed: '.$pCountryCodeIso2.' '.$pTelephoneNumber );
+				// Customer input that libphonenumber rejects; return the original string.
 			}
 		}
 	}
