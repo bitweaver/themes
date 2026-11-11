@@ -119,6 +119,33 @@ Typical use:
 Optional params: `id`, `name`, `class`, `size` (`sm`/`lg`), `format`
 (`hex`), `title`, `aria-label`, `disabled`.
 
+### Password input
+
+`{passwordinput}` (`smartyplugins/function.passwordinput.php`) is the
+shared password field plus a show/hide eyeball (`fa-eye` /
+`fa-eye-slash`) in one `input-group`. The toggle is an
+`input-group-addon` with `role="button"`. Click, Enter, and Space flip
+`type` between `password` and `text`. Hover titles are “Show password”
+and “Hide password”. Layout CSS is in `css/base.css`, queued from
+package setup as core Themes CSS. Typical use:
+
+```smarty
+{passwordinput id="password" name="password" value=$newUser.password}
+{passwordinput id="password2" name="password2" value=$newUser.password2}
+```
+
+`generate` is the confirm field id. When set, a Generate addon sits to
+the left of the eyeball, calls `BitBase.genPass` for this field and that
+confirm field, then reveals both (`BitBase.setPasswordVisible`).
+
+```smarty
+{passwordinput id="password" name="password" value=$newUser.password generate="password2"}
+```
+
+Optional params: `id`, `name`, `value`, `class`, `size` (`sm`/`lg`),
+`autocomplete`, `placeholder`, `maxlength`, `title`, `required`,
+`disabled`, `generate`.
+
 ### Byte sizes
 
 `|display_bytes` (`smartyplugins/modifier.display_bytes.php`) turns a byte
