@@ -1722,11 +1722,6 @@ class BitThemes extends BitSingleton {
 
 					// if the file hasn't been packed and cached yet, we do that now.
 					if( !$this->mThemeCache->isCached( $cachefile, filemtime( $pJavascriptFile ))) {
-						/* DEPRECATED in favor of better yui compressor
-						require_once( UTIL_PKG_PATH.'javascript/class.JavaScriptPacker.php' );
-						$packer = new JavaScriptPacker( file_get_contents( $pJavascriptFile ) );
-						$this->mThemeCache->writeCacheFile( $cachefile, $packer->pack() );
-						*/
 						$cacheData = shell_exec( 'java -jar '.UTIL_PKG_INCLUDE_PATH.'yui/yuicompressor-2.4.2.jar --type js '.$pJavascriptFile );
 						$this->mThemeCache->writeCacheFile( $cachefile, $cacheData );
 					}
