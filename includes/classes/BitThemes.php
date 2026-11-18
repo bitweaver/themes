@@ -1524,14 +1524,6 @@ class BitThemes extends BitSingleton {
 			// set the javascript lib path if not set yet
 			if( empty( $pLibPath )) {
 				switch( $ajaxLib ) {
-					case 'mochikit':
-						$pLibPath = UTIL_PKG_PATH."javascript/MochiKit/";
-						$pos = 100;
-						break;
-					case 'jquerylocal':
-						$pLibPath = UTIL_PKG_PATH."javascript/jquery/";
-						$pos = 100;
-						break;
 					default:
 						$pLibPath = UTIL_PKG_PATH."javascript/";
 						$pos = 200;
@@ -1547,8 +1539,8 @@ class BitThemes extends BitSingleton {
 				switch( $ajaxLib ) {
 					case 'jquery':
 						$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https' : 'http';
-						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '3.5.1' );
-						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.12.1' );
+						$jqueryVersion = $gBitSystem->getConfig( 'jquery_version', '3.7.1' );
+						$jqueryUiVersion = $gBitSystem->getConfig( 'jquery_ui_version', '1.14.1' );
 						$jqueryTheme = $gBitSystem->getConfig( 'jquery_theme', 'smoothness' );
 						$jquerySrc = '//ajax.googleapis.com/ajax/libs/jquery/'.$jqueryVersion.'/jquery'.$jqueryMin.'.js';
 						$jqueryUiSrc = '//ajax.googleapis.com/ajax/libs/jqueryui/'.$jqueryUiVersion.'/jquery-ui'.$jqueryMin.'.js';
@@ -1561,16 +1553,6 @@ class BitThemes extends BitSingleton {
 						}
 
 						$gBitSmarty->assign( 'jquerySrc', $jquerySrc );
-						break;
-					case 'jquerylocal':
-						$joined = FALSE;
-//						$jquerySrc = THEMES_PKG_PATH.'js/jquery'.$jqueryMin.'.js';
-//						$jqueryUiSrc = THEMES_PKG_PATH.'js/jquery-ui-1.10.3.custom'.$jqueryMin.'.js';
-						$jquerySrc = UTIL_PKG_PATH.'javascript/jquery/jquery'.$jqueryMin.'.js';
-						$jqueryUiSrc = UTIL_PKG_PATH.'javascript/jquery/jquery-ui'.$jqueryMin.'.js';
-						$this->loadJavascript( $jquerySrc, FALSE, $pos++, $joined, $pPersistent );
-						$this->loadJavascript( $jqueryUiSrc, FALSE, $pos++, $joined, $pPersistent );
-						$this->loadJavascript( $bootstrapSrc, FALSE, $pos++, $joined, $pPersistent );
 						break;
 				}
 				if( $pPersistent ) {
@@ -1939,20 +1921,6 @@ class BitThemes extends BitSingleton {
 					if( !empty( $this->{$hashName}[$pType] )) {
 						if( $key = array_search( $file, $this->{$hashName}[$pType] )) {
 							unset( $this->{$hashName}[$pType][$key] );
-						}
-					}
-				}
-			}
-		}
-
-		// remove conflicting files
-		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] )) {
-			if( $pType = 'js' ) {
-				// prototype is loaded for a reason. we'll remove mochikit
-				if( $this->isAjaxLoaded( 'prototype' ) && $this->isAjaxLoaded( 'mochikit' )) {
-					foreach( $this->mAuxFiles[$pType] as $key => $js ) {
-						if( strstr( $js, 'Mochi' )) {
-							unset( $this->mAuxFiles[$pType][$key] );
 						}
 					}
 				}

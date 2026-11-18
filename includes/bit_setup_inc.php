@@ -35,13 +35,7 @@ $gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/bitweaver.js', TRUE, 1 );
 // Package core CSS (utilities, {colorinput}, {passwordinput}). Same file
 // many styles @import; pack/join off so the URL stays /themes/css/base.css.
 $gBitThemes->loadCss( THEMES_PKG_PATH.'css/base.css', FALSE, 50, FALSE, TRUE, TRUE );
-$gBitThemes->loadAjax( $gBitSystem->getConfig( 'themes_jquery_hosting', 'jquery' ) );
-
-if( $gBitSystem->isFeatureActive( 'site_fancy_zoom' )) {
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoom.js', TRUE, 80 );
-	$gBitThemes->loadJavascript( UTIL_PKG_PATH.'javascript/fancyzoom/js-global/FancyZoomHTML.js', TRUE, 81 );
-	$gBitSystem->setOnloadScript( 'setupZoom();' );
-}
+$gBitThemes->loadAjax( 'jquery' );
 
 $gBitSystem->mOnload[] = 'BitBase.setupShowHide();';
 

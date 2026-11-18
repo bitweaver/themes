@@ -26,14 +26,6 @@
 		{/forminput}
 	</div>
 
-	<div class="form-group">
-		{formlabel label="jQuery Hosting" for="themes_jquery_hosting"}
-		{forminput}
-			{html_options name="themes_jquery_hosting" id="themes_jquery_hosting" options=$jqueryOptions selected=$gBitSystem->getConfig('themes_jquery_hosting','jquery')}
-			{formhelp note="A Javascript library to make Microsoft's Internet Explorer behave like a standards-compliant browser. It fixes many HTML and CSS issues and makes transparent PNG work correctly under IE7 and older. It is also needed for CSS driven dropdown menus. It does cause some delay on every page load."}
-		{/forminput}
-	</div>
-
 	{foreach from=$themeSettings key=feature item=output}
 		<div class="form-group">
 			{forminput label="checkbox"}
