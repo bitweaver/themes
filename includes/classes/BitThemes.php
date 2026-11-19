@@ -61,6 +61,11 @@ class BitThemes extends BitSingleton {
 	 */
 	public $mRequestAjaxLibs = array();
 
+	/**
+	 * Files unloaded for this request by unloadAuxFile(); never serialized.
+	 */
+	public $mUnloadFiles = array();
+
 	// Display Mode
 	public $mDisplayMode;
 
@@ -106,6 +111,7 @@ class BitThemes extends BitSingleton {
 			'css' => array(),
 		);
 		$this->mRequestAjaxLibs = array();
+		$this->mUnloadFiles = array();
 		$this->mLayout = array();
 		if( empty( $this->mAuxFiles ) || !is_array( $this->mAuxFiles ) ) {
 			$this->mAuxFiles = array( 'js' => array(), 'css' => array() );
@@ -1867,18 +1873,17 @@ class BitThemes extends BitSingleton {
 		global $gBitSystem;
 		$ret = FALSE;
 
-		// remove conflicting aux files
-		$this->cleanAuxFiles( $pType );
-
 		if(( $pType == 'js' || $pType == 'css' ) && !$gBitSystem->isFeatureActive( 'themes_joined_js_css' )) {
 			return $ret;
 		}
 
-		if( !empty( $pType ) && !empty( $this->mAuxFiles[$pType] ) && is_array( $this->mAuxFiles[$pType] )) {
+		// joined files minus unloaded ones; mAuxFiles itself is left alone
+		$files = !empty( $pType ) ? $this->getAuxFileList( $pType, array( 'mAuxFiles' )) : array();
+		if( !empty( $files )) {
 			$cachestring = '';
 			$lastmodified = 0;
 			// get a unique cachefile name for this set of javascript files
-			foreach( $this->mAuxFiles[$pType] as $file ) {
+			foreach( $files as $file ) {
 				if( is_file( $file )) {
 					$cachestring .= '|'.$file;
 					$lastmodified = max( $lastmodified, filemtime( $file ));
@@ -1888,7 +1893,7 @@ class BitThemes extends BitSingleton {
 
 			if( !$this->mThemeCache->isCached( $cachefile, $lastmodified )) {
 				$contents = '';
-				foreach( $this->mAuxFiles[$pType] as $file ) {
+				foreach( $files as $file ) {
 					// if we have an extension to check against, we'll do that
 					$chars = 0 - ( strlen( $pType ) + 1 );
 					if( !empty( $pType ) && substr( $file, $chars ) == '.'.$pType && is_readable( $file )) {
@@ -1904,52 +1909,79 @@ class BitThemes extends BitSingleton {
 	}
 
 	/**
-	 * cleanAuxFiles will remove unwanted aux files if conflicting files have been loaded
+	 * getAuxFileList returns the files of one type from the named hashes, in
+	 * load order, without unloaded files or repeats
 	 *
-	 * @param string $pType specifies what files to clean up. typical values include 'js', 'css'
-	 * @access private
-	 * @return TRUE on success, FALSE on failure - mErrors will contain reason for failure
-	 * @note  It is regrettable that we have this method here but our previous
-	 *        use of prototype requires this cleanup and might be needed in the
-	 *        future as well
+	 * @param string $pType specifies what files to list. typical values include 'js', 'css'
+	 * @param array $pHashNames member hashes to read, e.g. array( 'mRawFiles', 'mRequestRawFiles' )
+	 * @access public
+	 * @return array of file paths or URLs as they were loaded
+	 * @note The hashes are never modified here: the persistent ones are
+	 *       serialized into the cached singleton and must keep the paths that
+	 *       loadAuxFile() compares against on the next request.
 	 */
-	function cleanAuxFiles( $pType ) {
-		// unload files that are not wanted by users
-		if( !empty( $this->mUnloadFiles[$pType] )) {
-			foreach( $this->mUnloadFiles[$pType] as $file ) {
-				foreach( array( 'mAuxFiles', 'mRawFiles', 'mRequestAuxFiles', 'mRequestRawFiles' ) as $hashName ) {
-					if( !empty( $this->{$hashName}[$pType] )) {
-						if( $key = array_search( $file, $this->{$hashName}[$pType] )) {
-							unset( $this->{$hashName}[$pType][$key] );
-						}
+	function getAuxFileList( $pType, $pHashNames ) {
+		$ret = array();
+		foreach( $pHashNames as $hashName ) {
+			if( !empty( $this->{$hashName}[$pType] ) && is_array( $this->{$hashName}[$pType] )) {
+				foreach( $this->{$hashName}[$pType] as $file ) {
+					if( !in_array( $file, $ret ) && ( empty( $this->mUnloadFiles[$pType] ) || !in_array( $file, $this->mUnloadFiles[$pType] ))) {
+						$ret[] = $file;
 					}
 				}
 			}
 		}
+		return $ret;
+	}
 
-		// convert full file path to URL in persistent and request raw hashes
-		foreach( array( 'mRawFiles', 'mRequestRawFiles' ) as $hashName ) {
-			if( !empty( $this->{$hashName}[$pType] )) {
-				foreach( $this->{$hashName}[$pType] as $pos => $file ) {
-					if (is_windows() ) {
-						$file = str_replace( '\\', '/',  $file );
-						// Put first forward slash back
-						$file = substr_replace( $file, '\\', 2, 1 );
-						$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
-						// Put first forward slash back
-						$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
-						if ( strpos( $file, $winBitRootPath ) !== FALSE ) {
-							$this->{$hashName}[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( $winBitRootPath ));
-						}
-					} else if ( strpos( $file, BIT_ROOT_PATH ) !== FALSE ) {
-						$this->{$hashName}[$pType][$pos] = BIT_ROOT_URL.substr( $file, strlen( BIT_ROOT_PATH ));
-						if( file_exists( $file ) && ($cacheTime = filemtime( $file )) ) {
-							$this->{$hashName}[$pType][$pos] .= (strpos('?',$file) ? '&' : '?' ).$cacheTime;
-						}
-					}
-				}
+	/**
+	 * getRawFileUrls returns the URLs of all raw (not joined) files of one type
+	 * for this response: persistent files first, then request-only files
+	 *
+	 * @param string $pType typical values include 'js', 'css'
+	 * @access public
+	 * @return array of URLs, each address once
+	 */
+	function getRawFileUrls( $pType ) {
+		$ret = array();
+		foreach( $this->getAuxFileList( $pType, array( 'mRawFiles', 'mRequestRawFiles' )) as $file ) {
+			$url = $this->getAuxFileUrl( $file );
+			// key on the address without the cache-busting query; a later entry
+			// replaces the value but keeps the first position
+			$key = strtok( $url, '?' );
+			$ret[$key] = $url;
+		}
+		return array_values( $ret );
+	}
+
+	/**
+	 * getAuxFileUrl converts a file path below BIT_ROOT_PATH to its URL with a
+	 * modification-time query. Anything else (an external or already converted
+	 * URL) is returned unchanged.
+	 *
+	 * @param string $pFile full path or URL
+	 * @access public
+	 * @return string URL
+	 */
+	function getAuxFileUrl( $pFile ) {
+		$ret = $pFile;
+		if( is_windows() ) {
+			$file = str_replace( '\\', '/',  $pFile );
+			// Put first forward slash back
+			$file = substr_replace( $file, '\\', 2, 1 );
+			$winBitRootPath = str_replace( '\\', '/',  BIT_ROOT_PATH );
+			// Put first forward slash back
+			$winBitRootPath = substr_replace($winBitRootPath, '\\', 2, 1 );
+			if ( strpos( $file, $winBitRootPath ) !== FALSE ) {
+				$ret = BIT_ROOT_URL.substr( $file, strlen( $winBitRootPath ));
+			}
+		} elseif( strpos( $pFile, BIT_ROOT_PATH ) === 0 ) {
+			$ret = BIT_ROOT_URL.substr( $pFile, strlen( BIT_ROOT_PATH ));
+			if( file_exists( $pFile ) && ($cacheTime = filemtime( $pFile )) ) {
+				$ret .= ( strpos( $ret, '?' ) !== FALSE ? '&' : '?' ).$cacheTime;
 			}
 		}
+		return $ret;
 	}
 
 	// }}}

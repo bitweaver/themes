@@ -5,7 +5,7 @@
 	<div class="form-group">
 		{formlabel label="Display action links as" for="site_biticon_display_style"}
 		{forminput}
-			{html_options name="site_biticon_display_style" id="site_biticon_display_style" options=$biticon_display_options selected=$gBitSystem->getConfig('site_biticon_display_style')}
+			{html_options name="site_biticon_display_style" id="site_biticon_display_style" options=$biticon_display_options selected=$gBitSystem->getConfig('site_biticon_display_style','icon')}
 			{formhelp note="Changing this setting will modify the way all action icons are displayed on your site. Icons in menus are not affected."}
 		{/forminput}
 	</div>
@@ -13,7 +13,7 @@
 	<div class="form-group">
 		{formlabel label="Default Icon Style" for="default_icon_style"}
 		{forminput}
-			{html_options name="default_icon_style" id="default_icon_style" options=$iconStyles selected=$gBitSystem->getConfig('default_icon_style')}
+			{html_options name="default_icon_style" id="default_icon_style" options=$iconStyles selected=$gBitSystem->getConfig('default_icon_style',$smarty.const.DEFAULT_ICON_STYLE)}
 			{formhelp note="This is the default icon style set the site will fall back to using if it cant find an icon in the selected icon style set."}
 		{/forminput}
 	</div>
@@ -21,7 +21,7 @@
 	<div class="form-group">
 		{formlabel label="Default Icon Size" for="site_icon_size"}
 		{forminput}
-			{html_options name="site_icon_size" id="site_icon_size" options=$biticon_sizes selected=$gBitSystem->getConfig('site_icon_size')}
+			{html_options name="site_icon_size" id="site_icon_size" options=$biticon_sizes selected=$gBitSystem->getConfig('site_icon_size','small')}
 			{formhelp note="pick the icon size you wish to use on your site. please note that if the icon does not exist in the requested size, it will use the small one instead."}
 		{/forminput}
 	</div>

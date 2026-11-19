@@ -1,15 +1,9 @@
 {strip}
-{foreach from=$gBitThemes->mRawFiles.css item=cssFile}
-	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all">
-{/foreach}
-{foreach from=$gBitThemes->mRequestRawFiles.css item=cssFile}
+{foreach from=$gBitThemes->getRawFileUrls('css') item=cssFile}
 	<link rel="stylesheet" title="{$style}" type="text/css" href="{$cssFile}" media="all">
 {/foreach}
 
-{foreach from=$gBitThemes->mRawFiles.js item=jsFile}
-	<script src="{$jsFile}"></script>
-{/foreach}
-{foreach from=$gBitThemes->mRequestRawFiles.js item=jsFile}
+{foreach from=$gBitThemes->getRawFileUrls('js') item=jsFile}
 	<script src="{$jsFile}"></script>
 {/foreach}
 {if $gBitThemes->mStyles.joined_css}

@@ -7,7 +7,7 @@
 
 | Artifact | Count |
 |---|---:|
-| PHP files | 122 |
+| PHP files | 124 |
 | Smarty templates | 25 |
 | JavaScript files | 0 |
 | CSS files | 50 |
@@ -36,6 +36,7 @@
 - `admin/admin_layout_inc.php`
 - `admin/admin_layout_overview_inc.php`
 - `admin/admin_modules_inc.php`
+- `admin/admin_themes_inc.php`
 - `admin/admin_themes_manager.php`
 - `admin/index.php`
 - `admin/menus.php`
